@@ -2,50 +2,48 @@
 
 namespace app\models;
 
+use yii\base\Security;
+
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+	public $vid;
+	public $firstname;
+	public $lastname;
+	public $rating;
+	public $skype;
+	public $ratingatc;
+	public $ratingpilot;
+	public $division;
+	public $username;
+	public $result;
+	public $id;
+	public $email;
+	public $rank;
+	public $last_visited;
+	public $authKey;
+	public $full_name;
+	public $country;
+	public $blocked;
+	public $block_reason;
+	public $blocked_by;
+	public $language;
+	public $created_date;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-    /**
-     * @inheritdoc
+	/**
+	 * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
-    }
+		$user = Users::findOne($id);
 
-    /**
+		return new static($user);
+	}
+
+	/**
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
         return null;
     }
 
@@ -55,26 +53,48 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      * @param  string      $username
      * @return static|null
      */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
+	public static function findByUsername($model)
+	{
+		$sec = new Security();
+		if (!$user = Users::findOne($model->vid)) {
+			echo("creating new user instance");
+			$user = new Users();
+			$user->vid = $model->vid;
+			$user->full_name = $model->username;
+			$user->created_date = date('Y-m-d H:i:s');
+			$user->country = $model->country;
+			$user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
+		}
+		$user->full_name = $model->username;
+		$user->authKey = $sec->generateRandomString(32);
+		$user->last_visited = date('Y-m-d H:i:s');
+		$user->save();
 
-        return null;
-    }
+		//check the forum user exists;
+		/*if(!$forummember=SmfMembers::findOne(['member_name'=>$user->username]))
+		{
+			$forummember=new SmfMembers();
+			$forummember->member_name=$user->username;
+			$forummember->date_registered=intval(strtotime($user->register_date));
+			$forummember->real_name=$user->username;
+			if(!$forummember->save())
+			{
+				VarDumper::dump($forummember->errors,10,true);
+			}
+		}*/
 
-    /**
+		return new static($user);
+	}
+
+	/**
      * @inheritdoc
      */
     public function getId()
     {
-        return $this->id;
-    }
+		return $this->vid;
+	}
 
-    /**
+	/**
      * @inheritdoc
      */
     public function getAuthKey()

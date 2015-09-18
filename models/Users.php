@@ -11,10 +11,13 @@ use Yii;
  * @property string $full_name
  * @property string $email
  * @property string $country
- * @property string $accessToken
+ * @property string $authKey
  * @property integer $blocked
  * @property string $block_reason
  * @property integer $blocked_by
+ * @property string $language
+ * @property string $created_date
+ * @property string $last_visited
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -34,9 +37,10 @@ class Users extends \yii\db\ActiveRecord
 		return [
 			[['vid'], 'required'],
 			[['vid', 'blocked', 'blocked_by'], 'integer'],
-			[['accessToken', 'block_reason'], 'string'],
+			[['authKey', 'block_reason'], 'string'],
+			[['created_date', 'last_visited'], 'safe'],
 			[['full_name', 'email'], 'string', 'max' => 200],
-			[['country'], 'string', 'max' => 2]
+			[['country', 'language'], 'string', 'max' => 2]
 		];
 	}
 
@@ -50,10 +54,13 @@ class Users extends \yii\db\ActiveRecord
 			'full_name' => 'Full Name',
 			'email' => 'Email',
 			'country' => 'Country',
-			'accessToken' => 'Access Token',
+			'authKey' => 'Auth Key',
 			'blocked' => 'Blocked',
 			'block_reason' => 'Block Reason',
 			'blocked_by' => 'Blocked By',
+			'language' => 'Language',
+			'created_date' => 'Created Date',
+			'last_visited' => 'Last Visited',
 		];
 	}
 }

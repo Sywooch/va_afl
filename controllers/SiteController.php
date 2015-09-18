@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
-use Yii;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\IvaoLogin;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use Yii;
+use yii\web\Controller;
 
 class SiteController extends Controller
 {
@@ -52,22 +52,22 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
+	public function actionLogin($IVAOTOKEN = null)
+	{
+		if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+		if (!$IVAOTOKEN) {
+			return $this->redirect(Yii::$app->params['ivao_login_url']);
+		}
+		$model = new IvaoLogin;
+		$model->login($IVAOTOKEN);
+		$this->redirect(Yii::$app->user->returnUrl);
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+		return 1;
+	}
 
-    public function actionLogout()
+	public function actionLogout()
     {
         Yii::$app->user->logout();
 
