@@ -1,16 +1,7 @@
-Yii 2 Basic Project Template
+VAG AFL Main Website
 ============================
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
-
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-basic/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-basic/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-basic.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-basic)
+Based on Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/)
 
 DIRECTORY STRUCTURE
 -------------------
@@ -27,7 +18,22 @@ DIRECTORY STRUCTURE
       views/              contains view files for the Web application
       web/                contains the entry script and Web resources
 
+APPLICATION STRUCTURE
+---------------------
 
+- [ ] блок "Личный кабинет" 
+    - [ ] с интерактивным управлением
+- [ ] блок "Компания", где интуитивно ожидаешь увидеть 
+    - [ ] что это за компания и 
+ - [ ] где найти ответы на вопросы
+- [ ] блок "Флот" - где можно посмотреть 
+    - [ ] что с бортами
+    - [ ] как они изменяются
+- [ ] блок "События" - всякие 
+    - [ ] эвенты
+    - [ ] мероприятия
+    - [ ] тренировки
+    - [ ] экзамены
 
 REQUIREMENTS
 ------------
