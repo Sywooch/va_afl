@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\base\Security;
+use yii\web\Controller;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
@@ -120,4 +121,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         return $this->password === $password;
     }
+
+	public static function checkEmail()
+	{
+		$ctrl = new Controller('site', 'app');
+		if (!\Yii::$app->user->identity->email)
+			$ctrl->redirect('/pilot/editprofile');
+	}
 }

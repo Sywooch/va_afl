@@ -38,13 +38,31 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-	'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+		'urlManager' => [
+			'enablePrettyUrl' => true,
+			'showScriptName' => false,
             'enableStrictParsing' => false,
-        ],
-    ],
-    'params' => $params,
+			'rules' => [
+				'<module:pilot>/<action:\w+>' => '<module>/default/<action>',
+				'<module:pilot>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+				'<module:pilot>/<controller:\w+>' => '<module>/<controller>/index',
+				'<module:pilot>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+				'<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
+			]
+		],
+	],
+	'modules' => [
+		'pilot' => [
+			'class' => 'app\modules\pilot\Module',
+		],
+	],
+	'params' => $params,
+	'on beforeAction' => function ($event) {
+			if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile')
+				//yii\helpers\VarDumper::dump($event,10,true);
+				\app\models\User::checkEmail();
+		},
 ];
 
 if (YII_ENV_DEV) {
@@ -57,8 +75,8 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-	'allowedIPs' => ['*'],
-    ];
+		'allowedIPs' => ['*'],
+	];
 }
 
 return $config;
