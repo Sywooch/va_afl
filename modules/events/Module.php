@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\pilot;
+namespace app\modules\events;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\pilot\controllers';
+    public $controllerNamespace = 'app\modules\events\controllers';
 
     public function init()
     {
