@@ -32,9 +32,6 @@
         <!-- end sidebar user -->
         <!-- begin sidebar nav -->
         <ul class="nav">
-            <li class="nav-header">
-                Navigation
-            </li>
             <li>
                 <a href="/pilot/profile">
                     <i class="fa fa-laptop"></i>
@@ -47,7 +44,7 @@
                     <span>Моё Бронирование</span>
                 </a>
             </li>
-            <li class="has-sub active">
+            <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret pull-right"></b>
                     <i class="fa fa-laptop"></i>
@@ -113,7 +110,7 @@
                     <span>Документы</span>
                 </a>
             </li>
-            <li class="has-sub active">
+            <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret pull-right"></b>
                     <i class="fa fa-laptop"></i>
