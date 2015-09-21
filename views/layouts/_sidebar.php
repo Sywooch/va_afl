@@ -7,21 +7,15 @@
  */
 ?>
 <div id="sidebar" class="sidebar">
-    <!-- begin sidebar scrollbar -->
     <div data-scrollbar="true" data-height="100%">
-        <!-- begin sidebar user -->
         <ul class="nav">
             <li class="nav-profile">
                 <?php if (!Yii::$app->user->isGuest): ?>
-
-                    <div class="image">
-                        <a href="javascript:;"><img src="/img/user-13.jpg" alt=""/></a>
-                    </div>
                     <div class="info">
                         <?php echo Yii::$app->user->identity->full_name ?>
                         <small>Front end developer</small>
                     </div>
-
+                    <img src="/img/user-13.jpg" alt=""/>
                 <?php else: ?>
                     <a href="site/login">
                         <span class="hidden-xs">Login</span>
@@ -29,8 +23,6 @@
                 <?php endif; ?>
             </li>
         </ul>
-        <!-- end sidebar user -->
-        <!-- begin sidebar nav -->
         <ul class="nav">
             <li>
                 <a href="/pilot/profile">
@@ -41,7 +33,7 @@
             <li>
                 <a href="/pilot/booking">
                     <i class="fa fa-laptop"></i>
-                    <span>Моё Бронирование</span>
+                    <span>Бронирование</span>
                 </a>
             </li>
             <li class="has-sub">
@@ -128,13 +120,12 @@
                     <li><a href="#" data-toggle="ajax">Контакты</a></li>
                 </ul>
             </li>
-            <!-- begin sidebar minify button -->
-            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i
-                        class="fa fa-angle-double-left"></i></a></li>
-            <!-- end sidebar minify button -->
+            <li>
+                <a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify">
+                    <i class="fa fa-angle-double-left"></i>
+                </a>
+            </li>
         </ul>
-        <!-- end sidebar nav -->
     </div>
-    <!-- end sidebar scrollbar -->
 </div>
 <div class="sidebar-bg"></div>
