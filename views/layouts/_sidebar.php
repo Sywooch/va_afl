@@ -5,6 +5,8 @@
  * Date: 21.09.15
  * Time: 18:36
  */
+use app\components\Menu;
+
 ?>
 <div id="sidebar" class="sidebar">
     <div data-scrollbar="true" data-height="100%">
@@ -17,115 +19,117 @@
                     </div>
                     <img src="/img/user-13.jpg" alt=""/>
                 <?php else: ?>
-                    <a href="site/login">
+                    <a href="/site/login">
                         <span class="hidden-xs">Login</span>
                     </a>
                 <?php endif; ?>
             </li>
         </ul>
-        <ul class="nav">
-            <li>
-                <a href="/pilot/profile">
-                    <i class="fa fa-laptop"></i>
-                    <span>Центр пилота</span>
-                </a>
-            </li>
-            <li>
-                <a href="/pilot/booking">
-                    <i class="fa fa-laptop"></i>
-                    <span>Бронирование</span>
-                </a>
-            </li>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret pull-right"></b>
-                    <i class="fa fa-laptop"></i>
-                    <span>Моя статистика</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="/pilot/balance" data-toggle="ajax">Баланс (Выписка)</a></li>
-                    <li><a href="/pilot/flights" data-toggle="ajax">История полетов</a></li>
-                    <li><a href="/pilot/ivaoprofile" data-toggle="ajax">Профиль ИВАО</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Аренда</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Трансфер</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Миссии</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Туры</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Webeye</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Сервисы</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Форум</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Скриншоты</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="fa fa-laptop"></i>
-                    <span>Документы</span>
-                </a>
-            </li>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret pull-right"></b>
-                    <i class="fa fa-laptop"></i>
-                    <span>ВАГ АФЛ</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="/content/ts3" data-toggle="ajax">TS3 Viewer</a></li>
-                    <li><a href="/content/about" data-toggle="ajax">О Группе</a></li>
-                    <li><a href="/squad/list" data-toggle="ajax">Летные отряды</a></li>
-                    <li><a href="#" data-toggle="ajax">Список пилотов</a></li>
-                    <li><a href="#" data-toggle="ajax">Авиапарк</a></li>
-                    <li><a href="#" data-toggle="ajax">Расписание</a></li>
-                    <li><a href="#" data-toggle="ajax">Руководство</a></li>
-                    <li><a href="#" data-toggle="ajax">IVAO</a></li>
-                    <li><a href="#" data-toggle="ajax">Контакты</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify">
-                    <i class="fa fa-angle-double-left"></i>
-                </a>
-            </li>
-        </ul>
+        <?php
+        echo Menu::widget(
+            [
+                'items' => [
+                    [
+                        'name' => Yii::t('app', 'Pilot center'),
+                        'url' => \yii\helpers\Url::to('/pilot/profile'),
+                        'icon' => 'fa-globe'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Booking'),
+                        'url' => \yii\helpers\Url::to('/pilot/booking'),
+                        'icon' => 'fa-plane'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'My statistics'),
+                        'items' => [
+                            ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance')],
+                            ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights')],
+                            ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
+                        ],
+                        'icon' => 'fa-bar-chart'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Craft rental'),
+                        'url' => \yii\helpers\Url::to('/pilot/leasing'),
+                        'icon' => 'fa-money'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Transfer'),
+                        'url' => \yii\helpers\Url::to('/pilot/transfer'),
+                        'icon' => 'fa-bus'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Missions'),
+                        'url' => \yii\helpers\Url::to('/airline/missions'),
+                        'icon' => 'fa-trophy'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Tours'),
+                        'url' => \yii\helpers\Url::to('/airline/tours'),
+                        'icon' => 'fa-location-arrow'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Events'),
+                        'url' => \yii\helpers\Url::to('/events/list'),
+                        'icon' => 'fa-cutlery'
+                    ],
+                    [
+                        'name' => 'WEBEye',
+                        'url' => 'http://webeye.ivao.aero',
+                        'icon' => 'fa-eye',
+                        'linkOptions' => ['target' => '_blank']
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Services'),
+                        'url' => \yii\helpers\Url::to('/airline/services'),
+                        'icon' => 'fa-laptop'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Screenshots'),
+                        'url' => \yii\helpers\Url::to('/airline/screenshots'),
+                        'icon' => 'fa-picture-o'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Forum'),
+                        'url' => \yii\helpers\Url::to('/airline/forum'),
+                        'icon' => 'fa-rss'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Resources'),
+                        'url' => \yii\helpers\Url::to('/resources/index'),
+                        'icon' => 'fa-cloud-download'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Shop'),
+                        'icon' => 'fa-shopping-cart',
+                        'items' => [
+                            ['name' => Yii::t('app', 'My purchases'), 'url' => '/shop/purchases'],
+                            ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/shop/slos'],
+                        ]
+                    ],
+                    [
+                        'name' => Yii::t('app', 'VAG AFL'),
+                        'icon' => 'fa-info-circle',
+                        'items' => [
+                            ['name' => 'TS3 Viewer', 'url' => '/content/ts3'],
+                            ['name' => Yii::t('app', 'About'), 'url' => '/content/about'],
+                            ['name' => Yii::t('app', 'Squadrons'), 'url' => '/squad/list'],
+                            ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/airline/pilots'],
+                            ['name' => Yii::t('app', 'Fleet'), 'url' => '/fleet/index'],
+                            ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
+                            ['name' => Yii::t('app', 'Staff'), 'url' => '/airline/staff'],
+                            [
+                                'name' => 'IVAO',
+                                'url' => 'http://www.ivao.aero',
+                                'linkOptions' => ['target' => '_blank']
+                            ],
+                            ['name' => Yii::t('app', 'Contacts'), 'url' => '/airline/contacts']
+                        ]
+                    ],
+                ]
+            ]
+        );
+        ?>
     </div>
 </div>
 <div class="sidebar-bg"></div>
