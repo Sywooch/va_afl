@@ -42,6 +42,7 @@ use app\components\Menu;
                     [
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
+                            ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
                             ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance')],
                             ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights')],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
@@ -81,13 +82,19 @@ use app\components\Menu;
                     ],
                     [
                         'name' => Yii::t('app', 'Services'),
-                        'url' => \yii\helpers\Url::to('/airline/services'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-laptop',
+                        'items' => [
+                            ['name' => Yii::t('app', 'БД Аэропортов'), 'url' => '/airline/airports'],
+                            ['name' => Yii::t('app', 'TS3 Viewer'), 'url' => '/content/ts3']
+                        ]
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
-                        'url' => \yii\helpers\Url::to('/airline/screenshots'),
-                        'icon' => 'fa-picture-o'
+                        'icon' => 'fa-picture-o',
+                        'items' => [
+                            ['name' => Yii::t('app', 'Feed'), 'url' => '/screens/index'],
+                            ['name' => Yii::t('app', 'Top of the week'), 'url' => '/screens/top']
+                        ]
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),
@@ -103,6 +110,7 @@ use app\components\Menu;
                         'name' => Yii::t('app', 'Shop'),
                         'icon' => 'fa-shopping-cart',
                         'items' => [
+                            ['name' => Yii::t('app', 'Shop'), 'url' => '/shop/index'],
                             ['name' => Yii::t('app', 'My purchases'), 'url' => '/shop/purchases'],
                             ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/shop/slos'],
                         ]
@@ -111,7 +119,6 @@ use app\components\Menu;
                         'name' => Yii::t('app', 'VAG AFL'),
                         'icon' => 'fa-info-circle',
                         'items' => [
-                            ['name' => 'TS3 Viewer', 'url' => '/content/ts3'],
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/about'],
                             ['name' => Yii::t('app', 'Squadrons'), 'url' => '/squad/list'],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/airline/pilots'],
