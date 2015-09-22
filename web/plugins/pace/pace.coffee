@@ -1,80 +1,80 @@
 defaultOptions =
-  # How long should it take for the bar to animate to a new
-  # point after receiving it
+# How long should it take for the bar to animate to a new
+# point after receiving it
   catchupTime: 500
 
-  # How quickly should the bar be moving before it has any progress
-  # info from a new source in %/ms
+# How quickly should the bar be moving before it has any progress
+# info from a new source in %/ms
   initialRate: .03
 
-  # What is the minimum amount of time the bar should be on the
-  # screen
+# What is the minimum amount of time the bar should be on the
+# screen
   minTime: 500
 
-  # What is the minimum amount of time the bar should sit after the last
-  # update before disappearing
+# What is the minimum amount of time the bar should sit after the last
+# update before disappearing
   ghostTime: 500
 
-  # Its easy for a bunch of the bar to be eaten in the first few frames
-  # before we know how much there is to load.  This limits how much of
-  # the bar can be used per frame
+# Its easy for a bunch of the bar to be eaten in the first few frames
+# before we know how much there is to load.  This limits how much of
+# the bar can be used per frame
   maxProgressPerFrame: 10
 
-  # This tweaks the animation easing
+# This tweaks the animation easing
   easeFactor: 1.25
 
-  # Should pace automatically start when the page is loaded, or should it wait for `start` to
-  # be called?  Always false if pace is loaded with AMD or CommonJS.
+# Should pace automatically start when the page is loaded, or should it wait for `start` to
+# be called?  Always false if pace is loaded with AMD or CommonJS.
   startOnPageLoad: true
 
-  # Should we restart the browser when pushState or replaceState is called?  (Generally
-  # means ajax navigation has occured)
+# Should we restart the browser when pushState or replaceState is called?  (Generally
+# means ajax navigation has occured)
   restartOnPushState: true
 
-  # Should we show the progress bar for every ajax request (not just regular or ajax-y page
-  # navigation)? Set to false to disable.
-  #
-  # If so, how many ms does the request have to be running for before we show the progress?
+# Should we show the progress bar for every ajax request (not just regular or ajax-y page
+# navigation)? Set to false to disable.
+#
+# If so, how many ms does the request have to be running for before we show the progress?
   restartOnRequestAfter: 500
 
-  # What element should the pace element be appended to on the page?
+# What element should the pace element be appended to on the page?
   target: 'body'
 
   elements:
-    # How frequently in ms should we check for the elements being tested for
-    # using the element monitor?
+  # How frequently in ms should we check for the elements being tested for
+  # using the element monitor?
     checkInterval: 100
 
-    # What elements should we wait for before deciding the page is fully loaded (not required)
+  # What elements should we wait for before deciding the page is fully loaded (not required)
     selectors: ['body']
 
   eventLag:
-    # When we first start measuring event lag, not much is going on in the browser yet, so it's
-    # not uncommon for the numbers to be abnormally low for the first few samples.  This configures
-    # how many samples we need before we consider a low number to mean completion.
+  # When we first start measuring event lag, not much is going on in the browser yet, so it's
+  # not uncommon for the numbers to be abnormally low for the first few samples.  This configures
+  # how many samples we need before we consider a low number to mean completion.
     minSamples: 10
 
-    # How many samples should we average to decide what the current lag is?
+  # How many samples should we average to decide what the current lag is?
     sampleCount: 3
 
-    # Above how many ms of lag is the CPU considered busy?
+  # Above how many ms of lag is the CPU considered busy?
     lagThreshold: 3
 
   ajax:
-    # Which HTTP methods should we track?
+  # Which HTTP methods should we track?
     trackMethods: ['GET']
 
-    # Should we track web socket connections?
+  # Should we track web socket connections?
     trackWebSockets: true
 
-    # A list of regular expressions or substrings of URLS we should ignore (for both tracking and restarting)
+  # A list of regular expressions or substrings of URLS we should ignore (for both tracking and restarting)
     ignoreURLs: []
 
 now = ->
   performance?.now?() ? +new Date
 
 requestAnimationFrame = window.requestAnimationFrame or window.mozRequestAnimationFrame or
-                        window.webkitRequestAnimationFrame or window.msRequestAnimationFrame
+window.webkitRequestAnimationFrame or window.msRequestAnimationFrame
 
 cancelAnimationFrame = window.cancelAnimationFrame or window.mozCancelAnimationFrame
 
@@ -124,7 +124,7 @@ avgAmplitude = (arr) ->
 
   sum / count
 
-getFromDOM = (key='options', json=true) ->
+getFromDOM = (key = 'options', json = true) ->
   el = document.querySelector "[data-pace-#{ key }]"
 
   return unless el
@@ -139,7 +139,7 @@ getFromDOM = (key='options', json=true) ->
     console?.error "Error parsing inline pace options", e
 
 class Evented
-  on: (event, handler, ctx, once=false) ->
+  on: (event, handler, ctx, once = false) ->
     @bindings ?= {}
     @bindings[event] ?= []
     @bindings[event].push {handler, ctx, once}
@@ -245,17 +245,17 @@ class Bar
 
     el.children[0].style.width = "#{ @progress }%"
 
-    if not @lastRenderedProgress or @lastRenderedProgress|0 != @progress|0
+    if not @lastRenderedProgress or @lastRenderedProgress | 0 != @progress | 0
       # The whole-part of the number has changed
 
-      el.children[0].setAttribute 'data-progress-text', "#{ @progress|0 }%"
+      el.children[0].setAttribute 'data-progress-text', "#{ @progress | 0 }%"
 
       if @progress >= 100
         # We cap it at 99 so we can use prefix-based attribute selectors
         progressStr = '99'
       else
         progressStr = if @progress < 10 then "0" else ""
-        progressStr += @progress|0
+        progressStr += @progress | 0
 
       el.children[0].setAttribute 'data-progress', "#{ progressStr }"
 
@@ -284,10 +284,15 @@ _WebSocket = window.WebSocket
 extendNative = (to, from) ->
   for key of from::
     try
-      val = from::[key]
-
-      if not to[key]? and typeof val isnt 'function'
-        to[key] = val
+      if not to[key]? and typeof from[key] isnt 'function'
+        if typeof Object.defineProperty is 'function'
+          Object.defineProperty(to, key, {
+            get: ->
+              return from::[key];,
+            configurable: true,
+            enumerable: true })
+        else
+          to[key] = from::[key]
     catch e
 
 ignoreStack = []
@@ -304,10 +309,10 @@ Pace.track = (fn, args...) ->
   ignoreStack.shift()
   ret
 
-shouldTrack = (method='GET') ->
+shouldTrack = (method = 'GET') ->
   if ignoreStack[0] is 'track'
     return 'force'
-  
+
   if not ignoreStack.length and options.ajax
     if method is 'socket' and options.ajax.trackWebSockets
       return true
@@ -414,20 +419,21 @@ getIntercept().on 'request', ({type, request, url}) ->
     , after
 
 class AjaxMonitor
-  constructor: ->
-    @elements = []
+constructor: ->
+  @elements = []
 
-    getIntercept().on 'request', => @watch arguments...
+  getIntercept().on 'request', =>
+    @watch arguments...
 
-  watch: ({type, request, url}) ->
-    return if shouldIgnoreURL(url)
+watch: ({type, request, url}) ->
+  return if shouldIgnoreURL(url)
 
-    if type is 'socket'
-      tracker = new SocketRequestTracker(request)
-    else
-      tracker = new XHRRequestTracker(request)
+  if type is 'socket'
+    tracker = new SocketRequestTracker(request)
+  else
+    tracker = new XHRRequestTracker(request)
 
-    @elements.push tracker
+  @elements.push tracker
 
 class XHRRequestTracker
   constructor: (request) ->
@@ -469,7 +475,7 @@ class SocketRequestTracker
         @progress = 100
 
 class ElementMonitor
-  constructor: (options={}) ->
+  constructor: (options = {}) ->
     @elements = []
 
     options.selectors ?= []
@@ -486,7 +492,8 @@ class ElementTracker
     if document.querySelector(@selector)
       @done()
     else
-      setTimeout (=> @check()),
+      setTimeout (=>
+        @check()),
         options.elements.checkInterval
 
   done: ->
@@ -619,7 +626,8 @@ SOURCE_KEYS =
   document: DocumentMonitor
   eventLag: EventLagMonitor
 
-do init = ->
+do
+init = ->
   Pace.sources = sources = []
 
   for type in ['ajax', 'elements', 'document', 'eventLag']
@@ -672,7 +680,6 @@ Pace.go = ->
     #
     # Their progress numbers can only increment.  We try to interpolate
     # between the numbers.
-
     remaining = 100 - bar.progress
 
     count = sum = 0
@@ -732,7 +739,8 @@ Pace.start = (_options) ->
 
 if typeof define is 'function' and define.amd
   # AMD
-  define -> Pace
+  define ->
+    Pace
 else if typeof exports is 'object'
   # CommonJS
   module.exports = Pace

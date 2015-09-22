@@ -391,9 +391,9 @@ var handleThemePageStructureControl = function() {
             $('.theme-list [data-theme="'+ $.cookie('theme') +'"]').closest('li').addClass('active');
         }
         var cssFileSrc = 'assets/css/theme/' + $.cookie('theme') + '.css';
-        $('#theme').attr('href', cssFileSrc);
+        //$('#theme').attr('href', cssFileSrc);
     }
-    
+    $('#theme').attr('href', 'assets/css/theme/default.css');
     // COOKIE - Sidebar Styling Setting
     if ($.cookie && $.cookie('sidebar-styling')) {
         if ($('.sidebar').length !== 0 && $.cookie('sidebar-styling') == 'grid') {
@@ -684,7 +684,7 @@ var handleResetLocalStorage = function() {
 var default_content = '<div class="p-t-40 p-b-40 text-center f-s-20 content"><i class="fa fa-warning fa-lg text-muted m-r-5"></i> <span class="f-w-600 text-inverse">Error 404! Page not found.</span></div>';
 
 var handleLoadPage = function(hash) {
-    Pace.restart();
+    //Pace.restart();
     var targetUrl = hash.replace('#','');
     $('.jvectormap-label, .jvector-label, .AutoFill_border ,#gritter-notice-wrapper, .ui-autocomplete, .colorpicker, .FixedHeader_Header, .FixedHeader_Cloned .lightboxOverlay, .lightbox').remove();
     $.ajax({
@@ -707,8 +707,8 @@ var handleLoadPage = function(hash) {
 /* 17. Handle Ajax Page Load Url - added in V1.5
 ------------------------------------------------ */
 var handleCheckPageLoadUrl = function(hash) {
-    hash = (hash) ? hash : '#ajax/index_v2.html';
-    
+    hash = (hash) ? hash : hash;
+
     if (hash === '') {
         $('#ajax-content').html(default_content);
     } else {

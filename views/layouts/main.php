@@ -4,10 +4,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\helpers\Html;
-use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 ?>
@@ -27,7 +24,8 @@ AppAsset::register($this);
     <link href="/css/animate.min.css" rel="stylesheet"/>
     <link href="/css/style.min.css" rel="stylesheet"/>
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
-    <link href="/css/theme/default.css" rel="stylesheet" id="theme"/>
+    <link href="/css/theme/default.css" rel="stylesheet"/>
+    <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN BASE JS ================== -->
@@ -44,14 +42,13 @@ AppAsset::register($this);
 
     <?= $this->render('//layouts/_sidebar') ?>
 
-    <div class="container"><?= $content ?></div>
+    <div class="container content" id="content"><?= $content ?></div>
 
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>
 </div>
 
 <?php $this->endBody() ?>
-<script src="/plugins/jquery/jquery-1.9.1.min.js"></script>
 <script src="/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
 <script src="/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 <script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -66,7 +63,7 @@ AppAsset::register($this);
 <!-- ================== END BASE JS ================== -->
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-<script src="/js/apps.min.js"></script>
+<script src="/js/apps.js"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
 
 <script>
