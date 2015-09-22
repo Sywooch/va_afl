@@ -20,54 +20,60 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
+    <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/css/animate.min.css" rel="stylesheet"/>
+    <link href="/css/style.min.css" rel="stylesheet"/>
+    <link href="/css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="/css/theme/default.css" rel="stylesheet" id="theme"/>
+    <!-- ================== END BASE CSS STYLE ================== -->
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="/plugins/pace/pace.min.js"></script>
+    <!-- ================== END BASE JS ================== -->
 </head>
 <body>
 <?php $this->beginBody() ?>
+<?= $this->render('//layouts/_preloader') ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']] :
-                [
-					'label' => 'Logout (' . Yii::$app->user->identity->full_name . ')',
-					'url' => ['/site/logout'],
-					'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
-    ]);
-    NavBar::end();
-    ?>
+<div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
-    </div>
+    <?= $this->render('//layouts/_header') ?>
+
+    <?= $this->render('//layouts/_sidebar') ?>
+
+    <div class="container"><?= $content ?></div>
+
+    <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
+            class="fa fa-angle-up"></i></a>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
 <?php $this->endBody() ?>
+<script src="/plugins/jquery/jquery-1.9.1.min.js"></script>
+<script src="/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+<script src="/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+<script src="/crossbrowserjs/html5shiv.js"></script>
+<script src="/crossbrowserjs/respond.min.js"></script>
+<script src="/crossbrowserjs/excanvas.min.js"></script>
+<![endif]-->
+<script src="/plugins/jquery-hashchange/jquery.hashchange.min.js"></script>
+<script src="/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/plugins/jquery-cookie/jquery.cookie.js"></script>
+<!-- ================== END BASE JS ================== -->
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script src="/js/apps.min.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
+<script>
+    $(document).ready(function () {
+        App.init();
+    });
+</script>
 </body>
 </html>
 <?php $this->endPage() ?>
