@@ -8,7 +8,7 @@
 $this->title = Yii::t('app', 'Profile editor');
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
-    ['label' => Yii::t('app', 'Profile Editor')]
+    ['label' => $this->title]
 ];
 $form = \yii\widgets\ActiveForm::begin([
 	'id' => 'profile'

@@ -37,7 +37,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <?= $this->render('//layouts/_preloader') ?>
 
-<div id="page-container" class="container fade page-sidebar-fixed page-header-fixed">
+<div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
 
     <?= $this->render('//layouts/_header') ?>
 
