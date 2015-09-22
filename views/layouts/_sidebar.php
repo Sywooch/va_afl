@@ -20,7 +20,7 @@ use app\components\Menu;
                     <img src="/img/user-13.jpg" alt=""/>
                 <?php else: ?>
                     <a href="/site/login">
-                    <span class="hidden-xs">Login</span>
+                        <span class="hidden-xs">Login</span>
                     </a>
                 <?php endif; ?>
             </li>
@@ -32,12 +32,12 @@ use app\components\Menu;
                     [
                         'name' => Yii::t('app', 'Pilot center'),
                         'url' => \yii\helpers\Url::to('/pilot/profile'),
-                        'icon' => 'fa-user'
+                        'icon' => 'fa-globe'
                     ],
                     [
                         'name' => Yii::t('app', 'Booking'),
                         'url' => \yii\helpers\Url::to('/pilot/booking'),
-                        'icon' => 'fa-pencil'
+                        'icon' => 'fa-plane'
                     ],
                     [
                         'name' => Yii::t('app', 'My statistics'),
@@ -46,48 +46,53 @@ use app\components\Menu;
                             ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights')],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
                         ],
-                        'icon' => 'fa-tags'
+                        'icon' => 'fa-bar-chart'
                     ],
                     [
                         'name' => Yii::t('app', 'Leasing'),
                         'url' => \yii\helpers\Url::to('/pilot/leasing'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-money'
                     ],
                     [
                         'name' => Yii::t('app', 'Transfer'),
                         'url' => \yii\helpers\Url::to('/pilot/transfer'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-bus'
                     ],
                     [
                         'name' => Yii::t('app', 'Missions'),
                         'url' => \yii\helpers\Url::to('/airline/missions'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-trophy'
                     ],
                     [
                         'name' => Yii::t('app', 'Tours'),
                         'url' => \yii\helpers\Url::to('/airline/tours'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-location-arrow'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Events'),
+                        'url' => \yii\helpers\Url::to('/events/list'),
+                        'icon' => 'fa-cutlery'
                     ],
                     [
                         'name' => 'WEBEye',
                         'url' => 'http://webeye.ivao.aero',
-                        'icon' => 'fa-laptop',
+                        'icon' => 'fa-eye',
                         'linkOptions' => ['target' => '_blank']
                     ],
                     [
                         'name' => Yii::t('app', 'Services'),
                         'url' => \yii\helpers\Url::to('/airline/services'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-eye'
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
                         'url' => \yii\helpers\Url::to('/airline/screenshots'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-picture-o'
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),
                         'url' => \yii\helpers\Url::to('/airline/forum'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-rss'
                     ],
                     [
                         'name' => Yii::t('app', 'Resources'),
@@ -96,7 +101,7 @@ use app\components\Menu;
                     ],
                     [
                         'name' => Yii::t('app', 'VAG AFL'),
-                        'icon' => 'fa-laptop',
+                        'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => 'TS3 Viewer', 'url' => '/content/ts3'],
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/about'],
