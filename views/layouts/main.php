@@ -44,7 +44,7 @@ AppAsset::register($this);
     <?= $this->render('//layouts/_sidebar') ?>
 
     <div class="content" id="content">
-        <div class="breadcrumbs pull-right">
+        <div class="breadcrumbs text-right">
             <?php
             echo Breadcrumbs::widget(
                 [
