@@ -49,7 +49,7 @@ use app\components\Menu;
                         'icon' => 'fa-bar-chart'
                     ],
                     [
-                        'name' => Yii::t('app', 'Leasing'),
+                        'name' => Yii::t('app', 'Craft rental'),
                         'url' => \yii\helpers\Url::to('/pilot/leasing'),
                         'icon' => 'fa-money'
                     ],
@@ -82,7 +82,7 @@ use app\components\Menu;
                     [
                         'name' => Yii::t('app', 'Services'),
                         'url' => \yii\helpers\Url::to('/airline/services'),
-                        'icon' => 'fa-eye'
+                        'icon' => 'fa-laptop'
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
@@ -97,7 +97,15 @@ use app\components\Menu;
                     [
                         'name' => Yii::t('app', 'Resources'),
                         'url' => \yii\helpers\Url::to('/resources/index'),
-                        'icon' => 'fa-laptop'
+                        'icon' => 'fa-cloud-download'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Shop'),
+                        'icon' => 'fa-shopping-cart',
+                        'items' => [
+                            ['name' => Yii::t('app', 'My purchases'), 'url' => '/shop/purchases'],
+                            ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/shop/slos'],
+                        ]
                     ],
                     [
                         'name' => Yii::t('app', 'VAG AFL'),
