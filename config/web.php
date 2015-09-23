@@ -7,6 +7,15 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'hGvobqpSxHXAcz-wxuwnp_TC8AOiaI88',
@@ -60,8 +69,8 @@ $config = [
 	'params' => $params,
 	'on beforeAction' => function ($event) {
 			if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile')
-				//yii\helpers\VarDumper::dump($event,10,true);
 				\app\models\User::checkEmail();
+            \app\models\User::setLanguage();
 		},
 ];
 

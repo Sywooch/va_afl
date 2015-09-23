@@ -128,4 +128,8 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 		if (!\Yii::$app->user->identity->email)
 			$ctrl->redirect('/pilot/editprofile');
 	}
+	public static function setLanguage()
+	{
+		\Yii::$app->language=(!\Yii::$app->user->isGuest)?\Yii::$app->user->identity->language:'EN';
+	}
 }
