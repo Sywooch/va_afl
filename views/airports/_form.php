@@ -26,7 +26,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'iso')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'iso')->dropdownList(
+        app\models\Isocodes::find()->select(['country', 'code'])->indexBy('code')->column(),
+        ['prompt'=>'Select Country']) ?>
 
     <?= $form->field($model, 'FIR')->textInput(['maxlength' => true]) ?>
 

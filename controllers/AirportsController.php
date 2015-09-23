@@ -37,7 +37,7 @@ class AirportsController extends Controller
 
         $provider = $model->search($params);
         $provider->pagination = ['pageSize' => 100];
-        $provider->sort->defaultOrder = ['number' => SORT_ASC];
+        $provider->sort->defaultOrder = ['id' => SORT_ASC];
 
         return $this->render(
             'index',

@@ -35,6 +35,7 @@ class Airports extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['lat', 'lon', 'icao', 'name'], 'required'],
             [['lat', 'lon'], 'number'],
             [['alt'], 'integer'],
             [['icao'], 'string', 'max' => 4],
