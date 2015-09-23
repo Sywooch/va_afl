@@ -17,7 +17,7 @@ use app\components\Menu;
                         <?php echo Yii::$app->user->identity->full_name ?>
                         <small>Front end developer</small>
                     </div>
-                    <img src="/img/user-13.jpg" alt=""/>
+                    <img src="/img/user-13.jpg" alt="" style="width: 100%"/>
                 <?php else: ?>
                     <a href="/site/login">
                         <span class="hidden-xs">Login</span>
@@ -121,7 +121,7 @@ use app\components\Menu;
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/about'],
                             ['name' => Yii::t('app', 'Squadrons'), 'url' => '/squad/list'],
-                            ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/airline/pilots'],
+                            ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/fleet/index'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
                             ['name' => Yii::t('app', 'Staff'), 'url' => '/airline/staff'],

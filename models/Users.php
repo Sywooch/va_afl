@@ -72,4 +72,8 @@ class Users extends \yii\db\ActiveRecord
 			'last_visited' => 'Last Visited',
 		];
 	}
+    public function getPilot()
+    {
+        return $this->hasOne(UserPilot::className(),['user_id'=>'vid']);
+    }
 }

@@ -3,6 +3,7 @@
 namespace app\modules\pilot\controllers;
 
 use app\models\Users;
+use yii\data\ActiveDataProvider;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 
@@ -25,5 +26,12 @@ class DefaultController extends Controller
             $this->refresh();
 		}
         return $this->render('profile_editor', ['model' => $model]);
+    }
+    public function actionRoster()
+    {
+        $dataProvider = new ActiveDataProvider([
+           'query'=>Users::find()->joinWith('pilot')->andWhere('active=1')
+        ]);
+        return $this->render('roster',['dataProvider'=>$dataProvider]);
     }
 }
