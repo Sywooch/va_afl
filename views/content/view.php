@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Content */
 
-$this->title = $model->id;
+$this->title = $model->getName();
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contents'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -25,16 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'alias',
-            'name_ru',
-            'name_en',
-            'text_ru:ntext',
-            'text_en:ntext',
-        ],
-    ]) ?>
+    <p>
+        <?= Html::encode($model->getText()) ?>
+    </p>
 
 </div>

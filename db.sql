@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `airports` (
 
 CREATE TABLE IF NOT EXISTS `content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alias` varchar(50) NOT NULL,
   `name_ru` varchar(50) NOT NULL,
   `name_en` varchar(50) NOT NULL,
   `text_ru` text NOT NULL,

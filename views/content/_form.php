@@ -9,10 +9,7 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="content-form">
-
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'alias')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
 
@@ -23,9 +20,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'text_en')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?=
+        Html::submitButton(
+            $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
+            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
+        ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

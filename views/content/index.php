@@ -17,20 +17,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Content'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'alias',
-            'name_ru',
-            'name_en',
-            'text_ru:ntext',
-            // 'text_en:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+    <?=
+    GridView::widget(
+        [
+            'options' => ['class' => 'grid-view striped condensed bordered'],
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                Yii::$app->language == 'RU' ? 'name_ru' : 'name_en',
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]
+    ); ?>
 
 </div>
