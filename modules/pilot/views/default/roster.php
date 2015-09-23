@@ -11,11 +11,14 @@ $this->params['breadcrumbs'] = [
     ['label' => $this->title]
 ];
 echo \yii\grid\GridView::widget([
-   'options' => ['class'=>'grid-view striped condensed bordered'],
    'dataProvider' => $dataProvider,
    'columns' => [
        'full_name',
-       Yii::$app->language=='RU'?'pilot.rank.name_ru':'pilot.rank.name_eng',
-       'pilot.location'
+       Yii::$app->language=='RU'?'pilot.rank.name_ru':'pilot.rank.name_en',
+       ['attribute'=>'pilot.location','format'=>'raw','value'=>function($data){
+               return "<img src=/img/flags/countries/16x11/" . $data->pilot->airport->iso . ".png> " .
+               \yii\helpers\Html::a($data->pilot->location,\yii\helpers\Url::to('/airports/view/' . $data->pilot->airport->id));
+           }
+       ]
    ]
 ]);

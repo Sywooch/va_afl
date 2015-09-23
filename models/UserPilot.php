@@ -41,7 +41,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'location' => 'Location',
+            'location' => Yii::t('app','Location'),
             'active' => 'Active',
             'rank_id' => 'Rank ID',
         ];
@@ -49,5 +49,9 @@ class UserPilot extends \yii\db\ActiveRecord
     public function getRank()
     {
         return $this->hasOne(Ranks::className(),['id'=>'rank_id']);
+    }
+    public function getAirport()
+    {
+        return $this->hasOne(Airports::className(),['icao'=>'location']);
     }
 }
