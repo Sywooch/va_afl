@@ -5,6 +5,7 @@
 
 use app\assets\AppAsset;
 use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
 
 AppAsset::register($this);
 ?>
@@ -42,7 +43,17 @@ AppAsset::register($this);
 
     <?= $this->render('//layouts/_sidebar') ?>
 
-    <div class="container content" id="content"><?= $content ?></div>
+    <div class="content" id="content">
+        <div class="breadcrumbs text-right">
+            <?php
+            echo Breadcrumbs::widget(
+                [
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]
+            );
+            ?>
+        </div>
+        <?= $content ?></div>
 
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>
