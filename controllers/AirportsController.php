@@ -32,13 +32,20 @@ class AirportsController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Airports::find(),
-        ]);
+        $model = new Airports;
+        $params = \Yii::$app->request->get();
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        $provider = $model->search($params);
+        $provider->pagination = ['pageSize' => 100];
+        $provider->sort->defaultOrder = ['number' => SORT_ASC];
+
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $provider,
+                'model' => $model
+            ]
+        );
     }
 
     /**
@@ -48,9 +55,12 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        return $this->render(
+            'view',
+            [
+                'model' => $this->findModel($id),
+            ]
+        );
     }
 
     /**
@@ -65,9 +75,12 @@ class AirportsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->render(
+                'create',
+                [
+                    'model' => $model,
+                ]
+            );
         }
     }
 
@@ -84,9 +97,12 @@ class AirportsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->render(
+                'update',
+                [
+                    'model' => $model,
+                ]
+            );
         }
     }
 

@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'options' => ['class' => 'grid-view striped condensed bordered'],
             'dataProvider' => $dataProvider,
+            'filterModel' => $model,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //'id',
@@ -32,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'alt',
                 // 'iata',
                 'city',
-                'iso',
+                'country.country',
                 // 'FIR',
 
                 ['class' => 'yii\grid\ActionColumn'],

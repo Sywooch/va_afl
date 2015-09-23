@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "airports".
@@ -62,5 +63,29 @@ class Airports extends \yii\db\ActiveRecord
             'iso' => Yii::t('app', 'Iso'),
             'FIR' => Yii::t('app', 'Fir'),
         ];
+    }
+
+    public function search($params)
+    {
+        $query = self::find()->joinWith('country');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->session->get(get_parent_class($this) . 'Pagination'),
+            ],
+        ]);
+        if (!($this->load($params))) {
+            return $dataProvider;
+        }
+        $query->andFilterWhere(['like', 'icao', $this->icao])->
+            andFilterWhere(['like', 'name', $this->name])->
+            andFilterWhere(['like', 'city', $this->city]);
+        return $dataProvider;
+    }
+
+    public function getCountry()
+    {
+        return $this->hasOne(Isocodes::className(), ['code' => 'iso']);
     }
 }
