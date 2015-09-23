@@ -17,24 +17,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Airports'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?=
+    GridView::widget(
+        [
+            'options' => ['class' => 'grid-view striped condensed bordered'],
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                //'id',
+                'icao',
+                'name',
+                //'lat',
+                //'lon',
+                // 'alt',
+                // 'iata',
+                'city',
+                'iso',
+                // 'FIR',
 
-            'id',
-            'icao',
-            'name',
-            'lat',
-            'lon',
-            // 'alt',
-            // 'iata',
-            // 'city',
-            // 'iso',
-            // 'FIR',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]
+    ); ?>
 
 </div>
