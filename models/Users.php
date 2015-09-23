@@ -63,14 +63,11 @@ class Users extends \yii\db\ActiveRecord
 	{
 		return [
 			'vid' => 'Vid',
-			'full_name' => 'Full Name',
+			'full_name' => Yii::t('user','Full Name'),
 			'email' => 'Email',
-			'country' => 'Country',
+			'country' => Yii::t('user','Country'),
 			'authKey' => 'Auth Key',
-			'blocked' => 'Blocked',
-			'block_reason' => 'Block Reason',
-			'blocked_by' => 'Blocked By',
-			'language' => 'Language',
+			'language' => Yii::t('user','Language'),
 			'created_date' => 'Created Date',
 			'last_visited' => 'Last Visited',
 		];

@@ -34,5 +34,7 @@ return [
     'Fleet' => 'Флот',
     'Schedule' => 'Расписание',
     'Staff' => 'Руководство',
-    'Contacts' => 'Контакты'
+    'Contacts' => 'Контакты',
+    'Pilot' => 'Пилот',
+    'Profile editor' => 'Редактор профиля',
 ];
