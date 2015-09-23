@@ -3,6 +3,7 @@
 namespace app\modules\pilot\controllers;
 
 use app\models\Users;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 
 class DefaultController extends Controller
@@ -19,8 +20,9 @@ class DefaultController extends Controller
         }
         $model->scenario = Users::SCENARIO_EDIT;
         if (isset($_POST['Users'])) {
-            $model->email = $_POST['Users']['email'];
+            $model->attributes=$_POST['Users'];
             $model->save();
+            $this->refresh();
 		}
         return $this->render('profile_editor', ['model' => $model]);
     }

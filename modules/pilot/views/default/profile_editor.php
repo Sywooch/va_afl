@@ -14,5 +14,6 @@ $form = \yii\widgets\ActiveForm::begin([
 	'id' => 'profile'
 ]);
 echo $form->field($model, 'email')->textInput();
+echo $form->field($model, 'language')->dropDownList(['EN'=>'English','RU'=>'Русский']);
 echo \yii\helpers\Html::submitButton('Сохранить');
 \yii\widgets\ActiveForm::end();

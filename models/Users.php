@@ -35,7 +35,7 @@ class Users extends \yii\db\ActiveRecord
 	{
 		$scenarios = parent::scenarios();
 		$scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email'];
+		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language'];
 
 		return $scenarios;
 	}
@@ -47,10 +47,10 @@ class Users extends \yii\db\ActiveRecord
 	{
 		return [
 			[['vid'], 'required'],
-			[['email'], 'required', 'on' => self::SCENARIO_EDIT],
+			[['email','language'], 'required', 'on' => self::SCENARIO_EDIT],
 			[['vid', 'blocked', 'blocked_by'], 'integer'],
 			[['authKey', 'block_reason'], 'string'],
-			[['created_date', 'last_visited'], 'safe'],
+			[['created_date', 'last_visited','language'], 'safe'],
 			[['full_name', 'email'], 'string', 'max' => 200],
 			[['country', 'language'], 'string', 'max' => 2]
 		];
@@ -63,14 +63,11 @@ class Users extends \yii\db\ActiveRecord
 	{
 		return [
 			'vid' => 'Vid',
-			'full_name' => 'Full Name',
+			'full_name' => Yii::t('user','Full Name'),
 			'email' => 'Email',
-			'country' => 'Country',
+			'country' => Yii::t('user','Country'),
 			'authKey' => 'Auth Key',
-			'blocked' => 'Blocked',
-			'block_reason' => 'Block Reason',
-			'blocked_by' => 'Blocked By',
-			'language' => 'Language',
+			'language' => Yii::t('user','Language'),
 			'created_date' => 'Created Date',
 			'last_visited' => 'Last Visited',
 		];
