@@ -30,8 +30,12 @@ class DefaultController extends Controller
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
-           'query'=>Users::find()->joinWith('pilot')->andWhere('active=1')
+           'query'=>Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere('active=1')
         ]);
+        $dataProvider->sort->attributes['pilot.location']= ['asc'=>['user_pilot.location'=>SORT_ASC],'desc'=>['user_pilot.location'=>SORT_DESC]];
+        $dataProvider->sort->attributes['pilot.rank.name_en']= ['asc'=>['ranks.name_en'=>SORT_ASC],'desc'=>['ranks.name_en'=>SORT_DESC]];
+        $dataProvider->sort->attributes['pilot.rank.name_ru']= ['asc'=>['ranks.name_ru'=>SORT_ASC],'desc'=>['ranks.name_ru'=>SORT_DESC]];
+
         return $this->render('roster',['dataProvider'=>$dataProvider]);
     }
 }

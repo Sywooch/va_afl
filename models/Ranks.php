@@ -27,7 +27,7 @@ class Ranks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_ru', 'name_eng'], 'string', 'max' => 200]
+            [['name_ru', 'name_en'], 'string', 'max' => 200]
         ];
     }
 
@@ -38,8 +38,8 @@ class Ranks extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name_ru' => 'Name Ru',
-            'name_eng' => 'Name Eng',
+            'name_ru' => 'Звание',
+            'name_en' => 'Rank',
         ];
     }
 }

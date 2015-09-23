@@ -37,4 +37,5 @@ return [
     'Contacts' => 'Контакты',
     'Pilot' => 'Пилот',
     'Profile editor' => 'Редактор профиля',
+    'Location' => 'Местонахождения'
 ];
