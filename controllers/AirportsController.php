@@ -23,6 +23,17 @@ class AirportsController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['edit_airfield'],
+                    ],
+                ]
+            ]
         ];
     }
 
