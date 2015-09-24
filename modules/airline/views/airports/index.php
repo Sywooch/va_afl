@@ -36,7 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'alt',
                 // 'iata',
                 'city',
-                'country.country',
+                ['attribute'=>'country.country','format'=>'html','value'=>function($data){
+                    return "<img src='".$data->flaglink."'>".$data->country->country;
+                }],
                 // 'FIR',
 
                 ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('edit_airfield')],
