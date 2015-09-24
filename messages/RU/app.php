@@ -44,5 +44,6 @@ return [
     'Altitude' => 'Превышение',
     'City' => 'Город',
     'ISO' => 'Страна',
-    'FIR' => 'FIR(РПИ)'
+    'FIR' => 'FIR(РПИ)',
+    'Staff Position' => 'Должность'
 ];

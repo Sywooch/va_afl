@@ -43,9 +43,9 @@ class Staff extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'staff_position' => Yii::t('app', 'Staff Position'),
-            'name_ru' => Yii::t('app', 'Name'),
-            'name_en' => Yii::t('app', 'Name'),
+            'staff_position' => Yii::t('app', 'Code of Staff Position'),
+            'name_ru' => Yii::t('app', 'Staff Position'),
+            'name_en' => Yii::t('app', 'Staff Position'),
             'vid' => Yii::t('app', 'VID'),
         ];
     }

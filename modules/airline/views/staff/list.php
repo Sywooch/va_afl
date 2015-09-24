@@ -32,7 +32,7 @@ $this->params['breadcrumbs'] = [
             'columns' => [
                 Yii::$app->language == 'RU' ? 'name_ru' : 'name_en',
                 [
-                    'attribute' => 'user.country',
+                    'attribute' => 'Name',
                     'format' => 'raw',
                     'value' => function ($data) {
                             return "<img src='" . \app\components\Helper::getFlagLink(
