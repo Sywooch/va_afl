@@ -30,7 +30,7 @@ class Staff extends \yii\db\ActiveRecord
     {
         return [
             [['staff_position', 'name_ru', 'name_en', 'vid'], 'required'],
-            [['vid'], 'integer', 'max' => 6],
+            [['vid'], 'string', 'max' => 6],
             [['staff_position'], 'string', 'max' => 5],
             [['name_ru', 'name_en'], 'string', 'max' => 55],
             [['staff_position'], 'unique']
