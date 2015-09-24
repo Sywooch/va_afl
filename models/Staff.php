@@ -7,6 +7,7 @@ use Yii;
 /**
  * This is the model class for table "staff".
  *
+ * @property integer $id
  * @property string $staff_position
  * @property string $name_ru
  * @property string $name_en
@@ -47,5 +48,10 @@ class Staff extends \yii\db\ActiveRecord
             'name_en' => Yii::t('app', 'Name En'),
             'vid' => Yii::t('app', 'Vid'),
         ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(),['vid'=>'vid']);
     }
 }
