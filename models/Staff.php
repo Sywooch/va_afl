@@ -30,7 +30,7 @@ class Staff extends \yii\db\ActiveRecord
     {
         return [
             [['staff_position', 'name_ru', 'name_en', 'vid'], 'required'],
-            [['vid'], 'integer'],
+            [['vid'], 'integer', 'min' => 100000, 'max' => 999999],
             [['staff_position'], 'string', 'max' => 5],
             [['name_ru', 'name_en'], 'string', 'max' => 55],
             [['staff_position'], 'unique']
@@ -52,6 +52,6 @@ class Staff extends \yii\db\ActiveRecord
 
     public function getUser()
     {
-        return $this->hasOne(Users::className(),['vid'=>'vid']);
+        return $this->hasOne(Users::className(), ['vid' => 'vid']);
     }
 }
