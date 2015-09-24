@@ -30,7 +30,7 @@ class AirportsController extends Controller
                     // allow authenticated users
                     [
                         'allow' => true,
-                        'roles' => ['edit_airfield'],
+                        'roles' => ['edit_airport'],
                     ],
                 ]
             ]
