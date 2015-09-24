@@ -14,7 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(Yii::$app->user->can('edit_airfield'))
+                echo Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
 
     <?=
@@ -36,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'country.country',
                 // 'FIR',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('edit_airfield')],
             ],
         ]
     ); ?>
