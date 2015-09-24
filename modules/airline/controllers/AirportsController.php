@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\airline\controllers;
 
 use Yii;
 use app\models\Airports;
@@ -66,10 +66,11 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
+        $key=preg_match('/^\d+$/',$id)?'id':'icao';
         return $this->render(
             'view',
             [
-                'model' => $this->findModel($id),
+                'model' => $this->findModel([$key=>$id]),
             ]
         );
     }

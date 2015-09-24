@@ -52,10 +52,11 @@ $config = [
 			'showScriptName' => false,
             'enableStrictParsing' => false,
 			'rules' => [
-				'<module:pilot|airline|fleet|events>/<action:\w+>' => '<module>/default/<action>',
-				'<module:pilot|airline|fleet|events>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+				'<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
+				'<module:pilot|fleet|events>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
 				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
 				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
 				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 				'<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
 			]
@@ -68,6 +69,9 @@ $config = [
 		'pilot' => [
 			'class' => 'app\modules\pilot\Module',
 		],
+        'airline' => [
+            'class' => 'app\modules\airline\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',

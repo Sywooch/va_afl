@@ -54,15 +54,15 @@ class Airports extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'icao' => Yii::t('app', 'Icao'),
-            'name' => Yii::t('app', 'name'),
+            'icao' => Yii::t('app', 'ICAO'),
+            'name' => Yii::t('app', 'Name'),
             'lat' => Yii::t('app', 'Latitude'),
             'lon' => Yii::t('app', 'Longitude'),
             'alt' => Yii::t('app', 'Altitude'),
             'iata' => Yii::t('app', 'IATA'),
             'city' => Yii::t('app', 'City'),
-            'iso' => Yii::t('app', 'Iso'),
-            'FIR' => Yii::t('app', 'Fir'),
+            'iso' => Yii::t('app', 'ISO'),
+            'FIR' => Yii::t('app', 'FIR'),
         ];
     }
 
@@ -88,5 +88,9 @@ class Airports extends \yii\db\ActiveRecord
     public function getCountry()
     {
         return $this->hasOne(Isocodes::className(), ['code' => 'iso']);
+    }
+    public function getFlaglink()
+    {
+        return "/img/flags/countries/16x11/".strtolower($this->iso).".png";
     }
 }
