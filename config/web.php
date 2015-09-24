@@ -52,19 +52,35 @@ $config = [
 			'showScriptName' => false,
             'enableStrictParsing' => false,
 			'rules' => [
-				'<module:pilot>/<action:\w+>' => '<module>/default/<action>',
-				'<module:pilot>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
-				'<module:pilot>/<controller:\w+>' => '<module>/<controller>/index',
-				'<module:pilot>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+				'<module:pilot|airline|fleet|events>/<action:\w+>' => '<module>/default/<action>',
+				'<module:pilot|airline|fleet|events>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
+				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
 				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 				'<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
 			]
 		],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ]
 	],
 	'modules' => [
 		'pilot' => [
 			'class' => 'app\modules\pilot\Module',
 		],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',
+            'controllerMap' => [
+                'assignment' => [
+                    'class' => 'mdm\admin\controllers\AssignmentController',
+                    'userClassName' => 'app\models\Users', // fully qualified class name of your User model
+                    'idField' => 'vid',        // id field of your User model that corresponds to Yii::$app->user->id
+                    'usernameField' => 'full_name', // username field of your User model
+                ],
+            ],
+
+        ]
 	],
 	'params' => $params,
 	'on beforeAction' => function ($event) {

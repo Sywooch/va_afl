@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "users".
  *
@@ -76,4 +77,8 @@ class Users extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UserPilot::className(),['user_id'=>'vid']);
     }
+	public static function findIdentity($id)
+	{
+		return \app\models\User::findIdentity($id);
+	}
 }
