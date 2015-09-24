@@ -19,7 +19,7 @@ echo \yii\grid\GridView::widget(
                 'attribute' => 'user.country',
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return "<img src='".\yii\components\Helper::getFlagLink($data->user->country) . "'> " . $data->user->full_name;
+                        return "<img src='".\app\components\Helper::getFlagLink($data->user->country) . "'> " . $data->user->full_name;
                     }
             ]
         ]
