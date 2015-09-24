@@ -30,7 +30,7 @@ class Staff extends \yii\db\ActiveRecord
     {
         return [
             [['staff_position', 'name_ru', 'name_en', 'vid'], 'required'],
-            [['vid'], 'integer'],
+            [['vid'], 'integer', 'max' => 6],
             [['staff_position'], 'string', 'max' => 5],
             [['name_ru', 'name_en'], 'string', 'max' => 55],
             [['staff_position'], 'unique']
@@ -44,9 +44,9 @@ class Staff extends \yii\db\ActiveRecord
     {
         return [
             'staff_position' => Yii::t('app', 'Staff Position'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'vid' => Yii::t('app', 'Vid'),
+            'name_ru' => Yii::t('app', 'Name'),
+            'name_en' => Yii::t('app', 'Name'),
+            'vid' => Yii::t('app', 'VID'),
         ];
     }
 
