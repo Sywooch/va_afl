@@ -5,7 +5,7 @@
  * Date: 24.09.15
  * Time: 22:01
  */
-namespace yii\components;
+namespace app\components;
 
 use yii\base\Component;
 
