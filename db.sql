@@ -56,3 +56,12 @@ CREATE TABLE IF NOT EXISTS `user_pilot` (
   `rank_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE  IF NOT EXISTS `staff` (
+	`staff_position` VARCHAR(5) NOT NULL,
+	`name_ru` VARCHAR(55) NOT NULL,
+	`name_en` VARCHAR(55) NOT NULL,
+	`vid` INT(11) NOT NULL,
+	UNIQUE INDEX `staff_position` (`staff_position`),
+	INDEX `vid` (`vid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
