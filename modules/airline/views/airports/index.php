@@ -14,7 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+            if(Yii::$app->user->can('edit_airport'))
+                echo Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
 
     <?=
@@ -26,17 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //'id',
-                'icao',
+                ['attribute'=>'icao','format'=>'raw','value'=>function($data){return Html::a($data->icao,\yii\helpers\Url::to('/airline/airports/view/'.$data->icao));}],
                 'name',
                 //'lat',
                 //'lon',
                 // 'alt',
                 // 'iata',
                 'city',
-                'country.country',
+                ['attribute'=>'country.country','format'=>'html','value'=>function($data){
+                    return "<img src='".$data->flaglink."'>".$data->country->country;
+                }],
                 // 'FIR',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('edit_airport')],
             ],
         ]
     ); ?>

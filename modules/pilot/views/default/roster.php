@@ -16,8 +16,8 @@ echo \yii\grid\GridView::widget([
        'full_name',
        Yii::$app->language=='RU'?'pilot.rank.name_ru':'pilot.rank.name_en',
        ['attribute'=>'pilot.location','format'=>'raw','value'=>function($data){
-               return "<img src=/img/flags/countries/16x11/" . $data->pilot->airport->iso . ".png> " .
-               \yii\helpers\Html::a($data->pilot->location,\yii\helpers\Url::to('/airports/view/' . $data->pilot->airport->id));
+               return "<img src=" . $data->pilot->airport->flaglink . ">" .
+               \yii\helpers\Html::a($data->pilot->location,\yii\helpers\Url::to('/airline/airports/view/' . $data->pilot->airport->icao));
            }
        ]
    ]

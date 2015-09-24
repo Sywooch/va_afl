@@ -1,18 +1,22 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Nikita Fedoseev
+ * Date: 24.09.15
+ * Time: 19:56
+ */
 
-namespace app\controllers;
+namespace app\modules\airline\controllers;
 
-use Yii;
-use app\models\Airports;
-use yii\data\ActiveDataProvider;
+use yii;
 use yii\web\Controller;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * AirportsController implements the CRUD actions for Airports model.
- */
-class AirportsController extends Controller
+use app\models\Staff;
+
+class StaffController extends Controller
 {
     public function behaviors()
     {
@@ -23,29 +27,28 @@ class AirportsController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['edit_staff'],
+                    ],
+                ]
+            ]
         ];
     }
 
-    /**
-     * Lists all Airports models.
-     * @return mixed
-     */
     public function actionIndex()
     {
-        $model = new Airports;
-        $params = \Yii::$app->request->get();
-
-        $provider = $model->search($params);
-        $provider->pagination = ['pageSize' => 100];
-        $provider->sort->defaultOrder = ['id' => SORT_ASC];
-
-        return $this->render(
-            'index',
-            [
-                'dataProvider' => $provider,
-                'model' => $model
-            ]
-        );
+        $provider = new ActiveDataProvider([
+            'query' => Staff::find(),
+            'sort' => false,
+            'pagination' => false
+        ]);
+        return $this->render('list', ['dataProvider' => $provider]);
     }
 
     /**
@@ -70,10 +73,10 @@ class AirportsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Airports();
+        $model = new Staff();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render(
                 'create',
@@ -95,7 +98,7 @@ class AirportsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render(
                 'update',
@@ -128,7 +131,7 @@ class AirportsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Airports::findOne($id)) !== null) {
+        if (($model = Staff::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
