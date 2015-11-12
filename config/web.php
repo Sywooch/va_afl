@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'layout' => 'landing',
     'components' => [
         'i18n' => [
             'translations' => [
@@ -84,6 +85,7 @@ $config = [
 	],
 	'params' => $params,
 	'on beforeAction' => function ($event) {
+            if(!Yii::$app->user->isGuest) Yii::$app->layout='main';
 			if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile')
 				\app\models\User::checkEmail();
             \app\models\User::setLanguage();
