@@ -2,12 +2,20 @@
 
 namespace app\controllers;
 
+use app\models\Booking;
 use app\models\ContactForm;
+use app\models\Fleet;
 use app\models\IvaoLogin;
+use app\models\Users;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
+use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
+use yii\web\Response;
+use yii\web\User;
 
 class SiteController extends Controller
 {
@@ -90,5 +98,70 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+    public function actionGetairports($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query();
+            $query->select('icao as id, icao AS text')
+                ->from('airports')
+                ->where('icao LIKE "%' . $q .'%"')
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => $id];
+        }
+        return $out;
+    }
+    public function actionGetacftypes($q = null, $id = null)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query();
+            $query->select("code as id, concat_ws(' :: ',`code`,`manufacturer`,`name`) AS text")
+                ->from('actypes')
+                ->where('code LIKE "%' . $q .'%"')
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => $id];
+        }
+        return $out;
+    }
+    public function actionGetacfregnums() {
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $ids = $_POST['depdrop_parents'];
+            $acftype = empty($ids[0]) ? null : $ids[0];
+            if ($acftype != null) {
+                foreach(Fleet::find()->andWhere(['type_code'=>$acftype])->
+                            andWhere(['location'=>Users::getAuthUser()->pilot->location])->asArray()->all() as $data)
+                {
+                    $out[]=['id'=>$data['id'],'name'=>$data['regnum']];
+                }
+                echo Json::encode(['output'=>$out,'selected'=>'']);
+                return;
+            }
+        }
+        echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+    public function actionDeletemybooking()
+    {
+        if($user=Yii::$app->user)
+        {
+            $booking = Booking::find()->andWhere(['user_id'=>$user->id])->one();
+            $booking->delete();
+            $this->goBack();
+        }
+        $this->goBack();
     }
 }

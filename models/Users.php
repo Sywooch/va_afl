@@ -81,4 +81,8 @@ class Users extends \yii\db\ActiveRecord
 	{
 		return \app\models\User::findIdentity($id);
 	}
+    public static function getAuthUser()
+    {
+        return self::find()->andWhere(['vid'=>Yii::$app->user->id])->one();
+    }
 }
