@@ -21,6 +21,16 @@ use Yii;
  */
 class Fleet extends \yii\db\ActiveRecord
 {
+    public static function transfer($regnum, $location)
+    {
+        if (!$regnum) {
+            return;
+        }
+        $fleet = Fleet::find()->andWhere(['regnum' => $regnum])->one();
+        $fleet->location = $location;
+        $fleet->save();
+    }
+
     /**
      * @inheritdoc
      */

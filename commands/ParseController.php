@@ -19,31 +19,45 @@ use yii\console\Controller;
 class ParseController extends Controller
 {
     //Константы. В основном относятся к вазап файлу
-    const WZ_VID = 1;
     const WZ_CALLSIGN = 0;
-    const WZ_ICAOTO = 13;
-    const WZ_ICAOFROM = 11;
-    const WZ_FLIGHTPLAN = 30;
-    const WZ_FOB_HOURS =26;
-    const WZ_FOB_MINUTES =27;
-    const WZ_POB = 44;
-    const WZ_ALTITUDE = 7;
+    const WZ_VID = 1;
     const WZ_LATITUDE = 5;
     const WZ_LONGITUDE = 6;
-    const WZ_HEADING = 45;
+    const WZ_ALTITUDE = 7;
     const WZ_GROUNDSPEED = 8;
+    const WZ_FPL_SPD = 9;
+    const WZ_ICAOFROM = 11;
+    const WZ_FPL_ALT = 12;
+    const WZ_ICAOTO = 13;
+    const WZ_FOB_HOURS = 26;
+    const WZ_FOB_MINUTES = 27;
+    const WZ_ICAOALT1 = 28;
+    const WZ_RMK = 29;
+    const WZ_FLIGHTPLAN = 30;
+    const WZ_ICAOALT2 = 42;
+    const WZ_POB = 44;
+    const WZ_HEADING = 45;
+
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
     const HOLD_TIME = 900;
+
     const FLIGHT_STATUS_OK = 2;
     const FLIGHT_STATUS_BREAK = 3;
     const FLIGHT_STATUS_STARTED = 1;
-    public $whazzupdata;
-    public $ourpilots;
-    public $onlinepilotslist;
-
 
     /**
-     *Главная функция, запускает остальные функции
+     * Whazzup
+     * @var string
+     */
+    private $whazzupdata;
+    /**
+     * Массив с данными о полёте наших полётов
+     * @var array
+     */
+    private $ourpilots;
+
+    /**
+     * Главная функция, запускает остальные функции
      */
     public function actionIndex()
     {
@@ -51,13 +65,12 @@ class ParseController extends Controller
         $this->parseWhazzup();
         $this->bookingToFlights();
         $this->updateFlights();
-
     }
 
     /**
-     *Забирает вазап файл
+     * Забирает вазап файл
      */
-    public function prepareWhazzup()
+    private function prepareWhazzup()
     {
         $this->whazzupdata = Helper::getWhazzup();
     }
@@ -65,40 +78,83 @@ class ParseController extends Controller
     /**
      * Парсит вазап файл
      */
-    public function parseWhazzup()
+    private function parseWhazzup()
     {
-        foreach(explode("\n",$this->whazzupdata) as $line)
-        {
-           if(preg_match('/PILOT/',$line))
-              $this->appendOurPilots($line);
+        foreach (explode("\n", $this->whazzupdata) as $line) {
+            if (preg_match('/PILOT/', $line)) {
+                $this->appendOurPilots($line);
+            }
         }
     }
 
     /**
      * Начинает полеты по букингу, если они указаны в вазапе
      */
-    public function bookingToFlights()
+    private function bookingToFlights()
     {
-        foreach(Booking::find()->andWhere(['user_id'=>$this->onlinepilotslist])->all() as $booking)
-        {
-            if($this->validateBooking($booking,$this->ourpilots[$booking->user_id]))
-            {
+        foreach (Booking::find()->andWhere(['user_id' => $this->onlinepilotslist])->all() as $booking) {
+            if ($this->validateBooking($booking, $this->ourpilots[$booking->user_id])) {
                 $this->startFlight($booking);
             }
         }
     }
 
     /**
+     * Валидирует полет. Проверяет, что он завершен в радиусе 10 морских миль от аэродрома назначения.
+     * @param $flight
+     * @return bool
+     */
+    private function validateFlight($flight)
+    {
+        $airport = Airports::find()->andWhere(['icao' => $flight->to_icao])->one();
+        $tracker = Tracker::find()->andWhere(['user_id' => $flight->user_id])->orderBy('dtime desc')->one();
+        return (Helper::calculateDistanceLatLng(
+                $tracker->latitude,
+                $airport->lat,
+                $tracker->longitude,
+                $airport->lon
+            ) < self::MAX_DISTANCE_TO_SAVE_FLIGHT);
+    }
+
+    /**
+     * Начинает полет
+     * @param $booking
+     */
+    private function startFlight($booking)
+    {
+        $flight = new Flights();
+
+        if ($booking->fleet_regnum) {
+            $flight->fleet_regnum = $booking->fleet_regnum;
+        }
+
+        $flight->acf_type = $booking->aircraft_type;
+        $flight->booking_id = $booking->id;
+
+        $flight->user_id = $booking->user_id;
+        $flight->status = self::FLIGHT_STATUS_STARTED;
+
+        $flight->first_seen = gmdate('Y-m-d H:i:s');
+
+        $flight = $this->updateData($flight);
+
+        if ($flight->save()) {
+            $booking->status = 2;
+            $booking->save();
+        }
+    }
+
+    /**
      * Обновляет полеты, или заверщшает их в зависимости от наличия в вазапе
      */
-    public function updateFlights()
+    private function updateFlights()
     {
-        foreach(Flights::find()->andWhere(['status'=>1])->all() as $flight)
-        {
-            if(empty($this->onlinepilotslist) || !in_array($flight->user_id,$this->onlinepilotslist))
+        foreach (Flights::find()->andWhere(['status' => 1])->all() as $flight) {
+            if (empty($this->onlinepilotslist) || !in_array($flight->user_id, $this->onlinepilotslist)) {
                 $this->endFlight($flight);
-            else
+            } else {
                 $this->updateFlightInformation($flight);
+            }
         }
     }
 
@@ -108,19 +164,16 @@ class ParseController extends Controller
      */
     private function endFlight($flight)
     {
-        $booking = Booking::find()->andWhere(['id'=>$flight->booking_id]);
+        $booking = Booking::find()->andWhere(['id' => $flight->booking_id]);
         $booking->delete();
-        if($this->validateFlight($flight))
-        {
+        if ($this->validateFlight($flight)) {
             $flight->lastseen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
-        }
-        else{
-            if((gmmktime()-strtotime($flight->lastseen)) > self::HOLD_TIME)
-            {
+        } else {
+            if ((gmmktime() - strtotime($flight->lastseen)) > self::HOLD_TIME) {
                 $flight->lastseen = gmdate('Y-m-d H:i:s');
                 $flight->status = self::FLIGHT_STATUS_BREAK;
                 $flight->save();
@@ -134,9 +187,7 @@ class ParseController extends Controller
      */
     private function transferPilot($flight)
     {
-        $user = Users::find()->andWhere(['user_id'=>$flight->user_id])->one();
-        $user->location = $flight->to_icao;
-        $user->save();
+        Users::transfer($flight->user_id, $flight->to_icao);
     }
 
     /**
@@ -145,21 +196,7 @@ class ParseController extends Controller
      */
     private function transferCraft($flight)
     {
-        if(!$flight->fleet_regnum) return;
-        $fleet = Fleet::find()->andWhere(['regnum'=>$flight->fleet_regnum])->one();
-        $fleet->location = $flight->to_icao;
-        $fleet->save();
-    }
-    /**
-     * Валидирует полет. Проверяет, что он завершен в радиусе 10 морских миль от аэродрома назначения.
-     * @param $flight
-     * @return bool
-     */
-    private function validateFlight($flight)
-    {
-        $airport = Airports::find()->andWhere(['icao'=>$flight->to_icao])->one();
-        $tracker = Tracker::find()->andWhere(['user_id'=>$flight->user_id])->orderBy('dtime desc')->one();
-        return (Helper::calculateDistanceLatLng($tracker->latitude,$airport->lat,$tracker->longitude,$airport->lon)<self::MAX_DISTANCE_TO_SAVE_FLIGHT);
+        Fleet::transfer($flight->fleet_regnum, $flight->to_icao);
     }
 
     /**
@@ -168,13 +205,50 @@ class ParseController extends Controller
      */
     private function updateFlightInformation($flight)
     {
+        $flight = $this->updateData($flight);
+        $flight->save();
+    }
+
+    private function updateData($flight)
+    {
         $data = $this->ourpilots[$flight->user_id];
+
+        $flight->from_icao = $booking->from_icao;
+        $flight->to_icao = $booking->to_icao;
         $flight->lastseen = gmdate('Y-m-d H:i:s');
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
         $flight->fob = $data[self::WZ_FOB_HOURS].$data[self::WZ_FOB_MINUTES];
         $flight->pob = $data[self::WZ_POB];
-        $flight->save();
+
         $this->insertTrackerData($flight);
+
+        return $flight;
+    }
+
+    /**
+     * Возвращает маршрутную часть ФПЛ.
+     * @param int $int user_id для поиска в массиве с пилотами
+     */
+    private function getRoute($user_id)
+    {
+        return $this->ourpilots[$user_id][self::WZ_FPL_SPD] . $this->ourpilots[$user_id][self::WZ_FPL_ALT] . " " . $this->ourpilots[$user_id][self::WZ_FLIGHTPLAN]
+    }
+
+    /**
+     * Валидирует букинг в онлайне.
+     * @param $booking
+     * @param $data
+     * @return bool
+     */
+    private function validateBooking($booking, $data)
+    {
+        return (
+            $booking->from_icao == $data[self::WZ_ICAOFROM] &&
+            $booking->to_icao == $data[self::WZ_ICAOTO] &&
+            $booking->callsign == $data[self::WZ_CALLSIGN] &&
+            $booking->status == 1 &&
+            !Flights::find()->andWhere(['booking_id' => $booking->id])->one()
+        );
 
     }
 
@@ -198,60 +272,15 @@ class ParseController extends Controller
     }
 
     /**
-     * Начинает полет
-     * @param $booking
-     */
-    private function startFlight($booking)
-    {
-        $flight = new Flights();
-        if($booking->fleet_regnum)$flight->fleet_regnum = $booking->fleet_regnum;
-        $flight->acf_type = $booking->aircraft_type;
-        $flight->booking_id = $booking->id;
-        $flight->first_seen = gmdate('Y-m-d H:i:s');
-        $flight->lastseen = gmdate('Y-m-d H:i:s');
-        $flight->flightplan = $this->ourpilots[$booking->user_id][self::WZ_FLIGHTPLAN];
-        $flight->fob = $this->ourpilots[$booking->user_id][self::WZ_FOB_HOURS].$this->ourpilots[$booking->user_id][self::WZ_FOB_MINUTES];
-        $flight->pob = $this->ourpilots[$booking->user_id][self::WZ_POB];
-        $flight->from_icao = $booking->from_icao;
-        $flight->to_icao = $booking->to_icao;
-        $flight->user_id = $booking->user_id;
-        $flight->status = self::FLIGHT_STATUS_STARTED;
-        if($flight->save()){
-            $booking->status = 2;
-            $booking->save();
-        }
-
-    }
-
-    /**
-     * Валидирует букинг в онлайне.
-     * @param $booking
-     * @param $data
-     * @return bool
-     */
-    private function validateBooking($booking,$data)
-    {
-        return (
-            $booking->from_icao == $data[self::WZ_ICAOFROM] &&
-            $booking->to_icao == $data[self::WZ_ICAOTO] &&
-            $booking->callsign == $data[self::WZ_CALLSIGN] &&
-            $booking->status == 1 &&
-            !Flights::find()->andWhere(['booking_id'=>$booking->id])->one()
-        );
-
-    }
-
-    /**
      * Проверяет по вазапу, не наш ли это пилот, и если наш - добавляет в массив наших пилотов в онлайне.
      * @param $line
      */
     private function appendOurPilots($line)
     {
-        $data = explode(":",$line);
-        if(Users::find()->andWhere(['vid'=>$data[self::WZ_VID]])->one())
-        {
-            $this->ourpilots[$data[self::WZ_VID]]=$data;
-            $this->onlinepilotslist[]=$data[self::WZ_VID];
+        $data = explode(":", $line);
+        if (Users::find()->andWhere(['vid' => $data[self::WZ_VID]])->one()) {
+            $this->ourpilots[$data[self::WZ_VID]] = $data;
+            $this->onlinepilotslist[] = $data[self::WZ_VID];
         }
     }
 }

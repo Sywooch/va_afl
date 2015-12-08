@@ -22,67 +22,80 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
-	const SCENARIO_EDIT = 'editprofile';
+    const SCENARIO_EDIT = 'editprofile';
 
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return 'users';
-	}
+    /**
+     * Перемещает пилота
+     */
+    public static function transfer($vid, $location){
+        $user = Users::find()->andWhere(['user_id' => $vid])->one();
+        $user->location = $location;
+        $user->save();
+    }
 
-	public function scenarios()
-	{
-		$scenarios = parent::scenarios();
-		$scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language'];
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'users';
+    }
 
-		return $scenarios;
-	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['vid'], 'required'],
-			[['email','language'], 'required', 'on' => self::SCENARIO_EDIT],
-			[['vid', 'blocked', 'blocked_by'], 'integer'],
-			[['authKey', 'block_reason'], 'string'],
-			[['created_date', 'last_visited','language'], 'safe'],
-			[['full_name', 'email'], 'string', 'max' => 200],
-			[['country', 'language'], 'string', 'max' => 2]
-		];
-	}
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_DEFAULT] = ['vid'];
+        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language'];
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'vid' => 'Vid',
-			'full_name' => Yii::t('user','Full Name'),
-			'email' => 'Email',
-			'country' => Yii::t('user','Country'),
-			'authKey' => 'Auth Key',
-			'language' => Yii::t('user','Language'),
-			'created_date' => 'Created Date',
-			'last_visited' => 'Last Visited',
-		];
-	}
+        return $scenarios;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['vid'], 'required'],
+            [['email', 'language'], 'required', 'on' => self::SCENARIO_EDIT],
+            [['vid', 'blocked', 'blocked_by'], 'integer'],
+            [['authKey', 'block_reason'], 'string'],
+            [['created_date', 'last_visited', 'language'], 'safe'],
+            [['full_name', 'email'], 'string', 'max' => 200],
+            [['country', 'language'], 'string', 'max' => 2]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'vid' => 'Vid',
+            'full_name' => Yii::t('user', 'Full Name'),
+            'email' => 'Email',
+            'country' => Yii::t('user', 'Country'),
+            'authKey' => 'Auth Key',
+            'language' => Yii::t('user', 'Language'),
+            'created_date' => 'Created Date',
+            'last_visited' => 'Last Visited',
+        ];
+    }
+
     public function getPilot()
     {
-        return $this->hasOne(UserPilot::className(),['user_id'=>'vid']);
+        return $this->hasOne(UserPilot::className(), ['user_id' => 'vid']);
     }
-	public static function findIdentity($id)
-	{
-		return \app\models\User::findIdentity($id);
-	}
+
+    public static function findIdentity($id)
+    {
+        return \app\models\User::findIdentity($id);
+    }
+
     public static function getAuthUser()
     {
-        return self::find()->andWhere(['vid'=>Yii::$app->user->id])->one();
+        return self::find()->andWhere(['vid' => Yii::$app->user->id])->one();
     }
 }
