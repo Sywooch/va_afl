@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 /**
  * This is the model class for table "airports".
@@ -90,12 +91,12 @@ class Airports extends \yii\db\ActiveRecord
      * @param $q string Search id from default answer
      * @param $id string Search id from default answer
      */
-    public function searchByICAO($q = null, $id = null){
+    public static function searchByICAO($q = null, $id = null){
         $out = ['results' => ['id' => '', 'text' => '']];
 
         if (!is_null($q)) {
             $query = new Query();
-            $query->select('icao as id, icao AS text')
+            $query->select("icao as id, concat_ws(' - ', `icao`, `name`) AS text")
                 ->from('airports')
                 ->where('icao LIKE "%' . $q . '%"')
                 ->limit(20);

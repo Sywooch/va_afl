@@ -13,7 +13,6 @@ use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
-use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
@@ -78,7 +77,7 @@ class SiteController extends Controller
     public function actionGetacftypes($q = null, $id = null)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        return Actypes::searchByCode($q, $id);
+        return Actypes::searchByICAO($q, $id);
     }
 
     public function actionGetacfregnums()

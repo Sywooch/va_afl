@@ -37,9 +37,9 @@ class Actypes extends \yii\db\ActiveRecord
 
         if (!is_null($q)) {
             $query = new Query();
-            $query->select("code as id, concat(`manufacturer`, ' ',`name`, ' (', `code`, ')') AS text")
+            $query->select(["code AS id", "CONCAT(code, ' - ', manufacturer, ' ', name) AS text"])
                 ->from('actypes')
-                ->where('code LIKE "%' . $q . '%"')
+                ->where("code LIKE '%" . $q . "%'")
                 ->limit(20);
             $command = $query->createCommand();
             $data = $command->queryAll();
