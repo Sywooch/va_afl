@@ -50,6 +50,7 @@ class DefaultController extends Controller
         if(isset($_POST['Booking']))
         {
             $model->attributes=$_POST['Booking'];
+            $model->status = 1;
             $model->save();
             $this->refresh();
         }
