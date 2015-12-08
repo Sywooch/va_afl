@@ -10,6 +10,7 @@ namespace app\commands;
 use app\components\Helper;
 use app\models\Airports;
 use app\models\Booking;
+use app\models\Fleet;
 use app\models\Flights;
 use app\models\Tracker;
 use app\models\Users;
@@ -33,7 +34,9 @@ class ParseController extends Controller
     const WZ_GROUNDSPEED = 8;
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
     const HOLD_TIME = 900;
-
+    const FLIGHT_STATUS_OK = 2;
+    const FLIGHT_STATUS_BREAK = 3;
+    const FLIGHT_STATUS_STARTED = 1;
     public $whazzupdata;
     public $ourpilots;
     public $onlinepilotslist;
@@ -110,15 +113,43 @@ class ParseController extends Controller
         if($this->validateFlight($flight))
         {
             $flight->lastseen = gmdate('Y-m-d H:i:s');
-            $flight->status = 2;
+            $flight->status = self::FLIGHT_STATUS_OK;
             $flight->save();
+            $this->transferPilot($flight);
+            $this->transferCraft($flight);
         }
         else{
             if((gmmktime()-strtotime($flight->lastseen)) > self::HOLD_TIME)
-            $flight->delete();
+            {
+                $flight->lastseen = gmdate('Y-m-d H:i:s');
+                $flight->status = self::FLIGHT_STATUS_BREAK;
+                $flight->save();
+            }
         }
     }
 
+    /**
+     * Перемещает пилота
+     * @param $flight
+     */
+    private function transferPilot($flight)
+    {
+        $user = Users::find()->andWhere(['user_id'=>$flight->user_id])->one();
+        $user->location = $flight->to_icao;
+        $user->save();
+    }
+
+    /**
+     * Перемещает борт
+     * @param $flight
+     */
+    private function transferCraft($flight)
+    {
+        if(!$flight->fleet_regnum) return;
+        $fleet = Fleet::find()->andWhere(['regnum'=>$flight->fleet_regnum])->one();
+        $fleet->location = $flight->to_icao;
+        $fleet->save();
+    }
     /**
      * Валидирует полет. Проверяет, что он завершен в радиусе 10 морских миль от аэродрома назначения.
      * @param $flight
@@ -184,7 +215,7 @@ class ParseController extends Controller
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
         $flight->user_id = $booking->user_id;
-        $flight->status = 1;
+        $flight->status = self::FLIGHT_STATUS_STARTED;
         if($flight->save()){
             $booking->status = 2;
             $booking->save();
