@@ -28,7 +28,7 @@ class Users extends \yii\db\ActiveRecord
      * Перемещает пилота
      */
     public static function transfer($vid, $location){
-        $user = Users::find()->andWhere(['user_id' => $vid])->one();
+        $user = self::find()->andWhere(['user_id' => $vid])->one();
         $user->location = $location;
         $user->save();
     }
