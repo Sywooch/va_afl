@@ -38,4 +38,8 @@ class DefaultController extends Controller
 
         return $this->render('roster',['dataProvider'=>$dataProvider]);
     }
+    public function actionProfile($id)
+    {
+        return $this->render('profile');
+    }
 }
