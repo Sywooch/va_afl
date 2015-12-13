@@ -40,6 +40,8 @@ class DefaultController extends Controller
     }
     public function actionProfile($id)
     {
-        return $this->render('profile');
+        return $this->render('profile',[
+            'user' => Users::find()->andWhere(['vid'=>$id])->one()
+        ]);
     }
 }

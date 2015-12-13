@@ -17,7 +17,7 @@ use app\components\Menu;
                         <?php echo Yii::$app->user->identity->full_name ?>
                         <small>Front end developer</small>
                     </div>
-                    <img src="/img/user-13.jpg" alt="" style="width: 100%"/>
+                    <img src="/img/user-13.jpg" alt="" style="width: 100%;border-bottom: 2px solid #889097;"/>
                 <?php else: ?>
                     <a href="/site/login">
                         <span class="hidden-xs">Login</span>

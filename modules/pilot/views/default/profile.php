@@ -1,3 +1,7 @@
+<?php
+use \app\components\Helper;
+?>
+
 <div class="profile-container">
     <!-- begin profile-section -->
     <div class="profile-section">
@@ -23,14 +27,14 @@
                         <tr>
                             <th></th>
                             <th>
-                                <h2>Василий Пупкин<small>Линейный пилот 1-го класса</small></h2>
+                                <h2><?= $user->full_name;?><small> <?= $user->pilot->rank->name_ru?></small></h2>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td class="field">Ivao ID</td>
-                            <td><i class="fa fa-mobile fa-lg m-r-5"></i>123456</td>
+                            <td><i class="fa fa-mobile fa-lg m-r-5"></i><?= $user->vid;?></td>
                         </tr>
                         <tr>
                             <td class="field">Часов налета</td>
@@ -45,7 +49,7 @@
                         </tr>
                         <tr>
                             <td class="field">Страна</td>
-                            <td>(Тут будет флаг) Россия</td>
+                            <td><img src="<?= Helper::getFlagLink($user->country); ?>"> <?= Helper::getCountryCode($user->country);?></td>
 
                         </tr>
                         <tr>

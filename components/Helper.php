@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BTH
- * Date: 24.09.15
- * Time: 22:01
- */
 namespace app\components;
 
 use yii\base\Component;
+use \app\models\Isocodes;
 
 /**
  * Class Helper
@@ -22,5 +17,10 @@ class Helper extends Component
     public static function getFlagLink($countrycode)
     {
         return "/img/flags/countries/16x11/".strtolower($countrycode).".png";
+    }
+    public static function getCountryCode($countrycode)
+    {
+        $country =Isocodes::find()->where(['code'=>$countrycode])->one();
+        return $country->country;
     }
 }
