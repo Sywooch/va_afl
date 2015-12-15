@@ -1,5 +1,7 @@
 <?php
-use \app\components\Helper;
+use app\components\Helper;
+use yii\helpers\Html;
+use yii\widgets\DetailView;
 ?>
 
 <div class="profile-container">
@@ -20,8 +22,49 @@ use \app\components\Helper;
         <div class="profile-right">
             <!-- begin profile-info -->
             <div class="profile-info">
-                <!-- begin table -->
                 <div class="table-responsive">
+                <!-- begin table -->
+                    <?= DetailView::widget([
+                        'model' => $user,
+                        'options' => ['class' => 'table table-profile'],
+                        'template' => '<tr><td class="field">{label}</td><td>{value}</td>',
+                        'attributes' => [
+                            [
+                                'attribute'=>'',
+                                'format'=>'raw',
+                                'value'=>'<h2>'.$user->full_name.'<small> '.$user->pilot->rank->name_ru.'</small></h2>',
+                            ],
+                            'vid',
+                            [
+                                'attribute'=>'Часов налета',
+                                'format'=>'raw',
+                                'value'=>'575',
+                            ],
+                            [
+                                'attribute'=>'Часов налета за ВАГ',
+                                'format'=>'raw',
+                                'value'=>'310',
+                            ],
+                            [
+                                'attribute'=>'Страна',
+                                'format'=>'raw',
+                                'value'=>'<img src="'.Helper::getFlagLink($user->country).'"> '.Helper::getCountryCode($user->country),
+                            ],
+                            [
+                                'attribute'=>'Город',
+                                'format'=>'raw',
+                                'value'=>'Москва',
+                            ],
+                            [
+                                'attribute'=>'День рождения',
+                                'format'=>'raw',
+                                'value'=>'01.01.1980',
+                            ],
+                        ]
+                    ]) ?>
+                </div>
+
+                <!--<div class="table-responsive">
                     <table class="table table-profile">
                         <thead>
                         <tr>
@@ -61,7 +104,7 @@ use \app\components\Helper;
                             <td>01.01.1970</td>
                         </tr>
                         </tbody>
-                    </table>
+                    </table>--!>
                 </div>
                 <!-- end table -->
             </div>
