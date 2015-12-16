@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Faker\Provider\cs_CZ\DateTime;
 use Yii;
 
 /**
@@ -54,4 +55,21 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Airports::className(),['icao'=>'location']);
     }
+    public function getFlights()
+    {
+        return $this->hasMany('app\models\Flights', ['user_id'=>'user_id']);
+    }
+    public function getHours()
+    {
+        $time = 0;
+        foreach($this->flights as $flight)
+        {
+            $departure = new \DateTime($flight->dep_time);
+            $landing = new \DateTime($flight->landing_time);
+            $diff = $landing->diff($departure)->h;
+            $time += $diff;
+        }
+        return $time;
+    }
+
 }

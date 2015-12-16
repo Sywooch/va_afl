@@ -43,7 +43,7 @@ use yii\widgets\DetailView;
                             [
                                 'attribute'=>'Часов налета за ВАГ',
                                 'format'=>'raw',
-                                'value'=>'310',
+                                'value'=>$user->pilot->hours,
                             ],
                             [
                                 'attribute'=>'Страна',
