@@ -36,7 +36,7 @@ class Users extends \yii\db\ActiveRecord
 	{
 		$scenarios = parent::scenarios();
 		$scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language'];
+		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language','avatar'];
 
 		return $scenarios;
 	}
@@ -53,7 +53,8 @@ class Users extends \yii\db\ActiveRecord
 			[['authKey', 'block_reason'], 'string'],
 			[['created_date', 'last_visited','language'], 'safe'],
 			[['full_name', 'email'], 'string', 'max' => 200],
-			[['country', 'language'], 'string', 'max' => 2]
+			[['country', 'language'], 'string', 'max' => 2],
+			[['avatar'], 'safe'],
 		];
 	}
 
@@ -71,6 +72,7 @@ class Users extends \yii\db\ActiveRecord
 			'language' => Yii::t('user','Language'),
 			'created_date' => 'Created Date',
 			'last_visited' => 'Last Visited',
+			'avatar' => 'Avatar'
 		];
 	}
     public function getPilot()
@@ -81,4 +83,8 @@ class Users extends \yii\db\ActiveRecord
 	{
 		return \app\models\User::findIdentity($id);
 	}
+	public static function getAuthUser()
+   {
+       return self::find()->andWhere(['vid'=>Yii::$app->user->id])->one();
+   }
 }

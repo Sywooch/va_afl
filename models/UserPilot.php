@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Faker\Provider\cs_CZ\DateTime;
 use Yii;
 
 /**
@@ -64,12 +63,13 @@ class UserPilot extends \yii\db\ActiveRecord
         $time = 0;
         foreach($this->flights as $flight)
         {
-            $departure = new \DateTime($flight->dep_time);
-            $landing = new \DateTime($flight->landing_time);
-            $diff = $landing->diff($departure)->h;
-            $time += $diff;
+            $time += strtotime($flight->landing_time) - strtotime($flight->dep_time);
         }
-        return $time;
+        $seconds = $time % 60;
+        $time = ($time - $seconds) / 60;
+        $minutes = $time % 60;
+        $hours = ($time - $minutes) / 60;
+        return $hours.' '.Yii::t('user','Hours').' '.$minutes.' '.Yii::t('user','Minutes');
     }
 
 }

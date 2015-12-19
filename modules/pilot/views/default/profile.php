@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
         <div class="profile-left">
             <!-- begin profile-image -->
             <div class="profile-image">
-                <img src="/img/profile-cover.jpg" />
+                <img src="/img/avatars/<?= $user->avatar?>" />
                 <i class="fa fa-user hide"></i>
             </div>
             Фотку с профиля
@@ -64,48 +64,7 @@ use yii\widgets\DetailView;
                     ]) ?>
                 </div>
 
-                <!--<div class="table-responsive">
-                    <table class="table table-profile">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>
-                                <h2><?= $user->full_name;?><small> <?= $user->pilot->rank->name_ru?></small></h2>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="field">Ivao ID</td>
-                            <td><i class="fa fa-mobile fa-lg m-r-5"></i><?= $user->vid;?></td>
-                        </tr>
-                        <tr>
-                            <td class="field">Часов налета</td>
-                            <td>575</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td class="field">Часов налета за ВАГ</td>
-                            <td><a href="#"></a>310</td>
-                        </tr>
-                        <tr class="divider">
-                            <td colspan="2"></td>
-                        </tr>
-                        <tr>
-                            <td class="field">Страна</td>
-                            <td><img src="<?= Helper::getFlagLink($user->country); ?>"> <?= Helper::getCountryCode($user->country);?></td>
 
-                        </tr>
-                        <tr>
-                            <td class="field">Город</td>
-                            <td>Москва</td>
-                        </tr>
-                        <tr>
-                            <td class="field">Birthdate</td>
-                            <td>01.01.1970</td>
-                        </tr>
-                        </tbody>
-                    </table>--!>
-                </div>
                 <!-- end table -->
             </div>
             <!-- end profile-info -->

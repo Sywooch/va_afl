@@ -11,7 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $booking_id
  * @property string $first_seen
- * @property string $lastseen
+ * @property string $last_seen
  * @property string $from_icao
  * @property string $to_icao
  * @property string $flightplan
@@ -47,7 +47,7 @@ class Flights extends \yii\db\ActiveRecord
             [['user_id', 'booking_id', 'sim', 'pob', 'status'], 'integer'],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
-            [['dep_time', 'eet', 'landing_time', 'sim'], 'required'],
+            [['eet', 'sim'], 'required'],
             [['from_icao', 'to_icao', 'alternate1', 'alternate2'], 'string', 'max' => 5],
             [['acf_type', 'fleet_regnum'], 'string', 'max' => 10]
         ];

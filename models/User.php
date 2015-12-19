@@ -29,6 +29,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
 	public $blocked_by;
 	public $language;
 	public $created_date;
+	public $avatar;
 
 	/**
 	 * @inheritdoc
@@ -100,6 +101,8 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
 		return $this->vid;
 	}
+
+
 
 	/**
      * @inheritdoc
