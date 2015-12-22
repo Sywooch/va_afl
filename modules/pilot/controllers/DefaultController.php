@@ -2,6 +2,8 @@
 
 namespace app\modules\pilot\controllers;
 
+use app\models\Flights;
+use app\models\UserPilot;
 use app\models\Users;
 use yii\data\ActiveDataProvider;
 use yii\helpers\VarDumper;
@@ -19,20 +21,30 @@ class DefaultController extends Controller
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
-           'query'=>Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere('active=1')
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere('active=1')
         ]);
-        $dataProvider->sort->attributes['pilot.location']= ['asc'=>['user_pilot.location'=>SORT_ASC],'desc'=>['user_pilot.location'=>SORT_DESC]];
-        $dataProvider->sort->attributes['pilot.rank.name_en']= ['asc'=>['ranks.name_en'=>SORT_ASC],'desc'=>['ranks.name_en'=>SORT_DESC]];
-        $dataProvider->sort->attributes['pilot.rank.name_ru']= ['asc'=>['ranks.name_ru'=>SORT_ASC],'desc'=>['ranks.name_ru'=>SORT_DESC]];
+        $dataProvider->sort->attributes['pilot.location'] = ['asc' => ['user_pilot.location' => SORT_ASC], 'desc' => ['user_pilot.location' => SORT_DESC]];
+        $dataProvider->sort->attributes['pilot.rank.name_en'] = ['asc' => ['ranks.name_en' => SORT_ASC], 'desc' => ['ranks.name_en' => SORT_DESC]];
+        $dataProvider->sort->attributes['pilot.rank.name_ru'] = ['asc' => ['ranks.name_ru' => SORT_ASC], 'desc' => ['ranks.name_ru' => SORT_DESC]];
 
-        return $this->render('roster',['dataProvider'=>$dataProvider]);
+        return $this->render('roster', ['dataProvider' => $dataProvider]);
     }
+
     public function actionProfile($id)
     {
-        return $this->render('profile',[
-            'user' => Users::find()->andWhere(['vid'=>$id])->one()
+        $user = Users::find()->andWhere(['vid' => $id])->one();
+        $flightsProvider = new ActiveDataProvider([
+            'query' => Flights::find()->where(['user_id' => $user->vid]),
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+        return $this->render('profile', [
+            'user' => Users::find()->andWhere(['vid' => $id])->one(),
+            'flightsProvider' => $flightsProvider
         ]);
     }
+
     public function actionEdit($id)
     {
         if (!$id) {
@@ -48,16 +60,15 @@ class DefaultController extends Controller
 
         if ($user->load(Yii::$app->request->post())) {
             if ($user->avatar = UploadedFile::getInstance($user, 'avatar')) {
-                if (in_array($user->avatar->extension, ['gif', 'png','jpg'])) {
+                if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
                     $dir = Yii::getAlias('@app/web/img/avatars/');
                     $extension = $user->avatar->extension;
                     $user->avatar->name = md5($user->avatar->baseName);
-                    $user->avatar->saveAs($dir . $user->avatar->name . "." .$extension);
+                    $user->avatar->saveAs($dir . $user->avatar->name . "." . $extension);
                     $user->avatar = $user->avatar->name . "." . $extension;
                 }
             }
-            if(!$user->validate())
-            {
+            if (!$user->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();

@@ -41,35 +41,39 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'location' => Yii::t('app','Location'),
+            'location' => Yii::t('app', 'Location'),
             'active' => 'Active',
             'rank_id' => 'Rank ID',
         ];
     }
+
     public function getRank()
     {
-        return $this->hasOne(Ranks::className(),['id'=>'rank_id']);
+        return $this->hasOne(Ranks::className(), ['id' => 'rank_id']);
     }
+
     public function getAirport()
     {
-        return $this->hasOne(Airports::className(),['icao'=>'location']);
+        return $this->hasOne(Airports::className(), ['icao' => 'location']);
     }
+
     public function getFlights()
     {
-        return $this->hasMany('app\models\Flights', ['user_id'=>'user_id']);
+        return $this->hasMany('app\models\Flights', ['user_id' => 'user_id']);
     }
-    public function getHours()
+
+    public function getLastFlights($num)
+    {
+        return Flights::find()->where(['user_id' => 'user_id'])->$num;
+    }
+
+    public function getTime()
     {
         $time = 0;
-        foreach($this->flights as $flight)
-        {
+        foreach ($this->flights as $flight) {
             $time += strtotime($flight->landing_time) - strtotime($flight->dep_time);
         }
-        $seconds = $time % 60;
-        $time = ($time - $seconds) / 60;
-        $minutes = $time % 60;
-        $hours = ($time - $minutes) / 60;
-        return $hours.' '.Yii::t('user','Hours').' '.$minutes.' '.Yii::t('user','Minutes');
+        return $time;
     }
 
 }

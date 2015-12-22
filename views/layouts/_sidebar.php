@@ -6,6 +6,8 @@
  * Time: 18:36
  */
 use app\components\Menu;
+use app\models\Users;
+use yii\helpers\Html;
 
 ?>
 <div id="sidebar" class="sidebar">
@@ -17,7 +19,10 @@ use app\components\Menu;
                         <?php echo Yii::$app->user->identity->full_name ?>
                         <small>Front end developer</small>
                     </div>
-                    <img src="/img/user-13.jpg" alt="" style="width: 100%;border-bottom: 2px solid #889097;"/>
+                    <?php $user = Users::getAuthUser();
+                    if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
+                        echo Html::img('/img/avatars/' . $user->avatar,['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                    } ?>
                 <?php else: ?>
                     <a href="/site/login">
                         <span class="hidden-xs">Login</span>
