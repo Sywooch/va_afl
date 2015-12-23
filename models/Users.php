@@ -36,7 +36,7 @@ class Users extends \yii\db\ActiveRecord
 	{
 		$scenarios = parent::scenarios();
 		$scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language','avatar'];
+		$scenarios[self::SCENARIO_EDIT] = ['vid', 'email','language'];
 
 		return $scenarios;
 	}

@@ -34,10 +34,9 @@ class DefaultController extends Controller
     {
         $user = Users::find()->andWhere(['vid' => $id])->one();
         $flightsProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['user_id' => $user->vid]),
-            'pagination' => [
-                'pageSize' => 5,
-            ],
+            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
+            'sort' => false,
+            'pagination' => false,
         ]);
         return $this->render('profile', [
             'user' => Users::find()->andWhere(['vid' => $id])->one(),
@@ -59,7 +58,8 @@ class DefaultController extends Controller
 
 
         if ($user->load(Yii::$app->request->post())) {
-            if ($user->avatar = UploadedFile::getInstance($user, 'avatar')) {
+            if (UploadedFile::getInstance($user, 'avatar')) {
+                $user->avatar = UploadedFile::getInstance($user, 'avatar');
                 if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
                     $dir = Yii::getAlias('@app/web/img/avatars/');
                     $extension = $user->avatar->extension;

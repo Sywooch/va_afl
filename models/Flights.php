@@ -49,7 +49,7 @@ class Flights extends \yii\db\ActiveRecord
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim'], 'required'],
             [['from_icao', 'to_icao', 'alternate1', 'alternate2'], 'string', 'max' => 5],
-            [['acf_type', 'fleet_regnum'], 'string', 'max' => 10]
+            [['acf_type', 'fleet_regnum','callsign'], 'string', 'max' => 10]
         ];
     }
 
@@ -62,11 +62,12 @@ class Flights extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'booking_id' => 'Booking ID',
+            'callsign' => Yii::t('flights','Callsign'),
             'first_seen' => 'First Seen',
             'last_seen' => 'Last Seen',
-            'from_icao' => 'From Icao',
-            'to_icao' => 'To Icao',
-            'flightplan' => 'Flightplan',
+            'from_icao' => Yii::t('flights','From ICAO'),
+            'to_icao' => Yii::t('flights','To ICAO'),
+            'flightplan' => Yii::t('flights','Flightplan'),
             'remarks' => 'Remarks',
             'dep_time' => 'Dep Time',
             'eet' => 'Eet',
@@ -74,7 +75,7 @@ class Flights extends \yii\db\ActiveRecord
             'sim' => 'Sim',
             'fob' => 'Fob',
             'pob' => 'Pob',
-            'acf_type' => 'Acf Type',
+            'acf_type' => Yii::t('flights','Acf Type'),
             'fleet_regnum' => 'Fleet Regnum',
             'status' => 'Status',
             'alternate1' => 'Alternate1',

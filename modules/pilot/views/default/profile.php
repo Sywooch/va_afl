@@ -126,44 +126,28 @@ use yii\grid\GridView;
                     <!-- begin table -->
                     <?= GridView::widget([
                         'dataProvider' => $flightsProvider,
+                        'layout' => '{items}{pager}',
                         'options' => ['class' => 'table table-condensed'],
                         'columns' => [
+                            'callsign',
                             'acf_type',
-                            'dep_time:datetime',
-                            'landing_time:datetime'
+                            [
+                                'attribute' => 'from_to',
+                                'label' => Yii::t('flights','Route'),
+                                'value' => function ($data) {
+                                    return $data->from_icao . '-' . $data->to_icao;
+                                },
+                            ],
+                            [
+                                'attribute' => 'flight_time',
+                                'label' => Yii::t('flights','Flight Time'),
+                                'value' => function ($data) {
+                                    return Helper::getTimeFormatted(strtotime($data->landing_time) - strtotime($data->dep_time));
+                                }
+                            ]
+
                         ],
                     ]) ?>
-                    <!--<table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th>Самолет</th>
-                            <th>Маршрут</th>
-                            <th>Время в пути</th>
-                            <th>Дата</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="col-md-1 p-r-5">
-                                Тут будет иконка самолета
-                            </td>
-                            <td>
-                                UUDD-URSS
-                            </td>
-                            <td>5 часов 32 минуты</td>
-                            <td>11.12.2015</td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-1 p-r-5">
-                                <i class="fa fa-plane fa-lg"></i>
-                            </td>
-                            <td>
-                                URSS-UUDD
-                            </td>
-                            <td>18 часов</td>
-                            <td>15.12.2045</td>
-                        </tr>
-                    </table>-->
                     <!-- end table -->
                 </div>
                 <!-- end scrollbar -->
