@@ -25,23 +25,6 @@ class Users extends \yii\db\ActiveRecord
     const SCENARIO_EDIT = 'editprofile';
 
     /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'users';
-    }
-
-    public function scenarios()
-    {
-        $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language'];
-
-        return $scenarios;
-    }
-
-    /**
      * Перемещает пилота
      */
     public static function transfer($vid, $location)
