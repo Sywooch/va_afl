@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "fleet".
@@ -29,6 +31,24 @@ class Fleet extends \yii\db\ActiveRecord
         $fleet = self::find()->andWhere(['regnum' => $regnum])->one();
         $fleet->location = $location;
         $fleet->save();
+    }
+
+    public static function getForBooking(){
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $ids = $_POST['depdrop_parents'];
+            $acftype = empty($ids[0]) ? null : $ids[0];
+            if ($acftype != null) {
+                foreach (Fleet::find()->andWhere(['type_code' => $acftype])->
+                             andWhere(['location' => Users::getAuthUser()->pilot->location])->asArray()->all(
+                             ) as $data) {
+                    $out[] = ['id' => $data['id'], 'name' => $data['regnum']];
+                }
+                return Json::encode(['output' => $out, 'selected' => '']);
+                return;
+            }
+        }
+        return Json::encode(['output' => '', 'selected' => '']);
     }
 
     /**
