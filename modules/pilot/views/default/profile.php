@@ -7,27 +7,47 @@ use yii\grid\GridView;
 ?>
 
 <div class="profile-container">
-    <!-- begin profile-section -->
-    <div class="profile-section">
-        <!-- begin profile-left -->
-        <div class="profile-left">
-            <!-- begin profile-image -->
-            <?php if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-                echo Html::beginTag('div', ['class' => 'profile-image']);
-                echo Html::img('/img/avatars/' . $user->avatar);
-                echo Html::tag('i', '', ['class' => 'fa fa-user hide']);
-                echo Html::endTag('div');
-            } ?>
-            <!-- end profile-image -->
+<!-- begin profile-section -->
+<div class="profile-section">
+    <!-- begin profile-left -->
+    <div class="profile-left">
+        <!-- begin profile-image -->
+        <?php if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
+            echo Html::beginTag('div', ['class' => 'profile-image']);
+            echo Html::img('/img/avatars/' . $user->avatar);
+            echo Html::tag('i', '', ['class' => 'fa fa-user hide']);
+            echo Html::endTag('div');
+        } ?>
+        <div class="">
+            <ul class="list-group nopoints">
+                <li class="list-group-item list-group-item-success">
+                    Active
+                </li>
+                <li class="list-group-item list-group-item-warning">
+                    Supervisor
+                </li>
+                <li class="list-group-item list-group-item">
+                    Examiner
+                </li>
+                <li class="list-group-item list-group-item">
+                    Trainer
+                </li>
+                <li class="list-group-item list-group-item">
+                    <a href="">Board of Directors Member</a>
+                </li>
+            </ul>
         </div>
-        <!-- end profile-left -->
-        <!-- begin profile-right -->
-        <div class="profile-right">
-            <!-- begin profile-info -->
-            <div class="profile-info">
-                <div class="table-responsive">
-                    <!-- begin table -->
-                    <?= DetailView::widget([
+    </div>
+    <!-- end profile-left -->
+    <!-- begin profile-right -->
+    <div class="profile-right">
+        <!-- begin profile-info -->
+        <div class="profile-info">
+            <div class="table-responsive">
+                <!-- begin table -->
+                <?=
+                DetailView::widget(
+                    [
                         'model' => $user,
                         'options' => ['class' => 'table table-profile'],
                         'template' => '<tr><td class="field">{label}</td><td>{value}</td>',
@@ -51,7 +71,9 @@ use yii\grid\GridView;
                             [
                                 'attribute' => 'Страна',
                                 'format' => 'raw',
-                                'value' => '<img src="' . Helper::getFlagLink($user->country) . '"> ' . Helper::getCountryCode($user->country),
+                                'value' => '<img src="' . Helper::getFlagLink(
+                                        $user->country
+                                    ) . '"> ' . Helper::getCountryCode($user->country),
                             ],
                             [
                                 'attribute' => 'Город',
@@ -64,67 +86,73 @@ use yii\grid\GridView;
                                 'value' => '01.01.1980',
                             ],
                         ]
-                    ]) ?>
-                </div>
-
-
-                <!-- end table -->
+                    ]
+                ) ?>
             </div>
-            <!-- end profile-info -->
+
+
+            <!-- end table -->
         </div>
-        <!-- end profile-right -->
+        <!-- end profile-info -->
     </div>
-    <!-- end profile-section -->
-    <!-- begin profile-section -->
-    <div class="profile-section">
-        <!-- begin row -->
-        <div class="row">
-            <!-- begin col-4 -->
-            <div class="col-md-4">
-                <h4 class="title">Сообщения</h4>
-                <!-- begin scrollbar -->
-                <div data-scrollbar="true" data-height="280px" class="bg-silver">
-                    <!-- begin chats -->
-                    <ul class="chats">
-                        <li class="left">
-                            <span class="date-time">yesterday 11:23pm</span>
-                            <a href="javascript:;" class="name">Sowse Bawdy</a>
-                            <a href="javascript:;" class="image"><img alt="" src="/img/user-12.jpg"></a>
-                            <div class="message">
-                                Личные сообщения (лучше с форума)
-                            </div>
-                        </li>
-                        <li class="right">
-                            <span class="date-time">08:12am</span>
-                            <a href="#" class="name"><span class="label label-primary">ADMIN</span> Me</a>
-                            <a href="javascript:;" class="image"><img alt="" src="/img/user-13.jpg"></a>
-                            <div class="message">
-                                Отвечаем
-                            </div>
-                        </li>
-                        <li class="left">
-                            <span class="date-time">09:20am</span>
-                            <a href="#" class="name">Neck Jolly</a>
-                            <a href="javascript:;" class="image"><img alt="" src="/img/user-10.jpg"></a>
-                            <div class="message">
-                                Смотрится неплохо
-                            </div>
-                        </li>
-                    </ul>
-                    <!-- end chats -->
-                </div>
-                <!-- end scrollbar -->
+    <!-- end profile-right -->
+</div>
+<!-- end profile-section -->
+<!-- begin profile-section -->
+<div class="profile-section">
+    <!-- begin row -->
+    <div class="row">
+        <!-- begin col-4 -->
+        <div class="col-md-4">
+            <h4 class="title">Сообщения</h4>
+            <!-- begin scrollbar -->
+            <div data-scrollbar="true" data-height="280px" class="bg-silver">
+                <!-- begin chats -->
+                <ul class="chats">
+                    <li class="left">
+                        <span class="date-time">yesterday 11:23pm</span>
+                        <a href="javascript:;" class="name">Sowse Bawdy</a>
+                        <a href="javascript:;" class="image"><img alt="" src="/img/user-12.jpg"></a>
+
+                        <div class="message">
+                            Личные сообщения (лучше с форума)
+                        </div>
+                    </li>
+                    <li class="right">
+                        <span class="date-time">08:12am</span>
+                        <a href="#" class="name"><span class="label label-primary">ADMIN</span> Me</a>
+                        <a href="javascript:;" class="image"><img alt="" src="/img/user-13.jpg"></a>
+
+                        <div class="message">
+                            Отвечаем
+                        </div>
+                    </li>
+                    <li class="left">
+                        <span class="date-time">09:20am</span>
+                        <a href="#" class="name">Neck Jolly</a>
+                        <a href="javascript:;" class="image"><img alt="" src="/img/user-10.jpg"></a>
+
+                        <div class="message">
+                            Смотрится неплохо
+                        </div>
+                    </li>
+                </ul>
+                <!-- end chats -->
             </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-4">
-                <h4 class="title">Последние полеты
-                    <small> как вариант</small>
-                </h4>
-                <!-- begin scrollbar -->
-                <div data-scrollbar="true" data-height="280px" class="bg-silver">
-                    <!-- begin table -->
-                    <?= GridView::widget([
+            <!-- end scrollbar -->
+        </div>
+        <!-- end col-4 -->
+        <!-- begin col-4 -->
+        <div class="col-md-4">
+            <h4 class="title">Последние полеты
+                <small> как вариант</small>
+            </h4>
+            <!-- begin scrollbar -->
+            <div data-scrollbar="true" data-height="280px" class="bg-silver">
+                <!-- begin table -->
+                <?=
+                GridView::widget(
+                    [
                         'dataProvider' => $flightsProvider,
                         'layout' => '{items}{pager}',
                         'options' => ['class' => 'table table-condensed'],
@@ -133,55 +161,57 @@ use yii\grid\GridView;
                             'acf_type',
                             [
                                 'attribute' => 'from_to',
-                                'label' => Yii::t('flights','Route'),
+                                'label' => Yii::t('flights', 'Route'),
                                 'value' => function ($data) {
-                                    return $data->from_icao . '-' . $data->to_icao;
-                                },
+                                        return $data->from_icao . '-' . $data->to_icao;
+                                    },
                             ],
                             [
                                 'attribute' => 'flight_time',
-                                'label' => Yii::t('flights','Flight Time'),
+                                'label' => Yii::t('flights', 'Flight Time'),
                                 'value' => function ($data) {
-                                    return Helper::getTimeFormatted(strtotime($data->landing_time) - strtotime($data->dep_time));
-                                }
+                                        return Helper::getTimeFormatted(
+                                            strtotime($data->landing_time) - strtotime($data->dep_time)
+                                        );
+                                    }
                             ]
-
                         ],
-                    ]) ?>
-                    <!-- end table -->
-                </div>
-                <!-- end scrollbar -->
+                    ]
+                ) ?>
+                <!-- end table -->
             </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-4">
-                <h4 class="title">Здесь будет что-то
-                    <small>возможно</small>
-                </h4>
-                <!-- begin scrollbar -->
-                <div data-scrollbar="true" data-height="280px" class="bg-silver">
-                    <!-- begin todolist -->
-                    <ul class="todolist">
-                        <li class="active">
-                            <a href="javascript:;" class="todolist-container active" data-click="todolist">
-                                <div class="todolist-input"><i class="fa fa-square-o"></i></div>
-                                <div class="todolist-title">Что-то уже сделано</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" class="todolist-container" data-click="todolist">
-                                <div class="todolist-input"><i class="fa fa-square-o"></i></div>
-                                <div class="todolist-title">А что-то еще нет</div>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- end todolist -->
-                </div>
-                <!-- end scrollbar -->
-            </div>
-            <!-- end col-4 -->
+            <!-- end scrollbar -->
         </div>
-        <!-- end row -->
+        <!-- end col-4 -->
+        <!-- begin col-4 -->
+        <div class="col-md-4">
+            <h4 class="title">Здесь будет что-то
+                <small>возможно</small>
+            </h4>
+            <!-- begin scrollbar -->
+            <div data-scrollbar="true" data-height="280px" class="bg-silver">
+                <!-- begin todolist -->
+                <ul class="todolist">
+                    <li class="active">
+                        <a href="javascript:;" class="todolist-container active" data-click="todolist">
+                            <div class="todolist-input"><i class="fa fa-square-o"></i></div>
+                            <div class="todolist-title">Что-то уже сделано</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="todolist-container" data-click="todolist">
+                            <div class="todolist-input"><i class="fa fa-square-o"></i></div>
+                            <div class="todolist-title">А что-то еще нет</div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- end todolist -->
+            </div>
+            <!-- end scrollbar -->
+        </div>
+        <!-- end col-4 -->
     </div>
-    <!-- end profile-section -->
+    <!-- end row -->
+</div>
+<!-- end profile-section -->
 </div>

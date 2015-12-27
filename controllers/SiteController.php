@@ -52,22 +52,31 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-	public function actionLogin($IVAOTOKEN = null)
-	{
-		if (!\Yii::$app->user->isGuest) {
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
+        }
+    }
+
+    public function actionLogin($IVAOTOKEN = null)
+    {
+        if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-		if (!$IVAOTOKEN) {
-			return $this->redirect(Yii::$app->params['ivao_login_url']);
-		}
-		$model = new IvaoLogin;
-		$model->login($IVAOTOKEN);
-		$this->redirect(Yii::$app->user->returnUrl);
+        if (!$IVAOTOKEN) {
+            return $this->redirect(Yii::$app->params['ivao_login_url']);
+        }
+        $model = new IvaoLogin;
+        $model->login($IVAOTOKEN);
+        $this->redirect(Yii::$app->user->returnUrl);
 
-		return 1;
-	}
+        return 1;
+    }
 
-	public function actionLogout()
+    public function actionLogout()
     {
         Yii::$app->user->logout();
 
@@ -82,9 +91,12 @@ class SiteController extends Controller
 
             return $this->refresh();
         }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
+        return $this->render(
+            'contact',
+            [
+                'model' => $model,
+            ]
+        );
     }
 
     public function actionAbout()

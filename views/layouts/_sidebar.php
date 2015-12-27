@@ -23,10 +23,6 @@ use yii\helpers\Html;
                     if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
                         echo Html::img('/img/avatars/' . $user->avatar,['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
                     } ?>
-                <?php else: ?>
-                    <a href="/site/login">
-                        <span class="hidden-xs">Login</span>
-                    </a>
                 <?php endif; ?>
             </li>
         </ul>
@@ -35,8 +31,8 @@ use yii\helpers\Html;
             [
                 'items' => [
                     [
-                        'name' => Yii::t('app', 'Pilot center'),
-                        'url' => \yii\helpers\Url::to('/pilot/profile'),
+                        'name' => Yii::t('app', 'Pilot Center'),
+                        'url' => \yii\helpers\Url::to('/pilot/center'),
                         'icon' => 'fa-globe'
                     ],
                     [

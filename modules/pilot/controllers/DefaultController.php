@@ -23,39 +23,73 @@ class DefaultController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere('active=1')
         ]);
-        $dataProvider->sort->attributes['pilot.location'] = ['asc' => ['user_pilot.location' => SORT_ASC], 'desc' => ['user_pilot.location' => SORT_DESC]];
-        $dataProvider->sort->attributes['pilot.rank.name_en'] = ['asc' => ['ranks.name_en' => SORT_ASC], 'desc' => ['ranks.name_en' => SORT_DESC]];
-        $dataProvider->sort->attributes['pilot.rank.name_ru'] = ['asc' => ['ranks.name_ru' => SORT_ASC], 'desc' => ['ranks.name_ru' => SORT_DESC]];
+
+        $dataProvider->sort->attributes['pilot.location'] = [
+            'asc' => ['user_pilot.location' => SORT_ASC],
+            'desc' => ['user_pilot.location' => SORT_DESC]
+        ];
+        $dataProvider->sort->attributes['pilot.rank.name_en'] = [
+            'asc' => ['ranks.name_en' => SORT_ASC],
+            'desc' => ['ranks.name_en' => SORT_DESC]
+        ];
+        $dataProvider->sort->attributes['pilot.rank.name_ru'] = [
+            'asc' => ['ranks.name_ru' => SORT_ASC],
+            'desc' => ['ranks.name_ru' => SORT_DESC]
+        ];
 
         return $this->render('roster', ['dataProvider' => $dataProvider]);
     }
 
     public function actionProfile($id)
     {
-        $user = Users::find()->andWhere(['vid' => $id])->one();
+        if (Yii::$app->user->identity->vid == $id) {
+            throw new \yii\web\ForbiddenHttpException(Yii::t('app', 'You unable to view your profile'));
+        } else {
+            $user = Users::find()->andWhere(['vid' => $id])->one();
+
+            $flightsProvider = new ActiveDataProvider([
+                'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
+                'sort' => false,
+                'pagination' => false,
+            ]);
+
+            return $this->render(
+                'profile',
+                [
+                    'user' => $user,
+                    'flightsProvider' => $flightsProvider
+                ]
+            );
+        }
+    }
+
+    public function actionCenter()
+    {
+        $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
+
         $flightsProvider = new ActiveDataProvider([
             'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
             'sort' => false,
             'pagination' => false,
         ]);
-        return $this->render('profile', [
-            'user' => Users::find()->andWhere(['vid' => $id])->one(),
-            'flightsProvider' => $flightsProvider
-        ]);
+
+        return $this->render(
+            'center',
+            [
+                'user' => $user,
+                'flightsProvider' => $flightsProvider
+            ]
+        );
     }
 
     public function actionEdit($id)
     {
-        if (!$id) {
-            $user = Users::getAuthUser();
-        } else {
-            $user = Users::find()->andWhere(['vid' => $id])->one();
-            if (!$user) {
-                throw new \yii\web\HttpException(404, 'User not found');
-            }
+        $user = Users::find()->andWhere(['vid' => $id])->one();
+        if (!$user) {
+            throw new \yii\web\HttpException(404, 'User not found');
         }
-        $user->scenario = Users::SCENARIO_EDIT;
 
+        $user->scenario = Users::SCENARIO_EDIT;
 
         if ($user->load(Yii::$app->request->post())) {
             if (UploadedFile::getInstance($user, 'avatar')) {
@@ -68,10 +102,13 @@ class DefaultController extends Controller
                     $user->avatar = $user->avatar->name . "." . $extension;
                 }
             }
+
             if (!$user->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
             }
+
             $user->save();
+
             return $this->redirect(['profile', 'id' => $user->vid]);
         } else {
             return $this->render('edit', ['user' => $user]);
