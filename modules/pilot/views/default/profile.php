@@ -12,12 +12,17 @@ use yii\grid\GridView;
     <!-- begin profile-left -->
     <div class="profile-left">
         <!-- begin profile-image -->
-        <?php if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-            echo Html::beginTag('div', ['class' => 'profile-image']);
+        <?= Html::beginTag('div', ['class' => 'profile-image']) ?>
+
+        <?php
+        if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
             echo Html::img('/img/avatars/' . $user->avatar);
-            echo Html::tag('i', '', ['class' => 'fa fa-user hide']);
-            echo Html::endTag('div');
+        } else {
+            echo Html::img('/img/avatars/default.png');
         } ?>
+
+        <?= Html::tag('i', '', ['class' => 'fa fa-user hide']) ?>
+        <?= Html::endTag('div') ?>
         <div class="">
             <ul class="list-group nopoints">
                 <li class="list-group-item list-group-item-success">
