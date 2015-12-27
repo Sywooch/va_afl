@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "flights".
@@ -30,6 +31,34 @@ use Yii;
  */
 class Flights extends \yii\db\ActiveRecord
 {
+    public function search($params, $id = 0)
+    {
+        if ($id == 0) {
+            $query = self::find();
+        } else {
+            $query = self::find()->where(['user_id' => $id]);
+        }
+
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->session->get(get_parent_class($this) . 'Pagination'),
+            ],
+        ]);
+
+        if (!($this->load($params))) {
+            return $dataProvider;
+        }
+
+        $query->andFilterWhere(['like', 'callsign', $this->callsign])->
+            andFilterWhere(['like', 'from_icao', $this->from_icao])->
+            andFilterWhere(['like', 'to_icao', $this->from_icao])->
+            andFilterWhere(['like', 'acf_type', $this->acf_type]);
+        return $dataProvider;
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -49,7 +78,7 @@ class Flights extends \yii\db\ActiveRecord
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim'], 'required'],
             [['from_icao', 'to_icao', 'alternate1', 'alternate2'], 'string', 'max' => 5],
-            [['acf_type', 'fleet_regnum','callsign'], 'string', 'max' => 10]
+            [['acf_type', 'fleet_regnum', 'callsign'], 'string', 'max' => 10]
         ];
     }
 
@@ -62,12 +91,12 @@ class Flights extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'booking_id' => 'Booking ID',
-            'callsign' => Yii::t('flights','Callsign'),
+            'callsign' => Yii::t('flights', 'Callsign'),
             'first_seen' => 'First Seen',
             'last_seen' => 'Last Seen',
-            'from_icao' => Yii::t('flights','From ICAO'),
-            'to_icao' => Yii::t('flights','To ICAO'),
-            'flightplan' => Yii::t('flights','Flightplan'),
+            'from_icao' => Yii::t('flights', 'From ICAO'),
+            'to_icao' => Yii::t('flights', 'To ICAO'),
+            'flightplan' => Yii::t('flights', 'Flightplan'),
             'remarks' => 'Remarks',
             'dep_time' => 'Dep Time',
             'eet' => 'Eet',
@@ -75,7 +104,7 @@ class Flights extends \yii\db\ActiveRecord
             'sim' => 'Sim',
             'fob' => 'Fob',
             'pob' => 'Pob',
-            'acf_type' => Yii::t('flights','Acf Type'),
+            'acf_type' => Yii::t('flights', 'Acf Type'),
             'fleet_regnum' => 'Fleet Regnum',
             'status' => 'Status',
             'alternate1' => 'Alternate1',

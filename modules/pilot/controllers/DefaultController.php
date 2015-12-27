@@ -82,6 +82,24 @@ class DefaultController extends Controller
         );
     }
 
+    public function actionFlights($id){
+        $model = new Flights;
+        $params = \Yii::$app->request->get();
+
+        $provider = $model->search($params, $id);
+        $provider->pagination = ['pageSize' => 100];
+        $provider->sort->defaultOrder = ['id' => SORT_ASC];
+
+        return $this->render(
+            'flights',
+            [
+                'id' => $id,
+                'dataProvider' => $provider,
+                'model' => $model
+            ]
+        );
+    }
+
     public function actionEdit($id)
     {
         $user = Users::find()->andWhere(['vid' => $id])->one();

@@ -44,8 +44,8 @@ use yii\helpers\Html;
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
                             ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
-                            ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance')],
-                            ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights')],
+                            ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance/'.Yii::$app->user->identity->vid)],
+                            ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights/'.Yii::$app->user->identity->vid)],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
                         ],
                         'icon' => 'fa-bar-chart'
