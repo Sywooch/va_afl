@@ -58,24 +58,23 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'vid' => 'Vid',
-            'full_name' => Yii::t('user', 'Full Name'),
-            'email' => 'Email',
-            'country' => Yii::t('user', 'Country'),
-            'authKey' => 'Auth Key',
-            'language' => Yii::t('user', 'Language'),
-            'created_date' => 'Created Date',
-            'last_visited' => 'Last Visited',
-            'avatar' => 'Avatar'
-        ];
-    }
-
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'vid' => 'IVAO ID',
+			'full_name' => Yii::t('user','Full Name'),
+			'email' => 'Email',
+			'country' => Yii::t('user','Country'),
+			'authKey' => 'Auth Key',
+			'language' => Yii::t('user','Language'),
+			'created_date' => 'Created Date',
+			'last_visited' => 'Last Visited',
+			'avatar' => 'Avatar'
+		];
+	}
     public function getPilot()
     {
         return $this->hasOne(UserPilot::className(), ['user_id' => 'vid']);

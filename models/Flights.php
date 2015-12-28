@@ -111,4 +111,9 @@ class Flights extends \yii\db\ActiveRecord
             'alternate2' => 'Alternate2',
         ];
     }
+
+    public function getDepAirport($icao)
+    {
+        return $this->hasMany('app\models\Airports', ['icao' => $icao]);
+    }
 }

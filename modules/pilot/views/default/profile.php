@@ -1,6 +1,7 @@
 <?php
 use app\components\Helper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 
@@ -63,11 +64,6 @@ use yii\grid\GridView;
                                 'value' => '<h2>' . $user->full_name . '<small> ' . $user->pilot->rank->name_ru . '</small></h2>',
                             ],
                             'vid',
-                            [
-                                'attribute' => 'Часов налета',
-                                'format' => 'raw',
-                                'value' => '575',
-                            ],
                             [
                                 'attribute' => 'Часов налета за ВАГ',
                                 'format' => 'raw',
@@ -162,14 +158,22 @@ use yii\grid\GridView;
                         'layout' => '{items}{pager}',
                         'options' => ['class' => 'table table-condensed'],
                         'columns' => [
-                            'callsign',
+                            [
+                                'attribute' => 'callsign',
+                                'label' => Yii::t('flights', 'Callsign'),
+                                'format' => 'raw',
+                                'value' => function ($data) {
+                                    return Html::a(Html::encode($data->callsign), Url::to(['/airline/flights/view/', 'id' => $data->id]));
+                                },
+                            ],
                             'acf_type',
                             [
                                 'attribute' => 'from_to',
                                 'label' => Yii::t('flights', 'Route'),
+                                'format' => 'raw',
                                 'value' => function ($data) {
-                                        return $data->from_icao . '-' . $data->to_icao;
-                                    },
+                                    return Html::a(Html::encode($data->from_icao), Url::to(['/airline/airports/view/', 'id' => $data->from_icao])) . '-' . Html::a(Html::encode($data->to_icao), Url::to(['/airline/airports/view/', 'id' => $data->to_icao]));
+                                },
                             ],
                             [
                                 'attribute' => 'flight_time',

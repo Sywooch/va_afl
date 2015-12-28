@@ -42,25 +42,21 @@ class DefaultController extends Controller
 
     public function actionProfile($id)
     {
-        if (Yii::$app->user->identity->vid == $id) {
-            throw new \yii\web\ForbiddenHttpException(Yii::t('app', 'You unable to view your profile'));
-        } else {
-            $user = Users::find()->andWhere(['vid' => $id])->one();
+        $user = Users::find()->andWhere(['vid' => $id])->one();
 
-            $flightsProvider = new ActiveDataProvider([
-                'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
-                'sort' => false,
-                'pagination' => false,
-            ]);
+        $flightsProvider = new ActiveDataProvider([
+            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
+            'sort' => false,
+            'pagination' => false,
+        ]);
 
-            return $this->render(
-                'profile',
-                [
-                    'user' => $user,
-                    'flightsProvider' => $flightsProvider
-                ]
-            );
-        }
+        return $this->render(
+            'profile',
+            [
+                'user' => $user,
+                'flightsProvider' => $flightsProvider
+            ]
+        );
     }
 
     public function actionCenter()
@@ -68,7 +64,7 @@ class DefaultController extends Controller
         $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
 
         $flightsProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
+            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(6),
             'sort' => false,
             'pagination' => false,
         ]);
@@ -78,24 +74,6 @@ class DefaultController extends Controller
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider
-            ]
-        );
-    }
-
-    public function actionFlights($id){
-        $model = new Flights;
-        $params = \Yii::$app->request->get();
-
-        $provider = $model->search($params, $id);
-        $provider->pagination = ['pageSize' => 100];
-        $provider->sort->defaultOrder = ['id' => SORT_ASC];
-
-        return $this->render(
-            'flights',
-            [
-                'id' => $id,
-                'dataProvider' => $provider,
-                'model' => $model
             ]
         );
     }

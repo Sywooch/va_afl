@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "user_pilot".
@@ -75,5 +76,12 @@ class UserPilot extends \yii\db\ActiveRecord
         }
         return $time;
     }
+
+    public function getUserRoutes()
+    {
+        return Flights::find()->where(['user_id' => '464736'])->select('from_icao, to_icao')->joinWith('')->groupBy(['from_icao', 'to_icao'])->all();
+    }
+
+
 
 }
