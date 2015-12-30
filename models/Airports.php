@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 /**
  * This is the model class for table "airports".
@@ -85,12 +86,37 @@ class Airports extends \yii\db\ActiveRecord
         return $dataProvider;
     }
 
+    /**
+     * Поиск аэропортов по ICAO коду
+     * @param $q string Search id from default answer
+     * @param $id string Search id from default answer
+     */
+    public static function searchByICAO($q = null, $id = null){
+        $out = ['results' => ['id' => '', 'text' => '']];
+
+        if (!is_null($q)) {
+            $query = new Query();
+            $query->select("icao as id, concat_ws(' - ', `icao`, `name`) AS text")
+                ->from('airports')
+                ->where('icao LIKE "%' . $q . '%"')
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        } elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => $id];
+        }
+
+        return $out;
+    }
+
     public function getCountry()
     {
         return $this->hasOne(Isocodes::className(), ['code' => 'iso']);
     }
+
     public function getFlaglink()
     {
-        return "/img/flags/countries/16x11/".strtolower($this->iso).".png";
+        return "/img/flags/countries/16x11/" . strtolower($this->iso) . ".png";
     }
 }

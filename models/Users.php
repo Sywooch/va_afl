@@ -25,12 +25,23 @@ class Users extends \yii\db\ActiveRecord
     const SCENARIO_EDIT = 'editprofile';
 
     /**
+     * Перемещает пилота
+     */
+    public static function transfer($vid, $location)
+    {
+        $user = self::find()->andWhere(['user_id' => $vid])->one();
+        $user->location = $location;
+        $user->save();
+    }
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'users';
     }
+
 
     public function scenarios()
     {

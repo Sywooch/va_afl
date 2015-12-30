@@ -7,41 +7,41 @@ use yii\web\Controller;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-	public $vid;
-	public $firstname;
-	public $lastname;
-	public $rating;
-	public $skype;
-	public $ratingatc;
-	public $ratingpilot;
-	public $division;
-	public $username;
-	public $result;
-	public $id;
-	public $email;
-	public $rank;
-	public $last_visited;
-	public $authKey;
-	public $full_name;
-	public $country;
-	public $blocked;
-	public $block_reason;
-	public $blocked_by;
-	public $language;
-	public $created_date;
-	public $avatar;
+    public $vid;
+    public $firstname;
+    public $lastname;
+    public $rating;
+    public $skype;
+    public $ratingatc;
+    public $ratingpilot;
+    public $division;
+    public $username;
+    public $result;
+    public $id;
+    public $email;
+    public $rank;
+    public $last_visited;
+    public $authKey;
+    public $full_name;
+    public $country;
+    public $blocked;
+    public $block_reason;
+    public $blocked_by;
+    public $language;
+    public $created_date;
+    public $avatar;
 
-	/**
-	 * @inheritdoc
+    /**
+     * @inheritdoc
      */
     public static function findIdentity($id)
     {
-		$user = Users::findOne($id);
+        $user = Users::findOne($id);
 
-		return new static($user);
-	}
+        return new static($user);
+    }
 
-	/**
+    /**
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
@@ -55,56 +55,56 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      * @param  string      $username
      * @return static|null
      */
-	public static function findByUsername($model)
-	{
-		$sec = new Security();
-		if (!$user = Users::findOne($model->vid)) {
-			$user = new Users();
-			$user->vid = $model->vid;
-			$user->full_name = $model->username;
-			$user->created_date = date('Y-m-d H:i:s');
-			$user->country = $model->country;
-			$user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
+    public static function findByUsername($model)
+    {
+        $sec = new Security();
+        if (!$user = Users::findOne($model->vid)) {
+            $user = new Users();
+            $user->vid = $model->vid;
+            $user->full_name = $model->username;
+            $user->created_date = date('Y-m-d H:i:s');
+            $user->country = $model->country;
+            $user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
             $pilot = new UserPilot();
             $pilot->user_id = $model->vid;
             $pilot->active = 0;
             $pilot->rank_id = 1;
             $pilot->location = 'UUEE';
             $pilot->save();
-		}
-		$user->full_name = $model->username;
-		$user->authKey = $sec->generateRandomString(32);
-		$user->last_visited = date('Y-m-d H:i:s');
-		$user->save();
+        }
+        $user->full_name = $model->username;
+        $user->authKey = $sec->generateRandomString(32);
+        $user->last_visited = date('Y-m-d H:i:s');
+        $user->save();
 
 
-		//check the forum user exists;
-		/*if(!$forummember=SmfMembers::findOne(['member_name'=>$user->username]))
-		{
-			$forummember=new SmfMembers();
-			$forummember->member_name=$user->username;
-			$forummember->date_registered=intval(strtotime($user->register_date));
-			$forummember->real_name=$user->username;
-			if(!$forummember->save())
-			{
-				VarDumper::dump($forummember->errors,10,true);
-			}
-		}*/
+        //check the forum user exists;
+        /*if(!$forummember=SmfMembers::findOne(['member_name'=>$user->username]))
+        {
+            $forummember=new SmfMembers();
+            $forummember->member_name=$user->username;
+            $forummember->date_registered=intval(strtotime($user->register_date));
+            $forummember->real_name=$user->username;
+            if(!$forummember->save())
+            {
+                VarDumper::dump($forummember->errors,10,true);
+            }
+        }*/
 
-		return new static($user);
-	}
+        return new static($user);
+    }
 
-	/**
+    /**
      * @inheritdoc
      */
     public function getId()
     {
-		return $this->vid;
-	}
+        return $this->vid;
+    }
 
 
 
-	/**
+    /**
      * @inheritdoc
      */
     public function getAuthKey()
@@ -131,14 +131,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->password === $password;
     }
 
-	public static function checkEmail()
-	{
-		$ctrl = new Controller('site', 'app');
-		if (!\Yii::$app->user->identity->email)
-			$ctrl->redirect('/pilot/editprofile');
-	}
-	public static function setLanguage()
-	{
-		\Yii::$app->language=(!\Yii::$app->user->isGuest)?\Yii::$app->user->identity->language:'EN';
-	}
+    public static function checkEmail()
+    {
+        $ctrl = new Controller('site', 'app');
+        if (!\Yii::$app->user->identity->email)
+            $ctrl->redirect('/pilot/editprofile');
+    }
+    public static function setLanguage()
+    {
+        \Yii::$app->language=(!\Yii::$app->user->isGuest)?\Yii::$app->user->identity->language:'EN';
+    }
 }

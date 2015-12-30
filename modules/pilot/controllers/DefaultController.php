@@ -4,6 +4,7 @@ namespace app\modules\pilot\controllers;
 
 use app\models\Flights;
 use app\models\UserPilot;
+use app\models\Booking;
 use app\models\Users;
 use yii\data\ActiveDataProvider;
 use yii\helpers\VarDumper;
@@ -38,6 +39,23 @@ class DefaultController extends Controller
         ];
 
         return $this->render('roster', ['dataProvider' => $dataProvider]);
+    }
+    public function actionBooking()
+    {
+        \Yii::$app->user->returnUrl='/pilot/booking';
+        if(!$model = Booking::find()->andWhere(['user_id'=>\Yii::$app->user->id])->one())
+        {
+            $model = new Booking();
+            $model->addData();
+        }
+        if(isset($_POST['Booking']))
+        {
+            $model->attributes=$_POST['Booking'];
+            $model->status = 1;
+            $model->save();
+            $this->refresh();
+        }
+        return $this->render('booking',['model'=>$model]);
     }
 
     public function actionProfile($id)

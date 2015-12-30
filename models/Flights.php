@@ -22,6 +22,11 @@ use yii\data\ActiveDataProvider;
  * @property string $landing_time
  * @property integer $sim
  * @property string $fob
+ * @property string $lastseen
+ * @property string $from_icao
+ * @property string $to_icao
+ * @property string $flightplan
+ * @property integer $fob
  * @property integer $pob
  * @property string $acf_type
  * @property string $fleet_regnum
@@ -31,34 +36,6 @@ use yii\data\ActiveDataProvider;
  */
 class Flights extends \yii\db\ActiveRecord
 {
-    public function search($params, $id = 0)
-    {
-        if ($id == 0) {
-            $query = self::find();
-        } else {
-            $query = self::find()->where(['user_id' => $id]);
-        }
-
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => Yii::$app->session->get(get_parent_class($this) . 'Pagination'),
-            ],
-        ]);
-
-        if (!($this->load($params))) {
-            return $dataProvider;
-        }
-
-        $query->andFilterWhere(['like', 'callsign', $this->callsign])->
-            andFilterWhere(['like', 'from_icao', $this->from_icao])->
-            andFilterWhere(['like', 'to_icao', $this->from_icao])->
-            andFilterWhere(['like', 'acf_type', $this->acf_type]);
-        return $dataProvider;
-    }
-
-
     /**
      * @inheritdoc
      */
