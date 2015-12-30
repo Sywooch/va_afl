@@ -1,4 +1,7 @@
 <?php
+use \yii\helpers\Html;
+use \yii\helpers\Url;
+
 /**
  * Created by PhpStorm.
  * User: BTH
@@ -11,14 +14,23 @@ $this->params['breadcrumbs'] = [
     ['label' => $this->title]
 ];
 echo \yii\grid\GridView::widget([
-   'dataProvider' => $dataProvider,
-   'columns' => [
-       'full_name',
-       Yii::$app->language=='RU'?'pilot.rank.name_ru':'pilot.rank.name_en',
-       ['attribute'=>'pilot.location','format'=>'raw','value'=>function($data){
-               return "<img src=" . $data->pilot->airport->flaglink . ">" .
-               \yii\helpers\Html::a($data->pilot->location,\yii\helpers\Url::to('/airline/airports/view/' . $data->pilot->airport->icao));
-           }
-       ]
-   ]
+    'dataProvider' => $dataProvider,
+    'columns' => [
+        [
+            'attribute' => 'full_name',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
+            }
+        ],
+        Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
+        [
+            'attribute' => 'pilot.location',
+            'format' => 'raw',
+            'value' => function ($data) {
+                return "<img src=" . $data->pilot->airport->flaglink . ">" .
+                Html::a($data->pilot->location, Url::to('/airline/airports/view/' . $data->pilot->airport->icao));
+            }
+        ]
+    ]
 ]);

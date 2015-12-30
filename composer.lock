@@ -58,23 +58,23 @@
         },
         {
             "name": "bower-asset/jquery",
-            "version": "2.1.0",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jquery/jquery.git",
-                "reference": "9434e03193c45d51bbd063a0edd1a07a6178d33f"
+                "reference": "7751e69b615c6eca6f783a81e292a55725af6b85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jquery/jquery/zipball/9434e03193c45d51bbd063a0edd1a07a6178d33f",
-                "reference": "9434e03193c45d51bbd063a0edd1a07a6178d33f",
+                "url": "https://api.github.com/repos/jquery/jquery/zipball/7751e69b615c6eca6f783a81e292a55725af6b85",
+                "reference": "7751e69b615c6eca6f783a81e292a55725af6b85",
                 "shasum": ""
             },
             "require-dev": {
-                "bower-asset/qunit": "~1.12.0",
-                "bower-asset/requirejs": "~2.1.8",
-                "bower-asset/sinon": "~1.7.3",
-                "bower-asset/sizzle": "1.10.16"
+                "bower-asset/qunit": "1.14.0",
+                "bower-asset/requirejs": "2.1.10",
+                "bower-asset/sinon": "1.8.1",
+                "bower-asset/sizzle": "2.1.1-patch2"
             },
             "type": "bower-asset-library",
             "extra": {
@@ -82,6 +82,7 @@
                 "bower-asset-ignore": [
                     "**/.*",
                     "build",
+                    "dist/cdn",
                     "speed",
                     "test",
                     "*.md",
@@ -315,6 +316,82 @@
                 "html"
             ],
             "time": "2013-11-30 08:25:19"
+        },
+        {
+            "name": "kartik-v/dependent-dropdown",
+            "version": "v1.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/dependent-dropdown.git",
+                "reference": "03b086d7ec51fc773aab064d7204adbbaa807ec4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/dependent-dropdown/zipball/03b086d7ec51fc773aab064d7204adbbaa807ec4",
+                "reference": "03b086d7ec51fc773aab064d7204adbbaa807ec4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\depdrop\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "A multi level dependent dropdown JQuery plugin that allows nested dependencies.",
+            "homepage": "https://github.com/kartik-v/dependent-dropdown",
+            "keywords": [
+                "dependent",
+                "dropdown",
+                "jquery",
+                "option",
+                "select"
+            ],
+            "time": "2015-07-14 09:54:25"
+        },
+        {
+            "name": "jzawadzki/metar-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jzawadzki/metar-php.git",
+                "reference": "20474e756214adbb64d7860cf59b569f9d969ed2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jzawadzki/metar-php/zipball/20474e756214adbb64d7860cf59b569f9d969ed2",
+                "reference": "20474e756214adbb64d7860cf59b569f9d969ed2",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "METAR\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jerzy Zawadzki",
+                    "email": "zawadzki.jerzy@gmail.com",
+                    "homepage": "http://github.com/jzawadzki"
+                }
+            ],
+            "description": "lightweight library for decoding METAR messages",
+            "time": "2015-04-01 21:59:33"
         },
         {
             "name": "kartik-v/dependent-dropdown",

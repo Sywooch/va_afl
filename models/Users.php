@@ -63,26 +63,29 @@ class Users extends \yii\db\ActiveRecord
             [['vid', 'blocked', 'blocked_by'], 'integer'],
             [['authKey', 'block_reason'], 'string'],
             [['created_date', 'last_visited', 'language'], 'safe'],
+            [['full_name', 'email'], 'string', 'max' => 200],
+            [['country', 'language'], 'string', 'max' => 2],
+            [['avatar'], 'safe'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'vid' => 'Vid',
-            'full_name' => Yii::t('user', 'Full Name'),
-            'email' => 'Email',
-            'country' => Yii::t('user', 'Country'),
-            'authKey' => 'Auth Key',
-            'language' => Yii::t('user', 'Language'),
-            'created_date' => 'Created Date',
-            'last_visited' => 'Last Visited',
-        ];
-    }
-
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'vid' => 'IVAO ID',
+			'full_name' => Yii::t('user','Full Name'),
+			'email' => 'Email',
+			'country' => Yii::t('user','Country'),
+			'authKey' => 'Auth Key',
+			'language' => Yii::t('user','Language'),
+			'created_date' => 'Created Date',
+			'last_visited' => 'Last Visited',
+			'avatar' => 'Avatar'
+		];
+	}
     public function getPilot()
     {
         return $this->hasOne(UserPilot::className(), ['user_id' => 'vid']);

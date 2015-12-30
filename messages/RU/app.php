@@ -37,7 +37,7 @@ return [
     'Contacts' => 'Контакты',
     'Pilot' => 'Пилот',
     'Profile editor' => 'Редактор профиля',
-    'Location' => 'Местонахождения',
+    'Location' => 'Местонахождение',
     'Name' => 'Наименование',
     'Latitude' => 'Широта',
     'Longitude' => 'Долгота',
@@ -45,5 +45,9 @@ return [
     'City' => 'Город',
     'ISO' => 'Страна',
     'FIR' => 'FIR(РПИ)',
-    'Staff Position' => 'Должность'
+    'Staff Position' => 'Должность',
+    'Total flights' => 'Всего полетов',
+    'Total hours' => 'Часов налета',
+    'Total pax' => 'Кол-во пассажиров',
+    'Total miles' => 'Миль пройдено',
 ];
