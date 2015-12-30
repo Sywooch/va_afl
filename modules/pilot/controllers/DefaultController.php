@@ -45,7 +45,7 @@ class DefaultController extends Controller
         $user = Users::find()->andWhere(['vid' => $id])->one();
 
         $flightsProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(5),
+            'query' => Flights::find()->where(['user_id' => $user->vid])->limit(6),
             'sort' => false,
             'pagination' => false,
         ]);

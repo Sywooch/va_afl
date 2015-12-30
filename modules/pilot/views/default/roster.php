@@ -23,7 +23,6 @@ echo \yii\grid\GridView::widget([
                 return Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
             }
         ],
-        'full_name',
         Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
         [
             'attribute' => 'pilot.location',
