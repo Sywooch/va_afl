@@ -48,28 +48,29 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-		'urlManager' => [
-			'enablePrettyUrl' => true,
-			'showScriptName' => false,
-            'enableStrictParsing' => false,
-			'rules' => [
-				'<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
-				'<module:pilot|fleet|events>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
-				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
-				'<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'rules' => [
+                '<module:pilot|fleet|events>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
                 '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-				'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-				'<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
-			]
-		],
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
+            ]
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
         ]
-	],
-	'modules' => [
-		'pilot' => [
-			'class' => 'app\modules\pilot\Module',
-		],
+    ],
+    'modules' => [
+        'pilot' => [
+            'class' => 'app\modules\pilot\Module',
+        ],
         'airline' => [
             'class' => 'app\modules\airline\Module',
         ],
@@ -86,14 +87,17 @@ $config = [
             ],
 
         ]
-	],
-	'params' => $params,
-	'on beforeAction' => function ($event) {
-            if(!Yii::$app->user->isGuest) Yii::$app->layout='main';
-			if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile')
-				\app\models\User::checkEmail();
-            \app\models\User::setLanguage();
-		},
+    ],
+    'params' => $params,
+    'on beforeAction' => function ($event) {
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->layout = 'main';
+        }
+        if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile') {
+            \app\models\User::checkEmail();
+        }
+        \app\models\User::setLanguage();
+    },
 ];
 
 if (YII_ENV_DEV) {
@@ -106,8 +110,8 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-		'allowedIPs' => ['*'],
-	];
+        'allowedIPs' => ['*'],
+    ];
 }
 
 return $config;
