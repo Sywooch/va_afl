@@ -7,6 +7,7 @@ use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use Yii;
@@ -58,8 +59,9 @@ class DefaultController extends Controller
         return $this->render('booking',['model'=>$model]);
     }
 
-    public function actionProfile($id)
+    public function actionProfile($id=null)
     {
+        if(!$id) $this->redirect(Url::to('/pilot/center'));
         $user = Users::find()->andWhere(['vid' => $id])->one();
 
         $flightsProvider = new ActiveDataProvider([
