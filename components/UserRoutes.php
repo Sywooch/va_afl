@@ -62,7 +62,7 @@ class UserRoutes
     }
 
     /**
-     * Getter для маршуртов
+     * Getter для маршрутов
      * @return array
      */
     public function get()
