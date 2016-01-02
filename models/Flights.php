@@ -94,4 +94,27 @@ class Flights extends \yii\db\ActiveRecord
     {
         return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
     }
+
+    /**
+     * Получаем маршруты пользователя
+     * @param int $user_id VID пользователя
+     */
+    public static function userRoutes($user_id)
+    {
+        return Flights::find()->where(['user_id' => $user_id])->select('from_icao, to_icao')->joinWith(
+            [
+                'depAirport' => function ($q) {
+                        $q->from('airports dep');
+                    },
+                'arrAirport' => function ($q) {
+                        $q->from('airports arr');
+                    }
+            ]
+        )->groupBy(
+                [
+                    'from_icao',
+                    'to_icao'
+                ]
+            )->all();
+    }
 }

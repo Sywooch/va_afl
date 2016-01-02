@@ -4,6 +4,7 @@ namespace app\components;
 use Yii;
 use yii\base\Component;
 use \app\models\Isocodes;
+use app\models\Flights;
 
 /**
  * Class Helper
@@ -52,5 +53,36 @@ class Helper extends Component
         $a = sin($dLat / 2.0) * sin($dLat / 2.0) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2.0) * sin($dLon / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
         return $R * $c;
+    }
+
+    /**
+     * Пихаем маршурты в массив
+     * @param int $user_id VID пользователя
+     */
+    public static function prepareUserRoutes($user_id){
+        $routes = [];
+
+        foreach (Flights::userRoutes($user_id) as $route) {
+            /**
+             * @var Flights $route
+             */
+
+            $routes[] = [
+                'from' =>
+                    [
+                        'icao' => $route->from_icao,
+                        'lat' => $route->depAirport->lat,
+                        'lon' => $route->depAirport->lon
+                    ],
+                'to' =>
+                    [
+                        'icao' => $route->to_icao,
+                        'lat' => $route->arrAirport->lat,
+                        'lon' => $route->arrAirport->lon
+                    ]
+            ];
+        }
+
+        return $routes;
     }
 }

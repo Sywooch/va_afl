@@ -81,7 +81,8 @@ class DefaultController extends Controller
 
     public function actionCenter()
     {
-        $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
+        //$user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
+        $user = Users::find()->andWhere(['vid' => 464736])->one();
 
         $flightsProvider = new ActiveDataProvider([
             'query' => Flights::find()->where(['user_id' => $user->vid])->limit(6),
@@ -90,7 +91,7 @@ class DefaultController extends Controller
         ]);
 
         return $this->render(
-            'center',
+            'center/index',
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider
