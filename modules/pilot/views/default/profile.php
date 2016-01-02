@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use dosamigos\highcharts\HighCharts;
 
 ?>
 
@@ -26,10 +27,10 @@ use yii\grid\GridView;
             <?= Html::endTag('div') ?>
             <div class="">
                 <ul class="list-group nopoints">
-                    <li class="list-group-item list-group-item-success">
+                    <li class="list-group-item list-group-item-success" style="background-color: #33BDBD">
                         Active
                     </li>
-                    <li class="list-group-item list-group-item-warning">
+                    <li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
                         Supervisor
                     </li>
                     <li class="list-group-item list-group-item">
@@ -57,7 +58,7 @@ use yii\grid\GridView;
                 </table>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="padding-top: 6px">
                             <!-- begin table -->
                             <?=
                             DetailView::widget(
@@ -103,33 +104,174 @@ use yii\grid\GridView;
                                             'label' => Yii::t('app', 'Total pax'),
                                             'value' => $user->pilot->passengers,
                                         ],
-
-                                        /*
-                                                    [
-                                                        'attribute' => 'Пассажиров перевезено',
-                                                        'format' => 'raw',
-                                                        'value' => $user->pilot->passengers,
-                                                    ],
-                                                    [
-                                                        'attribute' => 'Страна',
-                                                        'format' => 'raw',
-                                                        'value' => '<img src="' . Helper::getFlagLink($user->country) . '"> ' . Helper::getCountryCode($user->country),
-                                                    ],
-                                                    [
-                                                        'attribute' => 'Город',
-                                                        'format' => 'raw',
-                                                        'value' => 'Москва',
-                                                    ],
-                                                    [
-                                                        'attribute' => 'День рождения',
-                                                        'format' => 'raw',
-                                                        'value' => '01.01.1980',
-                                                    ],*/
                                     ]
                                 ]
                             ) ?>
                         </div>
                     </div>
+                    <div class="col-md-3 col-sm-offset-1">
+                        <?= HighCharts::widget([
+                            'clientOptions' => [
+                                'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#2A72B5', '#CC4946', '#00ACAC'],
+                                'chart' => [
+                                    'type' => 'pie',
+                                    'plotBackgroundColor' => null,
+                                    'backgroundColor' => null,
+                                    'plotBorderWidth' => null,
+                                    'plotShadow' => false,
+                                    'height' => 300,
+                                    'marginBottom' => 60,
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600',
+                                    ]
+                                ],
+                                'title' => [
+                                    'text' => 'AIRCRAFT USAGE',
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600'
+                                    ]
+                                ],
+                                'exporting' => [
+                                    'enabled' => false
+                                ],
+                                'credits' => [
+                                    'enabled' => false
+                                ],
+                                'tooltip' => [
+                                    'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600'
+                                    ]
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => false
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'legend' => [
+                                    'itemStyle' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600',
+                                    ],
+                                    'borderColor' => '#FFFFFF',
+                                ],
+                                'series' => [
+                                    [
+                                        'name' => 'Types',
+                                        'colorByPoint' => true,
+                                        'data' => [
+                                            ['name' => 'A320', 'y' => 10],
+                                            ['name' => 'B738', 'y' => 10],
+                                            ['name' => 'B77W', 'y' => 10],
+                                            ['name' => 'A330', 'y' => 10],
+                                            ['name' => 'A340', 'y' => 10],
+                                            ['name' => 'A350', 'y' => 20],
+                                            ['name' => 'ЯК42', 'y' => 30],
+                                        ],
+                                        'innerSize' => '65%'
+                                    ]
+                                ]
+                            ]
+                        ]); ?>
+                    </div>
+                    <div class="col-md-3">
+                        <?= HighCharts::widget([
+                            'clientOptions' => [
+                                'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#348FE2'],
+                                'chart' => [
+                                    'type' => 'pie',
+                                    'plotBackgroundColor' => null,
+                                    'backgroundColor' => null,
+                                    'plotBorderWidth' => null,
+                                    'plotShadow' => false,
+                                    'height' => 300,
+                                    'marginBottom' => 60,
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600',
+                                    ]
+                                ],
+                                'title' => [
+                                    'text' => 'AIRCRAFT USAGE',
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600'
+                                    ]
+                                ],
+                                'exporting' => [
+                                    'enabled' => false
+                                ],
+                                'credits' => [
+                                    'enabled' => false
+                                ],
+                                'tooltip' => [
+                                    'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                    'style' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600'
+                                    ]
+                                ],
+                                'plotOptions' => [
+                                    'pie' => [
+                                        'allowPointSelect' => true,
+                                        'cursor' => 'pointer',
+                                        'dataLabels' => [
+                                            'enabled' => false
+                                        ],
+                                        'showInLegend' => true,
+                                    ]
+                                ],
+                                'legend' => [
+                                    'itemStyle' => [
+                                        'fontFamily' => 'Open Sans',
+                                        'fontSize' => '12px',
+                                        'color' => '#777777',
+                                        'fontWeight' => '600',
+                                    ],
+                                    'borderColor' => '#FFFFFF',
+                                ],
+                                'series' => [
+                                    [
+                                        'name' => 'Types',
+                                        'colorByPoint' => true,
+                                        'data' => [
+                                            ['name' => 'A320', 'y' => 10],
+                                            ['name' => 'B738', 'y' => 10],
+                                            ['name' => 'B77W', 'y' => 10],
+                                            ['name' => 'A330', 'y' => 10],
+                                            ['name' => 'A340', 'y' => 10],
+                                            ['name' => 'A350', 'y' => 20],
+                                            ['name' => 'ЯК42', 'y' => 30],
+                                        ],
+                                        'innerSize' => '65%'
+                                    ]
+                                ]
+                            ]
+                        ]); ?>
+                    </div>
+
                 </div>
 
 
