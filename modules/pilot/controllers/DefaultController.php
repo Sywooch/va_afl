@@ -90,7 +90,7 @@ class DefaultController extends Controller
         ]);
 
         return $this->render(
-            'center',
+            'center/index',
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider
