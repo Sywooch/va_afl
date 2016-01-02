@@ -70,18 +70,18 @@ function handleData(response) {
     var n;
 
     for (n = 0; n < response.length; n++) {
-        var routeCoordinates = [
+        /*var routeCoordinates = [
             {lat: response[n].from.lat, lng: response[n].from.lon},
             {lat: response[n].to.lat, lng: response[n].to.lon}
         ];
         var routePath = new google.maps.Polyline({
             path: routeCoordinates,
             geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
+            strokeColor: '#FFFFFF',
+            strokeOpacity: 1,
+            strokeWeight: 1,
             map: map
-        });
+        });*/
 
         var fromCoordinate = new google.maps.LatLng(response[n].from.lat, response[n].from.lon);
         var fromMarker = new google.maps.Marker({
