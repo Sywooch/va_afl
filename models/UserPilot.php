@@ -92,7 +92,14 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getUserRoutes()
     {
-        return Flights::find()->where(['user_id' => '464736'])->select('from_icao, to_icao')->joinWith('')->groupBy([
+        return Flights::find()->where(['user_id' => $this->user_id])->select('from_icao, to_icao')->joinWith([
+            'depAirport' => function ($q) {
+                $q->from('airports dep');
+            },
+            'arrAirport' => function ($q) {
+                $q->from('airports arr');
+            }
+        ])->groupBy([
             'from_icao',
             'to_icao'
         ])->all();

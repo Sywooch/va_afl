@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use app\models\Airports;
 
 /**
  * This is the model class for table "flights".
@@ -23,11 +24,6 @@ use yii\data\ActiveDataProvider;
  * @property integer $sim
  * @property string $fob
  * @property string $lastseen
- * @property string $from_icao
- * @property string $to_icao
- * @property string $flightplan
- * @property integer $fob
- * @property integer $pob
  * @property string $acf_type
  * @property string $fleet_regnum
  * @property integer $status
@@ -87,5 +83,15 @@ class Flights extends \yii\db\ActiveRecord
             'alternate1' => 'Alternate1',
             'alternate2' => 'Alternate2',
         ];
+    }
+
+    public function getDepAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'from_icao']);
+    }
+
+    public function getArrAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
     }
 }
