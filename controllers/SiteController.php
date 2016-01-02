@@ -9,13 +9,13 @@ use app\models\Fleet;
 use app\models\IvaoLogin;
 use app\models\Users;
 use app\models\Actypes;
-use app\components\Helper;
+
+use app\components\UserRoutes;
+
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use Yii;
-use yii\helpers\BaseVarDumper;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\User;
@@ -146,6 +146,6 @@ class SiteController extends Controller
      */
     public function actionGetuserroutes($id)
     {
-        echo json_encode(Helper::prepareUserRoutes($id));
+        echo json_encode((new UserRoutes($id))->getAsArray());
     }
 }
