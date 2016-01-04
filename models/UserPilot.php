@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\db\Query;
 use app\models\Flights;
+use app\components\Helper;
 
 /**
  * This is the model class for table "user_pilot".
@@ -92,17 +93,7 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getUserRoutes()
     {
-        return Flights::find()->where(['user_id' => $this->user_id])->select('from_icao, to_icao')->joinWith([
-            'depAirport' => function ($q) {
-                $q->from('airports dep');
-            },
-            'arrAirport' => function ($q) {
-                $q->from('airports arr');
-            }
-        ])->groupBy([
-            'from_icao',
-            'to_icao'
-        ])->all();
+        return Helper::userRoutes($this->user_id);
     }
 
 

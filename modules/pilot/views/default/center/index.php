@@ -9,7 +9,6 @@ use yii\grid\GridView;
 /* @var $form yii\widgets\ActiveForm */
 $this->title = Yii::t('app', 'Pilot Center');
 $this->params['breadcrumbs'] = [
-    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
     ['label' => $this->title]
 ];
 
