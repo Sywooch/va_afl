@@ -49,6 +49,7 @@ use dosamigos\highcharts\HighCharts;
         <!-- begin profile-right -->
         <div class="profile-right">
             <!-- begin profile-info -->
+            <?php //\yii\helpers\BaseVarDumper::dump($user->pilot->statWeekdays, 10, true) ?>
             <div class="profile-info">
                 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
                     <tr>
@@ -112,7 +113,15 @@ use dosamigos\highcharts\HighCharts;
                     <div class="col-md-3 col-sm-offset-1">
                         <?= HighCharts::widget([
                             'clientOptions' => [
-                                'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#2A72B5', '#CC4946', '#00ACAC'],
+                                'colors' => [
+                                    '#F59C1A',
+                                    '#FF5B57',
+                                    '#B6C2C9',
+                                    '#2D353C',
+                                    '#2A72B5',
+                                    '#CC4946',
+                                    '#00ACAC'
+                                ],
                                 'chart' => [
                                     'type' => 'pie',
                                     'plotBackgroundColor' => null,
@@ -175,15 +184,7 @@ use dosamigos\highcharts\HighCharts;
                                     [
                                         'name' => 'Types',
                                         'colorByPoint' => true,
-                                        'data' => [
-                                            ['name' => 'A320', 'y' => 10],
-                                            ['name' => 'B738', 'y' => 10],
-                                            ['name' => 'B77W', 'y' => 10],
-                                            ['name' => 'A330', 'y' => 10],
-                                            ['name' => 'A340', 'y' => 10],
-                                            ['name' => 'A350', 'y' => 20],
-                                            ['name' => 'ЯК42', 'y' => 30],
-                                        ],
+                                        'data' => $user->pilot->statWeekdays,
                                         'innerSize' => '65%'
                                     ]
                                 ]
@@ -257,7 +258,7 @@ use dosamigos\highcharts\HighCharts;
                                         'name' => 'Types',
                                         'colorByPoint' => true,
                                         'data' => [
-                                            ['name' => 'A320', 'y' => 10],
+                                            ['name' => 'A320', 'y' => 150],
                                             ['name' => 'B738', 'y' => 10],
                                             ['name' => 'B77W', 'y' => 10],
                                             ['name' => 'A330', 'y' => 10],

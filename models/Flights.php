@@ -2,9 +2,11 @@
 
 namespace app\models;
 
+use app\components\Helper;
 use Yii;
 use yii\data\ActiveDataProvider;
 use app\models\Airports;
+use yii\i18n\Formatter;
 
 /**
  * This is the model class for table "flights".
@@ -83,6 +85,39 @@ class Flights extends \yii\db\ActiveRecord
             'alternate1' => 'Alternate1',
             'alternate2' => 'Alternate2',
         ];
+    }
+
+    public $day;
+    public $count;
+
+    public static function getFlightsCount($id)
+    {
+        return Flights::find()->where(['user_id' => $id])->count();
+    }
+
+    public static function getPassengers($id)
+    {
+        return Flights::find()->where(['user_id' => $id])->sum('pob');
+    }
+
+    public static function getMiles($id)
+    {
+        return Flights::find()->where(['user_id' => $id])->sum('nm');
+    }
+
+    public static function getStatWeekdays($id)
+    {
+        $stats_raw = Flights::find()->where(['user_id' => $id])->select('WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`')
+            ->groupBy(
+                [
+                    'WEEKDAY(dep_time)',
+                ]
+            )->all();
+        $stat = [];
+        foreach ($stats_raw as $stat_raw) {
+            $stat[] = ['name' => Yii::t('time',Helper::getWeekDayFromNumber($stat_raw->day)), 'y' => intval($stat_raw->count)];
+        }
+        return $stat;
     }
 
     public function getDepAirport()

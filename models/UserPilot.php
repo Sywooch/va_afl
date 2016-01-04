@@ -62,7 +62,7 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getFlights()
     {
-        return $this->hasMany('app\models\Flights', ['user_id' => 'user_id']);
+        return $this->hasMany(Flights::className(), ['user_id' => 'user_id']);
     }
 
     public function getTime()
@@ -78,17 +78,22 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getFlightsCount()
     {
-        return Flights::find()->where(['user_id' => $this->user_id])->count();
+        return Flights::getFlightsCount($this->user_id);
     }
 
     public function getPassengers()
     {
-        return Flights::find()->where(['user_id' => $this->user_id])->sum('pob');
+        return Flights::getPassengers($this->user_id);
     }
 
     public function getMiles()
     {
-        return Flights::find()->where(['user_id' => $this->user_id])->sum('nm');
+        return Flights::getMiles($this->user_id);
+    }
+
+    public function getStatWeekdays()
+    {
+        return Flights::getStatWeekdays($this->user_id);
     }
 
     public function getUserRoutes()
