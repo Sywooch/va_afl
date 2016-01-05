@@ -29,6 +29,8 @@ class ParseController extends Controller
     const WZ_ICAOFROM = 11;
     const WZ_FPL_ALT = 12;
     const WZ_ICAOTO = 13;
+    const WZ_EET_HOURS = 24;
+    const WZ_EET_MINUTES = 25;
     const WZ_FOB_HOURS = 26;
     const WZ_FOB_MINUTES = 27;
     const WZ_ICAOALT1 = 28;
@@ -37,12 +39,12 @@ class ParseController extends Controller
     const WZ_ICAOALT2 = 42;
     const WZ_POB = 44;
     const WZ_HEADING = 45;
-    const WZ_SIMULATOR = 48;
+    const WZ_SIMULATOR = 47;
+    const WZ_ONGROUND = 46;
     const WZ_REMARKS = 29;
     const WZ_ALTERNATE = 28;
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
     const HOLD_TIME = 900;
-
     const FLIGHT_STATUS_OK = 2;
     const FLIGHT_STATUS_BREAK = 3;
     const FLIGHT_STATUS_STARTED = 1;
@@ -169,14 +171,14 @@ class ParseController extends Controller
         $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
         $booking->delete();
         if ($this->validateFlight($flight)) {
-            $flight->lastseen = gmdate('Y-m-d H:i:s');
+            $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
         } else {
-            if ((gmmktime() - strtotime($flight->lastseen)) > self::HOLD_TIME) {
-                $flight->lastseen = gmdate('Y-m-d H:i:s');
+            if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
+                $flight->last_seen = gmdate('Y-m-d H:i:s');
                 $flight->status = self::FLIGHT_STATUS_BREAK;
                 $flight->save();
             }
@@ -217,15 +219,19 @@ class ParseController extends Controller
         $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
-        $flight->lastseen = gmdate('Y-m-d H:i:s');
+        $flight->last_seen = gmdate('Y-m-d H:i:s');
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
+        $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
         $flight->fob = $data[self::WZ_FOB_HOURS] . $data[self::WZ_FOB_MINUTES];
         $flight->pob = $data[self::WZ_POB];
         $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
         $flight->alternate1 = $data[self::WZ_ALTERNATE];
-        $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depairport->lat,$flight->arrairport->lat,$flight->depairport->lon,$flight->arraiport->lon));
+        $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
         $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
+        $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
+        if($flight->dep_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==0 && $data[self::WZ_GROUNDSPEED]>40) $flight->dep_time=gmdate('Y-m-d H:i:s');
+        if($flight->dep_time>'0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==1 && $data[self::WZ_GROUNDSPEED]<=40) $flight->landing_time=gmdate('Y-m-d H:i:s');
         $this->insertTrackerData($flight);
         return $flight;
     }
@@ -292,7 +298,7 @@ class ParseController extends Controller
 
     private function isDomestic($flight)
     {
-        if ($flight->depairport->country == 'ru' && $flight->arrairport->country == 'ru') {
+        if ($flight->depAirport->country == 'ru' && $flight->arrAirport->country == 'ru') {
             return true;
         }
         return false;
