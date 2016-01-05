@@ -49,7 +49,7 @@ use dosamigos\highcharts\HighCharts;
         <!-- begin profile-right -->
         <div class="profile-right">
             <!-- begin profile-info -->
-            <?php //\yii\helpers\BaseVarDumper::dump($user->pilot->statWeekdays, 10, true) ?>
+            <?php //\yii\helpers\BaseVarDumper::dump($user->pilot->statAcfTypes, 10, true) ?>
             <div class="profile-info">
                 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
                     <tr>
@@ -257,15 +257,7 @@ use dosamigos\highcharts\HighCharts;
                                     [
                                         'name' => 'Types',
                                         'colorByPoint' => true,
-                                        'data' => [
-                                            ['name' => 'A320', 'y' => 150],
-                                            ['name' => 'B738', 'y' => 10],
-                                            ['name' => 'B77W', 'y' => 10],
-                                            ['name' => 'A330', 'y' => 10],
-                                            ['name' => 'A340', 'y' => 10],
-                                            ['name' => 'A350', 'y' => 20],
-                                            ['name' => 'ЯК42', 'y' => 30],
-                                        ],
+                                        'data' => $user->pilot->statAcfTypes,
                                         'innerSize' => '65%'
                                     ]
                                 ]

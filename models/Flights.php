@@ -120,6 +120,22 @@ class Flights extends \yii\db\ActiveRecord
         return $stat;
     }
 
+    public static function getStatAcfTypes($id)
+    {
+        $stats_raw = Flights::find()->where(['user_id' => $id])->select('acf_type,COUNT(*) AS `count`')
+            ->groupBy(
+                [
+                    'acf_type',
+                ]
+            )->all();
+        $stat = [];
+        foreach ($stats_raw as $stat_raw) {
+            $stat[] = ['name' => $stat_raw->acf_type, 'y' => intval($stat_raw->count)];
+        }
+        return $stat;
+    }
+
+
     public function getDepAirport()
     {
         return $this->hasOne('app\models\Airports', ['icao' => 'from_icao']);

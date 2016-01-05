@@ -60,7 +60,7 @@ class Helper extends Component
     {
         $array = [
             1 => 'Mon.',
-            2 => 'Thu.',
+            2 => 'Tue.',
             3 => 'Wed.',
             4 => 'Thu.',
             5 => 'Fri.',
