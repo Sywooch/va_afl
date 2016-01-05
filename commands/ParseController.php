@@ -185,7 +185,7 @@ class ParseController extends Controller
             }
         }
         $up = UserPilot::findOne($flight->user_id);
-        $up->minutes = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
+        $up->minutes += intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
         $up->save();
     }
 
