@@ -32,7 +32,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'active', 'rank_id'], 'integer'],
+            [['user_id', 'active', 'rank_id', 'minutes'], 'integer'],
             [['location'], 'string', 'max' => 4]
         ];
     }

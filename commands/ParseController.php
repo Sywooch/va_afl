@@ -13,6 +13,7 @@ use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
 use app\models\Tracker;
+use app\models\UserPilot;
 use app\models\Users;
 use yii\console\Controller;
 
@@ -183,6 +184,9 @@ class ParseController extends Controller
                 $flight->save();
             }
         }
+        $up = UserPilot::findOne($flight->user_id);
+        $up->minutes = (strtotime($flight->landing_time) - strtotime($flight->dep_time))*60;
+        $up->save();
     }
 
     /**
@@ -223,7 +227,7 @@ class ParseController extends Controller
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
-        $flight->fob = $data[self::WZ_FOB_HOURS] . $data[self::WZ_FOB_MINUTES];
+        $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
         $flight->pob = $data[self::WZ_POB];
         $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
         $flight->alternate1 = $data[self::WZ_ALTERNATE];
