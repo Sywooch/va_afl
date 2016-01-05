@@ -174,6 +174,7 @@ class ParseController extends Controller
         if ($this->validateFlight($flight)) {
             $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
+            $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
@@ -184,9 +185,7 @@ class ParseController extends Controller
                 $flight->save();
             }
         }
-        $up = UserPilot::findOne($flight->user_id);
-        $up->minutes = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
-        $up->save();
+        ;
     }
 
     /**
