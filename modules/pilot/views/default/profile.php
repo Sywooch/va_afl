@@ -110,160 +110,173 @@ use dosamigos\highcharts\HighCharts;
                             ) ?>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-offset-1">
-                        <?= HighCharts::widget([
-                            'clientOptions' => [
-                                'colors' => [
-                                    '#F59C1A',
-                                    '#FF5B57',
-                                    '#B6C2C9',
-                                    '#2D353C',
-                                    '#2A72B5',
-                                    '#CC4946',
-                                    '#00ACAC'
-                                ],
-                                'chart' => [
-                                    'type' => 'pie',
-                                    'plotBackgroundColor' => null,
-                                    'backgroundColor' => null,
-                                    'plotBorderWidth' => null,
-                                    'plotShadow' => false,
-                                    'height' => 300,
-                                    'marginBottom' => 60,
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600',
-                                    ]
-                                ],
-                                'title' => [
-                                    'text' => 'AIRCRAFT USAGE',
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600'
-                                    ]
-                                ],
-                                'exporting' => [
-                                    'enabled' => false
-                                ],
-                                'credits' => [
-                                    'enabled' => false
-                                ],
-                                'tooltip' => [
-                                    'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600'
-                                    ]
-                                ],
-                                'plotOptions' => [
-                                    'pie' => [
-                                        'allowPointSelect' => true,
-                                        'cursor' => 'pointer',
-                                        'dataLabels' => [
-                                            'enabled' => false
-                                        ],
-                                        'showInLegend' => true,
-                                    ]
-                                ],
-                                'legend' => [
-                                    'itemStyle' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600',
+                    <?php if ($user->pilot->statWeekdays != null): ?>
+                        <div class="col-md-3 col-sm-offset-1">
+                            <?php
+                            echo HighCharts::widget([
+                                'clientOptions' => [
+                                    'colors' => [
+                                        '#F59C1A',
+                                        '#FF5B57',
+                                        '#B6C2C9',
+                                        '#2D353C',
+                                        '#2A72B5',
+                                        '#CC4946',
+                                        '#00ACAC'
                                     ],
-                                    'borderColor' => '#FFFFFF',
-                                ],
-                                'series' => [
-                                    [
-                                        'name' => 'Types',
-                                        'colorByPoint' => true,
-                                        'data' => $user->pilot->statWeekdays,
-                                        'innerSize' => '65%'
+                                    'chart' => [
+                                        'type' => 'pie',
+                                        'plotBackgroundColor' => null,
+                                        'backgroundColor' => null,
+                                        'plotBorderWidth' => null,
+                                        'plotShadow' => false,
+                                        'height' => 300,
+                                        'marginBottom' => 60,
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ]
+                                    ],
+                                    'title' => [
+                                        'text' => 'AIRCRAFT USAGE',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'exporting' => [
+                                        'enabled' => false
+                                    ],
+                                    'credits' => [
+                                        'enabled' => false
+                                    ],
+                                    'tooltip' => [
+                                        'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'plotOptions' => [
+                                        'pie' => [
+                                            'allowPointSelect' => true,
+                                            'cursor' => 'pointer',
+                                            'dataLabels' => [
+                                                'enabled' => false
+                                            ],
+                                            'showInLegend' => true,
+                                        ]
+                                    ],
+                                    'legend' => [
+                                        'itemStyle' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ],
+                                        'borderColor' => '#FFFFFF',
+                                    ],
+                                    'series' => [
+                                        [
+                                            'name' => 'Types',
+                                            'colorByPoint' => true,
+                                            'data' => $user->pilot->statWeekdays,
+                                            'innerSize' => '65%'
+                                        ]
                                     ]
                                 ]
-                            ]
-                        ]); ?>
-                    </div>
-                    <div class="col-md-3">
-                        <?= HighCharts::widget([
-                            'clientOptions' => [
-                                'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#348FE2'],
-                                'chart' => [
-                                    'type' => 'pie',
-                                    'plotBackgroundColor' => null,
-                                    'backgroundColor' => null,
-                                    'plotBorderWidth' => null,
-                                    'plotShadow' => false,
-                                    'height' => 300,
-                                    'marginBottom' => 60,
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600',
-                                    ]
-                                ],
-                                'title' => [
-                                    'text' => 'AIRCRAFT USAGE',
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600'
-                                    ]
-                                ],
-                                'exporting' => [
-                                    'enabled' => false
-                                ],
-                                'credits' => [
-                                    'enabled' => false
-                                ],
-                                'tooltip' => [
-                                    'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
-                                    'style' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600'
-                                    ]
-                                ],
-                                'plotOptions' => [
-                                    'pie' => [
-                                        'allowPointSelect' => true,
-                                        'cursor' => 'pointer',
-                                        'dataLabels' => [
-                                            'enabled' => false
-                                        ],
-                                        'showInLegend' => true,
-                                    ]
-                                ],
-                                'legend' => [
-                                    'itemStyle' => [
-                                        'fontFamily' => 'Open Sans',
-                                        'fontSize' => '12px',
-                                        'color' => '#777777',
-                                        'fontWeight' => '600',
+                            ]); ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?php echo HighCharts::widget([
+                                'clientOptions' => [
+                                    'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#348FE2'],
+                                    'chart' => [
+                                        'type' => 'pie',
+                                        'plotBackgroundColor' => null,
+                                        'backgroundColor' => null,
+                                        'plotBorderWidth' => null,
+                                        'plotShadow' => false,
+                                        'height' => 300,
+                                        'marginBottom' => 60,
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ]
                                     ],
-                                    'borderColor' => '#FFFFFF',
-                                ],
-                                'series' => [
-                                    [
-                                        'name' => 'Types',
-                                        'colorByPoint' => true,
-                                        'data' => $user->pilot->statAcfTypes,
-                                        'innerSize' => '65%'
+                                    'title' => [
+                                        'text' => 'AIRCRAFT USAGE',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'exporting' => [
+                                        'enabled' => false
+                                    ],
+                                    'credits' => [
+                                        'enabled' => false
+                                    ],
+                                    'tooltip' => [
+                                        'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'plotOptions' => [
+                                        'pie' => [
+                                            'allowPointSelect' => true,
+                                            'cursor' => 'pointer',
+                                            'dataLabels' => [
+                                                'enabled' => false
+                                            ],
+                                            'showInLegend' => true,
+                                        ]
+                                    ],
+                                    'legend' => [
+                                        'itemStyle' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ],
+                                        'borderColor' => '#FFFFFF',
+                                    ],
+                                    'series' => [
+                                        [
+                                            'name' => 'Types',
+                                            'colorByPoint' => true,
+                                            'data' => $user->pilot->statAcfTypes,
+                                            'innerSize' => '65%'
+                                        ]
                                     ]
                                 ]
-                            ]
-                        ]); ?>
-                    </div>
+                            ]); ?>
+                        </div>
+                    <?php else: ?>
+                        <div class='col-md-6'>
+                            <div class="jumbotron">
+                                <h1>Нет данных</h1>
+                                <p>Выполните больше полетов для отображения статистики</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-3">
+
 
                 </div>
 
