@@ -185,7 +185,7 @@ class ParseController extends Controller
             }
         }
         $up = UserPilot::findOne($flight->user_id);
-        $up->minutes = (strtotime($flight->landing_time) - strtotime($flight->dep_time))*60;
+        $up->minutes = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
         $up->save();
     }
 
@@ -235,7 +235,7 @@ class ParseController extends Controller
         $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
         $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
         if($flight->dep_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==0 && $data[self::WZ_GROUNDSPEED]>40) $flight->dep_time=gmdate('Y-m-d H:i:s');
-        if($flight->dep_time>'0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==1 && $data[self::WZ_GROUNDSPEED]<=40) $flight->landing_time=gmdate('Y-m-d H:i:s');
+        if($flight->dep_time>'0000-00-00 00:00:00' && $flight->landing_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==1 && $data[self::WZ_GROUNDSPEED]<=40) $flight->landing_time=gmdate('Y-m-d H:i:s');
         $this->insertTrackerData($flight);
         return $flight;
     }
