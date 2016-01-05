@@ -13,6 +13,7 @@ use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
 use app\models\Tracker;
+use app\models\UserPilot;
 use app\models\Users;
 use yii\console\Controller;
 
@@ -29,6 +30,8 @@ class ParseController extends Controller
     const WZ_ICAOFROM = 11;
     const WZ_FPL_ALT = 12;
     const WZ_ICAOTO = 13;
+    const WZ_EET_HOURS = 24;
+    const WZ_EET_MINUTES = 25;
     const WZ_FOB_HOURS = 26;
     const WZ_FOB_MINUTES = 27;
     const WZ_ICAOALT1 = 28;
@@ -37,10 +40,12 @@ class ParseController extends Controller
     const WZ_ICAOALT2 = 42;
     const WZ_POB = 44;
     const WZ_HEADING = 45;
-
+    const WZ_SIMULATOR = 47;
+    const WZ_ONGROUND = 46;
+    const WZ_REMARKS = 29;
+    const WZ_ALTERNATE = 28;
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
     const HOLD_TIME = 900;
-
     const FLIGHT_STATUS_OK = 2;
     const FLIGHT_STATUS_BREAK = 3;
     const FLIGHT_STATUS_STARTED = 1;
@@ -55,6 +60,12 @@ class ParseController extends Controller
      * @var array
      */
     private $ourpilots;
+
+    /**
+     * Массив с VID всех наших пилотов онлайн
+     * @var array
+     */
+    private $onlinepilotslist;
 
     /**
      * Главная функция, запускает остальные функции
@@ -100,7 +111,7 @@ class ParseController extends Controller
     }
 
     /**
-     * Валидирует полет. Проверяет, что он завершен в радиусе 10 морских миль от аэродрома назначения.
+     * Валидирует полет. Проверяет, что он завершен в радиусе MAX_DISTANCE от аэродрома назначения.
      * @param $flight
      * @return bool
      */
@@ -123,21 +134,15 @@ class ParseController extends Controller
     private function startFlight($booking)
     {
         $flight = new Flights();
-
         if ($booking->fleet_regnum) {
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
-
         $flight->acf_type = $booking->aircraft_type;
         $flight->booking_id = $booking->id;
-
         $flight->user_id = $booking->user_id;
         $flight->status = self::FLIGHT_STATUS_STARTED;
-
         $flight->first_seen = gmdate('Y-m-d H:i:s');
-
         $flight = $this->updateData($flight);
-
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
@@ -164,21 +169,24 @@ class ParseController extends Controller
      */
     private function endFlight($flight)
     {
-        $booking = Booking::find()->andWhere(['id' => $flight->booking_id]);
+        $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
         $booking->delete();
         if ($this->validateFlight($flight)) {
-            $flight->lastseen = gmdate('Y-m-d H:i:s');
+            $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
         } else {
-            if ((gmmktime() - strtotime($flight->lastseen)) > self::HOLD_TIME) {
-                $flight->lastseen = gmdate('Y-m-d H:i:s');
+            if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
+                $flight->last_seen = gmdate('Y-m-d H:i:s');
                 $flight->status = self::FLIGHT_STATUS_BREAK;
                 $flight->save();
             }
         }
+        $up = UserPilot::findOne($flight->user_id);
+        $up->minutes = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
+        $up->save();
     }
 
     /**
@@ -212,26 +220,34 @@ class ParseController extends Controller
     private function updateData($flight)
     {
         $data = $this->ourpilots[$flight->user_id];
-
+        $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
-        $flight->lastseen = gmdate('Y-m-d H:i:s');
+        $flight->last_seen = gmdate('Y-m-d H:i:s');
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
-        $flight->fob = $data[self::WZ_FOB_HOURS].$data[self::WZ_FOB_MINUTES];
+        $flight->callsign = $data[self::WZ_CALLSIGN];
+        $flight->remarks = $data[self::WZ_REMARKS];
+        $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
         $flight->pob = $data[self::WZ_POB];
-
+        $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
+        $flight->alternate1 = $data[self::WZ_ALTERNATE];
+        $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
+        $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
+        $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
+        if($flight->dep_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==0 && $data[self::WZ_GROUNDSPEED]>40) $flight->dep_time=gmdate('Y-m-d H:i:s');
+        if($flight->dep_time>'0000-00-00 00:00:00' && $flight->landing_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==1 && $data[self::WZ_GROUNDSPEED]<=40) $flight->landing_time=gmdate('Y-m-d H:i:s');
         $this->insertTrackerData($flight);
-
         return $flight;
     }
 
     /**
      * Возвращает маршрутную часть ФПЛ.
      * @param int $int user_id для поиска в массиве с пилотами
+     * @return string
      */
-    private function getRoute($user_id)
+    private function getFlightRoute($user_id)
     {
-        return $this->ourpilots[$user_id][self::WZ_FPL_SPD] . $this->ourpilots[$user_id][self::WZ_FPL_ALT] . " " . $this->ourpilots[$user_id][self::WZ_FLIGHTPLAN]
+        return $this->ourpilots[$user_id][self::WZ_FPL_SPD] . $this->ourpilots[$user_id][self::WZ_FPL_ALT] . " " . $this->ourpilots[$user_id][self::WZ_FLIGHTPLAN];
     }
 
     /**
@@ -282,5 +298,13 @@ class ParseController extends Controller
             $this->ourpilots[$data[self::WZ_VID]] = $data;
             $this->onlinepilotslist[] = $data[self::WZ_VID];
         }
+    }
+
+    private function isDomestic($flight)
+    {
+        if ($flight->depAirport->country == 'ru' && $flight->arrAirport->country == 'ru') {
+            return true;
+        }
+        return false;
     }
 }

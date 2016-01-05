@@ -60,7 +60,7 @@ function initialize(vid) {
 
 function loadData() {
     //TODO: путь приложение как-нибудь поправить
-    var url = "http://daitel.va-aeroflot.su/site/getuserroutes/" + user_id;
+    var url = "//site/getuserroutes/" + user_id;
     $.getJSON(url, function (response) {
         handleData(response)
     });
