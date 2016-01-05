@@ -54,7 +54,7 @@ use dosamigos\highcharts\HighCharts;
                 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
                     <tr>
                         <td class="field"><h2><img
-                                    src="<?= Helper::getFlagLink($user->country) ?>"> <?= $user->full_name ?></h2></td>
+                                    src="<?= $user->flaglink ?>"> <?= $user->full_name ?></h2></td>
                     </tr>
                 </table>
                 <div class="row">
@@ -79,7 +79,7 @@ use dosamigos\highcharts\HighCharts;
                                             'attribute' => 'location',
                                             'label' => Yii::t('app', 'Location'),
                                             'format' => 'raw',
-                                            'value' => '<img src="' . Helper::getFlagLink($user->country) . '"> ' . Html::a(Html::encode($user->pilot->airport->name . ' (' . $user->pilot->location . ')'),
+                                            'value' => '<img src="' . $user->pilot->airport->flaglink . '"> ' . Html::a(Html::encode($user->pilot->airport->name . ' (' . $user->pilot->location . ')'),
                                                     Url::to([
                                                         '/airline/airports/view/',
                                                         'id' => $user->pilot->location

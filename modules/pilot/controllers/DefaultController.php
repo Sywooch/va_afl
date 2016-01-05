@@ -38,6 +38,10 @@ class DefaultController extends Controller
             'asc' => ['ranks.name_ru' => SORT_ASC],
             'desc' => ['ranks.name_ru' => SORT_DESC]
         ];
+        $dataProvider->sort->attributes['pilot.staff_comments'] = [
+            'asc' => ['user_pilot.staff_comments' => SORT_ASC],
+            'desc' => ['user_pilot.staff_comments' => SORT_DESC]
+        ];
 
         return $this->render('roster', ['dataProvider' => $dataProvider]);
     }

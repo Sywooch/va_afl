@@ -33,7 +33,8 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'active', 'rank_id', 'minutes'], 'integer'],
-            [['location'], 'string', 'max' => 4]
+            [['staff_comments'], 'text'],
+            [['location'], 'string', 'max' => 4],
         ];
     }
 
@@ -47,6 +48,7 @@ class UserPilot extends \yii\db\ActiveRecord
             'location' => Yii::t('app', 'Location'),
             'active' => 'Active',
             'rank_id' => 'Rank ID',
+            'staff_comments' => 'Staff Comments'
         ];
     }
 

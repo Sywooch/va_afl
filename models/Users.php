@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\components\Helper;
 
 /**
  * This is the model class for table "users".
@@ -81,7 +81,7 @@ class Users extends \yii\db\ActiveRecord
 			'country' => Yii::t('user','Country'),
 			'authKey' => 'Auth Key',
 			'language' => Yii::t('user','Language'),
-			'created_date' => 'Created Date',
+			'created_date' => Yii::t('user','Register Date'),
 			'last_visited' => 'Last Visited',
 			'avatar' => 'Avatar'
 		];
@@ -99,5 +99,10 @@ class Users extends \yii\db\ActiveRecord
     public static function getAuthUser()
     {
         return self::find()->andWhere(['vid' => Yii::$app->user->id])->one();
+    }
+
+    public function getFlaglink()
+    {
+        return Helper::getFlagLink($this->country);
     }
 }

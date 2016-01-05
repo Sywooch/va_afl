@@ -1,6 +1,7 @@
 <?php
-use \yii\helpers\Html;
-use \yii\helpers\Url;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\GridView;
 
 /**
  * Created by PhpStorm.
@@ -8,29 +9,58 @@ use \yii\helpers\Url;
  * Date: 23.09.15
  * Time: 20:32
  */
+
 $this->title = Yii::t('app', 'Pilots roster');
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
     ['label' => $this->title]
-];
-echo \yii\grid\GridView::widget([
-    'dataProvider' => $dataProvider,
-    'columns' => [
-        [
-            'attribute' => 'full_name',
-            'format' => 'raw',
-            'value' => function ($data) {
-                return Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
-            }
-        ],
-        Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
-        [
-            'attribute' => 'pilot.location',
-            'format' => 'raw',
-            'value' => function ($data) {
-                return "<img src=" . $data->pilot->airport->flaglink . ">" .
-                Html::a($data->pilot->location, Url::to('/airline/airports/view/' . $data->pilot->airport->icao));
-            }
-        ]
-    ]
-]);
+]; ?>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title"><?= $this->title ?></h4>
+    </div>
+    <div class="panel-body" style="display: block;">
+        <?php echo \yii\grid\GridView::widget([
+            'dataProvider' => $dataProvider,
+            'tableOptions' => [
+                'class' => 'table table-bordered table-striped table-hover'
+            ],
+            'layout' => '{items}{pager}',
+            'columns' => [
+                [
+                    'attribute' => 'full_name',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return "<img src=" . $data->flaglink . "> " .
+                        Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
+                    }
+                ],
+                Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
+
+                [
+                    'attribute' => 'pilot.location',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return '<img src="' . $data->pilot->airport->flaglink . '"> ' . Html::a(Html::encode($data->pilot->airport->name . ' (' . $data->pilot->location . ')'),
+                            Url::to([
+                                '/airline/airports/view/',
+                                'id' => $data->pilot->location
+                            ]));
+                    }
+                ],
+                [
+                    'attribute' => 'created_date',
+                    'format' => ['date', 'php:d.m.Y']
+                ],
+                [
+                    'attribute' => 'pilot.staff_comments',
+                    'label' => Yii::t('user', 'Staff Comments'),
+                    'value' => function ($data) {
+                        return Html::encode($data->pilot->staff_comments);
+                    },
+                    'visible' => Yii::$app->user->can('view_staff_comments')
+                ],
+            ]
+        ]); ?>
+    </div>
+</div>
