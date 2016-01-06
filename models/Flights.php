@@ -48,7 +48,7 @@ class Flights extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic','flight_time'], 'integer'],
+            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time'], 'integer'],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
@@ -107,7 +107,9 @@ class Flights extends \yii\db\ActiveRecord
 
     public static function getStatWeekdays($id)
     {
-        $stats_raw = Flights::find()->where(['user_id' => $id])->select('WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`')
+        $stats_raw = Flights::find()->where(['user_id' => $id])->select(
+            'WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`'
+        )
             ->groupBy(
                 [
                     'WEEKDAY(dep_time)',
@@ -115,7 +117,10 @@ class Flights extends \yii\db\ActiveRecord
             )->all();
         $stat = [];
         foreach ($stats_raw as $stat_raw) {
-            $stat[] = ['name' => Yii::t('time',Helper::getWeekDayFromNumber($stat_raw->day)), 'y' => intval($stat_raw->count)];
+            $stat[] = [
+                'name' => Yii::t('time', Helper::getWeekDayFromNumber($stat_raw->day)),
+                'y' => intval($stat_raw->count)
+            ];
         }
         return $stat;
     }
@@ -148,6 +153,6 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(), ['regnum'=>'fleet_regnum']);
+        return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
     }
 }

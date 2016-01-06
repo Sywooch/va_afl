@@ -52,6 +52,6 @@ class Staff extends \yii\db\ActiveRecord
 
     public function getUser()
     {
-        return $this->hasOne(Users::className(),['vid'=>'vid']);
+        return $this->hasOne(Users::className(), ['vid' => 'vid']);
     }
 }

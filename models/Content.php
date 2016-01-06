@@ -53,7 +53,8 @@ class Content extends \yii\db\ActiveRecord
      * Вернёт имя
      * @return string
      */
-    public function getName(){
+    public function getName()
+    {
         return $this->getLocale('name_ru', 'name_en');
     }
 
@@ -61,7 +62,8 @@ class Content extends \yii\db\ActiveRecord
      * Вернёт текст
      * @return string
      */
-    public function getText(){
+    public function getText()
+    {
         return $this->getLocale('text_ru', 'text_en');
     }
 
@@ -71,7 +73,8 @@ class Content extends \yii\db\ActiveRecord
      * @param $en string
      * @return string
      */
-    private function getLocale($ru, $en){
+    private function getLocale($ru, $en)
+    {
         return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
     }
 }

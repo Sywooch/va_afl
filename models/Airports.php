@@ -78,12 +78,15 @@ class Airports extends \yii\db\ActiveRecord
                 'pageSize' => Yii::$app->session->get(get_parent_class($this) . 'Pagination'),
             ],
         ]);
+
         if (!($this->load($params))) {
             return $dataProvider;
         }
+
         $query->andFilterWhere(['like', 'icao', $this->icao])->
             andFilterWhere(['like', 'name', $this->name])->
             andFilterWhere(['like', 'city', $this->city]);
+
         return $dataProvider;
     }
 
@@ -92,7 +95,8 @@ class Airports extends \yii\db\ActiveRecord
      * @param $q string Search id from default answer
      * @param $id string Search id from default answer
      */
-    public static function searchByICAO($q = null, $id = null){
+    public static function searchByICAO($q = null, $id = null)
+    {
         $out = ['results' => ['id' => '', 'text' => '']];
 
         if (!is_null($q)) {
