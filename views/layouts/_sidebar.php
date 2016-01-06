@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nikita Fedoseev
- * Date: 21.09.15
- * Time: 18:36
- */
 use app\components\Menu;
 use app\models\Users;
 use yii\helpers\Html;
@@ -16,12 +10,16 @@ use yii\helpers\Html;
             <li class="nav-profile">
                 <?php if (!Yii::$app->user->isGuest): ?>
                     <div class="info">
-                        <?php echo Yii::$app->user->identity->full_name ?>
-                        <small>Front end developer</small>
+                        <?= Yii::$app->user->identity->full_name ?>
+                        <?php $user = Users::getAuthUser(); ?>
+                        <small><?= Yii::$app->language == 'RU' ? $user->pilot->rank->name_ru : $user->pilot->rank->name_en ?></small>
                     </div>
-                    <?php $user = Users::getAuthUser();
+                    <?php
                     if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-                        echo Html::img('/img/avatars/' . $user->avatar,['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                        echo Html::img('/img/avatars/' . $user->avatar,
+                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                    } else {
+                        echo Html::img('/img/avatars/default.png');
                     } ?>
                 <?php endif; ?>
             </li>
@@ -44,8 +42,14 @@ use yii\helpers\Html;
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
                             ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
-                            ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance/'.Yii::$app->user->identity->vid)],
-                            ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights/'.Yii::$app->user->identity->vid)],
+                            [
+                                'name' => Yii::t('app', 'Balance'),
+                                'url' => \yii\helpers\Url::to('/pilot/balance/' . Yii::$app->user->identity->vid)
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Flights'),
+                                'url' => \yii\helpers\Url::to('/pilot/flights/' . Yii::$app->user->identity->vid)
+                            ],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
                         ],
                         'icon' => 'fa-bar-chart'

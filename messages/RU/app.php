@@ -32,6 +32,7 @@ return [
     'Squadrons' => 'Лётные отряды',
     'Pilots roster' => 'Список пилотов',
     'Fleet' => 'Флот',
+    'Profile' => 'Профиль',
     'Schedule' => 'Расписание',
     'Staff' => 'Руководство',
     'Contacts' => 'Контакты',

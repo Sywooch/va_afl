@@ -35,17 +35,18 @@ class Helper extends Component
         $hours = ($time - $minutes) / 60;
         return $hours . ' ' . Yii::t('user', 'Hours') . ' ' . $minutes . ' ' . Yii::t('user', 'Minutes');
     }
+
     public static function getWhazzup()
     {
-        $key="whazzupdata";
-        if(!$data = \Yii::$app->cache->get($key))
-        {
+        $key = "whazzupdata";
+        if (!$data = \Yii::$app->cache->get($key)) {
             $data = file_get_contents('http://api.ivao.aero/getdata/whazzup');
-            \Yii::$app->cache->set($key,$data,180);
+            \Yii::$app->cache->set($key, $data, 180);
         }
         return $data;
     }
-    public static function calculateDistanceLatLng($lat1,$lat2,$lon1,$lon2)
+
+    public static function calculateDistanceLatLng($lat1, $lat2, $lon1, $lon2)
     {
         $R = 3443.9; // nm
         $dLat = deg2rad($lat2 - $lat1);
@@ -53,5 +54,19 @@ class Helper extends Component
         $a = sin($dLat / 2.0) * sin($dLat / 2.0) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2.0) * sin($dLon / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
         return $R * $c;
+    }
+
+    public static function getWeekDayFromNumber($day)
+    {
+        $array = [
+            1 => 'Mon.',
+            2 => 'Tue.',
+            3 => 'Wed.',
+            4 => 'Thu.',
+            5 => 'Fri.',
+            6 => 'Sat.',
+            7 => 'Sun.'
+        ];
+        return $array[$day];
     }
 }

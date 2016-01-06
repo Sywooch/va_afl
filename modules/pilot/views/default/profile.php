@@ -4,9 +4,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+use dosamigos\highcharts\HighCharts;
 
-?>
-
+$this->title = Yii::t('app', 'Profile');
+$this->params['breadcrumbs'] = [
+    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
+    ['label' => $this->title]
+]; ?>
 <div class="profile-container">
     <!-- begin profile-section -->
     <div class="profile-section">
@@ -26,10 +30,10 @@ use yii\grid\GridView;
             <?= Html::endTag('div') ?>
             <div class="">
                 <ul class="list-group nopoints">
-                    <li class="list-group-item list-group-item-success">
-                        Active
+                    <li class="list-group-item" style="background-color: #33BDBD">
+                        <?= $user->pilot->statusName; ?>
                     </li>
-                    <li class="list-group-item list-group-item-warning">
+                    <li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
                         Supervisor
                     </li>
                     <li class="list-group-item list-group-item">
@@ -48,19 +52,23 @@ use yii\grid\GridView;
         <!-- begin profile-right -->
         <div class="profile-right">
             <!-- begin profile-info -->
+            <?php //\yii\helpers\BaseVarDumper::dump($user->online, 10, true) ?>
             <div class="profile-info">
                 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
                     <tr>
                         <td class="field"><h2><img
-                                    src="<?= Helper::getFlagLink($user->country) ?>"> <?= $user->full_name ?></h2></td>
+                                    src="<?= $user->flaglink ?>"> <?= $user->full_name ?>
+                            </h2><?php echo $user->online ? Html::tag('span', 'Online',
+                                ['class' => 'label label-success']) : Html::tag('span', 'Offline',
+                                ['class' => 'label label-default']) ?>
+                        </td>
                     </tr>
                 </table>
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="padding-top: 6px">
                             <!-- begin table -->
-                            <?=
-                            DetailView::widget(
+                            <?= DetailView::widget(
                                 [
                                     'model' => $user,
                                     'options' => ['class' => 'table table-profile'],
@@ -77,7 +85,7 @@ use yii\grid\GridView;
                                             'attribute' => 'location',
                                             'label' => Yii::t('app', 'Location'),
                                             'format' => 'raw',
-                                            'value' => '<img src="' . Helper::getFlagLink($user->country) . '"> ' . Html::a(Html::encode($user->pilot->airport->name . ' (' . $user->pilot->location . ')'),
+                                            'value' => '<img src="' . $user->pilot->airport->flaglink . '"> ' . Html::a(Html::encode($user->pilot->airport->name . ' (' . $user->pilot->location . ')'),
                                                     Url::to([
                                                         '/airline/airports/view/',
                                                         'id' => $user->pilot->location
@@ -103,33 +111,179 @@ use yii\grid\GridView;
                                             'label' => Yii::t('app', 'Total pax'),
                                             'value' => $user->pilot->passengers,
                                         ],
-
-                                        /*
-                                                    [
-                                                        'attribute' => 'Пассажиров перевезено',
-                                                        'format' => 'raw',
-                                                        'value' => $user->pilot->passengers,
-                                                    ],
-                                                    [
-                                                        'attribute' => 'Страна',
-                                                        'format' => 'raw',
-                                                        'value' => '<img src="' . Helper::getFlagLink($user->country) . '"> ' . Helper::getCountryCode($user->country),
-                                                    ],
-                                                    [
-                                                        'attribute' => 'Город',
-                                                        'format' => 'raw',
-                                                        'value' => 'Москва',
-                                                    ],
-                                                    [
-                                                        'attribute' => 'День рождения',
-                                                        'format' => 'raw',
-                                                        'value' => '01.01.1980',
-                                                    ],*/
                                     ]
                                 ]
                             ) ?>
                         </div>
                     </div>
+                    <?php if ($user->pilot->statWeekdays != null): ?>
+                        <div class="col-md-3 col-sm-offset-1" style="margin-top:-65px;">
+                            <?php
+                            echo HighCharts::widget([
+                                'clientOptions' => [
+                                    'colors' => [
+                                        '#F59C1A',
+                                        '#FF5B57',
+                                        '#B6C2C9',
+                                        '#2D353C',
+                                        '#2A72B5',
+                                        '#CC4946',
+                                        '#00ACAC'
+                                    ],
+                                    'chart' => [
+                                        'type' => 'pie',
+                                        'plotBackgroundColor' => null,
+                                        'backgroundColor' => null,
+                                        'plotBorderWidth' => null,
+                                        'plotShadow' => false,
+                                        'height' => 300,
+                                        'marginBottom' => 60,
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ]
+                                    ],
+                                    'title' => [
+                                        'text' => Yii::t('charts','WEEKDAY STATISTICS'),
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'exporting' => [
+                                        'enabled' => false
+                                    ],
+                                    'credits' => [
+                                        'enabled' => false
+                                    ],
+                                    'tooltip' => [
+                                        'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'plotOptions' => [
+                                        'pie' => [
+                                            'allowPointSelect' => true,
+                                            'cursor' => 'pointer',
+                                            'dataLabels' => [
+                                                'enabled' => false
+                                            ],
+                                            'showInLegend' => true,
+                                        ]
+                                    ],
+                                    'legend' => [
+                                        'itemStyle' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ],
+                                        'borderColor' => '#FFFFFF',
+                                    ],
+                                    'series' => [
+                                        [
+                                            'name' => 'Types',
+                                            'colorByPoint' => true,
+                                            'data' => $user->pilot->statWeekdays,
+                                            'innerSize' => '65%'
+                                        ]
+                                    ]
+                                ]
+                            ]); ?>
+                        </div>
+                        <div class="col-md-3" style="margin-top:-65px;">
+                            <?php echo HighCharts::widget([
+                                'clientOptions' => [
+                                    'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#348FE2'],
+                                    'chart' => [
+                                        'type' => 'pie',
+                                        'plotBackgroundColor' => null,
+                                        'backgroundColor' => null,
+                                        'plotBorderWidth' => null,
+                                        'plotShadow' => false,
+                                        'height' => 300,
+                                        'marginBottom' => 60,
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ]
+                                    ],
+                                    'title' => [
+                                        'text' => Yii::t('charts','AIRCRAFT USAGE'),
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'exporting' => [
+                                        'enabled' => false
+                                    ],
+                                    'credits' => [
+                                        'enabled' => false
+                                    ],
+                                    'tooltip' => [
+                                        'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>',
+                                        'style' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600'
+                                        ]
+                                    ],
+                                    'plotOptions' => [
+                                        'pie' => [
+                                            'allowPointSelect' => true,
+                                            'cursor' => 'pointer',
+                                            'dataLabels' => [
+                                                'enabled' => false
+                                            ],
+                                            'showInLegend' => true,
+                                        ]
+                                    ],
+                                    'legend' => [
+                                        'itemStyle' => [
+                                            'fontFamily' => 'Open Sans',
+                                            'fontSize' => '12px',
+                                            'color' => '#777777',
+                                            'fontWeight' => '600',
+                                        ],
+                                        'borderColor' => '#FFFFFF',
+                                    ],
+                                    'series' => [
+                                        [
+                                            'name' => 'Types',
+                                            'colorByPoint' => true,
+                                            'data' => $user->pilot->statAcfTypes,
+                                            'innerSize' => '65%'
+                                        ]
+                                    ]
+                                ]
+                            ]); ?>
+                        </div>
+                    <?php else: ?>
+                        <div class='col-md-6'>
+                            <div class="jumbotron" style="border-radius: 10px;" align="center">
+                                <h2>Упс... Нет данных</h2>
+                                <p>Данный пилот еще не совершал рейсов</p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-3">
+
+
                 </div>
 
 

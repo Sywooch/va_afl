@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+use app\components\Helper;
 
 /**
  * This is the model class for table "airports".
@@ -117,6 +118,6 @@ class Airports extends \yii\db\ActiveRecord
 
     public function getFlaglink()
     {
-        return "/img/flags/countries/16x11/" . strtolower($this->iso) . ".png";
+        return Helper::getFlagLink($this->iso);
     }
 }

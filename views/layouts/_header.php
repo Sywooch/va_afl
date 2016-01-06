@@ -1,10 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nikita Fedoseev
- * Date: 21.09.15
- * Time: 18:36
- */
+use app\models\Users;
+use yii\bootstrap\Html;
+
 ?>
 <div id="header" class="header navbar navbar-default navbar-fixed-top">
     <!-- begin container-fluid -->
@@ -99,7 +96,12 @@
             <?php if (!Yii::$app->user->isGuest): ?>
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/img/user-13.jpg" alt=""/>
+                        <?php $user = Users::getAuthUser();
+                        if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
+                            echo Html::img('/img/avatars/' . $user->avatar);
+                        } else {
+                            echo Html::img('/img/avatars/default.png');
+                        } ?>
                         <span class="hidden-xs"><?php echo Yii::$app->user->identity->full_name ?></span> <b
                             class="caret"></b>
                     </a>
@@ -113,7 +115,7 @@
                         <li><a data-method="post" href="/site/logout">Log Out</a></li>
                     </ul>
                 </li>
-            <?php else: ?>
+                <?php else: ?>
                 <li class="navbar-user">
                     <a href="site/login">
                         <span class="hidden-xs">Login</span>
