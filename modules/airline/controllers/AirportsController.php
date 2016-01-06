@@ -66,11 +66,11 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
-        $key=preg_match('/^\d+$/',$id)?'id':'icao';
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
         return $this->render(
             'view',
             [
-                'model' => $this->findModel([$key=>$id]),
+                'model' => $this->findModel([$key => $id]),
             ]
         );
     }

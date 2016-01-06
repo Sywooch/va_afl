@@ -18,7 +18,7 @@ $this->title = $name;
     </div>
 
     <pre>
-        <?=  \yii\helpers\VarDumper::dump($exception, 10, true) ?>
+        <?= \yii\helpers\VarDumper::dump($exception, 10, true) ?>
     </pre>
     <p>
         Please contact us if you think this is a server error. Thank you.

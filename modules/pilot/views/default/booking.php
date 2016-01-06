@@ -22,7 +22,7 @@ $this->params['breadcrumbs'] = [
 <?php if (!$model->id): ?>
     <div class="row">
         <div class="col-md-12">
-            <h1><?=Yii::t('app','Booking')?></h1>
+            <h1><?= Yii::t('app', 'Booking') ?></h1>
         </div>
         <div class="col-md-6">
             <div class="panel panel-inverse">
@@ -88,7 +88,7 @@ $this->params['breadcrumbs'] = [
                         ]
                     );
                     ?>
-                    <?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'),['class'=>'btn btn-success']); ?>
+                    <?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'), ['class' => 'btn btn-success']); ?>
                     <?php
                     \yii\widgets\ActiveForm::end();
                     ?>
@@ -103,71 +103,91 @@ $this->params['breadcrumbs'] = [
                 <div class="panel-body" style="height: 500px;">
                     <?php
                     Pjax::begin();
-                    echo \yii\grid\GridView::widget([
-                        'dataProvider' => $scheduledp,
-                        'layout' => '{items}{pager}',
-                        'columns' => [
-                            ['attribute'=>'flight','options'=>['style'=>'width: 20px;']],
-                            [
-                                'options' => ['style' => 'width: 90px;'],
-                                'attribute' => 'dep',
-                                'format' => 'html',
-                                'value' => function ($data) {
-                                    return "<div><img src='" . $data->departure->flaglink . "'/>$data->dep</div>";
-                                }
-                            ],
-                            [
-                                'options' => ['style' => 'width: 90px;'],
-                                'attribute' => 'arr',
-                                'format' => 'html',
-                                'value' => function ($data) {
-                                    return "<div><img src='" . $data->arrival->flaglink . "'/>$data->arr</div>";
-                                }
-                            ],
-                            'aircraft',
-                            ['attribute'=>'dep_utc_time','value'=>function($data){return date('H:i',strtotime($data->dep_utc_time));}],
-                            ['attribute'=>'arr_utc_time','value'=>function($data){return date('H:i',strtotime($data->arr_utc_time));}],
+                    echo \yii\grid\GridView::widget(
+                        [
+                            'dataProvider' => $scheduledp,
+                            'layout' => '{items}{pager}',
+                            'columns' => [
+                                ['attribute' => 'flight', 'options' => ['style' => 'width: 20px;']],
+                                [
+                                    'options' => ['style' => 'width: 90px;'],
+                                    'attribute' => 'dep',
+                                    'format' => 'html',
+                                    'value' => function ($data) {
+                                            return "<div><img src='" . $data->departure->flaglink . "'/>$data->dep</div>";
+                                        }
+                                ],
+                                [
+                                    'options' => ['style' => 'width: 90px;'],
+                                    'attribute' => 'arr',
+                                    'format' => 'html',
+                                    'value' => function ($data) {
+                                            return "<div><img src='" . $data->arrival->flaglink . "'/>$data->arr</div>";
+                                        }
+                                ],
+                                'aircraft',
+                                [
+                                    'attribute' => 'dep_utc_time',
+                                    'value' => function ($data) {
+                                            return date('H:i', strtotime($data->dep_utc_time));
+                                        }
+                                ],
+                                [
+                                    'attribute' => 'arr_utc_time',
+                                    'value' => function ($data) {
+                                            return date('H:i', strtotime($data->arr_utc_time));
+                                        }
+                                ],
 
+                            ]
                         ]
-                    ]);
+                    );
                     Pjax::end();
                     ?>
                 </div>
             </div>
         </div>
     </div>
-    <?php
+<?php
 else:
 //Есть букинг - показываем его
     ?>
     <div class="row">
         <div class="jumbotron" style="padding: 10px;">
             <h1 class="text-center"><?= $model->callsign ?></h1>
-            <?= \yii\widgets\DetailView::widget([
-                'model' => $model,
-                'template' => '<tr><td style="width: 50%;">{label}</td><td>{value}</td></tr>',
-                'attributes' => [
-                    'from_icao' => [
-                        'label' => Yii::t('booking', 'Departure airport'),
-                        'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->from_icao,
-                        'format' => 'html'
-                    ],
-                    'to_icao' => [
-                        'label' => Yii::t('booking', 'Arrival airport'),
-                        'value' => '<img src="' . $model->departure->flaglink . '">' . $model->to_icao,
-                        'format' => 'html'
-                    ],
-                    'aircraft_type',
-                    'fleet_regnum' => [
-                        'label' => Yii::t('booking', 'Aircraft Registration Number'),
-                        'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne($model->fleet_regnum)->regnum : ''
-                    ],
-                    'status' => [
-                        'label' => Yii::t('booking', 'Booking status'),
-                        'value' => $model->status == 1 ? Yii::t('booking', 'Ready') : Yii::t('booking', 'In progress')
+            <?=
+            \yii\widgets\DetailView::widget(
+                [
+                    'model' => $model,
+                    'template' => '<tr><td style="width: 50%;">{label}</td><td>{value}</td></tr>',
+                    'attributes' => [
+                        'from_icao' => [
+                            'label' => Yii::t('booking', 'Departure airport'),
+                            'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->from_icao,
+                            'format' => 'html'
+                        ],
+                        'to_icao' => [
+                            'label' => Yii::t('booking', 'Arrival airport'),
+                            'value' => '<img src="' . $model->departure->flaglink . '">' . $model->to_icao,
+                            'format' => 'html'
+                        ],
+                        'aircraft_type',
+                        'fleet_regnum' => [
+                            'label' => Yii::t('booking', 'Aircraft Registration Number'),
+                            'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
+                                    $model->fleet_regnum
+                                )->regnum : ''
+                        ],
+                        'status' => [
+                            'label' => Yii::t('booking', 'Booking status'),
+                            'value' => $model->status == 1 ? Yii::t('booking', 'Ready') : Yii::t(
+                                    'booking',
+                                    'In progress'
+                                )
+                        ]
                     ]
                 ]
-            ]) ?>
+            ) ?>
             <?php
             echo \yii\helpers\Html::a(
                 \yii\bootstrap\Html::button(Yii::t('booking', 'Delete'), ['class' => 'btn btn-danger']),

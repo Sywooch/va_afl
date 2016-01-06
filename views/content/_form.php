@@ -12,11 +12,8 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'text_ru')->textarea(['rows' => 6]) ?>
-
     <?= $form->field($model, 'text_en')->textarea(['rows' => 6]) ?>
 
     <div class="form-group">
