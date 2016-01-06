@@ -1,9 +1,4 @@
 <?php
-use app\components\Helper;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-use yii\grid\GridView;
-
 /* @var $this yii\web\View */
 /* @var $user app\models\Airports */
 /* @var $form yii\widgets\ActiveForm */

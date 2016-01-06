@@ -1,7 +1,9 @@
 <?php
+
+use yii\helpers\Html;
+
 use app\components\Menu;
 use app\models\Users;
-use yii\helpers\Html;
 
 ?>
 <div id="sidebar" class="sidebar">
@@ -21,7 +23,10 @@ use yii\helpers\Html;
                             ['style' => 'width: 100%;border-bottom: 2px solid #889097;']
                         );
                     } else {
-                        echo Html::img('/img/avatars/default.png');
+                        echo Html::img(
+                            '/img/avatars/default.png',
+                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']
+                        );
                     } ?>
                 <?php endif; ?>
             </li>

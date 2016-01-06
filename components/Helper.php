@@ -3,7 +3,8 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
-use \app\models\Isocodes;
+
+use app\models\Isocodes;
 use app\models\Flights;
 
 /**

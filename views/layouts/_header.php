@@ -1,6 +1,8 @@
 <?php
-use app\models\Users;
+
 use yii\bootstrap\Html;
+
+use app\models\Users;
 
 ?>
 <div id="header" class="header navbar navbar-default navbar-fixed-top">

@@ -3,11 +3,12 @@
 namespace app\modules\airline\controllers;
 
 use Yii;
-use app\models\Airports;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Airports;
 
 /**
  * AirportsController implements the CRUD actions for Airports model.

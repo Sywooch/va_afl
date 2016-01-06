@@ -6,11 +6,12 @@
  * Time: 15:08
  */
 
-use kartik\select2\Select2;
 use yii\web\JsExpression;
-use \kartik\depdrop\DepDrop;
 use yii\helpers\Url;
-use \yii\widgets\Pjax;
+use yii\widgets\Pjax;
+
+use kartik\select2\Select2;
+use kartik\depdrop\DepDrop;
 
 $this->title = Yii::t('app', 'Booking');
 $this->params['breadcrumbs'] = [
