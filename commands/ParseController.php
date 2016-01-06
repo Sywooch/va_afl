@@ -159,13 +159,13 @@ class ParseController extends Controller
             ->andWhere('to_icao = '.$flight->to_icao)->orderBy('waiting_hours desc')->all();
         foreach($needpax as $px)
         {
-            if($px->pax <= $flightpax)
+            if($px->num_pax <= $flightpax)
             {
-                $px->pax = 0;
+                $px->num_pax = 0;
                 $flightpax-=$px->pax;
             }
             else{
-                $px->pax-=$flightpax;
+                $px->num_pax-=$flightpax;
                 $flightpax = 0;
             }
             $px->save();
