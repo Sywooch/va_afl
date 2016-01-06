@@ -48,13 +48,13 @@ class Booking extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'from_icao' => Yii::t('booking', 'Departure airport'),
-            'to_icao' => Yii::t('booking', 'Arrival Airport'),
-            'callsign' => Yii::t('booking', 'Callsign'),
-            'aircraft_type' => Yii::t('booking', 'Aircraft Type'),
-            'fleet_regnum' => Yii::t('booking', 'Aircraft Registration Number'),
+            'from_icao' => Yii::t('flights', 'Departure airport'),
+            'to_icao' => Yii::t('flights', 'Arrival Airport'),
+            'callsign' => Yii::t('flights', 'Callsign'),
+            'aircraft_type' => Yii::t('flights', 'Aircraft Type'),
+            'fleet_regnum' => Yii::t('flights', 'Aircraft Registration Number'),
             'schedule_id' => Yii::t('boking', 'Flight number'),
-            'non_schedule_utc' => Yii::t('booking', 'UTC departure time'),
+            'non_schedule_utc' => Yii::t('flights', 'UTC departure time'),
         ];
     }
 
