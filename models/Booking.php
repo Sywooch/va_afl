@@ -48,13 +48,13 @@ class Booking extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'from_icao' => 'From Icao',
-            'to_icao' => 'To Icao',
-            'callsign' => 'Callsign',
-            'aircraft_type' => 'Aircraft Type',
-            'fleet_regnum' => 'Fleet Regnum',
-            'schedule_id' => 'Schedule ID',
-            'non_schedule_utc' => 'Non Schedule Utc',
+            'from_icao' => Yii::t('booking','Departure airport'),
+            'to_icao' => Yii::t('booking','Arrival Airport'),
+            'callsign' => Yii::t('booking','Callsign'),
+            'aircraft_type' => Yii::t('booking','Aircraft Type'),
+            'fleet_regnum' => Yii::t('booking','Aircraft Registration Number'),
+            'schedule_id' => Yii::t('boking','Flight number'),
+            'non_schedule_utc' => Yii::t('booking','UTC departure time'),
         ];
     }
 
@@ -63,5 +63,17 @@ class Booking extends \yii\db\ActiveRecord
         $userdata = Users::getAuthUser();
         $this->from_icao = $userdata->pilot->location;
         $this->user_id = $userdata->vid;
+    }
+    public function getFlight()
+    {
+        return $this->hasOne(Flights::className(),['booking_id'=>'id']);
+    }
+    public function getDeparture()
+    {
+        return $this->hasOne(Airports::className(),['icao'=>'from_icao']);
+    }
+    public function getArrival()
+    {
+        return $this->hasOne(Airports::className(),['icao'=>'to_icao']);
     }
 }

@@ -48,7 +48,7 @@ class Flights extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic'], 'integer'],
+            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic','flight_time'], 'integer'],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
