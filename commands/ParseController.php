@@ -12,6 +12,7 @@ use app\models\Airports;
 use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
+use app\models\Pax;
 use app\models\Tracker;
 use app\models\UserPilot;
 use app\models\Users;
@@ -143,10 +144,39 @@ class ParseController extends Controller
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
+        $this->appendPaxOnFlight($flight);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
         }
+    }
+
+    private function appendPaxOnFlight(&$flight)
+    {
+        $maxpax = ($flight->fleet)?$flight->fleet->maxpax:$this->getMaxPaxForType($flight->acf_type);
+        $flightpax = $maxpax;
+        $needpax = Pax::find()->andWhere('from_icao = '.$flight->from_icao)
+            ->andWhere('to_icao = '.$flight->to_icao)->orderBy('waiting_hours desc')->all();
+        foreach($needpax as $px)
+        {
+            if($px->pax <= $flightpax)
+            {
+                $px->pax = 0;
+                $flightpax-=$px->pax;
+            }
+            else{
+                $px->pax-=$flightpax;
+                $flightpax = 0;
+            }
+            $px->save();
+            if($flightpax == 0) break;
+        }
+        $flight->pob = $maxpax-$flightpax;
+    }
+
+    private function getMaxPaxForType($type)
+    {
+        return 100; //default value до тех пор, пока у нас не будет актуальной информации по максимальной пассажировместимости типов крафтов.
     }
 
     /**

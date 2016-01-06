@@ -145,4 +145,9 @@ class Flights extends \yii\db\ActiveRecord
     {
         return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
     }
+
+    public function getFleet()
+    {
+        return $this->hasOne(Fleet::className(), ['regnum'=>'fleet_regnum']);
+    }
 }
