@@ -12,8 +12,10 @@ use app\components\Helper;
  *
  * @property integer $user_id
  * @property string $location
- * @property integer $active
+ * @property integer $status
  * @property integer $rank_id
+ * @property integer $minutes
+ * @property string $staff_comments
  */
 class UserPilot extends \yii\db\ActiveRecord
 {

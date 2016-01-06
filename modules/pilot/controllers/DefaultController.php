@@ -86,6 +86,10 @@ class DefaultController extends Controller
 
         $user = Users::find()->andWhere(['vid' => $id])->one();
 
+        if(!$user || ($user->pilot->status == UserPilot::STATUS_DELETED && !Yii::$app->user->can('user_pilot/profileview/status/deleted'))){
+            throw new \yii\web\HttpException(404, Yii::t('app', 'User Not Found'));
+        }
+
         $flightsProvider = new ActiveDataProvider([
             'query' => Flights::find()->where(['user_id' => $user->vid])->orderBy(['id' => SORT_DESC])->limit(6),
             'sort' => false,
