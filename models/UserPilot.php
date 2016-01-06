@@ -53,9 +53,9 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             'user_id' => 'User ID',
             'location' => Yii::t('app', 'Location'),
-            'status' => 'Status',
+            'status' => Yii::t('user', 'Status'),
             'rank_id' => 'Rank ID',
-            'staff_comments' => 'Staff Comments'
+            'staff_comments' => Yii::t('user','Staff Comments'),
         ];
     }
 

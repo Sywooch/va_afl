@@ -9,8 +9,9 @@ return [
     'Minutes' => 'мин.',
 
     //Статусы
+    'Status' => 'Статус',
     'Inactive' => 'Неактивный',
     'Active' => 'Активный',
-    'Suspended' => 'Забанен',
+    'Suspended' => 'Заблокирован',
     'Deleted' => 'Удален'
 ];
