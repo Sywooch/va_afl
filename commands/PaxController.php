@@ -42,6 +42,8 @@ class PaxController extends Controller
             ->orderBy('dep_utc_time')->all();
         foreach($data as $paxdata)
         {
+            if(Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('waiting_hours>=24')->one())
+                continue;
             if(!$pax=Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('to_icao="'.$paxdata->arr.'"')->andWhere('waiting_hours=0')->one())
                 $pax = new Pax();
             $pax->from_icao = $paxdata->dep;
