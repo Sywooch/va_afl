@@ -6,8 +6,11 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use dosamigos\highcharts\HighCharts;
 
-?>
-
+$this->title = Yii::t('app', 'Profile');
+$this->params['breadcrumbs'] = [
+    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
+    ['label' => $this->title]
+]; ?>
 <div class="profile-container">
     <!-- begin profile-section -->
     <div class="profile-section">
@@ -27,8 +30,8 @@ use dosamigos\highcharts\HighCharts;
             <?= Html::endTag('div') ?>
             <div class="">
                 <ul class="list-group nopoints">
-                    <li class="list-group-item list-group-item-success" style="background-color: #33BDBD">
-                        Active
+                    <li class="list-group-item" style="background-color: #33BDBD">
+                        <?= $user->pilot->statusName; ?>
                     </li>
                     <li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
                         Supervisor

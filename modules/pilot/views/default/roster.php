@@ -36,7 +36,6 @@ $this->params['breadcrumbs'] = [
                     }
                 ],
                 Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
-
                 [
                     'attribute' => 'pilot.location',
                     'format' => 'raw',
@@ -51,14 +50,6 @@ $this->params['breadcrumbs'] = [
                 [
                     'attribute' => 'created_date',
                     'format' => ['date', 'php:d.m.Y']
-                ],
-                [
-                    'attribute' => 'pilot.staff_comments',
-                    'label' => Yii::t('user', 'Staff Comments'),
-                    'value' => function ($data) {
-                        return Html::encode($data->pilot->staff_comments);
-                    },
-                    'visible' => Yii::$app->user->can('view_staff_comments')
                 ],
             ]
         ]); ?>

@@ -6,5 +6,11 @@ return [
     'Staff Comments' => 'Стафф-комментарии',
     'Register Date' => 'Дата регистрации',
     'Hours' => 'ч.',
-    'Minutes' => 'мин.'
+    'Minutes' => 'мин.',
+
+    //Статусы
+    'Inactive' => 'Неактивный',
+    'Active' => 'Активный',
+    'Suspended' => 'Забанен',
+    'Deleted' => 'Удален'
 ];

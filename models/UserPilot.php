@@ -4,7 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\Query;
-use app\models\Flights;
+use yii\helpers\ArrayHelper;
 use app\components\Helper;
 
 /**
@@ -20,6 +20,13 @@ class UserPilot extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_SUSPENDED = 2;
+    const STATUS_DELETED = 3;
+
+
     public static function tableName()
     {
         return 'user_pilot';
@@ -32,7 +39,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'active', 'rank_id', 'minutes'], 'integer'],
+            [['user_id', 'status', 'rank_id', 'minutes'], 'integer'],
             [['staff_comments'], 'text'],
             [['location'], 'string', 'max' => 4],
         ];
@@ -46,9 +53,24 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             'user_id' => 'User ID',
             'location' => Yii::t('app', 'Location'),
-            'active' => 'Active',
+            'status' => 'Status',
             'rank_id' => 'Rank ID',
             'staff_comments' => 'Staff Comments'
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_INACTIVE => Yii::t('user', 'Inactive'),
+            self::STATUS_ACTIVE => Yii::t('user', 'Active'),
+            self::STATUS_SUSPENDED => Yii::t('user', 'Suspended'),
+            self::STATUS_DELETED => Yii::t('user', 'Deleted'),
         ];
     }
 
