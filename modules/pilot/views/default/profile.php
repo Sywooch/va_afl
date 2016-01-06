@@ -52,20 +52,23 @@ $this->params['breadcrumbs'] = [
         <!-- begin profile-right -->
         <div class="profile-right">
             <!-- begin profile-info -->
-            <?php //\yii\helpers\BaseVarDumper::dump($user->pilot->statAcfTypes, 10, true) ?>
+            <?php //\yii\helpers\BaseVarDumper::dump($user->online, 10, true) ?>
             <div class="profile-info">
                 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
                     <tr>
                         <td class="field"><h2><img
-                                    src="<?= $user->flaglink ?>"> <?= $user->full_name ?></h2></td>
+                                    src="<?= $user->flaglink ?>"> <?= $user->full_name ?>
+                            </h2><?php echo $user->online ? Html::tag('span', 'Online',
+                                ['class' => 'label label-success']) : Html::tag('span', 'Offline',
+                                ['class' => 'label label-default']) ?>
+                        </td>
                     </tr>
                 </table>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="table-responsive" style="padding-top: 6px">
                             <!-- begin table -->
-                            <?=
-                            DetailView::widget(
+                            <?= DetailView::widget(
                                 [
                                     'model' => $user,
                                     'options' => ['class' => 'table table-profile'],
@@ -114,7 +117,7 @@ $this->params['breadcrumbs'] = [
                         </div>
                     </div>
                     <?php if ($user->pilot->statWeekdays != null): ?>
-                        <div class="col-md-3 col-sm-offset-1">
+                        <div class="col-md-3 col-sm-offset-1" style="margin-top:-65px;">
                             <?php
                             echo HighCharts::widget([
                                 'clientOptions' => [
@@ -143,7 +146,7 @@ $this->params['breadcrumbs'] = [
                                         ]
                                     ],
                                     'title' => [
-                                        'text' => 'AIRCRAFT USAGE',
+                                        'text' => Yii::t('charts','WEEKDAY STATISTICS'),
                                         'style' => [
                                             'fontFamily' => 'Open Sans',
                                             'fontSize' => '12px',
@@ -196,7 +199,7 @@ $this->params['breadcrumbs'] = [
                                 ]
                             ]); ?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin-top:-65px;">
                             <?php echo HighCharts::widget([
                                 'clientOptions' => [
                                     'colors' => ['#F59C1A', '#FF5B57', '#B6C2C9', '#2D353C', '#348FE2'],
@@ -216,7 +219,7 @@ $this->params['breadcrumbs'] = [
                                         ]
                                     ],
                                     'title' => [
-                                        'text' => 'AIRCRAFT USAGE',
+                                        'text' => Yii::t('charts','AIRCRAFT USAGE'),
                                         'style' => [
                                             'fontFamily' => 'Open Sans',
                                             'fontSize' => '12px',
@@ -271,9 +274,9 @@ $this->params['breadcrumbs'] = [
                         </div>
                     <?php else: ?>
                         <div class='col-md-6'>
-                            <div class="jumbotron">
-                                <h1>Нет данных</h1>
-                                <p>Выполните больше полетов для отображения статистики</p>
+                            <div class="jumbotron" style="border-radius: 10px;" align="center">
+                                <h2>Упс... Нет данных</h2>
+                                <p>Данный пилот еще не совершал рейсов</p>
                             </div>
                         </div>
                     <?php endif; ?>
