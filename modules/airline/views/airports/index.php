@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php
-            if(Yii::$app->user->can('edit_airport'))
+            if(Yii::$app->user->can('airports/edit'))
                 echo Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']);
         ?>
     </p>
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }],
                 // 'FIR',
 
-                ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('edit_airport')],
+                ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('airports/edit')],
             ],
         ]
     ); ?>
