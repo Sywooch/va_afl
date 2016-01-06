@@ -12,11 +12,8 @@ $this->params['breadcrumbs'] = [
     ['label' => $this->title]
 ]; ?>
 <div class="profile-container">
-<!-- begin profile-section -->
 <div class="profile-section">
-<!-- begin profile-left -->
 <div class="profile-left">
-    <!-- begin profile-image -->
     <?= Html::beginTag('div', ['class' => 'profile-image']) ?>
 
     <?php
@@ -48,10 +45,7 @@ $this->params['breadcrumbs'] = [
         </ul>
     </div>
 </div>
-<!-- end profile-left -->
-<!-- begin profile-right -->
 <div class="profile-right">
-<!-- begin profile-info -->
 <?php //\yii\helpers\BaseVarDumper::dump($user->online, 10, true) ?>
 <div class="profile-info">
 <table class="table table-profile" style="margin-left: -3px; margin-bottom: 0;">
@@ -73,7 +67,6 @@ $this->params['breadcrumbs'] = [
 <div class="row">
 <div class="col-md-4">
     <div class="table-responsive" style="padding-top: 6px">
-        <!-- begin table -->
         <?=
         DetailView::widget(
             [
@@ -300,28 +293,16 @@ $this->params['breadcrumbs'] = [
 <?php endif; ?>
 </div>
 <div class="col-md-3">
-
-
 </div>
 
-
-<!-- end table -->
 </div>
-<!-- end profile-info -->
 </div>
-<!-- end profile-right -->
 </div>
-<!-- end profile-section -->
-<!-- begin profile-section -->
 <div class="profile-section">
-    <!-- begin row -->
     <div class="row">
-        <!-- begin col-4 -->
         <div class="col-md-4">
             <h4 class="title">Сообщения</h4>
-            <!-- begin scrollbar -->
             <div data-scrollbar="true" data-height="270px" class="bg-silver">
-                <!-- begin chats -->
                 <ul class="chats">
                     <li class="left">
                         <span class="date-time">yesterday 11:23pm</span>
@@ -351,19 +332,13 @@ $this->params['breadcrumbs'] = [
                         </div>
                     </li>
                 </ul>
-                <!-- end chats -->
             </div>
-            <!-- end scrollbar -->
         </div>
-        <!-- end col-4 -->
-        <!-- begin col-4 -->
         <div class="col-md-4">
             <h4 class="title">Последние полеты
                 <small> как вариант</small>
             </h4>
-            <!-- begin scrollbar -->
             <div class="bg-silver">
-                <!-- begin table -->
                 <?=
                 GridView::widget(
                     [
@@ -414,19 +389,13 @@ $this->params['breadcrumbs'] = [
                         ],
                     ]
                 ) ?>
-                <!-- end table -->
             </div>
-            <!-- end scrollbar -->
         </div>
-        <!-- end col-4 -->
-        <!-- begin col-4 -->
         <div class="col-md-4">
             <h4 class="title">Здесь будет что-то
                 <small>возможно</small>
             </h4>
-            <!-- begin scrollbar -->
             <div data-scrollbar="true" data-height="270px" class="bg-silver">
-                <!-- begin todolist -->
                 <ul class="todolist">
                     <li class="active">
                         <a href="javascript:;" class="todolist-container active" data-click="todolist">
@@ -441,13 +410,8 @@ $this->params['breadcrumbs'] = [
                         </a>
                     </li>
                 </ul>
-                <!-- end todolist -->
             </div>
-            <!-- end scrollbar -->
         </div>
-        <!-- end col-4 -->
     </div>
-    <!-- end row -->
 </div>
-<!-- end profile-section -->
 </div>

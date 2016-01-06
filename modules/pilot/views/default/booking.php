@@ -132,7 +132,6 @@ $this->params['breadcrumbs'] = [
                                             return date('H:i', strtotime($data->arr_utc_time));
                                         }
                                 ],
-
                             ]
                         ]
                     );
