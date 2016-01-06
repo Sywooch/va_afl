@@ -32,11 +32,7 @@ $this->params['breadcrumbs'] = [
                 <div class="panel-body" style="height: 500px">
                     <?php
                     //Нет букинга - показываем форму
-                    $form = \yii\widgets\ActiveForm::begin(
-                        [
-                            'id' => 'booking'
-                        ]
-                    );
+                    $form = \yii\widgets\ActiveForm::begin(['id' => 'booking']);
                     //далее элементы формы
                     ?>
                     <?= $form->field($model, 'callsign')->textInput(); ?>
@@ -73,7 +69,6 @@ $this->params['breadcrumbs'] = [
                         ]
                     );
                     ?>
-
                     <?=
                     $form->field($model, 'fleet_regnum')->widget(
                         DepDrop::classname(),
@@ -89,9 +84,8 @@ $this->params['breadcrumbs'] = [
                     );
                     ?>
                     <?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'), ['class' => 'btn btn-success']); ?>
-                    <?php
-                    \yii\widgets\ActiveForm::end();
-                    ?>
+
+                    <?php \yii\widgets\ActiveForm::end(); ?>
                 </div>
             </div>
         </div>
@@ -162,24 +156,24 @@ else:
                     'template' => '<tr><td style="width: 50%;">{label}</td><td>{value}</td></tr>',
                     'attributes' => [
                         'from_icao' => [
-                            'label' => Yii::t('booking', 'Departure airport'),
+                            'label' => Yii::t('flights', 'Departure airport'),
                             'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->from_icao,
                             'format' => 'html'
                         ],
                         'to_icao' => [
-                            'label' => Yii::t('booking', 'Arrival airport'),
+                            'label' => Yii::t('flights', 'Arrival airport'),
                             'value' => '<img src="' . $model->departure->flaglink . '">' . $model->to_icao,
                             'format' => 'html'
                         ],
                         'aircraft_type',
                         'fleet_regnum' => [
-                            'label' => Yii::t('booking', 'Aircraft Registration Number'),
+                            'label' => Yii::t('flights', 'Aircraft Registration Number'),
                             'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
                                     $model->fleet_regnum
                                 )->regnum : ''
                         ],
                         'status' => [
-                            'label' => Yii::t('booking', 'Booking status'),
+                            'label' => Yii::t('flights', 'Booking status'),
                             'value' => $model->status == 1 ? Yii::t('booking', 'Ready') : Yii::t(
                                     'booking',
                                     'In progress'
