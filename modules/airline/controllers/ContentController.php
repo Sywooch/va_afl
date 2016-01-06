@@ -1,13 +1,14 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\airline\controllers;
 
 use Yii;
-use app\models\Content;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Content;
 
 /**
  * ContentController implements the CRUD actions for Content model.
@@ -23,6 +24,16 @@ class ContentController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['content/edit'],
+                    ],
+                ]
+            ]
         ];
     }
 
