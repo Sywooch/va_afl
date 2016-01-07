@@ -30,7 +30,6 @@ use yii\i18n\Formatter;
  * @property string $fleet_regnum
  * @property integer $status
  * @property string $alternate1
- * @property string $alternate2
  */
 class Flights extends \yii\db\ActiveRecord
 {
