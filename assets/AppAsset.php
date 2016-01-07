@@ -20,9 +20,12 @@ class AppAsset extends AssetBundle
     public $css = [
     ];
     public $js = [
+        '/js/clock.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
+
+    public $jsOptions = ['position' => \yii\web\View::POS_END];
 }
