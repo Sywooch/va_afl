@@ -1,6 +1,8 @@
 <?php
-use app\models\Users;
+
 use yii\bootstrap\Html;
+
+use app\models\Users;
 
 ?>
 <div id="header" class="header navbar navbar-default navbar-fixed-top">
@@ -97,7 +99,10 @@ use yii\bootstrap\Html;
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
                         <?php $user = Users::getAuthUser();
-                        if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
+                        if (isset($user->avatar) && file_exists(
+                                Yii::getAlias('@app/web/img/avatars/') . $user->avatar
+                            )
+                        ) {
                             echo Html::img('/img/avatars/' . $user->avatar);
                         } else {
                             echo Html::img('/img/avatars/default.png');
@@ -115,7 +120,7 @@ use yii\bootstrap\Html;
                         <li><a data-method="post" href="/site/logout">Log Out</a></li>
                     </ul>
                 </li>
-                <?php else: ?>
+            <?php else: ?>
                 <li class="navbar-user">
                     <a href="site/login">
                         <span class="hidden-xs">Login</span>

@@ -6,6 +6,7 @@
  * Time: 13:24
  */
 return [
+    //Меню
     'Pilot center' => 'Центр пилота',
     'Booking' => 'Бронирование',
     'My statistics' => 'Моя статистика',
@@ -38,17 +39,14 @@ return [
     'Contacts' => 'Контакты',
     'Pilot' => 'Пилот',
     'Profile editor' => 'Редактор профиля',
-    'Location' => 'Местонахождение',
+    //Наименования
     'Name' => 'Наименование',
     'Latitude' => 'Широта',
     'Longitude' => 'Долгота',
     'Altitude' => 'Превышение',
     'City' => 'Город',
     'ISO' => 'Страна',
-    'FIR' => 'FIR(РПИ)',
-    'Staff Position' => 'Должность',
-    'Total flights' => 'Всего полетов',
-    'Total hours' => 'Часов налета',
-    'Total pax' => 'Кол-во пассажиров',
-    'Total miles' => 'Миль пройдено',
+    'FIR' => 'FIR (РПИ)',
+    //Должночть
+    'Staff Position' => 'Должность'
 ];

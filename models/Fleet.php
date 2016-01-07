@@ -33,7 +33,8 @@ class Fleet extends \yii\db\ActiveRecord
         $fleet->save();
     }
 
-    public static function getForBooking(){
+    public static function getForBooking()
+    {
         $out = [];
         if (isset($_POST['depdrop_parents'])) {
             $ids = $_POST['depdrop_parents'];

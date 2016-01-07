@@ -7,6 +7,14 @@ return [
     'Register Date' => 'Дата регистрации',
     'Hours' => 'ч.',
     'Minutes' => 'мин.',
+    'Avatar' => 'Аватар',
+
+    //Профиль
+    'Total flights' => 'Всего полетов',
+    'Total hours' => 'Часов налета',
+    'Total pax' => 'Кол-во пассажиров',
+    'Total miles' => 'Миль пройдено',
+    'Last Visited' => 'Последний визит',
 
     //Статусы
     'Status' => 'Статус',

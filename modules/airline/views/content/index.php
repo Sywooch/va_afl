@@ -14,7 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Content'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?php
+        if (Yii::$app->user->can('content/edit')) {
+            echo Html::a(Yii::t('app', 'Create Content'), ['create'], ['class' => 'btn btn-success']);
+        }
+        ?>
     </p>
 
     <?=
@@ -24,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'columns' => [
                 Yii::$app->language == 'RU' ? 'name_ru' : 'name_en',
-                ['class' => 'yii\grid\ActionColumn'],
+                ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->can('content/edit')],
             ],
         ]
     ); ?>

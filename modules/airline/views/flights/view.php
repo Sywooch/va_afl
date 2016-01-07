@@ -16,40 +16,48 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+        <?=
+        Html::a(
+            'Delete',
+            ['delete', 'id' => $model->id],
+            [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]
+        ) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'user_id',
-            'booking_id',
-            'callsign',
-            'first_seen',
-            'last_seen',
-            'from_icao',
-            'to_icao',
-            'flightplan:ntext',
-            'remarks:ntext',
-            'dep_time',
-            'eet',
-            'landing_time',
-            'sim',
-            'fob',
-            'pob',
-            'acf_type',
-            'fleet_regnum',
-            'status',
-            'alternate1',
-            'alternate2',
-        ],
-    ]) ?>
+    <?=
+    DetailView::widget(
+        [
+            'model' => $model,
+            'attributes' => [
+                'id',
+                'user_id',
+                'booking_id',
+                'callsign',
+                'first_seen',
+                'last_seen',
+                'from_icao',
+                'to_icao',
+                'flightplan:ntext',
+                'remarks:ntext',
+                'dep_time',
+                'eet',
+                'landing_time',
+                'sim',
+                'fob',
+                'pob',
+                'acf_type',
+                'fleet_regnum',
+                'status',
+                'alternate1',
+                'alternate2',
+            ],
+        ]
+    ) ?>
 
 </div>

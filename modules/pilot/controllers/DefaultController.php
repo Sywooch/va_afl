@@ -24,7 +24,9 @@ class DefaultController extends Controller
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(['status' => UserPilot::STATUS_ACTIVE])
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(
+                    ['status' => UserPilot::STATUS_ACTIVE]
+                )
         ]);
 
         $dataProvider->sort->attributes['pilot.location'] = [
@@ -50,25 +52,29 @@ class DefaultController extends Controller
     public function actionBooking()
     {
         \Yii::$app->user->returnUrl = '/pilot/booking';
+
         if (!$model = Booking::find()->andWhere(['user_id' => \Yii::$app->user->id])->one()) {
             $model = new Booking();
             $model->addData();
         }
+
         if (isset($_POST['Booking'])) {
             $model->attributes = $_POST['Booking'];
             $model->status = 1;
             $model->save();
             $this->refresh();
         }
+
         $scheduledp = new ActiveDataProvider([
             'query' => Schedule::find()->andWhere('dep = "' . $model->from_icao . '"')
-                ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
-                ->andWhere('SUBSTRING(day_of_weeks,' . (gmdate('N') - 1) . ',1) = 1')
-                ->andWhere('start < "' . gmdate('Y-m-d') . '"')
-                ->andWhere('stop > "' . gmdate('Y-m-d') . '"')
-                ->orderBy('dep_utc_time'),
+                    ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
+                    ->andWhere('SUBSTRING(day_of_weeks,' . (gmdate('N') - 1) . ',1) = 1')
+                    ->andWhere('start < "' . gmdate('Y-m-d') . '"')
+                    ->andWhere('stop > "' . gmdate('Y-m-d') . '"')
+                    ->orderBy('dep_utc_time'),
             'pagination' => ['pageSize' => 6],
         ]);
+
         return $this->render('booking', ['model' => $model, 'scheduledp' => $scheduledp]);
     }
 
@@ -77,7 +83,12 @@ class DefaultController extends Controller
         if (!$id) {
             $this->redirect(Url::to('/pilot/center'));
         }
+
         $user = Users::find()->andWhere(['vid' => $id])->one();
+
+        if(!$user || ($user->pilot->status == UserPilot::STATUS_DELETED && !Yii::$app->user->can('user_pilot/profileview/status/deleted'))){
+            throw new \yii\web\HttpException(404, Yii::t('app', 'User Not Found'));
+        }
 
         $flightsProvider = new ActiveDataProvider([
             'query' => Flights::find()->where(['user_id' => $user->vid])->orderBy(['id' => SORT_DESC])->limit(6),

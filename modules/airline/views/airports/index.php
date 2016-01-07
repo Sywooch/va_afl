@@ -15,8 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php
-            if(Yii::$app->user->can('edit_airport'))
-                echo Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']);
+        if (Yii::$app->user->can('airports/edit')) {
+            echo Html::a(Yii::t('app', 'Create Airport'), ['create'], ['class' => 'btn btn-success']);
+        }
         ?>
     </p>
 
@@ -29,19 +30,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //'id',
-                ['attribute'=>'icao','format'=>'raw','value'=>function($data){return Html::a($data->icao,\yii\helpers\Url::to('/airline/airports/view/'.$data->icao));}],
+                [
+                    'attribute' => 'icao',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                            return Html::a($data->icao, \yii\helpers\Url::to('/airline/airports/view/' . $data->icao));
+                        }
+                ],
                 'name',
                 //'lat',
                 //'lon',
                 // 'alt',
                 // 'iata',
                 'city',
-                ['attribute'=>'country.country','format'=>'html','value'=>function($data){
-                    return "<img src='".$data->flaglink."'>".$data->country->country;
-                }],
+                [
+                    'attribute' => 'country.country',
+                    'format' => 'html',
+                    'value' => function ($data) {
+                            return "<img src='" . $data->flaglink . "'>" . $data->country->country;
+                        }
+                ],
                 // 'FIR',
 
-                ['class' => 'yii\grid\ActionColumn','visible'=>Yii::$app->user->can('edit_airport')],
+                ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->can('airports/edit')],
             ],
         ]
     ); ?>

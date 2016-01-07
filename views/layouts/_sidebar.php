@@ -1,7 +1,9 @@
 <?php
+
+use yii\helpers\Html;
+
 use app\components\Menu;
 use app\models\Users;
-use yii\helpers\Html;
 
 ?>
 <div id="sidebar" class="sidebar">
@@ -16,10 +18,15 @@ use yii\helpers\Html;
                     </div>
                     <?php
                     if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-                        echo Html::img('/img/avatars/' . $user->avatar,
-                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                        echo Html::img(
+                            '/img/avatars/' . $user->avatar,
+                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']
+                        );
                     } else {
-                        echo Html::img('/img/avatars/default.png');
+                        echo Html::img(
+                            '/img/avatars/default.png',
+                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']
+                        );
                     } ?>
                 <?php endif; ?>
             </li>

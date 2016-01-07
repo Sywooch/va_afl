@@ -16,31 +16,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?php
-        if(Yii::$app->user->can('edit_airport')) {
-             echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
-             echo Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]); } ?>
+        if (Yii::$app->user->can('airports/edit')) {
+            echo Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+            echo Html::a(
+                Yii::t('app', 'Delete'),
+                ['delete', 'id' => $model->id],
+                [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                        'method' => 'post',
+                    ],
+                ]
+            );
+        } ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'icao',
-            'name',
-            'lat',
-            'lon',
-            'alt',
-            'iata',
-            'city',
-            'iso',
-            'FIR',
-        ],
-    ]) ?>
+    <?=
+    DetailView::widget(
+        [
+            'model' => $model,
+            'attributes' => [
+                'id',
+                'icao',
+                'name',
+                'lat',
+                'lon',
+                'alt',
+                'iata',
+                'city',
+                'iso',
+                'FIR',
+            ],
+        ]
+    ) ?>
 
 </div>

@@ -3,11 +3,12 @@
 namespace app\modules\airline\controllers;
 
 use Yii;
-use app\models\Airports;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Airports;
 
 /**
  * AirportsController implements the CRUD actions for Airports model.
@@ -25,12 +26,11 @@ class AirportsController extends Controller
             ],
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['create', 'update'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
-                    // allow authenticated users
                     [
                         'allow' => true,
-                        'roles' => ['edit_airport'],
+                        'roles' => ['airports/edit'],
                     ],
                 ]
             ]
@@ -66,11 +66,11 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
-        $key=preg_match('/^\d+$/',$id)?'id':'icao';
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
         return $this->render(
             'view',
             [
-                'model' => $this->findModel([$key=>$id]),
+                'model' => $this->findModel([$key => $id]),
             ]
         );
     }

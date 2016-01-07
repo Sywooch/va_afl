@@ -53,27 +53,29 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'flight' => Yii::t('schedule','Flight'),
-            'dep' => Yii::t('schedule','Departure'),
-            'arr' => Yii::t('schedule','Arrival'),
-            'aircraft' => Yii::t('schedule','Aircraft'),
-            'dep_utc_time' => Yii::t('schedule','ETD'),
-            'arr_utc_time' => Yii::t('schedule','ETA'),
+            'flight' => Yii::t('flights', 'Flight'),
+            'dep' => Yii::t('flights', 'Departure'),
+            'arr' => Yii::t('flights', 'Arrival'),
+            'aircraft' => Yii::t('flights', 'Aircraft'),
+            'dep_utc_time' => 'ETD',
+            'arr_utc_time' => 'ETA',
             'dep_lmt_time' => 'Dep Lmt Time',
             'arr_lmt_time' => 'Arr Lmt Time',
-            'eet' => 'Eet',
+            'eet' => 'EET',
             'day of weeks' => 'Day Of Weeks',
             'start' => 'Start',
             'stop' => 'Stop',
             'added' => 'Added',
         ];
     }
+
     public function getDeparture()
     {
-        return $this->hasOne(Airports::className(),['icao'=>'dep']);
+        return $this->hasOne(Airports::className(), ['icao' => 'dep']);
     }
+
     public function getArrival()
     {
-        return $this->hasOne(Airports::className(),['icao'=>'arr']);
+        return $this->hasOne(Airports::className(), ['icao' => 'arr']);
     }
 }

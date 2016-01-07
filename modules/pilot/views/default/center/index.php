@@ -1,9 +1,4 @@
 <?php
-use app\components\Helper;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-use yii\grid\GridView;
-
 /* @var $this yii\web\View */
 /* @var $user app\models\Airports */
 /* @var $form yii\widgets\ActiveForm */
@@ -15,7 +10,6 @@ $this->params['breadcrumbs'] = [
 ?>
 
 <div class="row">
-    <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-green">
             <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
@@ -27,8 +21,6 @@ $this->params['breadcrumbs'] = [
             <div class="stats-desc">Better than last week (70.1%)</div>
         </div>
     </div>
-    <!-- end col-3 -->
-    <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-blue">
             <div class="stats-icon stats-icon-lg"><i class="fa fa-tags fa-fw"></i></div>
@@ -40,8 +32,6 @@ $this->params['breadcrumbs'] = [
             <div class="stats-desc">Better than last week (40.5%)</div>
         </div>
     </div>
-    <!-- end col-3 -->
-    <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-purple">
             <div class="stats-icon stats-icon-lg"><i class="fa fa-shopping-cart fa-fw"></i></div>
@@ -53,8 +43,6 @@ $this->params['breadcrumbs'] = [
             <div class="stats-desc">Better than last week (76.3%)</div>
         </div>
     </div>
-    <!-- end col-3 -->
-    <!-- begin col-3 -->
     <div class="col-md-3 col-sm-6">
         <div class="widget widget-stats bg-black">
             <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
@@ -66,7 +54,6 @@ $this->params['breadcrumbs'] = [
             <div class="stats-desc">Better than last week (54.9%)</div>
         </div>
     </div>
-    <!-- end col-3 -->
 </div>
 <div class="row">
     <div class="col-md-8">
@@ -117,9 +104,7 @@ $this->params['breadcrumbs'] = [
     </div>
 </div>
 <div class="row">
-    <!-- begin col-4 -->
     <div class="col-md-4">
-        <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="index-2">
             <div class="panel-heading">
                 <h4 class="panel-title">Chat History <span class="label label-success pull-right">4 message</span></h4>
@@ -179,12 +164,8 @@ $this->params['breadcrumbs'] = [
                 </form>
             </div>
         </div>
-        <!-- end panel -->
     </div>
-    <!-- end col-4 -->
-    <!-- begin col-4 -->
     <div class="col-md-4">
-        <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="index-3">
             <div class="panel-heading">
                 <h4 class="panel-title">Today's Schedule</h4>
@@ -199,12 +180,8 @@ $this->params['breadcrumbs'] = [
                 </a>
             </div>
         </div>
-        <!-- end panel -->
     </div>
-    <!-- end col-4 -->
-    <!-- begin col-4 -->
     <div class="col-md-4">
-        <!-- begin panel -->
         <div class="panel panel-inverse" data-sortable-id="index-4">
             <div class="panel-heading">
                 <h4 class="panel-title">New Registered Users <span
@@ -272,7 +249,5 @@ $this->params['breadcrumbs'] = [
                 <a href="javascript:;" class="text-inverse">View All</a>
             </div>
         </div>
-        <!-- end panel -->
     </div>
-    <!-- end col-4 -->
 </div>
