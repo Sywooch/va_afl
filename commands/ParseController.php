@@ -200,7 +200,7 @@ class ParseController extends Controller
     private function endFlight($flight)
     {
         $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
-        $booking->delete();
+        if($booking)$booking->delete();
         if ($this->validateFlight($flight)) {
             $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
