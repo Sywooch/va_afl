@@ -103,6 +103,11 @@ class Flights extends \yii\db\ActiveRecord
         return Flights::find()->where(['user_id' => $id])->sum('nm');
     }
 
+    public static function getTime($id)
+    {
+        return Flights::find()->where(['user_id' => $id])->sum('flight_time');
+    }
+
     public static function getStatWeekdays($id)
     {
         $stats_raw = Flights::find()->where(['user_id' => $id])->select(
