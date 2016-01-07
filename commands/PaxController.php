@@ -66,6 +66,6 @@ class PaxController extends Controller
             'SU95'=>98
         ];
         $maxpax = (isset($paxarray[$acftype]))?$paxarray[$acftype]:100; //default value
-        return intval(rand($maxpax/2,$maxpax));
+        return $maxpax;
     }
 }
