@@ -155,8 +155,8 @@ class ParseController extends Controller
     {
         $maxpax = ($flight->fleet)?$flight->fleet->maxpax:$this->getMaxPaxForType($flight->acf_type);
         $flightpax = $maxpax;
-        $needpax = Pax::find()->andWhere('from_icao = '.$flight->from_icao)
-            ->andWhere('to_icao = '.$flight->to_icao)->orderBy('waiting_hours desc')->all();
+        $needpax = Pax::find()->andWhere('from_icao = "'.$flight->from_icao.'"')
+            ->andWhere('to_icao = "'.$flight->to_icao.'"')->orderBy('waiting_hours desc')->all();
         foreach($needpax as $px)
         {
             if($px->num_pax <= $flightpax)
