@@ -83,7 +83,7 @@ AppAsset::register($this);
                 <li><a href="#client" data-click="scroll-to-target">CLIENT</a></li>
                 <li><a href="#pricing" data-click="scroll-to-target">PRICING</a></li>
                 <li><a href="#contact" data-click="scroll-to-target">CONTACT</a></li>
-                <li><a href="site/login"><i class="fa fa-user"></i>LOGIN</a></li>
+                <li><a href="/site/login"><i class="fa fa-user"></i>LOGIN</a></li>
             </ul>
         </div>
         <!-- end navbar-collapse -->
