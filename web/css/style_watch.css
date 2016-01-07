@@ -1,0 +1,72 @@
+@font-face {
+    font-family: Font_Watch; /* Имя шрифта */
+    src: url(/fonts/DS-DIGI.TTF); /* Путь к файлу со шрифтом */
+   }
+
+#clock {
+    font-family: 'Font_Watch'; /* Имя шрифта */
+    /*src: url(font_watch.ttf); /* Путь к файлу со шрифтом */
+}
+
+#clock {
+    margin: 0 auto;
+}
+
+#clock #Date {
+    font-family: 'Font_Watch';
+    font-size: 10px;
+    text-align: center;
+}
+
+#clock ul {
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+}
+
+#clock ul li {
+    display: inline;
+    font-size: 3em;
+    text-align: center;
+    font-family: 'Font_Watch';
+
+}
+
+#clock #point {
+    position: relative;
+    -moz-animation: pointer_animation 1s ease infinite;
+    -webkit-animation: pointer_animation 1s ease infinite;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Simple Animation */
+@-webkit-keyframes pointer_animation {
+    0% {opacity: 1.0;
+}
+
+50% {
+    opacity: 0;
+    text-shadow: none;
+}
+
+100% {
+    opacity: 1.0;
+}	
+}
+
+@-moz-keyframes pointer_animation {
+    0% {
+        opacity: 1.0;
+    }
+
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+
+    100% {
+        opacity: 1.0;
+    }
+}
