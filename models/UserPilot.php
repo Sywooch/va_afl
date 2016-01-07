@@ -54,7 +54,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'location' => Yii::t('app', 'Location'),
+            'location' => Yii::t('user', 'Location'),
             'status' => Yii::t('user', 'Status'),
             'rank_id' => 'Rank ID',
             'staff_comments' => Yii::t('user', 'Staff Comments'),
@@ -93,15 +93,13 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getTime()
     {
-        $query = New Query();
+        /*$query = New Query();
         $query->select('SUM(TIMESTAMPDIFF(SECOND,`dep_time`,`landing_time`)) AS flight_time')->from('flights')->where(
             ['user_id' => $this->user_id]
         );
         $result = $query->one();
-        /*foreach ($this->flights as $flight) {
-            $time += strtotime($flight->landing_time) - strtotime($flight->dep_time);
-        }*/
-        return $result['flight_time'];
+        return $result['flight_time'];*/
+        return Flights::getTime($this->user_id);
     }
 
     public function getFlightsCount()

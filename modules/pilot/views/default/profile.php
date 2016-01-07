@@ -88,7 +88,7 @@ $this->params['breadcrumbs'] = [
                     ],
                     [
                         'attribute' => 'location',
-                        'label' => Yii::t('app', 'Location'),
+                        'label' => Yii::t('user', 'Location'),
                         'format' => 'raw',
                         'value' => '<img src="' . $user->pilot->airport->flaglink . '"> ' . Html::a(
                                 Html::encode($user->pilot->airport->name . ' (' . $user->pilot->location . ')'),
@@ -102,22 +102,22 @@ $this->params['breadcrumbs'] = [
                     ],
                     [
                         'attribute' => 'flights_num',
-                        'label' => Yii::t('app', 'Total flights'),
+                        'label' => Yii::t('user', 'Total flights'),
                         'value' => $user->pilot->flightsCount,
                     ],
                     [
                         'attribute' => 'total_hours',
-                        'label' => Yii::t('app', 'Total hours'),
+                        'label' => Yii::t('user', 'Total hours'),
                         'value' => Helper::getTimeFormatted($user->pilot->time),
                     ],
                     [
                         'attribute' => 'total_miles',
-                        'label' => Yii::t('app', 'Total miles'),
+                        'label' => Yii::t('user', 'Total miles'),
                         'value' => $user->pilot->miles,
                     ],
                     [
                         'attribute' => 'total_pax',
-                        'label' => Yii::t('app', 'Total pax'),
+                        'label' => Yii::t('user', 'Total pax'),
                         'value' => $user->pilot->passengers,
                     ],
                 ]
@@ -384,9 +384,7 @@ $this->params['breadcrumbs'] = [
                                 'attribute' => 'flight_time',
                                 'label' => Yii::t('flights', 'Flight Time'),
                                 'value' => function ($data) {
-                                        return Helper::getTimeFormatted(
-                                            strtotime($data->landing_time) - strtotime($data->dep_time)
-                                        );
+                                        return Helper::getTimeFormatted($data->flight_time);
                                     }
                             ]
                         ],
