@@ -52,7 +52,7 @@ class Flights extends \yii\db\ActiveRecord
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
-            [['from_icao', 'to_icao', 'alternate1', 'alternate2'], 'string', 'max' => 5],
+            [['from_icao', 'to_icao', 'alternate1'], 'string', 'max' => 5],
             [['acf_type', 'fleet_regnum', 'callsign'], 'string', 'max' => 10]
         ];
     }
@@ -83,7 +83,6 @@ class Flights extends \yii\db\ActiveRecord
             'fleet_regnum' => 'Fleet Regnum',
             'status' => 'Status',
             'alternate1' => 'Alternate1',
-            'alternate2' => 'Alternate2',
         ];
     }
 
