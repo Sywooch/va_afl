@@ -74,6 +74,9 @@ $config = [
         'airline' => [
             'class' => 'app\modules\airline\Module',
         ],
+        'fleet' => [
+            'class' => 'app\modules\fleet\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
@@ -97,6 +100,9 @@ $config = [
         }
         if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile') {
             \app\models\User::checkEmail();
+            $user=\app\models\Users::getAuthUser();
+            $user->last_visited=date('Y-m-d H:i:s');
+            $user->save();
         }
         \app\models\User::setLanguage();
     },
