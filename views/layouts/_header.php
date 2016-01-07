@@ -10,7 +10,7 @@ use app\models\Users;
     <div class="container-fluid">
         <!-- begin mobile sidebar expand / collapse button -->
         <div class="navbar-header">
-            <p align="center"><a href="/site/index" class="navbar-brand"><img src="http://s017.radikal.ru/i424/1601/6d/0b20cb4f66c8.png" style="height: 100%"></a></p>
+            <p align="center"><a href="/site/index" class="navbar-brand"><img src="/img/afl_logo.png" style="height: 100%"></a></p>
         </div>
         <!-- end mobile sidebar expand / collapse button -->
 
