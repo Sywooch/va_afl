@@ -256,7 +256,7 @@ class ParseController extends Controller
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
-        $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
+        //$flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
         $flight->pob = $data[self::WZ_POB];
         $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
         $flight->alternate1 = $data[self::WZ_ALTERNATE];
@@ -331,7 +331,7 @@ class ParseController extends Controller
 
     private function isDomestic($flight)
     {
-        if ($flight->depAirport->country == 'ru' && $flight->arrAirport->country == 'ru') {
+        if ($flight->depAirport->iso == 'RU' && $flight->arrAirport->iso == 'RU') {
             return true;
         }
         return false;
