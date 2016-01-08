@@ -163,7 +163,7 @@ class ParseController extends Controller
             if($px->num_pax <= $flightpax)
             {
                 $px->num_pax = 0;
-                $flightpax-=$px->pax;
+                $flightpax-=$px->num_pax;
             }
             else{
                 $px->num_pax-=$flightpax;
