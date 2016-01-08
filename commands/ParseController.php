@@ -145,7 +145,7 @@ class ParseController extends Controller
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $this->appendPaxOnFlight($flight);
+        $flight->pob = $this->appendPaxOnFlight($flight);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
@@ -172,7 +172,7 @@ class ParseController extends Controller
             $px->save();
             if($flightpax == 0) break;
         }
-        $flight->pob = $maxpax-$flightpax;
+        return $maxpax-$flightpax;
     }
 
     private function getMaxPaxForType($type)
