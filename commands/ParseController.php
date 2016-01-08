@@ -261,8 +261,8 @@ class ParseController extends Controller
         $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
-        //$flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
-        $flight->pob = $data[self::WZ_POB];
+        $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
+        //$flight->pob = $data[self::WZ_POB];
         $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
         $flight->alternate1 = $data[self::WZ_ALTERNATE];
         $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
