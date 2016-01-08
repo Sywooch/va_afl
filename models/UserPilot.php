@@ -42,7 +42,7 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'status', 'rank_id', 'minutes'], 'integer'],
-            [['staff_comments'], 'text'],
+            [['staff_comments'], 'string'],
             [['location'], 'string', 'max' => 4],
         ];
     }
