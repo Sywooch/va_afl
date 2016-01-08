@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\components\Helper;
+use app\models\Actypes;
 use app\models\Airports;
 use app\models\Booking;
 use app\models\Fleet;
@@ -176,7 +177,11 @@ class ParseController extends Controller
 
     private function getMaxPaxForType($type)
     {
-        return 100; //default value до тех пор, пока у нас не будет актуальной информации по максимальной пассажировместимости типов крафтов.
+        $default=100;
+        if($model = Actypes::find()->andWhere('code="'.$type.'"')->one())
+            $maxpax = $model->max_pax?:$default;
+        else $maxpax = $default;
+        return $maxpax;
     }
 
     /**
