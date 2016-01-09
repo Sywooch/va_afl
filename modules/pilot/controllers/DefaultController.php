@@ -17,11 +17,6 @@ use yii\web\UploadedFile;
 
 class DefaultController extends Controller
 {
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
@@ -106,7 +101,7 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionCenter()
+    public function actionIndex()
     {
         $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
 
@@ -117,7 +112,7 @@ class DefaultController extends Controller
         ]);
 
         return $this->render(
-            'center/index',
+            'index',
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider
@@ -150,7 +145,7 @@ class DefaultController extends Controller
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();
-            return $this->redirect(['profile', 'id' => $user->vid]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('edit', ['user' => $user]);
         }
