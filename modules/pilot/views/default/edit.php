@@ -5,7 +5,8 @@ $this->title = Yii::t('app', 'Profile editor');
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
     ['label' => $this->title]
-]; ?>
+];
+$this->registerJs('function submitform() {$(\'#profile_edit\').submit();}') ?>
 <div class="edit-form">
     <div class="panel panel-inverse">
         <div class="panel-heading">
