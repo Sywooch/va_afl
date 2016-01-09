@@ -33,7 +33,7 @@ class Booking extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id','to_icao','from_icao','callsign'],'required'],
+            [['user_id','to_icao','from_icao','callsign','fleet_regnum'],'required'],
             [['user_id', 'schedule_id', 'status'], 'integer'],
             [['non_schedule_utc', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
