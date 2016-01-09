@@ -150,7 +150,7 @@ class DefaultController extends Controller
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();
-            return $this->redirect(['profile', 'id' => $user->vid]);
+            return $this->redirect(['center']);
         } else {
             return $this->render('edit', ['user' => $user]);
         }
