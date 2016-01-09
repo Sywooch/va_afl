@@ -75,7 +75,7 @@ class DefaultController extends Controller
             'pagination' => ['pageSize' => 6],
         ]);
 
-        return $this->render('booking', ['model' => $model, 'scheduledp' => $scheduledp]);
+        return $this->render('booking_new', ['model' => $model, 'scheduledp' => $scheduledp]);
     }
 
     public function actionProfile($id = null)

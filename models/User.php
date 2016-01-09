@@ -67,7 +67,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
             $pilot = new UserPilot();
             $pilot->user_id = $model->vid;
-            $pilot->active = 0;
+            $pilot->status = 0;
             $pilot->rank_id = 1;
             $pilot->location = 'UUEE';
             $pilot->save();
