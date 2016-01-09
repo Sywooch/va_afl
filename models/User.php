@@ -134,7 +134,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         $ctrl = new Controller('site', 'app');
         if (!\Yii::$app->user->identity->email) {
-            $ctrl->redirect('/pilot/editprofile');
+            $ctrl->redirect('/pilot/edit');
         }
     }
 

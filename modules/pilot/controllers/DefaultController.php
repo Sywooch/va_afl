@@ -4,6 +4,7 @@ namespace app\modules\pilot\controllers;
 
 use app\models\Flights;
 use app\models\Schedule;
+use app\models\User;
 use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
@@ -124,8 +125,9 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id=null)
     {
+        if(!$id) $id=Users::getAuthUser()->vid;
         $user = Users::find()->andWhere(['vid' => $id])->one();
         if (!$user) {
             throw new \yii\web\HttpException(404, 'User not found');
@@ -133,7 +135,7 @@ class DefaultController extends Controller
 
         $user->scenario = Users::SCENARIO_EDIT;
 
-        if ($user->load(Yii::$app->request->post())) {
+        if (isset($_POST['Users']) && $user->load(Yii::$app->request->post())) {
             if (UploadedFile::getInstance($user, 'avatar')) {
                 $user->avatar = UploadedFile::getInstance($user, 'avatar');
                 if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
@@ -144,13 +146,10 @@ class DefaultController extends Controller
                     $user->avatar = $user->avatar->name . "." . $extension;
                 }
             }
-
             if (!$user->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
             }
-
             $user->save();
-
             return $this->redirect(['profile', 'id' => $user->vid]);
         } else {
             return $this->render('edit', ['user' => $user]);

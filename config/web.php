@@ -98,7 +98,7 @@ $config = [
                 throw new \yii\web\HttpException(401,'Not allowed');
             Yii::$app->layout = 'main';
         }
-        if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile') {
+        if (!Yii::$app->user->isGuest && !in_array($event->action->id,['edit','toolbar','getservertime'])) {
             \app\models\User::checkEmail();
             $user=\app\models\Users::getAuthUser();
             $user->last_visited=date('Y-m-d H:i:s');
