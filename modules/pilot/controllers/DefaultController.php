@@ -135,7 +135,7 @@ class DefaultController extends Controller
 
         $user->scenario = Users::SCENARIO_EDIT;
 
-        if (isset($_POST['Users']) && $user->load(Yii::$app->request->post())) {
+        if ($user->load(Yii::$app->request->post())) {
             if (UploadedFile::getInstance($user, 'avatar')) {
                 $user->avatar = UploadedFile::getInstance($user, 'avatar');
                 if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
