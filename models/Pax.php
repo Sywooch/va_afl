@@ -90,4 +90,112 @@ class Pax extends \yii\db\ActiveRecord
         }
         return $data;
     }
+
+    private static function getFeeling($paxlist)
+    {
+        $max = 0;
+        $res = 0;
+        $feeling=['green','orange','red'];
+        foreach($paxlist as $k=>$v)
+        {
+            if($v>$max){
+                $max=$v;
+                $res = $k;
+            }
+        }
+        return $feeling[$res];
+    }
+
+    public static function jsonMapData()
+    {
+        $data = [
+            'type' => 'FeatureCollection',
+            'features' => []
+        ];
+        $user = Users::getAuthUser();
+        foreach (self::getAirportsList() as $adata) {
+            $paxlist = self::getPaxListForAirport($adata['name']);
+            $data['features'][] = [
+                'type' => 'Feature',
+                'properties' => [
+                    'name'=>$adata['name'],
+                    'paxlist'=>$paxlist,
+                    'feeling'=>self::getFeeling($paxlist),
+                    'bookthis'=>$adata['name']==$user->pilot->location?
+                        '<em>'.Yii::t('booking','You are here').'</em>':
+                        '<button onclick=\'smartbooking("'.$adata['name'].'");\'>'.Yii::t('booking','Book this destination').'</button>',
+                ],
+                'geometry' => [
+                    'type' => 'Point',
+                    'coordinates' => [$adata['lon'], $adata['lat']],
+                ],
+            ];
+        }
+        return json_encode($data);
+    }
+
+    public static function detailList($airport,$paxtype)
+    {
+        switch($paxtype){
+            case 0:
+                $pt = "waiting_hours < 4";
+                $color = 'green';
+                break;
+            case 1:
+                $pt = "waiting_hours between 4 and 23";
+                $color = 'orange';
+                break;
+            case 2:
+                $pt = "waiting_hours >= 24";
+                $color = 'red';
+                break;
+        }
+        $user=Users::getAuthUser();
+
+        $html = "<span class='pull-right' style='cursor: pointer;' onClick='closedrilldown()'>&times;</span><h2 class='text-center' style='color: white;'>".$airport." <i class='fa fa-user' style='color: $color'></i></h2>";
+        $html.="<div style='overflow-y: scroll; max-height: 200px;'>";
+        foreach(self::find()->select('to_icao,sum(num_pax) as num_pax')
+                    ->andWhere($pt)
+                    ->andWhere('from_icao = "'.$airport.'"')
+                    ->groupBy('to_icao')
+                    ->all() as $data) {
+            $smartbooking = ($user->pilot->location == $airport) ?
+                "<a href='javascript:;' onclick='smartbooking(\"".$data->to_icao."\")'>".Yii::t('booking','Book this') ."</a>":
+                "";
+            $html.="<b>".$data->to_icao."</b>: ".$data->num_pax.". $smartbooking<br>";
+        }
+        $html.="</div>";
+        return $html;
+    }
+    public static function appendPax($from,$to,$type,$fleet,$need_save_pax=false)
+    {
+        $maxpax = ($fleet)?$fleet->maxpax:(self::getMaxPaxForType($type));
+        $flightpax = $maxpax;
+        $needpax = self::find()->andWhere('from_icao = "'.$from.'"')
+            ->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
+        foreach($needpax as $px)
+        {
+            if($px->num_pax <= $flightpax)
+            {
+                $flightpax-=$px->num_pax;
+                $px->num_pax = 0;
+            }
+            else{
+                $px->num_pax-=$flightpax;
+                $flightpax = 0;
+            }
+            if($need_save_pax)$px->save();
+            if($flightpax <= 0) break;
+        }
+        return ($maxpax-$flightpax);
+    }
+
+    private function getMaxPaxForType($type)
+    {
+        $default=100;
+        if($model = Actypes::find()->andWhere('code="'.$type.'"')->one())
+            $maxpax = $model->max_pax?:$default;
+        else $maxpax = $default;
+        return $maxpax;
+    }
 }

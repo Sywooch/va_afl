@@ -14,8 +14,10 @@ class MapAsset extends AssetBundle
     public $css = [
     ];
     public $js = [
-        'js/maps/profile.js',
-        'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyCPS9tJyG2KhyAMjWgGONE8v-3qnCjB-Os&sensor=true&libraries=weather'
+        'https://maps.googleapis.com/maps/api/js?key=AIzaSyCgrd7ZXocs9g9_AfKd02aGnSyxIG1alfo',
+        'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js',
+        '/js/maps/fontawesome-markers.min.js',
+        '/js/maps/initializelayers.js'
     ];
     public $depends = [
     ];

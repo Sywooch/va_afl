@@ -145,44 +145,14 @@ class ParseController extends Controller
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $flight->pob = $this->appendPaxOnFlight($flight);
+        $flight->pob = Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->acf_type,$flight->fleet,true);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
         }
     }
 
-    private function appendPaxOnFlight(&$flight)
-    {
-        $maxpax = ($flight->fleet)?$flight->fleet->maxpax:$this->getMaxPaxForType($flight->acf_type);
-        $flightpax = $maxpax;
-        $needpax = Pax::find()->andWhere('from_icao = "'.$flight->from_icao.'"')
-            ->andWhere('to_icao = "'.$flight->to_icao.'"')->orderBy('waiting_hours desc')->all();
-        foreach($needpax as $px)
-        {
-            if($px->num_pax <= $flightpax)
-            {
-                $px->num_pax = 0;
-                $flightpax-=$px->num_pax;
-            }
-            else{
-                $px->num_pax-=$flightpax;
-                $flightpax = 0;
-            }
-            $px->save();
-            if($flightpax == 0) break;
-        }
-        return $maxpax-$flightpax;
-    }
 
-    private function getMaxPaxForType($type)
-    {
-        $default=100;
-        if($model = Actypes::find()->andWhere('code="'.$type.'"')->one())
-            $maxpax = $model->max_pax?:$default;
-        else $maxpax = $default;
-        return $maxpax;
-    }
 
     /**
      * Обновляет полеты, или заверщшает их в зависимости от наличия в вазапе
