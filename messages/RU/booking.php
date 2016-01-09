@@ -12,4 +12,6 @@ return [
     'Ready' => 'Подана',
     'In progress' => 'Выполняется',
     'Available flights in schedule' => 'Доступные рейсы по расписанию',
+    'Booking details' => 'Детали бронирования',
+    'Book this' => 'Бронировать'
 ];

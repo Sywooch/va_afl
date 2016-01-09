@@ -39,13 +39,13 @@ $form->field($model, 'to_icao')->widget(
 );
 ?>
 <?=
-$form->field($model, 'aircraft_type')->widget(
+$form->field($model, 'fleet_regnum')->widget(
     Select2::classname(),
     [
-        'options' => ['placeholder' => 'Search for an aircraft type...'],
+        'options' => ['placeholder' => 'Aircraft...'],
         'pluginOptions' => [
             'ajax' => [
-                'url' => \yii\helpers\Url::to('/site/getacftypes'),
+                'url' => \yii\helpers\Url::to('/site/getacfregnums'),
                 'dataType' => 'json',
                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
             ],
@@ -54,7 +54,8 @@ $form->field($model, 'aircraft_type')->widget(
 );
 ?>
 
-<?=
+<?php
+/*
 $form->field($model, 'fleet_regnum')->widget(
     DepDrop::classname(),
     [
@@ -67,6 +68,7 @@ $form->field($model, 'fleet_regnum')->widget(
         ]
     ]
 );
+*/
 ?>
 <?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'), ['class' => 'btn btn-success']); ?>
 <?php

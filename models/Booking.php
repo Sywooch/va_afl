@@ -33,11 +33,11 @@ class Booking extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id','aircraft_type','to_icao','from_icao','callsign'],'required'],
+            [['user_id','to_icao','from_icao','callsign'],'required'],
             [['user_id', 'schedule_id', 'status'], 'integer'],
             [['non_schedule_utc', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
-            [['callsign', 'aircraft_type', 'fleet_regnum'], 'string', 'max' => 10]
+            [['callsign', 'fleet_regnum'], 'string', 'max' => 10]
         ];
     }
 
@@ -49,10 +49,9 @@ class Booking extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'from_icao' => Yii::t('flights', 'Departure airport'),
+            'from_icao' => Yii::t('flights', 'Departure Airport'),
             'to_icao' => Yii::t('flights', 'Arrival Airport'),
             'callsign' => Yii::t('flights', 'Callsign'),
-            'aircraft_type' => Yii::t('flights', 'Aircraft Type'),
             'fleet_regnum' => Yii::t('flights', 'Aircraft Registration Number'),
             'schedule_id' => Yii::t('boking', 'Flight number'),
             'non_schedule_utc' => Yii::t('flights', 'UTC departure time'),
@@ -68,7 +67,7 @@ class Booking extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(),['regnum'=>'fleet_regnum']);
+        return $this->hasOne(Fleet::className(),['id'=>'fleet_regnum']);
     }
 
     public function getFlight()
@@ -101,46 +100,26 @@ class Booking extends \yii\db\ActiveRecord
         }
     }
 
-    private static function generateAcType($from,$to,$user)
-    {
-        $actype="B738";
-        if($sched = Schedule::find()->andWhere(['arr'=>$from])->andWhere(['dep'=>$to])->andWhere('SUBSTRING(day_of_weeks,'.(date('N')-1).',1) = 1')->one())
-            $actype = $sched->aircraft;
-        elseif($types = $user->pilot->statAcfTypes)
-        {
-            $max=0;
-            foreach($types as $type)
-            {
-                if($type['y']>$max)
-                {
-                    $max=$type['y'];
-                    $actype=$type['name'];
-                }
-            }
-        }
-        $actypes = Actypes::find()->andWhere(['code'=>$actype])->one();
-        return ['type'=>$actype,'name'=>($actypes)?($actypes->code." - ".$actypes->manufacturer." ".$actypes->name):"$actype - Noname" ];
-    }
     public static function smartBooking($icao)
     {
         $data=[];
         $apt = Airports::find()->andWhere(['icao'=>$icao])->one();
         $user = Users::getAuthUser();
         $data['callsign']=self::generateCallsign($user->pilot->location,$icao);
-        $data['actype']=self::generateActype($user->pilot->location,$icao,$user);
         $data['aname']=$apt->name;
         return $data;
     }
     public static function jsonMapData()
     {
-        $booking = self::find(['user_id'=>Users::getAuthUser()->vid])->one();
+        $booking = self::find()->andWhere(['user_id'=>Users::getAuthUser()->vid])->one();
         $data = [
             'type' => 'FeatureCollection',
             'features' => [
                 [
                     'type'=>'Feature',
                     'properties'=>[
-
+                        'type'=>'departure',
+                        'name'=>$booking->from_icao,
                     ],
                     'geometry'=>[
                         'type'=>'point',
@@ -150,7 +129,8 @@ class Booking extends \yii\db\ActiveRecord
                 [
                     'type'=>'Feature',
                     'properties'=>[
-
+                        'type'=>'arrival',
+                        'name'=>$booking->to_icao
                     ],
                     'geometry'=>[
                         'type'=>'point',

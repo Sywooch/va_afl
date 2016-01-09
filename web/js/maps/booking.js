@@ -28,7 +28,6 @@ function smartbooking(icao)
     $.get('/site/smartbooking',{icao:icao},function(response){
         var obj=JSON.parse(response);
         $('#booking-to_icao').append('<option value="'+icao+'">'+icao+' - '+obj.aname+'</option>').val(icao).trigger('change');
-        $('#booking-aircraft_type').append('<option value="'+obj.actype.type+'">'+obj.actype.name+'</option>').val(obj.actype.type).trigger('change').trigger('depdrop.change');
         $('#booking-callsign').val(obj.callsign);
         $('#booking-details').show();
     });
@@ -39,16 +38,23 @@ setTimeout(function () {
     map.data.loadGeoJson('/site/paxdata');
     map.data.setStyle(function(feature) {
         var color = feature.getProperty('feeling');
+        var ftype={'red':2,'orange':1,'green':0};
+        var scale = 0.3;
+        if(feature.getProperty('paxlist')[ftype[color]]>1000)
+            scale = 0.5;
+        if(feature.getProperty('paxlist')[ftype[color]]>10000)
+            scale = 0.7;
         return {
             clickable: true,
             icon: {
-                path: fontawesome.markers.USER,
-                scale: 0.3,
+                path: fontawesome.markers.CIRCLE,
+                scale: scale,
                 strokeWeight: 0.2,
                 strokeColor: 'black',
                 strokeOpacity: 1,
                 fillColor: color,
-                fillOpacity: 1,
+                fillOpacity: 0.6,
+                anchor: new google.maps.Point(30,-30)
             }
         };
     });

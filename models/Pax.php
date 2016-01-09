@@ -123,7 +123,7 @@ class Pax extends \yii\db\ActiveRecord
                     'feeling'=>self::getFeeling($paxlist),
                     'bookthis'=>$adata['name']==$user->pilot->location?
                         '<em>'.Yii::t('booking','You are here').'</em>':
-                        '<button onclick=\'smartbooking("'.$adata['name'].'");\'>'.Yii::t('booking','Book this destination').'</button>',
+                        '<button onclick=\'smartbooking("'.$adata['name'].'");\'>'.Yii::t('booking','Book this').'</button>',
                 ],
                 'geometry' => [
                     'type' => 'Point',
@@ -167,9 +167,9 @@ class Pax extends \yii\db\ActiveRecord
         $html.="</div>";
         return $html;
     }
-    public static function appendPax($from,$to,$type,$fleet,$need_save_pax=false)
+    public static function appendPax($from,$to,$fleet,$need_save_pax=false)
     {
-        $maxpax = ($fleet)?$fleet->maxpax:(self::getMaxPaxForType($type));
+        $maxpax = $fleet->max_pax;
         $flightpax = $maxpax;
         $needpax = self::find()->andWhere('from_icao = "'.$from.'"')
             ->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
@@ -188,14 +188,5 @@ class Pax extends \yii\db\ActiveRecord
             if($flightpax <= 0) break;
         }
         return ($maxpax-$flightpax);
-    }
-
-    private function getMaxPaxForType($type)
-    {
-        $default=100;
-        if($model = Actypes::find()->andWhere('code="'.$type.'"')->one())
-            $maxpax = $model->max_pax?:$default;
-        else $maxpax = $default;
-        return $maxpax;
     }
 }

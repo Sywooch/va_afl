@@ -12,6 +12,7 @@ echo \yii\widgets\DetailView::widget(
         'options'=>['class'=>'table condensed bordered'],
         'template' => '<tr><td style="width: 50%;">{label}</td><td>{value}</td></tr>',
         'attributes' => [
+            'callsign',
             'from_icao' => [
                 'label' => Yii::t('flights', 'Departure airport'),
                 'value' => '<img src="' . $model->departure->flaglink . '">' . $model->from_icao,
@@ -22,7 +23,6 @@ echo \yii\widgets\DetailView::widget(
                 'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->to_icao,
                 'format' => 'html'
             ],
-            'aircraft_type',
             'fleet_regnum' => [
                 'label' => Yii::t('flights', 'Aircraft Registration Number'),
                 'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
@@ -31,7 +31,7 @@ echo \yii\widgets\DetailView::widget(
             ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),
-                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->aircraft_type,$model->fleet)
+                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)
             ],
             'status' => [
                 'label' => Yii::t('flights', 'Booking status'),
