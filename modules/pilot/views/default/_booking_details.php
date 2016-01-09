@@ -29,6 +29,10 @@ echo \yii\widgets\DetailView::widget(
                     $model->fleet_regnum
                 )->regnum : ''
             ],
+            'acf_type' => [
+                'label' => Yii::t('flights', 'Aircraft type'),
+                'value' => \app\models\Fleet::findOne($model->fleet_regnum)->type_code
+            ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),
                 'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)
