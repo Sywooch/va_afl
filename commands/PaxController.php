@@ -28,7 +28,7 @@ class PaxController extends Controller
         {
             $pax->waiting_hours+=1;
             $pax->save();
-            if($pax->waiting_hours>240)
+            if($pax->waiting_hours>48)
                 $pax->delete();
         }
     }
