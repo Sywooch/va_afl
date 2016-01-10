@@ -55,7 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'fleet_regnum',
                 'status',
                 'alternate1',
-                'alternate2',
             ],
         ]
     ) ?>
