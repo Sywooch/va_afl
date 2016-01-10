@@ -30,7 +30,6 @@ use yii\i18n\Formatter;
  * @property string $fleet_regnum
  * @property integer $status
  * @property string $alternate1
- * @property string $alternate2
  */
 class Flights extends \yii\db\ActiveRecord
 {
@@ -48,11 +47,11 @@ class Flights extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic','flight_time'], 'integer'],
+            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time'], 'integer'],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
-            [['from_icao', 'to_icao', 'alternate1', 'alternate2'], 'string', 'max' => 5],
+            [['from_icao', 'to_icao', 'alternate1'], 'string', 'max' => 5],
             [['acf_type', 'fleet_regnum', 'callsign'], 'string', 'max' => 10]
         ];
     }
@@ -69,8 +68,8 @@ class Flights extends \yii\db\ActiveRecord
             'callsign' => Yii::t('flights', 'Callsign'),
             'first_seen' => 'First Seen',
             'last_seen' => 'Last Seen',
-            'from_icao' => Yii::t('flights', 'From ICAO'),
-            'to_icao' => Yii::t('flights', 'To ICAO'),
+            'from_icao' => Yii::t('flights', 'Departure Airport'),
+            'to_icao' => Yii::t('flights', 'Arrival Airport'),
             'flightplan' => Yii::t('flights', 'Flightplan'),
             'remarks' => 'Remarks',
             'dep_time' => 'Dep Time',
@@ -83,7 +82,6 @@ class Flights extends \yii\db\ActiveRecord
             'fleet_regnum' => 'Fleet Regnum',
             'status' => 'Status',
             'alternate1' => 'Alternate1',
-            'alternate2' => 'Alternate2',
         ];
     }
 
@@ -105,9 +103,16 @@ class Flights extends \yii\db\ActiveRecord
         return Flights::find()->where(['user_id' => $id])->sum('nm');
     }
 
+    public static function getTime($id)
+    {
+        return Flights::find()->where(['user_id' => $id])->sum('flight_time');
+    }
+
     public static function getStatWeekdays($id)
     {
-        $stats_raw = Flights::find()->where(['user_id' => $id])->select('WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`')
+        $stats_raw = Flights::find()->where(['user_id' => $id])->select(
+            'WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`'
+        )
             ->groupBy(
                 [
                     'WEEKDAY(dep_time)',
@@ -115,7 +120,10 @@ class Flights extends \yii\db\ActiveRecord
             )->all();
         $stat = [];
         foreach ($stats_raw as $stat_raw) {
-            $stat[] = ['name' => Yii::t('time',Helper::getWeekDayFromNumber($stat_raw->day)), 'y' => intval($stat_raw->count)];
+            $stat[] = [
+                'name' => Yii::t('time', Helper::getWeekDayFromNumber($stat_raw->day)),
+                'y' => intval($stat_raw->count)
+            ];
         }
         return $stat;
     }
@@ -148,6 +156,6 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(), ['regnum'=>'fleet_regnum']);
+        return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
     }
 }

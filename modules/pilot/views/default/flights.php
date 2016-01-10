@@ -1,8 +1,10 @@
 <?php
-use app\components\Helper;
+
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
+
+use app\components\Helper;
 
 $this->title = Yii::t('app', 'Flights') . ' ' . $id;
 $this->params['breadcrumbs'] = [

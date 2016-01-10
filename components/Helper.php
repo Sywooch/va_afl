@@ -3,7 +3,8 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
-use \app\models\Isocodes;
+
+use app\models\Isocodes;
 use app\models\Flights;
 
 /**
@@ -29,10 +30,8 @@ class Helper extends Component
 
     public static function getTimeFormatted($time)
     {
-        $seconds = $time % 60;
-        $time = ($time - $seconds) / 60;
-        $minutes = $time % 60;
-        $hours = ($time - $minutes) / 60;
+        $hours = floor($time/60);
+        $minutes = $time - $hours*60;
         return $hours . ' ' . Yii::t('user', 'Hours') . ' ' . $minutes . ' ' . Yii::t('user', 'Minutes');
     }
 

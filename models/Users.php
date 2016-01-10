@@ -80,10 +80,10 @@ class Users extends \yii\db\ActiveRecord
             'email' => 'Email',
             'country' => Yii::t('user', 'Country'),
             'authKey' => 'Auth Key',
-            'language' => Yii::t('user', 'Language'),
+            'language' => 'Language/Язык',
             'created_date' => Yii::t('user', 'Register Date'),
-            'last_visited' => 'Last Visited',
-            'avatar' => 'Avatar'
+            'last_visited' => Yii::t('user', 'Last Visited'),
+            'avatar' => Yii::t('user', 'Avatar')
         ];
     }
 

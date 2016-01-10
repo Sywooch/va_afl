@@ -1,25 +1,28 @@
 <?php
+
+use yii\helpers\Html;
+
 use app\components\Menu;
 use app\models\Users;
-use yii\helpers\Html;
 
 ?>
 <div id="sidebar" class="sidebar">
     <div data-scrollbar="true" data-height="100%">
         <ul class="nav">
-            <li class="nav-profile">
+            <li class="nav-profile" style="background-color: #2D353C; text-align: center">
                 <?php if (!Yii::$app->user->isGuest): ?>
-                    <div class="info">
-                        <?= Yii::$app->user->identity->full_name ?>
-                        <?php $user = Users::getAuthUser(); ?>
-                        <small><?= Yii::$app->language == 'RU' ? $user->pilot->rank->name_ru : $user->pilot->rank->name_en ?></small>
-                    </div>
                     <?php
+                    $user = Users::getAuthUser();
                     if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-                        echo Html::img('/img/avatars/' . $user->avatar,
-                            ['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                        echo Html::img(
+                            '/img/avatars/' . $user->avatar,
+                            ['style' => 'width: 100%;']
+                        );
                     } else {
-                        echo Html::img('/img/avatars/default.png');
+                        echo Html::img(
+                            '/img/avatars/default.png',
+                            ['style' => 'width: 100%;']
+                        );
                     } ?>
                 <?php endif; ?>
             </li>

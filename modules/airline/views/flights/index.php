@@ -17,35 +17,37 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Flights', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?=
+    GridView::widget(
+        [
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'id',
+                'user_id',
+                'booking_id',
+                'callsign',
+                'first_seen',
+                // 'last_seen',
+                // 'from_icao',
+                // 'to_icao',
+                // 'flightplan:ntext',
+                // 'remarks:ntext',
+                // 'dep_time',
+                // 'eet',
+                // 'landing_time',
+                // 'sim',
+                // 'fob',
+                // 'pob',
+                // 'acf_type',
+                // 'fleet_regnum',
+                // 'status',
+                // 'alternate1',
+                // 'alternate2',
 
-            'id',
-            'user_id',
-            'booking_id',
-            'callsign',
-            'first_seen',
-            // 'last_seen',
-            // 'from_icao',
-            // 'to_icao',
-            // 'flightplan:ntext',
-            // 'remarks:ntext',
-            // 'dep_time',
-            // 'eet',
-            // 'landing_time',
-            // 'sim',
-            // 'fob',
-            // 'pob',
-            // 'acf_type',
-            // 'fleet_regnum',
-            // 'status',
-            // 'alternate1',
-            // 'alternate2',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]
+    ); ?>
 
 </div>

@@ -19,7 +19,7 @@ $this->params['breadcrumbs'] = [
 
     <p>
         <?php
-        if (Yii::$app->user->can('edit_airport')) {
+        if (Yii::$app->user->can('staff/edit')) {
             echo Html::a(Yii::t('app', 'Create Position'), ['create'], ['class' => 'btn btn-success']);
         }
         ?>
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'] = [
                             ) . "'> " . $data->user->full_name;
                         }
                 ],
-                ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->can('edit_staff')],
+                ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->can('staff/edit')],
             ]
         ]
     );

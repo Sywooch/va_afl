@@ -20,38 +20,44 @@ $this->params['breadcrumbs'] = [
         <h4 class="panel-title"><?= $this->title ?></h4>
     </div>
     <div class="panel-body" style="display: block;">
-        <?php echo \yii\grid\GridView::widget([
-            'dataProvider' => $dataProvider,
-            'tableOptions' => [
-                'class' => 'table table-bordered table-striped table-hover'
-            ],
-            'layout' => '{items}{pager}',
-            'columns' => [
-                [
-                    'attribute' => 'full_name',
-                    'format' => 'raw',
-                    'value' => function ($data) {
-                        return "<img src=" . $data->flaglink . "> " .
-                        Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
-                    }
+        <?php echo \yii\grid\GridView::widget(
+            [
+                'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table table-bordered table-striped table-hover'
                 ],
-                Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
-                [
-                    'attribute' => 'pilot.location',
-                    'format' => 'raw',
-                    'value' => function ($data) {
-                        return '<img src="' . $data->pilot->airport->flaglink . '"> ' . Html::a(Html::encode($data->pilot->airport->name . ' (' . $data->pilot->location . ')'),
-                            Url::to([
-                                '/airline/airports/view/',
-                                'id' => $data->pilot->location
-                            ]));
-                    }
-                ],
-                [
-                    'attribute' => 'created_date',
-                    'format' => ['date', 'php:d.m.Y']
-                ],
+                'layout' => '{items}{pager}',
+                'columns' => [
+                    [
+                        'attribute' => 'full_name',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                return "<img src=" . $data->flaglink . "> " .
+                                Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
+                            }
+                    ],
+                    Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
+                    [
+                        'attribute' => 'pilot.location',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                return '<img src="' . $data->pilot->airport->flaglink . '"> ' . Html::a(
+                                    Html::encode($data->pilot->airport->name . ' (' . $data->pilot->location . ')'),
+                                    Url::to(
+                                        [
+                                            '/airline/airports/view/',
+                                            'id' => $data->pilot->location
+                                        ]
+                                    )
+                                );
+                            }
+                    ],
+                    [
+                        'attribute' => 'created_date',
+                        'format' => ['date', 'php:d.m.Y']
+                    ],
+                ]
             ]
-        ]); ?>
+        ); ?>
     </div>
 </div>

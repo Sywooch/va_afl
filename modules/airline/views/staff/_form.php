@@ -21,12 +21,18 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'name_en')->textInput() ?>
 
-    <?= $form->field($model, 'vid')->widget(Select2::classname(),
-        ['data' => \yii\helpers\ArrayHelper::map(\app\models\Users::find()->all(),'vid','full_name')])
+    <?=
+    $form->field($model, 'vid')->widget(
+        Select2::classname(),
+        ['data' => \yii\helpers\ArrayHelper::map(\app\models\Users::find()->all(), 'vid', 'full_name')]
+    )
     ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(
+            $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
+            ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
+        ) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

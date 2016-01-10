@@ -28,6 +28,8 @@ class PaxController extends Controller
         {
             $pax->waiting_hours+=1;
             $pax->save();
+            if($pax->waiting_hours>240)
+                $pax->delete();
         }
     }
 
@@ -66,6 +68,6 @@ class PaxController extends Controller
             'SU95'=>98
         ];
         $maxpax = (isset($paxarray[$acftype]))?$paxarray[$acftype]:100; //default value
-        return intval(rand($maxpax/2,$maxpax));
+        return $maxpax;
     }
 }

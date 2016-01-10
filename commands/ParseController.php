@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\components\Helper;
+use app\models\Actypes;
 use app\models\Airports;
 use app\models\Booking;
 use app\models\Fleet;
@@ -138,46 +139,20 @@ class ParseController extends Controller
         if ($booking->fleet_regnum) {
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
-        $flight->acf_type = $booking->aircraft_type;
+        $flight->acf_type = Fleet::find()->andWhere(['id'=>$flight->fleet_regnum])->one()->type_code;
         $flight->booking_id = $booking->id;
         $flight->user_id = $booking->user_id;
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $this->appendPaxOnFlight($flight);
+        $flight->pob = Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
         }
     }
 
-    private function appendPaxOnFlight(&$flight)
-    {
-        $maxpax = ($flight->fleet)?$flight->fleet->maxpax:$this->getMaxPaxForType($flight->acf_type);
-        $flightpax = $maxpax;
-        $needpax = Pax::find()->andWhere('from_icao = '.$flight->from_icao)
-            ->andWhere('to_icao = '.$flight->to_icao)->orderBy('waiting_hours desc')->all();
-        foreach($needpax as $px)
-        {
-            if($px->num_pax <= $flightpax)
-            {
-                $px->num_pax = 0;
-                $flightpax-=$px->pax;
-            }
-            else{
-                $px->num_pax-=$flightpax;
-                $flightpax = 0;
-            }
-            $px->save();
-            if($flightpax == 0) break;
-        }
-        $flight->pob = $maxpax-$flightpax;
-    }
 
-    private function getMaxPaxForType($type)
-    {
-        return 100; //default value до тех пор, пока у нас не будет актуальной информации по максимальной пассажировместимости типов крафтов.
-    }
 
     /**
      * Обновляет полеты, или заверщшает их в зависимости от наличия в вазапе
@@ -200,7 +175,7 @@ class ParseController extends Controller
     private function endFlight($flight)
     {
         $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
-        $booking->delete();
+        if($booking)$booking->delete();
         if ($this->validateFlight($flight)) {
             $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = self::FLIGHT_STATUS_OK;
@@ -257,7 +232,7 @@ class ParseController extends Controller
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
         $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
-        $flight->pob = $data[self::WZ_POB];
+        //$flight->pob = $data[self::WZ_POB];
         $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
         $flight->alternate1 = $data[self::WZ_ALTERNATE];
         $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
@@ -331,7 +306,7 @@ class ParseController extends Controller
 
     private function isDomestic($flight)
     {
-        if ($flight->depAirport->country == 'ru' && $flight->arrAirport->country == 'ru') {
+        if ($flight->depAirport->iso == 'RU' && $flight->arrAirport->iso == 'RU') {
             return true;
         }
         return false;

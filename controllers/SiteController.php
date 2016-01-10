@@ -2,26 +2,34 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\db\Query;
+use yii\web\Controller;
+use yii\web\Response;
+use yii\web\User;
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
+use app\components\UserRoutes;
 use app\models\Airports;
 use app\models\Booking;
 use app\models\ContactForm;
 use app\models\Fleet;
 use app\models\IvaoLogin;
+use app\models\Pax;
+use app\models\Schedule;
 use app\models\Users;
 use app\models\Actypes;
 
-use app\components\UserRoutes;
-
-use yii\db\Query;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use Yii;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\web\User;
-
+/**
+ * Class SiteController
+ * @package app\controllers
+ */
 class SiteController extends Controller
 {
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -45,6 +53,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -77,9 +88,11 @@ class SiteController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
+
         if (!$IVAOTOKEN) {
             return $this->redirect(Yii::$app->params['ivao_login_url']);
         }
+
         $model = new IvaoLogin;
         $model->login($IVAOTOKEN);
         $this->redirect(Yii::$app->user->returnUrl);
@@ -90,29 +103,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
-    }
-
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render(
-            'contact',
-            [
-                'model' => $model,
-            ]
-        );
-    }
-
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 
     public function actionGetairports($q = null, $id = null)
@@ -147,5 +138,26 @@ class SiteController extends Controller
     public function actionGetuserroutes($id)
     {
         echo json_encode((new UserRoutes($id))->getAsArray());
+    }
+
+    public function actionGetairportpaxdetail($airport,$paxtype)
+    {
+        echo Pax::detailList($airport,$paxtype);
+    }
+    public function actionGetservertime()
+    {
+        echo gmdate("F j, Y G:i:s");
+    }
+    public function actionPaxdata()
+    {
+        echo Pax::jsonMapData();
+    }
+    public function actionSmartbooking($icao)
+    {
+        echo json_encode(Booking::smartBooking($icao));
+    }
+    public function actionMybookingdetails()
+    {
+        echo Booking::jsonMapData();
     }
 }

@@ -3,9 +3,10 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
+
+use app\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -25,6 +26,7 @@ AppAsset::register($this);
     <link href="/css/animate.min.css" rel="stylesheet"/>
     <link href="/css/style.min.css" rel="stylesheet"/>
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="/css/style_watch.css" rel="stylesheet"/>
     <link href="/css/theme/default.css" rel="stylesheet"/>
     <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->

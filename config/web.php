@@ -74,6 +74,9 @@ $config = [
         'airline' => [
             'class' => 'app\modules\airline\Module',
         ],
+        'fleet' => [
+            'class' => 'app\modules\fleet\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
@@ -95,8 +98,11 @@ $config = [
                 throw new \yii\web\HttpException(401,'Not allowed');
             Yii::$app->layout = 'main';
         }
-        if (!Yii::$app->user->isGuest && $event->action->id != 'editprofile') {
+        if (!Yii::$app->user->isGuest && !in_array($event->action->id,['edit','toolbar','getservertime'])) {
             \app\models\User::checkEmail();
+            $user=\app\models\Users::getAuthUser();
+            $user->last_visited=date('Y-m-d H:i:s');
+            $user->save();
         }
         \app\models\User::setLanguage();
     },
@@ -107,6 +113,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'allowedIPs' => ['*'],
     ];
 
     $config['bootstrap'][] = 'gii';
