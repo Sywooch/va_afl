@@ -3,60 +3,61 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\assets\MapAsset;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Flights */
+
+MapAsset::register($this);
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Flights', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="flights-view">
+<style>
+    .left {
+        position: absolute;
+        top: 70px;
+        left: 250px;
+        z-index: 10;
+        width: 350px;
+        height: 700px;
+    }
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    .main {
+        position: absolute;
+        top: 22px;
+        left: 0px;
+        right: 1px;
+        bottom: 1px;
+    }
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+</style>
+<div class="left panel">
+    <div class="panel-heading">
+        <h1><?= Html::encode($model->callsign) ?></h1>
+    </div>
+    <div class="panel-body">
         <?=
-        Html::a(
-            'Delete',
-            ['delete', 'id' => $model->id],
+        //TODO: все дела красота
+        DetailView::widget(
             [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
+                'model' => $model,
+                'attributes' => [
+                    'callsign',
+                    'user_id',
+                    'first_seen',
+                    'last_seen',
+                    'from_icao',
+                    'to_icao',
                 ],
             ]
         ) ?>
-    </p>
-
-    <?=
-    DetailView::widget(
-        [
-            'model' => $model,
-            'attributes' => [
-                'id',
-                'user_id',
-                'booking_id',
-                'callsign',
-                'first_seen',
-                'last_seen',
-                'from_icao',
-                'to_icao',
-                'flightplan:ntext',
-                'remarks:ntext',
-                'dep_time',
-                'eet',
-                'landing_time',
-                'sim',
-                'fob',
-                'pob',
-                'acf_type',
-                'fleet_regnum',
-                'status',
-                'alternate1',
-            ],
-        ]
-    ) ?>
-
+    </div>
 </div>
+<div class="main" id="map"></div>
+<script>
+    setTimeout(function () {
+        initialize();
+    }, 1000);
+</script>

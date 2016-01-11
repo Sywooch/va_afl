@@ -23,16 +23,6 @@ class FlightsController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                 ],
-            ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['flights/edit'],
-                    ],
-                ]
             ]
         ];
     }
@@ -41,10 +31,12 @@ class FlightsController extends Controller
      * Lists all Flights models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id = null)
     {
+        $query = $id ? Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]) : Flights::find();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Flights::find(),
+            'query' => $query,
         ]);
 
         return $this->render(
@@ -71,27 +63,6 @@ class FlightsController extends Controller
     }
 
     /**
-     * Creates a new Flights model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Flights();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render(
-                'create',
-                [
-                    'model' => $model,
-                ]
-            );
-        }
-    }
-
-    /**
      * Updates an existing Flights model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -111,19 +82,6 @@ class FlightsController extends Controller
                 ]
             );
         }
-    }
-
-    /**
-     * Deletes an existing Flights model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**
