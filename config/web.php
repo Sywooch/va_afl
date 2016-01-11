@@ -77,6 +77,9 @@ $config = [
         'fleet' => [
             'class' => 'app\modules\fleet\Module',
         ],
+        'squadron' => [
+            'class' => 'app\modules\squadron\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
