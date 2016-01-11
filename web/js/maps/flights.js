@@ -25,4 +25,8 @@ setTimeout(function(){
             strokeColor: feature.getProperty('color'),
         }
     });
+    $('.title').bind('click',function(){
+        var eid = $(this).data('toggle');
+        $('#'+eid).toggle();
+    });
 },1000);

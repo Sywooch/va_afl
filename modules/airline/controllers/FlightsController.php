@@ -54,10 +54,16 @@ class FlightsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $query = Flights::find()->where(['user_id' => $model->user_id])->andWhere(['status'=>2])->orderBy(['id' => SORT_DESC]);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
         return $this->render(
             'view',
             [
-                'model' => $this->findModel($id),
+                'model' => $model,
+                'dataProvider'=>$dataProvider,
             ]
         );
     }

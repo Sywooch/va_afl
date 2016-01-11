@@ -21,10 +21,19 @@ $this->params['breadcrumbs'][] = $this->title;
         left: 250px;
         z-index: 10;
         width: 350px;
-        min-height: 400px;
+        background-color: rgba(0,0,0,0.7);
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+    .right {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 10;
+        width: 350px;
+
         background-color: rgba(0,0,0,0.7);
     }
-
     .main {
         position: absolute;
         top: 22px;
@@ -32,13 +41,26 @@ $this->params['breadcrumbs'][] = $this->title;
         right: 1px;
         bottom: 1px;
     }
+    .title {
+        color: yellow;
+        cursor: pointer;
+    }
+
 
 </style>
 <div class="left panel">
-    <div class="panel-heading">
-        <h1><?= Html::encode($model->callsign) ?></h1>
+    <div class="panel-header">
+        <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app','Flights') ?></h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" id="flights" style="display: none;">
+        <?=$this->render('index',['dataProvider'=>$dataProvider,'from_view'=>$this])?>
+    </div>
+</div>
+<div class="right panel">
+    <div class="panel-heading">
+        <h4 class="title text-center" data-toggle="details"><?= Html::encode($model->callsign) ?></h4>
+    </div>
+    <div class="panel-body" id="details">
         <?=
         //TODO: все дела красота
         DetailView::widget(
