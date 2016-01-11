@@ -158,4 +158,53 @@ class Flights extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
     }
+    public function getTrack()
+    {
+        return $this->hasMany(Tracker::className(),['flight_id'=>'id']);
+    }
+    public static function prepareTrackerData($id)
+    {
+        $flightpath = [];
+        $model = self::findOne($id);
+        foreach($model->track as $item)
+        {
+            $flightpath[]=[$item->longitude,$item->latitude];
+        }
+        $data = [
+            'type' => 'FeatureCollection',
+            'features' => [
+                [
+                    'type' => 'Feature',
+                    'properties' => [
+                        'type' => 'start'
+                    ],
+                    'geometry' => [
+                        'type' => 'Point',
+                        'coordinates' => $flightpath[0]
+                    ]
+
+                ],
+                [
+                    'type' => 'Feature',
+                    'properties' => [],
+                    'geometry' => [
+                        'type' => 'LineString',
+                        'coordinates' => $flightpath
+                    ]
+                ],
+                [
+                    'type' => 'Feature',
+                    'properties' => [
+                        'type' => 'stop'
+                    ],
+                    'geometry' => [
+                        'type' => 'Point',
+                        'coordinates' => $flightpath[sizeof($flightpath)-1]
+                    ]
+
+                ],
+            ]
+        ];
+        return json_encode($data);
+    }
 }

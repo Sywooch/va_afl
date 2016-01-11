@@ -9,7 +9,7 @@ use app\assets\MapAsset;
 /* @var $model app\models\Flights */
 
 MapAsset::register($this);
-
+\app\assets\FlightsAsset::register($this);
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Flights', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         left: 250px;
         z-index: 10;
         width: 350px;
-        height: 700px;
+        min-height: 400px;
+        background-color: rgba(0,0,0,0.7);
     }
 
     .main {
@@ -43,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
         DetailView::widget(
             [
                 'model' => $model,
+                'options' => ['class'=>'table table-bordered table-condensed'],
                 'attributes' => [
                     'callsign',
                     'user_id',
@@ -55,9 +57,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ) ?>
     </div>
 </div>
-<div class="main" id="map"></div>
-<script>
-    setTimeout(function () {
-        initialize();
-    }, 1000);
-</script>
+<div class="main" id="map" data-flightid="<?=$model->id?>"></div>

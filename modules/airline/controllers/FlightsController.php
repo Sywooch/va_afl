@@ -84,6 +84,10 @@ class FlightsController extends Controller
         }
     }
 
+    public function actionMapdata($id=null)
+    {
+        echo Flights::prepareTrackerData($id);
+    }
     /**
      * Finds the Flights model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
