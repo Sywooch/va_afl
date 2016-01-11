@@ -158,18 +158,39 @@ class Flights extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
     }
+
     public function getTrack()
     {
-        return $this->hasMany(Tracker::className(),['flight_id'=>'id']);
+        return $this->hasMany(Tracker::className(), ['flight_id' => 'id']);
     }
+
     public static function prepareTrackerData($id)
     {
         $flightpath = [];
+        $colors = [
+            0 => '#ffe700',
+            2000 => '#ffe700',
+            3000 => '#D3FF00',
+            6000 => '#00FF00',
+            12000 => '#0000FF',
+            18000 => '#3D00FF',
+            24000 => '#FF2EC5',
+            32000 => '#FF0033'
+        ];
         $model = self::findOne($id);
-        foreach($model->track as $item)
-        {
-            $flightpath[]=[$item->longitude,$item->latitude];
+        foreach ($model->track as $item) {
+            $color = $colors[0];
+            foreach ($colors as $alt => $colorset) {
+                if ($item->altitude > $alt) {
+                    $color = $colorset;
+                }
+            }
+            $flightpath[] = ['color' => $color, 'crd' => [$item->longitude, $item->latitude]];
         }
+        $flightpath[] = [
+            'color' => 'transparent',
+            'crd' => $flightpath[sizeof($flightpath) - 1]['crd']
+        ]; //чтобы отработать конец трека
         $data = [
             'type' => 'FeatureCollection',
             'features' => [
@@ -180,30 +201,41 @@ class Flights extends \yii\db\ActiveRecord
                     ],
                     'geometry' => [
                         'type' => 'Point',
-                        'coordinates' => $flightpath[0]
+                        'coordinates' => $flightpath[0]['crd']
                     ]
 
-                ],
-                [
-                    'type' => 'Feature',
-                    'properties' => [],
-                    'geometry' => [
-                        'type' => 'LineString',
-                        'coordinates' => $flightpath
-                    ]
-                ],
-                [
+                ]
+            ]
+        ];
+        $prevcolor = $colors[0];
+        $fpcoords = [];
+        foreach ($flightpath as $fppeace) {
+            if ($fppeace['color'] != $prevcolor) {
+                $data['features'][] = [
                     'type' => 'Feature',
                     'properties' => [
-                        'type' => 'stop'
+                        'color' => $prevcolor,
                     ],
                     'geometry' => [
-                        'type' => 'Point',
-                        'coordinates' => $flightpath[sizeof($flightpath)-1]
+                        'type' => 'LineString',
+                        'coordinates' => $fpcoords
                     ]
-
-                ],
+                ];
+                $fpcoords = [$fpcoords[sizeof($fpcoords) - 1]];
+                $prevcolor = $fppeace['color'];
+            }
+            $fpcoords[] = $fppeace['crd'];
+        }
+        $data['features'][] = [
+            'type' => 'Feature',
+            'properties' => [
+                'type' => 'stop'
+            ],
+            'geometry' => [
+                'type' => 'Point',
+                'coordinates' => $flightpath[sizeof($flightpath) - 1]['crd']
             ]
+
         ];
         return json_encode($data);
     }

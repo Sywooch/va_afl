@@ -22,7 +22,7 @@ setTimeout(function(){
         }
         return {
             geodesic: true,
-            strokeColor: 'red',
+            strokeColor: feature.getProperty('color'),
         }
     });
 },1000);
