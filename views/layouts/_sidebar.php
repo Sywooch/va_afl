@@ -51,7 +51,7 @@ use app\models\Users;
                             ],
                             [
                                 'name' => Yii::t('app', 'Flights'),
-                                'url' => \yii\helpers\Url::to('/pilot/flights/' . Yii::$app->user->identity->vid)
+                                'url' => \yii\helpers\Url::to('/airline/flights/index/' . Yii::$app->user->identity->vid)
                             ],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
                         ],
