@@ -2,6 +2,7 @@
 
 namespace app\modules\squadron\controllers;
 
+use app\models\SquadUsers;
 use Yii;
 use app\models\Squads;
 use yii\data\ActiveDataProvider;
@@ -48,8 +49,15 @@ class DefaultController extends Controller
      */
     public function actionSquad($id)
     {
+        $membersProvider = new ActiveDataProvider([
+            'query' => SquadUsers::find()->where(['squad_id' => $id])->andWhere(['status' => SquadUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
+            'pagination' =>  [
+                'pageSize' => 10,
+            ],
+        ]);
         return $this->render('view', [
             'squad' => $this->findModel($id),
+            'membersProvider' => $membersProvider,
         ]);
     }
 

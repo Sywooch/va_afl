@@ -66,8 +66,13 @@ class SquadUsers extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getSquadUsers($id)
+    public static function getSquadMembers($id)
     {
         return SquadUsers::find()->where(['squad_id' => $id])->andWhere(['status' => self::STATUS_PENDING]);
+    }
+
+    public function getSquadMember()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'user_id']);
     }
 }
