@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="flights-index">
     <?php
-    if (!isset($from_view)) {
+    if (!$from_view) {
         ?>
         <h1><?= Html::encode($this->title) ?></h1>
         <?php
@@ -25,18 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
         GridView::widget(
             [
                 'dataProvider' => $dataProvider,
-                'layout' => (!isset($from_view))?'{items}{pager}':'{items}',
-                'tableOptions' => (isset($from_view))?['class'=>'table table-bordered']:['class'=>'table table-bordered table-striped table-condensed'],
+                'layout' => (!$from_view)?'{items}{pager}':'{items}',
+                'tableOptions' => ($from_view)?['class'=>'table table-bordered']:['class'=>'table table-bordered table-striped table-condensed'],
                 'columns' => [
                     [
                         'attribute' => 'callsign',
                         'label' => Yii::t('flights', 'Callsign'),
                         'format' => 'raw',
-                        'value' => function ($data) {
+                        'value' => function ($data) use ($from_view) {
                             if(!empty($data->track))
                             return Html::a(
                                 Html::encode($data->callsign),
-                                Url::to(['/airline/flights/view/' . $data->id])
+                                (!$from_view)?
+                                Url::to(['/airline/flights/view/' . $data->id]):
+                                'javascript:reload('.$data->id.',map)'
                             );
                             return Html::encode($data->callsign);
                         },
@@ -67,13 +69,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function ($data) {
                             return Helper::getTimeFormatted($data->flight_time);
                         },
-                        'visible' => !isset($from_view)
+                        'visible' => !$from_view
                     ],
                     [
                         'attribute' => 'first_seen',
                         'label' => Yii::t('app', 'Date'),
                         'format' => ['date', 'php:d.m.Y'],
-                        'visible' => !isset($from_view)
+                        'visible' => !$from_view
                     ],
                 ],
             ]

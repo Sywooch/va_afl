@@ -2,9 +2,28 @@
  * Created by BTH on 11.01.16.
  */
 
+var features = [];
+var map;
+function reload(flight_id)
+{
+    window.history.pushState({}, window.title, "/airline/flights/view/"+flight_id);
+    for (var i = 0; i < features.length; i++) {
+        map.data.remove(features[i]);
+    }
+    $.getJSON('/airline/flights/mapdata?id='+flight_id, function (djs) {
+        features = map.data.addGeoJson(djs);
+        $.get('/airline/flights/details',{id:flight_id},function(response){
+            var details = JSON.parse(response);
+            $('#details').html(details.html);
+            $('#callsign').text(details.callsign);
+        });
+    });
+
+}
+
 setTimeout(function(){
     initialize();
-    map.data.loadGeoJson('/airline/flights/mapdata?id='+$('#map').data('flightid'));
+    reload($('#map').data('flightid'));
     map.data.setStyle(function(feature) {
         if(feature.getGeometry().getType()=='Point'){
             color = (feature.getProperty('type')=='start')?'green':'orange';

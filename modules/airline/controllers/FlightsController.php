@@ -3,12 +3,13 @@
 namespace app\modules\airline\controllers;
 
 use Yii;
+use yii\base\View;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 use app\models\Flights;
+use yii\widgets\DetailView;
 
 /**
  * FightController implements the CRUD actions for Flights model.
@@ -43,6 +44,7 @@ class FlightsController extends Controller
             'index',
             [
                 'dataProvider' => $dataProvider,
+                'from_view'=>false,
             ]
         );
     }
@@ -94,6 +96,13 @@ class FlightsController extends Controller
     {
         echo Flights::prepareTrackerData($id);
     }
+
+    public function actionDetails($id=null)
+    {
+        $model = $this->findModel($id);
+        return $this->renderPartial('details',['model'=>$model]);
+    }
+
     /**
      * Finds the Flights model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

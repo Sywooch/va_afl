@@ -221,7 +221,7 @@ class Flights extends \yii\db\ActiveRecord
                         'coordinates' => $fpcoords
                     ]
                 ];
-                $fpcoords = [$fpcoords[sizeof($fpcoords) - 1]];
+                $fpcoords = (!empty($fpcoords))?[$fpcoords[sizeof($fpcoords) -1]]:[];
                 $prevcolor = $fppeace['color'];
             }
             $fpcoords[] = $fppeace['crd'];

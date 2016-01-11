@@ -45,38 +45,22 @@ $this->params['breadcrumbs'][] = $this->title;
         color: yellow;
         cursor: pointer;
     }
-
-
 </style>
 <div class="left panel">
     <div class="panel-header">
         <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app','Flights') ?></h4>
     </div>
     <div class="panel-body" id="flights" style="display: none;">
+
         <?=$this->render('index',['dataProvider'=>$dataProvider,'from_view'=>$this])?>
     </div>
 </div>
 <div class="right panel">
     <div class="panel-heading">
-        <h4 class="title text-center" data-toggle="details"><?= Html::encode($model->callsign) ?></h4>
+        <h4 class="title text-center" data-toggle="details" id="callsign"><?= Html::encode($model->callsign) ?></h4>
     </div>
     <div class="panel-body" id="details">
-        <?=
-        //TODO: все дела красота
-        DetailView::widget(
-            [
-                'model' => $model,
-                'options' => ['class'=>'table table-bordered table-condensed'],
-                'attributes' => [
-                    'callsign',
-                    'user_id',
-                    'first_seen',
-                    'last_seen',
-                    'from_icao',
-                    'to_icao',
-                ],
-            ]
-        ) ?>
+
     </div>
 </div>
 <div class="main" id="map" data-flightid="<?=$model->id?>"></div>
