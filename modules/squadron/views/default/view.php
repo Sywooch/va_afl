@@ -6,7 +6,7 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Squads */
+/* @var $model app\models\Squadrons */
 
 $this->title = Yii::$app->language == 'RU' ? $squad->name_ru : $squad->name_en;
 $this->params['breadcrumbs'][] = ['label' => 'Squads', 'url' => ['index']];
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h2 style="text-align: center">Список пилотов</h2>
                     <?php Pjax::begin() ?>
                     <?= GridView::widget([

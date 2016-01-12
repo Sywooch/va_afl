@@ -2,9 +2,9 @@
 
 namespace app\modules\squadron\controllers;
 
-use app\models\SquadUsers;
+use app\models\Squadrons;
+use app\models\SquadronUsers;
 use Yii;
-use app\models\Squads;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -34,7 +34,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Squads::find(),
+            'query' => Squadrons::find(),
         ]);
 
         return $this->render('index', [
@@ -47,10 +47,10 @@ class DefaultController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionSquad($id)
+    public function actionView($id)
     {
         $membersProvider = new ActiveDataProvider([
-            'query' => SquadUsers::find()->where(['squad_id' => $id])->andWhere(['status' => SquadUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
+            'query' => SquadronUsers::find()->where(['squad_id' => $id])->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
             'pagination' =>  [
                 'pageSize' => 10,
             ],
@@ -68,7 +68,7 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Squads();
+        $model = new Squadrons();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -115,12 +115,12 @@ class DefaultController extends Controller
      * Finds the Squads model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Squads the loaded model
+     * @return Squadrons the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Squads::findOne($id)) !== null) {
+        if (($model = Squadrons::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

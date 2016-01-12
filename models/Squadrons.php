@@ -13,14 +13,14 @@ use Yii;
  * @property string $abbr_ru
  * @property string $abbr_en
  */
-class Squads extends \yii\db\ActiveRecord
+class Squadrons extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'squads';
+        return 'squadrons';
     }
 
     /**

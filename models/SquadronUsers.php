@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $approved
  * @property integer $is_leader
  */
-class SquadUsers extends \yii\db\ActiveRecord
+class SquadronUsers extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -25,7 +25,7 @@ class SquadUsers extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 'squad_users';
+        return 'squadron_users';
     }
 
     /**
@@ -68,7 +68,7 @@ class SquadUsers extends \yii\db\ActiveRecord
 
     public static function getSquadMembers($id)
     {
-        return SquadUsers::find()->where(['squad_id' => $id])->andWhere(['status' => self::STATUS_PENDING]);
+        return SquadronUsers::find()->where(['squad_id' => $id])->andWhere(['status' => self::STATUS_PENDING]);
     }
 
     public function getSquadMember()
