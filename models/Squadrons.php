@@ -29,7 +29,7 @@ class Squadrons extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_ru', 'name_en', 'abbr_ru', 'abbr_en'], 'string', 'max' => 100],
+            [['name_ru', 'name_en', 'abbr'], 'string', 'max' => 100],
             [['leader'], 'integer'],
         ];
     }
@@ -43,9 +43,13 @@ class Squadrons extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name_ru' => 'Name Ru',
             'name_en' => 'Name En',
-            'abbr_ru' => 'Abbr Ru',
-            'abbr_en' => 'Abbr En',
+            'abbr' => 'Abbr',
             'leader' => 'Leader',
         ];
+    }
+
+    public function getSquadronMembers()
+    {
+        return $this->hasMany('\app\models\SquadronUsers',['squadron_id'=>'id']);
     }
 }

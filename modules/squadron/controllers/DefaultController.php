@@ -50,13 +50,13 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $membersProvider = new ActiveDataProvider([
-            'query' => SquadronUsers::find()->where(['squad_id' => $id])->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
+            'query' => SquadronUsers::find()->where(['squadron_id' => $id])->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
             'pagination' =>  [
                 'pageSize' => 10,
             ],
         ]);
         return $this->render('view', [
-            'squad' => $this->findModel($id),
+            'squadron' => $this->findModel($id),
             'membersProvider' => $membersProvider,
         ]);
     }
@@ -98,6 +98,22 @@ class DefaultController extends Controller
         }
     }
 
+
+    public function actionJoin($squadron)
+    {
+        $squadron=$this->findModel($squadron);
+        if(!$squadron->getSquadronMembers()->where(['user_id' => Yii::$app->user->id])->one())
+        {
+            $member = new SquadronUsers();
+            $member->user_id = Yii::$app->user->id;
+            $member->squadron_id = $squadron->id;
+            $member->status = SquadronUsers::STATUS_PENDING;
+            if(!$member->save())
+            {
+                var_dump($member->errors);
+            }
+        }
+    }
     /**
      * Deletes an existing Squads model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

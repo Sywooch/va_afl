@@ -34,8 +34,8 @@ class SquadronUsers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'squad_id'], 'required'],
-            [['user_id', 'squad_id', 'approved', 'is_leader'], 'integer']
+            [['user_id', 'squadron_id'], 'required'],
+            [['user_id', 'squadron_id', 'status'], 'integer']
         ];
     }
 
@@ -47,7 +47,7 @@ class SquadronUsers extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'squad_id' => 'Squad ID',
+            'squadron_id' => 'Squadron ID',
             'status' => 'Status',
         ];
     }
@@ -66,12 +66,8 @@ class SquadronUsers extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getSquadMembers($id)
-    {
-        return SquadronUsers::find()->where(['squad_id' => $id])->andWhere(['status' => self::STATUS_PENDING]);
-    }
 
-    public function getSquadMember()
+    public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
     }
