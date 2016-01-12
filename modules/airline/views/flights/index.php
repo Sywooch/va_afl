@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 use app\components\Helper;
 
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
     <div id="flights">
+        <?php Pjax::begin() ?>
         <?=
         GridView::widget(
             [
@@ -50,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format' => 'raw',
                         'value' => function ($data) {
                             return Html::a(
+                                Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
                                 Html::encode($data->from_icao),
                                 Url::to(
                                     [
@@ -57,7 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'id' => $data->from_icao
                                     ]
                                 )
-                            ) . '-' . Html::a(
+                            ) . ' - ' . Html::a(
+                                Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                 Html::encode($data->to_icao),
                                 Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
                             );
@@ -74,11 +78,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'first_seen',
                         'label' => Yii::t('app', 'Date'),
-                        'format' => ['date', 'php:d.m.Y'],
-                        'visible' => !$from_view
+                        'format' => ['date', 'php:d.m.Y']
                     ],
                 ],
             ]
         ) ?>
+        <?php Pjax::end() ?>
     </div>
 </div>

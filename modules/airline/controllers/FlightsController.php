@@ -41,10 +41,11 @@ class FlightsController extends Controller
         ]);
 
         return $this->render(
-            'index',
+            'view',
             [
+                'user_id' => $id,
                 'dataProvider' => $dataProvider,
-                'from_view'=>false,
+                'from_view' => false,
             ]
         );
     }
@@ -57,15 +58,21 @@ class FlightsController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $query = Flights::find()->where(['user_id' => $model->user_id])->andWhere(['status'=>2])->orderBy(['id' => SORT_DESC]);
+
+        $query = Flights::find()->where(['user_id' => $model->user_id])->andWhere(['status' => 2])->orderBy(
+            ['id' => SORT_DESC]
+        );
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
         return $this->render(
             'view',
             [
+                'user_id' => $model->user_id,
                 'model' => $model,
-                'dataProvider'=>$dataProvider,
+                'dataProvider' => $dataProvider,
             ]
         );
     }
@@ -92,15 +99,15 @@ class FlightsController extends Controller
         }
     }
 
-    public function actionMapdata($id=null)
+    public function actionMapdata($id = null)
     {
         echo Flights::prepareTrackerData($id);
     }
 
-    public function actionDetails($id=null)
+    public function actionDetails($id = null)
     {
         $model = $this->findModel($id);
-        return $this->renderPartial('details',['model'=>$model]);
+        return $this->renderPartial('details', ['model' => $model]);
     }
 
     /**

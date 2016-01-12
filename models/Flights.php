@@ -192,21 +192,9 @@ class Flights extends \yii\db\ActiveRecord
             'crd' => $flightpath[sizeof($flightpath) - 1]['crd']
         ]; //чтобы отработать конец трека
         $data = [
-            'type' => 'FeatureCollection',
-            'features' => [
-                [
-                    'type' => 'Feature',
-                    'properties' => [
-                        'type' => 'start'
-                    ],
-                    'geometry' => [
-                        'type' => 'Point',
-                        'coordinates' => $flightpath[0]['crd']
-                    ]
-
-                ]
-            ]
+            'type' => 'FeatureCollection'
         ];
+
         $prevcolor = $colors[0];
         $fpcoords = [];
         foreach ($flightpath as $fppeace) {
@@ -221,22 +209,37 @@ class Flights extends \yii\db\ActiveRecord
                         'coordinates' => $fpcoords
                     ]
                 ];
-                $fpcoords = (!empty($fpcoords))?[$fpcoords[sizeof($fpcoords) -1]]:[];
+                $fpcoords = (!empty($fpcoords)) ? [$fpcoords[sizeof($fpcoords) - 1]] : [];
                 $prevcolor = $fppeace['color'];
             }
             $fpcoords[] = $fppeace['crd'];
         }
+
         $data['features'][] = [
             'type' => 'Feature',
             'properties' => [
-                'type' => 'stop'
+                'type' => 'start',
+                'title' => $model->depAirport->name . ' (' . $model->depAirport->icao . ')'
             ],
             'geometry' => [
                 'type' => 'Point',
-                'coordinates' => $flightpath[sizeof($flightpath) - 1]['crd']
-            ]
+                'coordinates' => [$model->depAirport->lon, $model->depAirport->lat]
+            ],
 
         ];
+
+        $data['features'][] = [
+            'type' => 'Feature',
+            'properties' => [
+                'type' => 'stop',
+                'title' => $model->arrAirport->name . ' (' . $model->arrAirport->icao . ')'
+            ],
+            'geometry' => [
+                'type' => 'Point',
+                'coordinates' => [$model->arrAirport->lon, $model->arrAirport->lat]
+            ],
+        ];
+
         return json_encode($data);
     }
 }

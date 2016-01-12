@@ -4,15 +4,14 @@
 
 var features = [];
 var map;
-function reload(flight_id)
-{
-    window.history.pushState({}, window.title, "/airline/flights/view/"+flight_id);
+function reload(flight_id) {
+    window.history.pushState({}, window.title, "/airline/flights/view/" + flight_id);
     for (var i = 0; i < features.length; i++) {
         map.data.remove(features[i]);
     }
-    $.getJSON('/airline/flights/mapdata?id='+flight_id, function (djs) {
+    $.getJSON('/airline/flights/mapdata?id=' + flight_id, function (djs) {
         features = map.data.addGeoJson(djs);
-        $.get('/airline/flights/details',{id:flight_id},function(response){
+        $.get('/airline/flights/details', {id: flight_id}, function (response) {
             var details = JSON.parse(response);
             $('#details').html(details.html);
             $('#callsign').text(details.callsign);
@@ -21,31 +20,29 @@ function reload(flight_id)
 
 }
 
-setTimeout(function(){
+setTimeout(function () {
     initialize();
     reload($('#map').data('flightid'));
-    map.data.setStyle(function(feature) {
-        if(feature.getGeometry().getType()=='Point'){
-            color = (feature.getProperty('type')=='start')?'green':'orange';
-            icon = (feature.getProperty('type')=='start')?fontawesome.markers.ARROW_UP:fontawesome.markers.ARROW_DOWN;
+    map.data.setStyle(function (feature) {
+        if (feature.getGeometry().getType() == 'Point') {
+            icon = (feature.getProperty('type') == 'start') ? "https://maps.google.com/mapfiles/marker.png" : "https://maps.google.com/mapfiles/marker_green.png";
+
             return{
-                icon:{
-                    path: icon,
-                    strokeColor: 'black',
-                    fillColor: color,
-                    fillOpacity: 0.6,
-                    scale: 0.3,
-                    anchor: new google.maps.Point(30,-30)
-                }
+                icon: icon,
+                animation: google.maps.Animation.DROP,
+                anchor: new google.maps.Point(30, -30),
+                title: feature.getProperty('title')
             }
         }
         return {
             geodesic: true,
-            strokeColor: feature.getProperty('color'),
+            strokeWeight: 3,
+            strokeOpacity: 0.6,
+            strokeColor: feature.getProperty('color')
         }
     });
-    $('.title').bind('click',function(){
+    $('.title').bind('click', function () {
         var eid = $(this).data('toggle');
-        $('#'+eid).toggle();
+        $('#' + eid).toggle();
     });
-},1000);
+}, 1000);
