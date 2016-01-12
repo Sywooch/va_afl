@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
         top: 70px;
         left: 250px;
         z-index: 10;
-        width: 350px;
+        width: 500px;
         background-color: rgba(0, 0, 0, 0.7);
-        max-height: 350px;
+        max-height: 650 px;
     }
 
     .right {
@@ -62,10 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </style>
 <div class="left panel">
     <div class="panel-heading">
-        <h4 class="title text-center" data-toggle="details" id="callsign"><?=
-            isset($model) ? Html::encode(
-                $model->callsign
-            ) : '' ?></h4>
+        <h4 class="title text-center" data-toggle="details" id="callsign"><?= Yii::t('flights', 'Flight Information') ?></h4>
     </div>
     <div class="panel-body" id="details">
 
