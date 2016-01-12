@@ -228,7 +228,7 @@ class ParseController extends Controller
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
         $flight->last_seen = gmdate('Y-m-d H:i:s');
-        $flight->flightplan = $data[self::WZ_FLIGHTPLAN];
+        $flight->flightplan = getFlightRoute($data);
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
         $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
@@ -249,9 +249,9 @@ class ParseController extends Controller
      * @param int $int user_id для поиска в массиве с пилотами
      * @return string
      */
-    private function getFlightRoute($user_id)
+    private function getFlightRoute($data)
     {
-        return $this->ourpilots[$user_id][self::WZ_FPL_SPD] . $this->ourpilots[$user_id][self::WZ_FPL_ALT] . " " . $this->ourpilots[$user_id][self::WZ_FLIGHTPLAN];
+        return $data[self::WZ_FPL_SPD] . $data[self::WZ_FPL_ALT] . " " . $data[self::WZ_FLIGHTPLAN];
     }
 
     /**
