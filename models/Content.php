@@ -12,6 +12,8 @@ use Yii;
  * @property string $name_en
  * @property string $text_ru
  * @property string $text_en
+ * @property int $author
+ * @property string $created
  */
 class Content extends \yii\db\ActiveRecord
 {
@@ -65,6 +67,14 @@ class Content extends \yii\db\ActiveRecord
     public function getText()
     {
         return $this->getLocale('text_ru', 'text_en');
+    }
+
+    public function getAuthorUser(){
+        return $this->hasOne('app\models\Users', ['vid' => 'author']);
+    }
+
+    public function getCategoryInfo(){
+        return $this->hasOne('app\models\ContentCategories', ['id' => 'category']);
     }
 
     /**

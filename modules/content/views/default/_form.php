@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+use kartik\select2\Select2;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Content */
 /* @var $form yii\widgets\ActiveForm */
@@ -15,6 +17,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'text_ru')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'text_en')->textarea(['rows' => 6]) ?>
+    <?=
+    $form->field($model, 'category')->widget(
+        Select2::classname(),
+        ['data' => \yii\helpers\ArrayHelper::map(\app\models\ContentCategories::find()->all(), 'id', 'name_en')]
+    )
+    ?>
 
     <div class="form-group">
         <?=

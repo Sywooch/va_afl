@@ -53,11 +53,12 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '<module:pilot|fleet|events>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
-                '<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|fleet|events|content>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:pilot|fleet|events|content>/<action:\w+>' => '<module>/default/<action>',
+                '<module:pilot|fleet|events|content>/<action:\w+>' => '<module>/default/<action>',
+                '<module:pilot|airline|fleet|events|content|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|content|admin>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|content|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -84,12 +85,14 @@ $config = [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
                     'userClassName' => 'app\models\Users', // fully qualified class name of your User model
-                    'idField' => 'vid',        // id field of your User model that corresponds to Yii::$app->user->id
+                    'idField' => 'vid', // id field of your User model that corresponds to Yii::$app->user->id
                     'usernameField' => 'full_name', // username field of your User model
                 ],
             ],
-
-        ]
+        ],
+        'content' => [
+            'class' => 'app\modules\content\Module',
+        ],
     ],
     'params' => $params,
     'on beforeAction' => function ($event) {
