@@ -30,7 +30,6 @@ setTimeout(function () {
             return{
                 icon: icon,
                 animation: google.maps.Animation.DROP,
-                anchor: new google.maps.Point(30, -30),
                 title: feature.getProperty('title')
             }
         }
