@@ -19,6 +19,10 @@ use kartik\select2\Select2;
     <?= $form->field($model, 'text_en')->textarea(['rows' => 6]) ?>
     <?=
     $form->field($model, 'category')->widget(
+        /**
+         * TODO: Видеть только те категории, которые доступны по ролям юзера.
+         * @bth, можно так сделать?)
+         */
         Select2::classname(),
         ['data' => \yii\helpers\ArrayHelper::map(\app\models\ContentCategories::find()->all(), 'id', 'name_en')]
     )
