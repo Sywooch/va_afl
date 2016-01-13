@@ -8,13 +8,14 @@
 
 use app\components\Helper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 ?>
 <!-- begin panel -->
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('app', 'Online Table') ?> <span class="label label-success pull-right">10 online</span>
+        <h4 class="panel-title"><?= Yii::t('app', 'Online Table') ?> <span class="label label-success pull-right"><?= $onlineProvider->getTotalCount() ?> Online</span>
         </h4>
     </div>
     <div class="panel-body bg-silver">
@@ -36,6 +37,22 @@ use yii\grid\GridView;
                                 );
                             },
                     ],
+                    [
+                        'attribute' => 'user.full_name',
+                        'label' => Yii::t('flights', 'Pilot'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                return Html::img(Helper::getFlagLink($data->user->country)).' '.Html::a(
+                                    Html::encode($data->user->full_name),
+                                    Url::to(
+                                        [
+                                            '/pilot/profile/',
+                                            'id' => $data->user_id
+                                        ]
+                                    ));
+
+                            }
+                    ],
                     'acf_type',
                     [
                         'attribute' => 'from_to',
@@ -43,6 +60,7 @@ use yii\grid\GridView;
                         'format' => 'raw',
                         'value' => function ($data) {
                                 return Html::a(
+                                    Html::img(Helper::getFlagLink($data->depAirport->iso)) . ' ' .
                                     Html::encode($data->from_icao),
                                     Url::to(
                                         [
@@ -50,7 +68,8 @@ use yii\grid\GridView;
                                             'id' => $data->from_icao
                                         ]
                                     )
-                                ) . '-' . Html::a(
+                                ) . ' - ' . Html::a(
+                                    Html::img(Helper::getFlagLink($data->arrAirport->iso)) . ' ' .
                                     Html::encode($data->to_icao),
                                     Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
                                 );
