@@ -50,8 +50,9 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $membersProvider = new ActiveDataProvider([
-            'query' => SquadronUsers::find()->where(['squadron_id' => $id])->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])->orderBy(['id' => SORT_DESC]),
-            'pagination' =>  [
+            'query' => SquadronUsers::find()->where(['squadron_id' => $id])/*->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])*/
+            ->orderBy(['id' => SORT_DESC]),
+            'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
@@ -99,21 +100,101 @@ class DefaultController extends Controller
     }
 
 
-    public function actionJoin($squadron)
+    public function actionJoin()
     {
-        $squadron=$this->findModel($squadron);
-        if(!$squadron->getSquadronMembers()->where(['user_id' => Yii::$app->user->id])->one())
-        {
-            $member = new SquadronUsers();
-            $member->user_id = Yii::$app->user->id;
-            $member->squadron_id = $squadron->id;
-            $member->status = SquadronUsers::STATUS_PENDING;
-            if(!$member->save())
-            {
-                var_dump($member->errors);
+        $squadron_id = Yii::$app->request->post('squadron');
+        if (isset($squadron_id)) {
+            $squadron = $this->findModel($squadron_id);
+            if (!$squadron->getSquadronMembers()->where(['user_id' => Yii::$app->user->id])->one()) {
+                $member = new SquadronUsers();
+                $member->user_id = Yii::$app->user->id;
+                $member->squadron_id = $squadron->id;
+                $member->status = SquadronUsers::STATUS_PENDING;
+                if (!$member->save()) {
+                    var_dump($member->errors);
+                }
             }
         }
+        return $this->redirect(['view', 'id' => $squadron_id]);
     }
+
+    public function actionRefuse()
+    {
+        $squadron_id = Yii::$app->request->post('squadron');
+        $user_id = Yii::$app->request->post('user_id');
+        if ($squadron_id && $user_id) {
+            $squadron = $this->findModel($squadron_id);
+            $member = $squadron->getSquadronMembers()->where([
+                'user_id' => Yii::$app->user->id,
+                'status' => SquadronUsers::STATUS_PENDING
+            ])->one();
+            if (isset($member)) {
+                $member->delete();
+            }
+        }
+        return $this->redirect(['view', 'id' => $squadron_id]);
+    }
+
+    public function actionAccept()
+    {
+        $squadron_id = Yii::$app->request->post('squadron');
+        $user_id = Yii::$app->request->post('user_id');
+        if ($squadron_id && $user_id) {
+            $squadron = $this->findModel($squadron_id);
+            $member = $squadron->getSquadronMembers()->where([
+                'user_id' => Yii::$app->user->id,
+                'status' => SquadronUsers::STATUS_PENDING
+            ])->one();
+            if (isset($member)) {
+                $member->status = SquadronUsers::STATUS_ACTIVE;
+                if (!$member->update()) {
+                    var_dump($member->errors);
+                }
+            }
+        }
+        return $this->redirect(['view', 'id' => $squadron_id]);
+    }
+
+    public function actionSuspend()
+    {
+        $squadron_id = Yii::$app->request->post('squadron');
+        $user_id = Yii::$app->request->post('user_id');
+        if ($squadron_id && $user_id) {
+            $squadron = $this->findModel($squadron_id);
+            $member = $squadron->getSquadronMembers()->where([
+                'user_id' => Yii::$app->user->id,
+                'status' => SquadronUsers::STATUS_ACTIVE
+            ])->one();
+            if (isset($member)) {
+                $member->status = SquadronUsers::STATUS_SUSPENDED;
+                if (!$member->update()) {
+                    var_dump($member->errors);
+                }
+            }
+        }
+        return $this->redirect(['view', 'id' => $squadron_id]);
+    }
+
+    public function actionUnlock()
+    {
+        $squadron_id = Yii::$app->request->post('squadron');
+        $user_id = Yii::$app->request->post('user_id');
+        if ($squadron_id && $user_id) {
+            $squadron = $this->findModel($squadron_id);
+            $member = $squadron->getSquadronMembers()->where([
+                'user_id' => Yii::$app->user->id,
+                'status' => SquadronUsers::STATUS_SUSPENDED
+            ])->one();
+            if (isset($member)) {
+                $member->status = SquadronUsers::STATUS_ACTIVE;
+                if (!$member->update()) {
+                    var_dump($member->errors);
+                }
+            }
+        }
+        return $this->redirect(['view', 'id' => $squadron_id]);
+    }
+
     /**
      * Deletes an existing Squads model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

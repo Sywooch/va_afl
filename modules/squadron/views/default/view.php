@@ -26,6 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php Pjax::begin() ?>
                     <?= GridView::widget([
                         'dataProvider' => $membersProvider,
+                        'rowOptions' => function ($model) {
+                            switch ($model->status) {
+                                case($model::STATUS_PENDING):
+                                    return ['class' => 'success'];
+                                    break;
+                                case($model::STATUS_SUSPENDED):
+                                    return ['class' => 'danger'];
+                                    break;
+                                default:
+                                    return ['class' => ''];
+                                    break;
+                            }
+                        },
                         'columns' => [
                             [
                                 'attribute' => 'member_name',
@@ -33,11 +46,100 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'value' => function ($data) {
                                     return $data->user->full_name;
                                 }
-                            ]
+                            ],
+                            [
+                                'class' => 'yii\grid\ActionColumn',
+                                'template' => '{accept} {refuse} {unlock} {suspend}'
+                                    /*function ($model) {
+                                        switch ($model->status) {
+                                            case($model::STATUS_PENDING):
+                                                return '{accept} {refuse}';
+                                                break;
+
+                                            case($model::STATUS_SUSPENDED):
+                                                return '{unlock}';
+                                                break;
+                                            default:
+                                                return '{suspend}';
+                                                break;
+                                        }
+                                    }
+                                    TODO: починить */,
+                                'buttons' => [
+                                    'accept' => function ($url, $model) {
+                                        return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, [
+                                            'title' => Yii::t('app', 'Accept'),
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'squadron' => $model->squadron_id,
+                                                    'user_id' => $model->user_id
+                                                ]
+                                            ]
+                                        ]);
+                                    },
+                                    'refuse' => function ($url, $model) {
+                                        return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
+                                            'title' => Yii::t('app', 'Refuse'),
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'squadron' => $model->squadron_id,
+                                                    'user_id' => $model->user_id
+                                                ]
+                                            ]
+                                        ]);
+                                    },
+                                    'suspend' => function ($url, $model) {
+                                        return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, [
+                                            'title' => Yii::t('app', 'Suspend'),
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'squadron' => $model->squadron_id,
+                                                    'user_id' => $model->user_id
+                                                ]
+                                            ]
+                                        ]);
+                                    },
+                                    'unlock' => function ($url, $model) {
+                                        return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, [
+                                            'title' => Yii::t('app', 'Unlock'),
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'squadron' => $model->squadron_id,
+                                                    'user_id' => $model->user_id
+                                                ]
+                                            ]
+                                        ]);
+                                    }
+
+                                ],
+                                'urlCreator' => function ($action) {
+                                    if ($action === 'accept') {
+                                        return Url::to(['accept']);
+                                    } elseif ($action === 'refuse') {
+                                        return Url::to(['refuse']);
+                                    } elseif ($action === 'suspend') {
+                                        return Url::to(['suspend']);
+                                    } elseif ($action === 'unlock') {
+                                        return Url::to(['unlock']);
+                                    }//TODO: переделать в switch
+                                }
+                            ],
+
                         ],
                     ]); ?>
                     <?php Pjax::end() ?>
-                    <?= Html::a('Отправить заявку на вступление', Url::to(['join', 'squadron' => $squadron->id]),['class' => 'btn btn-primary'])?>
+                    <?= Html::a('Отправить заявку на вступление', Url::to(['join']),
+                        [
+                            'class' => 'btn btn-primary',
+                            'data' => [
+                                'method' => 'post',
+                                'params' => ['squadron' => $squadron->id]
+                            ]
+                        ]) ?>
                 </div>
             </div>
         </div>
@@ -60,7 +162,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="tab-pane fade active in" id="default-tab-1">
                             <p>
                                 <img
-                                    src="http://samolets.com/wp-content/gallery/boeing-737-800-aeroflot/boeing-737-800-vp-brf-aeroflot-3.jpg" height="400">
+                                    src="http://samolets.com/wp-content/gallery/boeing-737-800-aeroflot/boeing-737-800-vp-brf-aeroflot-3.jpg"
+                                    height="400">
                                 <br>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                 Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget
