@@ -5,7 +5,6 @@ namespace app\models;
 use app\components\Helper;
 use Yii;
 use yii\data\ActiveDataProvider;
-use app\models\Airports;
 use yii\i18n\Formatter;
 
 /**
@@ -162,6 +161,11 @@ class Flights extends \yii\db\ActiveRecord
     public function getTrack()
     {
         return $this->hasMany(Tracker::className(), ['flight_id' => 'id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'user_id']);
     }
 
     public static function prepareTrackerData($id)

@@ -22,6 +22,13 @@ ob_start();
             <td></td>
         </tr>
         <tr>
+            <td align="right"> <?= Yii::t('app', 'Pilot in Command') ?>:</td>
+            <td><b> <?= Html::img(Helper::getFlagLink($model->user->country)) ?>  <?= $model->user->full_name ?></b></td>
+            <td align="right"> <?= Yii::t('flights', 'Rating') ?>:</td>
+            <td><b> <?= $model->user->pilot->rank->name ?></b>
+            </td>
+        </tr>
+        <tr>
             <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
             <td><b> <?= $model->acf_type ?></b></td>
             <td align="right"> <?= Yii::t('flights', 'Tail number') ?>:</td>
