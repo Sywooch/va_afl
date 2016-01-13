@@ -40,9 +40,6 @@ ob_start();
             </td>
         </tr>
         <tr>
-            <td colspan="4"></td>
-        </tr>
-        <tr>
             <td align="right"> <?= Yii::t('flights', 'Departure') ?>:</td>
             <td colspan="3"><b><?= Html::img(Helper::getFlagLink($model->depAirport->iso)) ?> <?=
                     Html::a(
@@ -109,9 +106,6 @@ ob_start();
         <tr>
             <td colspan="4" class="border al"> <?= $model->remarks?>
             </td>
-        </tr>
-        <tr>
-            <td colspan="4"></td>
         </tr>
         </tbody>
     </table>

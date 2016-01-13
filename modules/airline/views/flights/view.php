@@ -35,12 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
         z-index: 10;
         width: 500px;
         background-color: rgba(0, 0, 0, 0.7);
-        max-height: 650 px;
     }
 
     .right {
         position: absolute;
-        bottom: 20px;
+        top: 70px;
         right: 20px;
         z-index: 10;
         width: 450px;
@@ -60,20 +59,21 @@ $this->params['breadcrumbs'][] = $this->title;
         cursor: pointer;
     }
 </style>
-<div class="left panel">
-    <div class="panel-heading">
-        <h4 class="title text-center" data-toggle="details" id="callsign"><?= Yii::t('flights', 'Flight Information') ?></h4>
-    </div>
-    <div class="panel-body" id="details">
 
-    </div>
-</div>
-<div class="right panel">
+<div class="left panel">
     <div class="panel-header">
         <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app', 'Flights') ?></h4>
     </div>
     <div class="panel-body" id="flights" data-scrollbar="true" data-height="400px">
         <?= $this->render('index', ['dataProvider' => $dataProvider, 'from_view' => $this]) ?>
+    </div>
+</div>
+<div class="right panel">
+    <div class="panel-heading">
+        <h4 class="title text-center" data-toggle="details" id="callsign"><?= Yii::t('flights', 'Flight Information') ?></h4>
+    </div>
+    <div class="panel-body" id="details">
+
     </div>
 </div>
 <div class="main" id="map" data-flightid="<?= isset($model) ? $model->id : '' ?>"></div>
