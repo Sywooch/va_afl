@@ -118,15 +118,14 @@ class DefaultController extends Controller
         return $this->redirect(['view', 'id' => $squadron_id]);
     }
 
-    public function actionRefuse()
+    public function actionMemberdelete()
     {
         $squadron_id = Yii::$app->request->post('squadron');
         $user_id = Yii::$app->request->post('user_id');
         if ($squadron_id && $user_id) {
             $squadron = $this->findModel($squadron_id);
             $member = $squadron->getSquadronMembers()->where([
-                'user_id' => $user_id,
-                'status' => SquadronUsers::STATUS_PENDING
+                'user_id' => $user_id
             ])->one();
             if (isset($member)) {
                 $member->delete();

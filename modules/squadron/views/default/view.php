@@ -97,23 +97,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         };
                                     },
                                     'button2' => function ($url, $model, $key) {
-                                        switch ($model->status) {
-                                            case($model::STATUS_PENDING):
-                                                $url = 'refuse';
-                                                return Html::a('<i class="fa fa-minus"></i>', Url::to(['refuse']), [
-                                                    'title' => Yii::t('app', 'Refuse'),
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                        'params' => [
-                                                            'squadron' => $model->squadron_id,
-                                                            'user_id' => $model->user_id
-                                                        ]
-                                                    ]
-                                                ]);
-                                                break;
-                                            default:
-                                                break;
-                                        };
+                                        return Html::a('<i class="fa fa-minus"></i>', Url::to(['memberdelete']), [
+                                            'title' => Yii::t('app', 'Delete Member'),
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'squadron' => $model->squadron_id,
+                                                    'user_id' => $model->user_id
+                                                ]
+                                            ]
+                                        ]);
                                     },
                                 ],
                             ],
