@@ -49,86 +49,74 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             [
                                 'class' => 'yii\grid\ActionColumn',
-                                'template' => '{accept} {refuse} {unlock} {suspend}'
-                                    /*function ($model) {
+                                'template' => '{button1} {button2}',
+                                'buttons' => [
+                                    'button1' => function ($url, $model, $key) {
                                         switch ($model->status) {
                                             case($model::STATUS_PENDING):
-                                                return '{accept} {refuse}';
+                                                return Html::a('<i class="fa fa-plus"></i>', Url::to(['accept']), [
+                                                    'title' => Yii::t('app', 'Accept'),
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'params' => [
+                                                            'squadron' => $model->squadron_id,
+                                                            'user_id' => $model->user_id
+                                                        ]
+                                                    ]
+                                                ]);
                                                 break;
-
+                                            case($model::STATUS_ACTIVE):
+                                                return Html::a('<i class="fa fa-lock"></i></span>',
+                                                    Url::to(['suspend']), [
+                                                        'title' => Yii::t('app', 'Suspend'),
+                                                        'data' => [
+                                                            'method' => 'post',
+                                                            'params' => [
+                                                                'squadron' => $model->squadron_id,
+                                                                'user_id' => $model->user_id
+                                                            ]
+                                                        ]
+                                                    ]);
+                                                break;
                                             case($model::STATUS_SUSPENDED):
-                                                return '{unlock}';
+                                                return Html::a('<i class="fa fa-unlock"></i></span>',
+                                                    Url::to(['unlock']),
+                                                    [
+                                                        'title' => Yii::t('app', 'Unlock'),
+                                                        'data' => [
+                                                            'method' => 'post',
+                                                            'params' => [
+                                                                'squadron' => $model->squadron_id,
+                                                                'user_id' => $model->user_id
+                                                            ]
+                                                        ]
+                                                    ]);
                                                 break;
                                             default:
-                                                return '{suspend}';
                                                 break;
-                                        }
-                                    }
-                                    TODO: починить */,
-                                'buttons' => [
-                                    'accept' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-ok"></span>', $url, [
-                                            'title' => Yii::t('app', 'Accept'),
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'squadron' => $model->squadron_id,
-                                                    'user_id' => $model->user_id
-                                                ]
-                                            ]
-                                        ]);
+                                        };
                                     },
-                                    'refuse' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
-                                            'title' => Yii::t('app', 'Refuse'),
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'squadron' => $model->squadron_id,
-                                                    'user_id' => $model->user_id
-                                                ]
-                                            ]
-                                        ]);
+                                    'button2' => function ($url, $model, $key) {
+                                        switch ($model->status) {
+                                            case($model::STATUS_PENDING):
+                                                $url = 'refuse';
+                                                return Html::a('<i class="fa fa-minus"></i>', Url::to(['refuse']), [
+                                                    'title' => Yii::t('app', 'Refuse'),
+                                                    'data' => [
+                                                        'method' => 'post',
+                                                        'params' => [
+                                                            'squadron' => $model->squadron_id,
+                                                            'user_id' => $model->user_id
+                                                        ]
+                                                    ]
+                                                ]);
+                                                break;
+                                            default:
+                                                break;
+                                        };
                                     },
-                                    'suspend' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-lock"></span>', $url, [
-                                            'title' => Yii::t('app', 'Suspend'),
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'squadron' => $model->squadron_id,
-                                                    'user_id' => $model->user_id
-                                                ]
-                                            ]
-                                        ]);
-                                    },
-                                    'unlock' => function ($url, $model) {
-                                        return Html::a('<span class="glyphicon glyphicon-plus"></span>', $url, [
-                                            'title' => Yii::t('app', 'Unlock'),
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'squadron' => $model->squadron_id,
-                                                    'user_id' => $model->user_id
-                                                ]
-                                            ]
-                                        ]);
-                                    }
-
                                 ],
-                                'urlCreator' => function ($action) {
-                                    if ($action === 'accept') {
-                                        return Url::to(['accept']);
-                                    } elseif ($action === 'refuse') {
-                                        return Url::to(['refuse']);
-                                    } elseif ($action === 'suspend') {
-                                        return Url::to(['suspend']);
-                                    } elseif ($action === 'unlock') {
-                                        return Url::to(['unlock']);
-                                    }//TODO: переделать в switch
-                                }
                             ],
-
                         ],
                     ]); ?>
                     <?php Pjax::end() ?>

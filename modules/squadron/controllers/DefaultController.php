@@ -125,7 +125,7 @@ class DefaultController extends Controller
         if ($squadron_id && $user_id) {
             $squadron = $this->findModel($squadron_id);
             $member = $squadron->getSquadronMembers()->where([
-                'user_id' => Yii::$app->user->id,
+                'user_id' => $user_id,
                 'status' => SquadronUsers::STATUS_PENDING
             ])->one();
             if (isset($member)) {
@@ -142,7 +142,7 @@ class DefaultController extends Controller
         if ($squadron_id && $user_id) {
             $squadron = $this->findModel($squadron_id);
             $member = $squadron->getSquadronMembers()->where([
-                'user_id' => Yii::$app->user->id,
+                'user_id' => $user_id,
                 'status' => SquadronUsers::STATUS_PENDING
             ])->one();
             if (isset($member)) {
@@ -162,7 +162,7 @@ class DefaultController extends Controller
         if ($squadron_id && $user_id) {
             $squadron = $this->findModel($squadron_id);
             $member = $squadron->getSquadronMembers()->where([
-                'user_id' => Yii::$app->user->id,
+                'user_id' => $user_id,
                 'status' => SquadronUsers::STATUS_ACTIVE
             ])->one();
             if (isset($member)) {
@@ -182,7 +182,7 @@ class DefaultController extends Controller
         if ($squadron_id && $user_id) {
             $squadron = $this->findModel($squadron_id);
             $member = $squadron->getSquadronMembers()->where([
-                'user_id' => Yii::$app->user->id,
+                'user_id' => $user_id,
                 'status' => SquadronUsers::STATUS_SUSPENDED
             ])->one();
             if (isset($member)) {
