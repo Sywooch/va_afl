@@ -31,7 +31,7 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_ru', 'name_en', 'text_ru', 'text_en'], 'required'],
+            [['name_ru', 'name_en', 'text_ru', 'text_en', 'category'], 'required'],
             [['text_ru', 'text_en'], 'string'],
             [['name_ru', 'name_en'], 'string', 'max' => 50]
         ];

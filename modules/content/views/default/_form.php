@@ -22,14 +22,14 @@ use dosamigos\ckeditor\CKEditor;
         CKEditor::className(),
         [
             'options' => ['rows' => 6],
-            'preset' => 'basic'
+            'preset' => 'full'
         ]
     ) ?><?=
     $form->field($model, 'text_en')->widget(
         CKEditor::className(),
         [
             'options' => ['rows' => 6],
-            'preset' => 'basic'
+            'preset' => 'full'
         ]
     ) ?>
 

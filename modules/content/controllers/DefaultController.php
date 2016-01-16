@@ -57,7 +57,7 @@ class DefaultController extends Controller
         $model->author = Yii::$app->user->identity->vid;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view/' . $model->id]);
         } else {
             return $this->render(
                 'create',
@@ -79,7 +79,7 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view/' . $model->id]);
         } else {
             return $this->render(
                 'update',

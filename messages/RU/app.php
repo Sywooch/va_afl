@@ -51,4 +51,7 @@ return [
     'Total hours' => 'Часов налета',
     'Total pax' => 'Кол-во пассажиров',
     'Total miles' => 'Миль пройдено',
+    'Content' => 'Материалы',
+    'Contents' => 'Материалы',
+    'Categories' => 'Категории',
 ];
