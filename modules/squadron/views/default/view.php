@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use app\models\SquadronUsers;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Squadrons */
@@ -113,14 +114,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]); ?>
                     <?php Pjax::end() ?>
-                    <?= Html::a('Отправить заявку на вступление', Url::to(['join']),
-                        [
-                            'class' => 'btn btn-primary',
-                            'data' => [
-                                'method' => 'post',
-                                'params' => ['squadron' => $squadron->id]
-                            ]
-                        ]) ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php if(!$squadron->getUserStatus()) {
+                                    echo Html::a('Отменить заявку', Url::to(['join']),
+                                        [
+                                            'class' => 'btn btn-danger',
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => ['squadron' => $squadron->id]
+                                            ]
+                                        ]);
+                            }?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

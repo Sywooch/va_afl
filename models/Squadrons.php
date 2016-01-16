@@ -50,6 +50,12 @@ class Squadrons extends \yii\db\ActiveRecord
 
     public function getSquadronMembers()
     {
-        return $this->hasMany('\app\models\SquadronUsers',['squadron_id'=>'id']);
+        return $this->hasMany('\app\models\SquadronUsers', ['squadron_id' => 'id']);
+    }
+
+    public function getUserStatus()
+    {
+        $data = $this->getSquadronMembers()->andWhere(['user_id' => Yii::$app->user->id])->one();
+        return $data ? $data->status : false;
     }
 }

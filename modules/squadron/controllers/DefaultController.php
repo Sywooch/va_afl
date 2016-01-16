@@ -4,6 +4,7 @@ namespace app\modules\squadron\controllers;
 
 use app\models\Squadrons;
 use app\models\SquadronUsers;
+use app\models\Users;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -59,6 +60,7 @@ class DefaultController extends Controller
         return $this->render('view', [
             'squadron' => $this->findModel($id),
             'membersProvider' => $membersProvider,
+            'user' => Users::getAuthUser(),
         ]);
     }
 
