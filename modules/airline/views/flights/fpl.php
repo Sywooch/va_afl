@@ -10,8 +10,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 use app\components\Helper;
-
-ob_start();
 ?>
     <table class="table" style="color: #AFAFAF;">
         <tbody>
@@ -109,8 +107,3 @@ ob_start();
         </tr>
         </tbody>
     </table>
-<?php
-$model = ob_get_contents();
-ob_end_clean();
-return $model;
-?>

@@ -6,7 +6,7 @@
  * Time: 1:07
  */
 $data = [
-    'html' => require('fpl.php')
+    'html' => Yii::$app->controller->renderPartial('fpl', ['model' => $model])
 ];
 echo json_encode($data);
 ?>
