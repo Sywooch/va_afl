@@ -56,13 +56,16 @@ class CategoriesController extends Controller
     {
         $key = preg_match('/^\d+$/', $id) ? 'id' : 'link';
         $model = $this->findModel([$key => $id]);
+
+        if (!Yii::$app->user->can($model->access_read) && !empty($model->access_read)) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
         return $this->render(
             'view',
             [
                 'model' => $model,
-                'content' => new ActiveDataProvider([
-                        'query' => Content::find()->where(['category' => $model->id])
-                    ])
+                'content' => $model->content
             ]
         );
     }
@@ -98,6 +101,10 @@ class CategoriesController extends Controller
     {
         $model = $this->findModel($id);
 
+        if (!Yii::$app->user->can('content/edit') && !Yii::$app->user->can($model->access_edit)) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -118,7 +125,13 @@ class CategoriesController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        if (!Yii::$app->user->can('content/edit') && !Yii::$app->user->can($model->access_edit)) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
+        $model->delete();
 
         return $this->redirect(['index']);
     }

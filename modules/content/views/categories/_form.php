@@ -18,7 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'access')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'access_read')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'access_edit')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

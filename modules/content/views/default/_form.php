@@ -5,6 +5,8 @@ use yii\widgets\ActiveForm;
 
 use kartik\select2\Select2;
 
+use dosamigos\ckeditor\CKEditor;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Content */
 /* @var $form yii\widgets\ActiveForm */
@@ -15,14 +17,28 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'text_ru')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'text_en')->textarea(['rows' => 6]) ?>
+    <?=
+    $form->field($model, 'text_ru')->widget(
+        CKEditor::className(),
+        [
+            'options' => ['rows' => 6],
+            'preset' => 'basic'
+        ]
+    ) ?><?=
+    $form->field($model, 'text_en')->widget(
+        CKEditor::className(),
+        [
+            'options' => ['rows' => 6],
+            'preset' => 'basic'
+        ]
+    ) ?>
+
     <?=
     $form->field($model, 'category')->widget(
-        /**
-         * TODO: Видеть только те категории, которые доступны по ролям юзера.
-         * @bth, можно так сделать?)
-         */
+    /**
+     * TODO: Видеть только те категории, которые доступны по ролям юзера.
+     * @bth, можно так сделать?)
+     */
         Select2::classname(),
         ['data' => \yii\helpers\ArrayHelper::map(\app\models\ContentCategories::find()->all(), 'id', 'name_en')]
     )

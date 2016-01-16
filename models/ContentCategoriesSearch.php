@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+
 use app\models\ContentCategories;
 
 /**
@@ -19,7 +20,7 @@ class ContentCategoriesSearch extends ContentCategories
     {
         return [
             [['id'], 'integer'],
-            [['link', 'name_ru', 'name_en', 'access'], 'safe'],
+            [['link', 'name_ru', 'name_en', 'access_read', 'access_edit'], 'safe'],
         ];
     }
 
@@ -62,7 +63,8 @@ class ContentCategoriesSearch extends ContentCategories
         $query->andFilterWhere(['like', 'link', $this->link])
             ->andFilterWhere(['like', 'name_ru', $this->name_ru])
             ->andFilterWhere(['like', 'name_en', $this->name_en])
-            ->andFilterWhere(['like', 'access', $this->access]);
+            ->andFilterWhere(['like', 'access_read', $this->access_read])
+            ->andFilterWhere(['like', 'access_edit', $this->access_edit]);
 
         return $dataProvider;
     }

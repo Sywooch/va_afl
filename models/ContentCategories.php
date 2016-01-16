@@ -11,7 +11,8 @@ use Yii;
  * @property string $link
  * @property string $name_ru
  * @property string $name_en
- * @property string $access
+ * @property string $access_read
+ * @property string $access_edit
  */
 class ContentCategories extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class ContentCategories extends \yii\db\ActiveRecord
         return [
             [['link', 'name_ru', 'name_en'], 'required'],
             [['link'], 'string', 'max' => 20],
-            [['name_ru', 'name_en', 'access'], 'string', 'max' => 50]
+            [['name_ru', 'name_en', 'access_read', 'access_edit'], 'string', 'max' => 50]
         ];
     }
 
@@ -62,5 +63,9 @@ class ContentCategories extends \yii\db\ActiveRecord
     private function getLocale($ru, $en)
     {
         return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+    }
+
+    public function getContent(){
+        return $this->hasMany('app\models\Content', ['category' => 'id']);
     }
 }

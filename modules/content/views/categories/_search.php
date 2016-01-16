@@ -23,7 +23,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name_en') ?>
 
-    <?= $form->field($model, 'access') ?>
+    <?= $form->field($model, 'access_read') ?>
+
+    <?= $form->field($model, 'access_edit') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>

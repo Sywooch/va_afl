@@ -13,28 +13,6 @@ use app\models\ContentCategories;
 
 class DefaultController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['content/edit'],
-                    ],
-                ]
-            ]
-        ];
-    }
-
     /**
      * Lists all Content models.
      * @return mixed

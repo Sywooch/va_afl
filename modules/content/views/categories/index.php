@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Content Category');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Content'), 'url' => ['/content/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Content'), 'url' => ['/content']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content-categories-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php if (Yii::$app->user->can('content/edit') || Yii::$app->user->can('content/categories/edit/'.$model->link)): ?>
+    <?php if (Yii::$app->user->can('content/edit')): ?>
     <div class="well">
         <?= Html::a(Yii::t('app', 'Create Content Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </div>
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return Html::a($data->name, \yii\helpers\Url::to('/content/categories/view' . $data->id));
+                        return Html::a($data->name, \yii\helpers\Url::to('/content/categories/view/' . $data->id));
                     }
             ]
         ],

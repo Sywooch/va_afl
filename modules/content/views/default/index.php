@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     if (Yii::$app->user->can('content/edit')): ?>
         <div class="well">
             <?= Html::a(Yii::t('app', 'Create Content'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Content Categories'), ['categories'], ['class' => 'btn btn-success']) ?>
         </div>
     <?php endif; ?>
 

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\ContentCategories */
 
 $this->title = Yii::t('app', 'Create Content Categories');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Content'), 'url' => ['/content/index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Content'), 'url' => ['/content']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
