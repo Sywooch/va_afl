@@ -69,6 +69,11 @@ class Content extends \yii\db\ActiveRecord
         return $this->getLocale('text_ru', 'text_en');
     }
 
+    public function getDescription()
+    {
+        return $this->getLocale('description_ru', 'description_en');
+    }
+
     public function getAuthorUser(){
         return $this->hasOne('app\models\Users', ['vid' => 'author']);
     }

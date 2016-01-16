@@ -16,6 +16,7 @@ use app\models\User;
 use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
+use app\models\Content;
 
 class DefaultController extends Controller
 {
@@ -123,6 +124,7 @@ class DefaultController extends Controller
             'center/index',
             [
                 'user' => $user,
+                'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider
             ]

@@ -34,6 +34,22 @@ use dosamigos\ckeditor\CKEditor;
     ) ?>
 
     <?=
+    $form->field($model, 'description_ru')->widget(
+        CKEditor::className(),
+        [
+            'options' => ['rows' => 6],
+            'preset' => 'full'
+        ]
+    ) ?><?=
+    $form->field($model, 'description_en')->widget(
+        CKEditor::className(),
+        [
+            'options' => ['rows' => 6],
+            'preset' => 'full'
+        ]
+    ) ?>
+
+    <?=
     $form->field($model, 'category')->widget(
     /**
      * TODO: Видеть только те категории, которые доступны по ролям юзера.
