@@ -44,10 +44,10 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'text_ru' => Yii::t('app', 'Text Ru'),
-            'text_en' => Yii::t('app', 'Text En'),
+            'name_ru' => Yii::t('app', 'Name') .' '.Yii::t('app', '(Ru.)'),
+            'name_en' => Yii::t('app', 'Name') .' '.Yii::t('app', '(En.)'),
+            'text_ru' => Yii::t('app', 'Text') .' '.Yii::t('app', '(Ru.)'),
+            'text_en' => Yii::t('app', 'Text') .' '.Yii::t('app', '(En.)'),
         ];
     }
 

@@ -16,18 +16,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="content-categories-view">
 
     <h1><?= $this->title ?></h1>
-    <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
+    <?php if (Yii::$app->user->can('content/edit') || Yii::$app->user->can($model->access_edit)): ?>
     <div class="well">
         <?php endif; ?>
         <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
             <?= Html::a(Yii::t('app', 'Create Content'), Url::to('/content/create'), ['class' => 'btn btn-success']) ?>
         <?php endif; ?>
-        <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
-            <?= Html::a(Yii::t('app', 'Update'), ['update/' . $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php if (Yii::$app->user->can('content/edit')): ?>
+            <?= Html::a(Yii::t('app', 'Update'), ['/content/categories/update/' . $model->id], ['class' => 'btn btn-primary']) ?>
             <?=
             Html::a(
                 Yii::t('app', 'Delete'),
-                ['delete/' . $model->id],
+                ['/content/categories/delete/' . $model->id],
                 [
                     'class' => 'btn btn-danger',
                     'data' => [
@@ -37,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ) ?>
         <?php endif; ?>
-        <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
-    </div>
-<?php endif; ?>
+        <?php if (Yii::$app->user->can('content/edit') || Yii::$app->user->can($model->access_edit)): ?>
+            </div>
+        <?php endif; ?>
 
-    <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
+    <?php if (Yii::$app->user->can('content/edit') || Yii::$app->user->can($model->access_edit)): ?>
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title"><?= Yii::t('content', 'Category information') ?></h4>

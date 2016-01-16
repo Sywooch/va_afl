@@ -38,10 +38,19 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+        if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
+                    $model->categoryInfo->access_read
+                ) && !empty($model->categoryInfo->access_read))
+        ) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
         return $this->render(
             'view',
             [
-                'model' => $this->findModel($id),
+                'model' => $model,
             ]
         );
     }
@@ -56,16 +65,22 @@ class DefaultController extends Controller
         $model = new Content();
         $model->author = Yii::$app->user->identity->vid;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view/' . $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())){
+            if (!Yii::$app->user->can('content/edit')
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
+            {
+                throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+            }
+            $model->save();
+            return $this->redirect(['view/' . $model->id]);
+        } else{
             return $this->render(
-                'create',
-                [
-                    'model' => $model,
-                ]
-            );
-        }
+            'create',
+            [
+                'model' => $model,
+            ]
+        );
+         }
     }
 
     /**
@@ -77,6 +92,12 @@ class DefaultController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+
+        if (!Yii::$app->user->can('content/edit')
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
+        {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view/' . $model->id]);
@@ -98,7 +119,15 @@ class DefaultController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+        if (!Yii::$app->user->can('content/edit')
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
+        {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
+        $model->delete();
 
         return $this->redirect(['index']);
     }

@@ -44,8 +44,8 @@ class ContentCategories extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'link' => Yii::t('app', 'Link'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'name_en' => Yii::t('app', 'Name En'),
+            'name_ru' => Yii::t('app', 'Name') .' '.Yii::t('app', '(Ru.)'),
+            'name_en' => Yii::t('app', 'Name') .' '.Yii::t('app', '(En.)'),
             'access' => Yii::t('app', 'Access'),
         ];
     }

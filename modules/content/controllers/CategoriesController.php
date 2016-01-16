@@ -26,6 +26,16 @@ class CategoriesController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['content/edit'],
+                    ],
+                ]
+            ]
         ];
     }
 
@@ -57,7 +67,10 @@ class CategoriesController extends Controller
         $key = preg_match('/^\d+$/', $id) ? 'id' : 'link';
         $model = $this->findModel([$key => $id]);
 
-        if (!Yii::$app->user->can($model->access_read) && !empty($model->access_read)) {
+        if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
+                    $model->access_read
+                ) && !empty($model->access_read))
+        ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
@@ -80,7 +93,7 @@ class CategoriesController extends Controller
         $model = new ContentCategories();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/content/categories/view/' . $model->id]);
         } else {
             return $this->render(
                 'create',
@@ -101,12 +114,8 @@ class CategoriesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if (!Yii::$app->user->can('content/edit') && !Yii::$app->user->can($model->access_edit)) {
-            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
-        }
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/content/categories/view/' . $model->id]);
         } else {
             return $this->render(
                 'update',
@@ -126,11 +135,6 @@ class CategoriesController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-
-        if (!Yii::$app->user->can('content/edit') && !Yii::$app->user->can($model->access_edit)) {
-            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
-        }
-
         $model->delete();
 
         return $this->redirect(['index']);
