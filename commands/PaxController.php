@@ -10,6 +10,7 @@
  */
 namespace app\commands;
 
+use app\models\Actypes;
 use app\models\Pax;
 use app\models\Schedule;
 use yii\console\Controller;
@@ -57,17 +58,8 @@ class PaxController extends Controller
     }
     private function generateRandomPaxes($acftype)
     {
-        $paxarray = [
-            'B738'=>189,
-            'B77W'=>301,
-            'A319'=>150,
-            'A320'=>180,
-            'A321'=>200,
-            'A332'=>250,
-            'A333'=>290,
-            'SU95'=>98
-        ];
-        $maxpax = (isset($paxarray[$acftype]))?$paxarray[$acftype]:100; //default value
+        $acf = Actypes::find()->andWhere(['code'=>$acftype])->one();
+        $maxpax = ($acf)?$acf->max_pax:100; //default value
         return $maxpax;
     }
 }

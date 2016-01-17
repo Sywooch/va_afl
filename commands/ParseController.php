@@ -10,6 +10,7 @@ namespace app\commands;
 use app\components\Helper;
 use app\models\Actypes;
 use app\models\Airports;
+use app\models\Billing;
 use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
@@ -139,13 +140,15 @@ class ParseController extends Controller
         if ($booking->fleet_regnum) {
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
+        $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         $flight->acf_type = Fleet::find()->andWhere(['id'=>$flight->fleet_regnum])->one()->type_code;
         $flight->booking_id = $booking->id;
         $flight->user_id = $booking->user_id;
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $flight->pob = Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
+        $flight->pob = $paxs['total'];
+        $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->to_icao,$paxs['paxtypes']);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
@@ -183,6 +186,8 @@ class ParseController extends Controller
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
+            //Биллинг
+            Billing::doFlightCosts($flight);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
