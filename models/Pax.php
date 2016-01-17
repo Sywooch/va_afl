@@ -170,6 +170,7 @@ class Pax extends \yii\db\ActiveRecord
     public static function appendPax($from,$to,$fleet,$need_save_pax=false)
     {
         $maxpax = $fleet->max_pax;
+        $paxtypes=['red'=>0,'yellow'=>0,'green'=>0];
         $flightpax = $maxpax;
         $needpax = self::find()->andWhere('from_icao = "'.$from.'"')
             ->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
@@ -177,16 +178,28 @@ class Pax extends \yii\db\ActiveRecord
         {
             if($px->num_pax <= $flightpax)
             {
+                if($px->waiting_hours>=24)
+                    $paxtypes['red']+=$px->num_pax;
+                elseif($px->waiting_hours>4)
+                    $paxtypes['yellow']+=$px->num_pax;
+                else
+                    $paxtypes['green']+=$px->num_pax;
                 $flightpax-=$px->num_pax;
                 $px->num_pax = 0;
             }
             else{
+                if($px->waiting_hours>=24)
+                    $paxtypes['red']+=$flightpax;
+                elseif($px->waiting_hours>4)
+                    $paxtypes['yellow']+=$flightpax;
+                else
+                    $paxtypes['green']+=$flightpax;
                 $px->num_pax-=$flightpax;
                 $flightpax = 0;
             }
             if($need_save_pax)$px->save();
             if($flightpax <= 0) break;
         }
-        return ($maxpax-$flightpax);
+        return ['total'=>($maxpax-$flightpax),'paxtypes'=>$paxtypes];
     }
 }

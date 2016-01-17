@@ -48,7 +48,7 @@ class Flights extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time'], 'integer'],
-            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
+            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
             [['from_icao', 'to_icao', 'alternate1'], 'string', 'max' => 5],
