@@ -11,6 +11,7 @@
 namespace app\commands;
 
 use app\models\Actypes;
+use app\models\BillingUserBalance;
 use app\models\Pax;
 use app\models\Schedule;
 use yii\console\Controller;
@@ -29,8 +30,13 @@ class PaxController extends Controller
         {
             $pax->waiting_hours+=1;
             $pax->save();
-            if($pax->waiting_hours>72)
+            if($pax->waiting_hours>72) {
+                //Списать вуки со счета компании
+                $ub = BillingUserBalance::find()->andWhere(['user_id'=>0])->one();
+                $ub->balance-=$pax->num_pax*2;
+                $ub->save();
                 $pax->delete();
+            }
         }
     }
 
