@@ -32,7 +32,7 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             [['name_ru', 'name_en', 'text_ru', 'text_en', 'category'], 'required'],
-            [['text_ru', 'text_en'], 'string'],
+            [['text_ru', 'text_en', 'description_ru', 'description_en', 'machine_name'], 'string'],
             [['name_ru', 'name_en'], 'string', 'max' => 50]
         ];
     }
@@ -74,11 +74,13 @@ class Content extends \yii\db\ActiveRecord
         return $this->getLocale('description_ru', 'description_en');
     }
 
-    public function getAuthorUser(){
+    public function getAuthorUser()
+    {
         return $this->hasOne('app\models\Users', ['vid' => 'author']);
     }
 
-    public function getCategoryInfo(){
+    public function getCategoryInfo()
+    {
         return $this->hasOne('app\models\ContentCategories', ['id' => 'category']);
     }
 

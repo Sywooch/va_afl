@@ -17,6 +17,7 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'machine_name')->textInput(['maxlength' => true]) ?>
     <?=
     $form->field($model, 'text_ru')->widget(
         CKEditor::className(),

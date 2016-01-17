@@ -92,8 +92,8 @@ use app\models\Users;
                         'name' => Yii::t('app', 'Services'),
                         'icon' => 'fa-laptop',
                         'items' => [
-                            ['name' => Yii::t('app', 'БД Аэропортов'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'TS3 Viewer'), 'url' => '/content/ts3']
+                            ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
+                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/17']
                         ]
                     ],
                     [
@@ -110,8 +110,8 @@ use app\models\Users;
                         'icon' => 'fa-rss'
                     ],
                     [
-                        'name' => Yii::t('app', 'Resources'),
-                        'url' => \yii\helpers\Url::to('/resources/index'),
+                        'name' => Yii::t('app', 'Content'),
+                        'url' => \yii\helpers\Url::to('/content/index'),
                         'icon' => 'fa-cloud-download'
                     ],
                     [
