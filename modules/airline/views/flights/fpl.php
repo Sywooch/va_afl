@@ -21,16 +21,16 @@ use app\components\Helper;
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('app', 'Pilot in Command') ?>:</td>
-            <td><b> <?= Html::img(Helper::getFlagLink($model->user->country)) ?>  <?= $model->user->full_name ?></b></td>
+            <td><b> <?= Html::img(Helper::getFlagLink($model->user->country)) ?>  <?= Html::a($model->user->full_name, Url::to(['/pilot/profile/'.$model->user->vid])) ?></b></td>
             <td align="right"> <?= Yii::t('flights', 'Rating') ?>:</td>
-            <td><b> <?= $model->user->pilot->rank->name ?></b>
-            </td>
+            <td><b> <?= $model->user->pilot->rank->name ?></b></td>
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
             <td><b> <?= $model->acf_type ?></b></td>
             <td align="right"> <?= Yii::t('flights', 'Tail number') ?>:</td>
             <td><b> <?=
+                    //TODO: Url::to?
                     Html::a(
                         $model->fleet_regnum,
                         Url::to(['/airline/fleet/view/', 'id' => $model->fleet_regnum])
