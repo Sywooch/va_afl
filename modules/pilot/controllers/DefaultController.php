@@ -2,18 +2,21 @@
 
 namespace app\modules\pilot\controllers;
 
+use Yii;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
+use yii\helpers\VarDumper;
+use yii\web\Controller;
+use yii\web\UploadedFile;
+
+use app\commands\ParseController;
 use app\models\Flights;
 use app\models\Schedule;
 use app\models\User;
 use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
-use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
-use yii\helpers\VarDumper;
-use yii\web\Controller;
-use Yii;
-use yii\web\UploadedFile;
+use app\models\Content;
 
 class DefaultController extends Controller
 {
@@ -101,7 +104,7 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionIndex()
+    public function actionCenter()
     {
         $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
 
@@ -111,12 +114,27 @@ class DefaultController extends Controller
             'pagination' => false,
         ]);
 
+        $onlineProvider = new ActiveDataProvider([
+            'query' => Flights::find()->where(['status' => ParseController::FLIGHT_STATUS_STARTED]),
+            'sort' => false,
+            'pagination' => false,
+        ]);
+
         return $this->render(
-            'index',
+            'center/index',
             [
                 'user' => $user,
-                'flightsProvider' => $flightsProvider
+                'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
+                'flightsProvider' => $flightsProvider,
+                'onlineProvider' => $onlineProvider
             ]
+        );
+    }
+
+    public function actionIndex()
+    {
+        return $this->render(
+            'index'
         );
     }
 

@@ -22,6 +22,10 @@ class Helper extends Component
         return "/img/flags/countries/16x11/" . strtolower($countrycode) . ".png";
     }
 
+    public static function getAvatarLink($avatar){
+        return "/img/avatars/".$avatar;
+    }
+
     public static function getCountryCode($countrycode)
     {
         $country = Isocodes::find()->where(['code' => $countrycode])->one();

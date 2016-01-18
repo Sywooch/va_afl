@@ -31,14 +31,7 @@ setTimeout(function () {
             return {
                 clickable: true,
                 icon: {
-                    path: (feature.getProperty('type')=='departure')?fontawesome.markers.ARROW_UP:fontawesome.markers.ARROW_DOWN,
-                    scale: 0.2,
-                    strokeWeight: 0.2,
-                    strokeColor: 'black',
-                    strokeOpacity: 1,
-                    fillColor: (feature.getProperty('type')=='departure')?'green':'red',
-                    fillOpacity: 1,
-                    anchor: new google.maps.Point(30,-30)
+                    path: (feature.getProperty('type')=='departure')?"https://maps.google.com/mapfiles/marker.png" : "https://maps.google.com/mapfiles/marker_green.png",
                 }
             };
         }
