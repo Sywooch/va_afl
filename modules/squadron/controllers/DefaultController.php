@@ -2,6 +2,7 @@
 
 namespace app\modules\squadron\controllers;
 
+use app\models\Flights;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
 use app\models\Users;

@@ -10,8 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $name_ru
  * @property string $name_en
- * @property string $abbr_ru
- * @property string $abbr_en
+ * @property string $abbr
  */
 class Squadrons extends \yii\db\ActiveRecord
 {
@@ -51,12 +50,22 @@ class Squadrons extends \yii\db\ActiveRecord
 
     public function getSquadronMembers()
     {
-        return $this->hasMany('\app\models\SquadronUsers', ['squadron_id' => 'id']);
+        return $this->hasMany(SquadronUsers::className(), ['squadron_id' => 'id']);
     }
 
     public function getUserStatus()
     {
         $data = $this->getSquadronMembers()->andWhere(['user_id' => Yii::$app->user->id])->one();
         return $data ? $data->status : false;
+    }
+
+    public function getSquadronInfo()
+    {
+        return Content::find()->where(['machine_name' => $this->abbr.'_info'])->one();
+    }
+
+    public function getSquadronRules()
+    {
+        return Content::find()->where(['machine_name' => $this->abbr.'_rules'])->one();
     }
 }

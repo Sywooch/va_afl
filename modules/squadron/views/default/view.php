@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php Pjax::begin() ?>
                     <?= GridView::widget([
                         'dataProvider' => $membersProvider,
+                        'tableOptions' => ['class' => 'table table-bordered'],
                         'rowOptions' => function ($model) {
                             switch ($model->status) {
                                 case($model::STATUS_PENDING):
@@ -128,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
                                 echo Html::a('Отменить заявку', Url::to(['memberdelete']),
                                     [
-                                        'class' => 'btn btn-danger',
+                                        'class' => 'btn btn-default',
                                         'data' => [
                                             'method' => 'post',
                                             'params' => ['squadron' => $squadron->id, 'user_id' => Yii::$app->user->id]
@@ -147,53 +148,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#default-tab-1" data-toggle="tab" aria-expanded="true">Default Tab
-                                1</a>
+                        <li class="active"><a href="#default-tab-1" data-toggle="tab"
+                                              aria-expanded="true"><?= $squadron->squadronInfo->name ?></a>
                         </li>
-                        <li class=""><a href="#default-tab-2" data-toggle="tab" aria-expanded="false">Default Tab 2</a>
+                        <li class=""><a href="#default-tab-2" data-toggle="tab"
+                                        aria-expanded="false"><?= $squadron->squadronRules->name ?></a>
                         </li>
-                        <li class=""><a href="#default-tab-3" data-toggle="tab" aria-expanded="false">Default Tab 3</a>
+                        <li class=""><a href="#default-tab-3" data-toggle="tab" aria-expanded="false">Новости</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="default-tab-1">
-                            <p>
-                                <img
-                                    src="http://samolets.com/wp-content/gallery/boeing-737-800-aeroflot/boeing-737-800-vp-brf-aeroflot-3.jpg"
-                                    height="400">
-                                <br>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget
-                                adipiscing
-                                porttitor,
-                                est diam sagittis orci, a ornare nisi quam elementum tortor. Proin interdum ante
-                                porta
-                                est
-                                convallis
-                                dapibus dictum in nibh. Aenean quis massa congue metus mollis fermentum eget et
-                                tellus.
-                                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, nec
-                                eleifend orci
-                                eros id lectus.
-                            </p>
-                            <p class="text-right m-b-0">
-                                <a href="javascript:;" class="btn btn-white m-r-5">Default</a>
-                                <a href="javascript:;" class="btn btn-primary">Primary</a>
-                            </p>
+                            <?= $squadron->squadronInfo->text ?>
                         </div>
                         <div class="tab-pane fade" id="default-tab-2">
-                            <blockquote>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
-                            </blockquote>
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <p>
-                                Nullam ac sapien justo. Nam augue mauris, malesuada non magna sed, feugiat blandit
-                                ligula.
-                                In tristique tincidunt purus id iaculis. Pellentesque volutpat tortor a mauris
-                                convallis,
-                                sit amet scelerisque lectus adipiscing.
-                            </p>
+                            <?= $squadron->squadronRules->text ?>
                         </div>
                         <div class="tab-pane fade" id="default-tab-3">
                             <p>
@@ -222,3 +191,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
+
+</div>
