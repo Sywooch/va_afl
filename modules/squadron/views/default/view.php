@@ -116,16 +116,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php Pjax::end() ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <?php if(!$squadron->getUserStatus()) {
-                                    echo Html::a('Отменить заявку', Url::to(['join']),
-                                        [
-                                            'class' => 'btn btn-danger',
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => ['squadron' => $squadron->id]
-                                            ]
-                                        ]);
-                            }?>
+                            <?php if (!$squadron->getUserStatus()) {
+                                echo Html::a('Подать заявку', Url::to(['join']),
+                                    [
+                                        'class' => 'btn btn-primary',
+                                        'data' => [
+                                            'method' => 'post',
+                                            'params' => ['squadron' => $squadron->id]
+                                        ]
+                                    ]);
+                            } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
+                                echo Html::a('Отменить заявку', Url::to(['memberdelete']),
+                                    [
+                                        'class' => 'btn btn-danger',
+                                        'data' => [
+                                            'method' => 'post',
+                                            'params' => ['squadron' => $squadron->id, 'user_id' => Yii::$app->user->id]
+                                        ]
+                                    ]);
+                            } ?>
                         </div>
                     </div>
                 </div>

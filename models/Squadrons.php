@@ -31,6 +31,7 @@ class Squadrons extends \yii\db\ActiveRecord
         return [
             [['name_ru', 'name_en', 'abbr'], 'string', 'max' => 100],
             [['leader'], 'integer'],
+            [['abbr'], 'unique']
         ];
     }
 
