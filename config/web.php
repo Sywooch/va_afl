@@ -53,11 +53,21 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '<module:pilot|fleet|events|squadron>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
-                '<module:pilot|fleet|events|squadron>/<action:\w+>' => '<module>/default/<action>',
-                '<module:pilot|airline|fleet|events|squadron|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:pilot|airline|fleet|events|squadron|admin>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:pilot|airline|fleet|events|squadron|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:content>/categories' => '<module>/categories/index',
+                '<module:content>/categories/<action:\.*>' => '<module>/categories/index',
+                '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
+                '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
+                '<module:content>/categories/<action:\w+>' => '<module>/categories/<action>',
+                '<module:content>/<action:\w+>' => '<module>/default/<action>',
+                '<module:content>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:content>' => '<module>/default/index',
+                '<module:content>/<action:\.*>' => '<module>/default/index',
+                '<module:pilot|fleet|events>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:content|pilot|fleet|events>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -87,12 +97,14 @@ $config = [
                 'assignment' => [
                     'class' => 'mdm\admin\controllers\AssignmentController',
                     'userClassName' => 'app\models\Users', // fully qualified class name of your User model
-                    'idField' => 'vid',        // id field of your User model that corresponds to Yii::$app->user->id
+                    'idField' => 'vid', // id field of your User model that corresponds to Yii::$app->user->id
                     'usernameField' => 'full_name', // username field of your User model
                 ],
             ],
-
-        ]
+        ],
+        'content' => [
+            'class' => 'app\modules\content\Module',
+        ],
     ],
     'params' => $params,
     'on beforeAction' => function ($event) {

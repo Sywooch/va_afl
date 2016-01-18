@@ -31,8 +31,8 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_ru', 'name_en', 'text_ru', 'text_en'], 'required'],
-            [['text_ru', 'text_en'], 'string'],
+            [['name_ru', 'name_en', 'text_ru', 'text_en', 'category'], 'required'],
+            [['text_ru', 'text_en', 'description_ru', 'description_en', 'machine_name'], 'string'],
             [['name_ru', 'name_en'], 'string', 'max' => 50]
         ];
     }
@@ -44,10 +44,10 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name_ru' => Yii::t('app', 'Name Ru'),
-            'name_en' => Yii::t('app', 'Name En'),
-            'text_ru' => Yii::t('app', 'Text Ru'),
-            'text_en' => Yii::t('app', 'Text En'),
+            'name_ru' => Yii::t('app', 'Name') .' '.Yii::t('app', '(Ru.)'),
+            'name_en' => Yii::t('app', 'Name') .' '.Yii::t('app', '(En.)'),
+            'text_ru' => Yii::t('app', 'Text') .' '.Yii::t('app', '(Ru.)'),
+            'text_en' => Yii::t('app', 'Text') .' '.Yii::t('app', '(En.)'),
         ];
     }
 
@@ -69,11 +69,18 @@ class Content extends \yii\db\ActiveRecord
         return $this->getLocale('text_ru', 'text_en');
     }
 
-    public function getAuthorUser(){
+    public function getDescription()
+    {
+        return $this->getLocale('description_ru', 'description_en');
+    }
+
+    public function getAuthorUser()
+    {
         return $this->hasOne('app\models\Users', ['vid' => 'author']);
     }
 
-    public function getCategoryInfo(){
+    public function getCategoryInfo()
+    {
         return $this->hasOne('app\models\ContentCategories', ['id' => 'category']);
     }
 

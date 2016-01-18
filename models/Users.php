@@ -111,4 +111,8 @@ class Users extends \yii\db\ActiveRecord
     {
         return Helper::getFlagLink($this->country);
     }
+
+    public function getAvatarLink(){
+        return Helper::getAvatarLink((isset($this->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $this->avatar)) ? $this->avatar : 'default.png');
+    }
 }

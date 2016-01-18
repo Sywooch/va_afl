@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
+
+use app\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -10,44 +14,75 @@ $this->title = 'Flights';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="flights-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Flights', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?=
-    GridView::widget(
-        [
-            'dataProvider' => $dataProvider,
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                'id',
-                'user_id',
-                'booking_id',
-                'callsign',
-                'first_seen',
-                // 'last_seen',
-                // 'from_icao',
-                // 'to_icao',
-                // 'flightplan:ntext',
-                // 'remarks:ntext',
-                // 'dep_time',
-                // 'eet',
-                // 'landing_time',
-                // 'sim',
-                // 'fob',
-                // 'pob',
-                // 'acf_type',
-                // 'fleet_regnum',
-                // 'status',
-                // 'alternate1',
-                // 'alternate2',
-
-                ['class' => 'yii\grid\ActionColumn'],
-            ],
-        ]
-    ); ?>
-
+    <?php
+    if (!$from_view) {
+        ?>
+        <h1><?= Html::encode($this->title) ?></h1>
+        <?php
+    }
+    ?>
+    <div id="flights">
+        <?php Pjax::begin() ?>
+        <?=
+        GridView::widget(
+            [
+                'dataProvider' => $dataProvider,
+                'layout' => (!$from_view)?'{items}{pager}':'{items}',
+                'tableOptions' => ($from_view)?['class'=>'table table-bordered']:['class'=>'table table-bordered table-striped table-condensed'],
+                'columns' => [
+                    [
+                        'attribute' => 'callsign',
+                        'label' => Yii::t('flights', 'Callsign'),
+                        'format' => 'raw',
+                        'value' => function ($data) use ($from_view) {
+                            if(!empty($data->track))
+                            return Html::a(
+                                Html::encode($data->callsign),
+                                (!$from_view)?
+                                Url::to(['/airline/flights/view/' . $data->id]):
+                                'javascript:reload('.$data->id.',map)'
+                            );
+                            return Html::encode($data->callsign);
+                        },
+                    ],
+                    'acf_type',
+                    [
+                        'attribute' => 'from_to',
+                        'label' => Yii::t('flights', 'Route'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return Html::a(
+                                Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
+                                Html::encode($data->from_icao),
+                                Url::to(
+                                    [
+                                        '/airline/airports/view/',
+                                        'id' => $data->from_icao
+                                    ]
+                                )
+                            ) . ' - ' . Html::a(
+                                Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
+                                Html::encode($data->to_icao),
+                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
+                            );
+                        },
+                    ],
+                    [
+                        'attribute' => 'flight_time',
+                        'label' => Yii::t('flights', 'Flight Time'),
+                        'value' => function ($data) {
+                            return Helper::getTimeFormatted($data->flight_time);
+                        },
+                        'visible' => !$from_view
+                    ],
+                    [
+                        'attribute' => 'first_seen',
+                        'label' => Yii::t('app', 'Date'),
+                        'format' => ['date', 'php:d.m.Y']
+                    ],
+                ],
+            ]
+        ) ?>
+        <?php Pjax::end() ?>
+    </div>
 </div>
