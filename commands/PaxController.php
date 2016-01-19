@@ -32,7 +32,7 @@ class PaxController extends Controller
             $pax->save();
             if($pax->waiting_hours>72) {
                 //Списать вуки со счета компании
-                $ub = BillingUserBalance::find()->andWhere(['user_id'=>0])->one();
+                $ub = BillingUserBalance::find()->andWhere(['user_vid'=>0])->one();
                 $ub->balance-=$pax->num_pax*2;
                 $ub->save();
                 $pax->delete();
