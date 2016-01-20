@@ -15,10 +15,76 @@ $this->params['breadcrumbs'][] = ['label' => 'Squads', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="squads-view">
-    <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
-
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="widget widget-stats bg-green">
+                <div class="stats-icon stats-icon-lg"><img width="50"
+                                                           src="http://s004.radikal.ru/i207/1601/0a/b7c972385ab0.png">
+                </div>
+                <div class="stats-title"></div>
+                <div class="stats-number">
+                    <?= Html::encode($this->title) ?>
+                </div>
+                <div class="stats-desc">Better than last week (70.1%)</div>
+            </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+            <div class="widget widget-stats bg-blue">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-tags fa-fw"></i></div>
+                <div class="stats-title"><?= Yii::t('app', 'Total flights') ?></div>
+                <div class="stats-number"><?= $user->pilot->flightsCount ?></div>
+            </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+            <div class="widget widget-stats bg-black">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
+                <div class="stats-title">NEW COMMENTS</div>
+                <div class="stats-number">3,988</div>
+            </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+            <div class="widget widget-stats bg-black">
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
+                <div class="stats-title">NEW COMMENTS</div>
+                <div class="stats-number">3,988</div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-3">
+            <div class="panel panel-inverse">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><?= Yii::t('app', 'News') ?> <span
+                            class="label label-success pull-right">4 message</span>
+                    </h4>
+                </div>
+                <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
+                    <div>
+                        <ul class="chats">
+                            <?php foreach ($news as $news_one): ?>
+                                <li class="left">
+                                    <span class="date-time"><?= (new \DateTime($news_one->created))->format(
+                                            'g:ia \o\n l jS F'
+                                        ) ?></span>
+                                    <a href="/pilot/profile/<?= $news_one->author ?>" class="name"><?= $news_one->authorUser->full_name ?></a>
+                                    <a href="/content/view/<?= $news_one->id ?>" class="image"><img alt=""
+                                                                                                    src="<?= $news_one->authorUser->avatarLink ?>"/></a>
+
+                                    <div class="message">
+                                        <?= $news_one->text ?>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title">Список пилотов</h4>

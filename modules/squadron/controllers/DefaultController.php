@@ -3,6 +3,7 @@
 namespace app\modules\squadron\controllers;
 
 use app\models\Flights;
+use app\models\Content;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
 use app\models\Users;
@@ -62,6 +63,7 @@ class DefaultController extends Controller
             'squadron' => $this->findModel($id),
             'membersProvider' => $membersProvider,
             'user' => Users::getAuthUser(),
+            'news' => Content::find()->where(['category' => 4])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
         ]);
     }
 
