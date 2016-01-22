@@ -37,6 +37,11 @@ use app\models\Users;
                         'icon' => 'fa-globe'
                     ],
                     [
+                        'name' => Yii::t('app', 'Booking'),
+                        'url' => \yii\helpers\Url::to('/pilot/booking'),
+                        'icon' => 'fa-plane'
+                    ],
+                    [
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
                             ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
@@ -55,8 +60,8 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Squadrons'),
                         'items' => [
-                            ['name' => Yii::t('app', 'Squadron B73X'), 'url' => \yii\helpers\Url::to('/pilot/index')],
-                            ['name' => Yii::t('app', 'Squadron A32X'), 'url' => \yii\helpers\Url::to('IVAO')],
+                            ['name' => Yii::t('app', 'Squadron B73X'), 'url' => \yii\helpers\Url::to('squadron/view/1')],
+                            ['name' => Yii::t('app', 'Squadron A32X'), 'url' => \yii\helpers\Url::to('squadron/view/2')],
                         ],
                         'icon' => 'fa-plane'
                     ],
@@ -86,7 +91,7 @@ use app\models\Users;
                         'icon' => 'fa-laptop',
                         'items' => [
                             ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/17']
+                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/teamspeak']
                         ]
                     ],
                     [
@@ -121,7 +126,7 @@ use app\models\Users;
                         'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/about'],
-                            ['name' => Yii::t('app', 'News'), 'url' => '/squad/list'],
+                            ['name' => Yii::t('app', 'News'), 'url' => ''],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/fleet/index'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],

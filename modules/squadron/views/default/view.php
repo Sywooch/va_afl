@@ -7,6 +7,7 @@ use yii\widgets\Pjax;
 use yii\helpers\Url;
 use app\models\SquadronUsers;
 
+\app\assets\SquadronAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Squadrons */
 
@@ -25,25 +26,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="stats-number">
                     <?= Html::encode($this->title) ?>
                 </div>
-                <div class="stats-desc">Better than last week (70.1%)</div>
             </div>
         </div>
         <!-- end col-3 -->
         <!-- begin col-3 -->
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-blue">
-                <div class="stats-icon stats-icon-lg"><i class="fa fa-tags fa-fw"></i></div>
-                <div class="stats-title"><?= Yii::t('app', 'Total flights') ?></div>
-                <div class="stats-number"><?= $user->pilot->flightsCount ?></div>
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-user fa-fw"></i></div>
+                <div class="stats-title"><?= Yii::t('app', 'Total pax') ?></div>
+                <div class="stats-number"><?= $squadron->totalPax ?></div>
             </div>
         </div>
         <!-- end col-3 -->
         <!-- begin col-3 -->
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-black">
-                <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
-                <div class="stats-title">NEW COMMENTS</div>
-                <div class="stats-number">3,988</div>
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-money fa-fw"></i></div>
+                <div class="stats-title">VUC заработано</div>
+                <div class="stats-number">100500</div>
             </div>
         </div>
         <!-- end col-3 -->
@@ -184,14 +184,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-md-12">
                             <?php if (!$squadron->getUserStatus()) {
-                                echo Html::a('Подать заявку', Url::to(['join']),
-                                    [
-                                        'class' => 'btn btn-primary',
-                                        'data' => [
-                                            'method' => 'post',
-                                            'params' => ['squadron' => $squadron->id]
-                                        ]
-                                    ]);
+                                echo Html::button('Подать заявку',
+                                ['class' =>'btn btn-primary', 'data-toggle' => 'modal', 'data-target' => '#modal-dialog']);
+                                echo $this->render('squadron_join', ['squadron' => $squadron]);
                             } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
                                 echo Html::a('Отменить заявку', Url::to(['memberdelete']),
                                     [
@@ -220,8 +215,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#default-tab-2" data-toggle="tab"
                                         aria-expanded="false"><?= $squadron->squadronRules->name ?></a>
                         </li>
-                        <li class=""><a href="#default-tab-3" data-toggle="tab" aria-expanded="false">Новости</a>
-                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="default-tab-1">
@@ -230,29 +223,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="tab-pane fade" id="default-tab-2">
                             <?= $squadron->squadronRules->text ?>
                         </div>
-                        <div class="tab-pane fade" id="default-tab-3">
-                            <p>
-								<span class="fa-stack fa-4x pull-left m-r-10">
-									<i class="fa fa-square-o fa-stack-2x"></i>
-									<i class="fa fa-twitter fa-stack-1x"></i>
-								</span>
-                                Praesent tincidunt nulla ut elit vestibulum viverra. Sed placerat magna eget eros
-                                accumsan
-                                elementum.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis lobortis neque.
-                                Maecenas justo odio, bibendum fringilla quam nec, commodo rutrum quam.
-                                Donec cursus erat in lacus congue sodales. Nunc bibendum id augue sit amet placerat.
-                                Quisque et quam id felis tempus volutpat at at diam. Vivamus ac diam turpis.Sed at
-                                lacinia
-                                augue.
-                                Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla.
-                                Quisque adipiscing dui nec orci fermentum blandit.
-                                Sed at lacinia augue. Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus
-                                nulla.
-                                Quisque adipiscing dui nec orci fermentum blandit.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
