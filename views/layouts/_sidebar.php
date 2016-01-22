@@ -93,7 +93,7 @@ use app\models\Users;
                         'icon' => 'fa-laptop',
                         'items' => [
                             ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/17']
+                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/teamspeak']
                         ]
                     ],
                     [

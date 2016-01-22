@@ -38,7 +38,8 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'machine_name';
+        $model = $this->findModel([$key => $id]);
 
         if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
                     $model->categoryInfo->access_read
