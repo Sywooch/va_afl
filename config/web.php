@@ -53,13 +53,18 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
+                '<module:events>/<action:(create|delete|update)>' => '<module>/default/<action>',
+                '<module:events>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
+                '<module:events>/<id:\w+>' => '<module>/default/view',
+                '<module:events>' => '<module>/default/index',
+                '<module:events>/<action:\.*>' => '<module>/default/index',
                 '<module:content>/categories' => '<module>/categories/index',
                 '<module:content>/categories/<action:\.*>' => '<module>/categories/index',
                 '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
                 '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
                 '<module:content>/categories/<action:\w+>' => '<module>/categories/<action>',
                 '<module:content>/<action:\w+>' => '<module>/default/<action>',
-                '<module:content>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:content>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
                 '<module:content>' => '<module>/default/index',
                 '<module:content>/<action:\.*>' => '<module>/default/index',
                 '<module:pilot|fleet|events>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
@@ -86,6 +91,9 @@ $config = [
         ],
         'fleet' => [
             'class' => 'app\modules\fleet\Module',
+        ],
+        'events' => [
+            'class' => 'app\modules\events\Module',
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',

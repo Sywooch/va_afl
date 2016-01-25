@@ -79,7 +79,7 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Events'),
-                        'url' => \yii\helpers\Url::to('/events/list'),
+                        'url' => \yii\helpers\Url::to('/events'),
                         'icon' => 'fa-cutlery'
                     ],
                     [
