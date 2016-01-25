@@ -12,6 +12,8 @@ use Yii;
  * @property string $name_en
  * @property string $text_ru
  * @property string $text_en
+ * @property string $img
+ * @property string $preview
  * @property int $author
  * @property string $created
  */
