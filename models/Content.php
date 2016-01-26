@@ -12,6 +12,8 @@ use Yii;
  * @property string $name_en
  * @property string $text_ru
  * @property string $text_en
+ * @property string $img
+ * @property string $preview
  * @property int $author
  * @property string $created
  */
@@ -33,7 +35,8 @@ class Content extends \yii\db\ActiveRecord
         return [
             [['name_ru', 'name_en', 'text_ru', 'text_en', 'category'], 'required'],
             [['text_ru', 'text_en', 'description_ru', 'description_en', 'machine_name'], 'string'],
-            [['name_ru', 'name_en'], 'string', 'max' => 50]
+            [['name_ru', 'name_en'], 'string', 'max' => 50],
+            [['img', 'preview'], 'string', 'max' => 512]
         ];
     }
 
