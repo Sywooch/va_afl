@@ -2,6 +2,7 @@
 
 namespace app\modules\squadron\controllers;
 
+use app\models\Fleet;
 use app\models\Flights;
 use app\models\Content;
 use app\models\Squadrons;
@@ -9,6 +10,7 @@ use app\models\SquadronUsers;
 use app\models\Users;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\Sort;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -59,9 +61,25 @@ class DefaultController extends Controller
                 'pageSize' => 10,
             ],
         ]);
+        $flightsProvider = new ActiveDataProvider([
+            'query' => Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $id)->orderBy(['id' => SORT_DESC]),
+            'pagination' => [
+                'pageSize' => 20,
+            ]
+
+        ]);
+        $fleetProvider = new ActiveDataProvider([
+            'query' => Fleet::find()->where(['squadron_id' => $id])->orderBy(['regnum' => SORT_ASC]),
+            'pagination' => [
+                'pageSize' => 20,
+            ]
+
+        ]);
         return $this->render('view', [
             'squadron' => $this->findModel($id),
             'membersProvider' => $membersProvider,
+            'fleetProvider' => $fleetProvider,
+            'flightsProvider' => $flightsProvider,
             'user' => Users::getAuthUser(),
             'news' => Content::find()->where(['category' => 4])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
         ]);

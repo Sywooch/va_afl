@@ -60,8 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-3">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><?= Yii::t('app', 'News') ?> <span
-                            class="label label-success pull-right">4 message</span>
+                    <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
+                        <?= Html::a('Add', Url::to(['/content/create']), ['class' => 'btn btn-success btn-xs pull-right'])?>
                     </h4>
                 </div>
                 <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
@@ -72,7 +72,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <span class="date-time"><?= (new \DateTime($news_one->created))->format(
                                             'g:ia \o\n l jS F'
                                         ) ?></span>
-                                    <a href="/pilot/profile/<?= $news_one->author ?>" class="name"><?= $news_one->authorUser->full_name ?></a>
+                                    <a href="/pilot/profile/<?= $news_one->author ?>"
+                                       class="name"><?= $news_one->authorUser->full_name ?></a>
                                     <a href="/content/view/<?= $news_one->id ?>" class="image"><img alt=""
                                                                                                     src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
@@ -185,7 +186,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-md-12">
                             <?php if (!$squadron->getUserStatus()) {
                                 echo Html::button('Подать заявку',
-                                ['class' =>'btn btn-primary', 'data-toggle' => 'modal', 'data-target' => '#modal-dialog']);
+                                    [
+                                        'class' => 'btn btn-primary',
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#modal-dialog'
+                                    ]);
                                 echo $this->render('squadron_join', ['squadron' => $squadron]);
                             } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
                                 echo Html::a('Отменить заявку', Url::to(['memberdelete']),
@@ -215,17 +220,57 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#default-tab-2" data-toggle="tab"
                                         aria-expanded="false"><?= $squadron->squadronRules->name ?></a>
                         </li>
+                        <li class=""><a href="#default-tab-3" data-toggle="tab"
+                                        aria-expanded="false"><?= Yii::t('squadron', 'Fleet and Last Flights') ?></a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="default-tab-1">
                             <?= $squadron->squadronInfo->text ?>
+                            <?= Html::a(Yii::t('app', 'Update'),
+                                Url::to(['/content/update', 'id' => $squadron->squadronInfo->id]),
+                                ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
                         <div class="tab-pane fade" id="default-tab-2">
                             <?= $squadron->squadronRules->text ?>
+                            <?= Html::a(Yii::t('app', 'Update'),
+                                Url::to(['/content/update', 'id' => $squadron->squadronRules->id]),
+                                ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
+                        <div class="tab-pane fade" id="default-tab-3">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php Pjax::begin() ?>
+                                    <?= GridView::widget([
+                                        'dataProvider' => $fleetProvider,
+                                        'columns' => [
+                                            'regnum',
+                                            'type_code',
+                                            'location',
+                                            'max_hrs'
+                                        ],
+                                    ]); ?>
+                                    <?php Pjax::end() ?>
+                                </div>
+                                <div class="col-md-9">
+                                    <?php Pjax::begin() ?>
+                                    <?= GridView::widget([
+                                        'dataProvider' => $flightsProvider,
+                                        'columns' => [
+                                            'user_id',
+                                            'callsign',
+                                            'fleet_regnum',
+                                            'to_icao',
+                                            'pob',
+                                            'nm',
+                                            'flight_time'
+                                        ],
+                                    ]); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-</div>
+        </div>
