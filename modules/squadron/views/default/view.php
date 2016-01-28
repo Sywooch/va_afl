@@ -74,8 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ) ?></span>
                                     <a href="/pilot/profile/<?= $news_one->author ?>"
                                        class="name"><?= $news_one->authorUser->full_name ?></a>
-                                    <a href="/content/view/<?= $news_one->id ?>" class="image"><img alt=""
-                                                                                                    src="<?= $news_one->authorUser->avatarLink ?>"/></a>
+                                    <a class="image"><img alt="" src="/img/news/preview/<?= $news_one->preview ?>"/></a>
 
                                     <div class="message">
                                         <?= $news_one->text ?>

@@ -6,6 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
 use app\models\Content;
@@ -71,6 +72,29 @@ class DefaultController extends Controller
             {
                 throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
             }
+
+            if (UploadedFile::getInstance($model, 'img')) {
+                $model->img = UploadedFile::getInstance($model, 'img');
+                if (in_array($model->img->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/news/');
+                    $extension = $model->img->extension;
+                    $model->img->name = md5($model->img->baseName);
+                    $model->img->saveAs($dir . $model->img->name . "." . $extension);
+                    $model->img = $model->img->name . "." . $extension;
+                }
+            }
+
+            if (UploadedFile::getInstance($model, 'preview')) {
+                $model->preview = UploadedFile::getInstance($model, 'preview');
+                if (in_array($model->preview->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/news/preview');
+                    $extension = $model->preview->extension;
+                    $model->preview->name = md5($model->preview->baseName);
+                    $model->preview->saveAs($dir . $model->preview->name . "." . $extension);
+                    $model->preview = $model->preview->name . "." . $extension;
+                }
+            }
+
             $model->save();
             return $this->redirect(['view/' . $model->id]);
         } else{
@@ -99,7 +123,29 @@ class DefaultController extends Controller
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if (UploadedFile::getInstance($model, 'img')) {
+                $model->img = UploadedFile::getInstance($model, 'img');
+                if (in_array($model->img->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/news/');
+                    $extension = $model->img->extension;
+                    $model->img->name = md5($model->img->baseName);
+                    $model->img->saveAs($dir . $model->img->name . "." . $extension);
+                    $model->img = $model->img->name . "." . $extension;
+                }
+            }
+
+            if (UploadedFile::getInstance($model, 'preview')) {
+                $model->preview = UploadedFile::getInstance($model, 'preview');
+                if (in_array($model->preview->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/news/preview/');
+                    $extension = $model->preview->extension;
+                    $model->preview->name = md5($model->preview->baseName);
+                    $model->preview->saveAs($dir . $model->preview->name . "." . $extension);
+                    $model->preview = $model->preview->name . "." . $extension;
+                }
+            }
+            $model->update();
             return $this->redirect(['view/' . $model->id]);
         } else {
             return $this->render(
