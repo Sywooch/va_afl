@@ -61,7 +61,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
-                        <?= Html::a('Add', Url::to(['/content/create']), ['class' => 'btn btn-success btn-xs pull-right'])?>
+                        <?= Html::a('Add', Url::to(['/content/create']),
+                            [
+                                'class' => 'btn btn-success btn-xs pull-right',
+                                'data' => [
+                                    'method' => 'post',
+                                    'params' => [
+                                        'category_id' => 2,
+                                    ]
+                                ]
+                            ]) ?>
                     </h4>
                 </div>
                 <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
@@ -71,7 +80,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <li class="left">
                                     <span class="date-time"><?= (new \DateTime($news_one->created))->format(
                                             'g:ia \o\n l jS F'
-                                        ) ?></span>
+                                        ) ?> <a
+                                            href="/content/update/<?= $news_one->id ?>"><i
+                                                class="fa fa-pencil"></i></a></span>
                                     <a href="/pilot/profile/<?= $news_one->author ?>"
                                        class="name"><?= $news_one->authorUser->full_name ?></a>
                                     <a class="image"><img alt="" src="/img/news/preview/<?= $news_one->preview ?>"/></a>

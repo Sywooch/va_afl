@@ -61,9 +61,13 @@ class DefaultController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id = null)
+    public function actionCreate()
     {
         $model = new Content();
+        if(isset($_POST['category_id']))
+        {
+            $model->category = $_POST['category_id'];
+        }
         $model->author = Yii::$app->user->identity->vid;
 
         if ($model->load(Yii::$app->request->post())){
