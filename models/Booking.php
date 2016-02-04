@@ -92,10 +92,21 @@ class Booking extends \yii\db\ActiveRecord
         else{
             $namelist=['AFL','TSO'];
             $calsign=$namelist[rand(0,sizeof($namelist)-1)];
+            $numbers = "";
             for($num=0;$num<rand(3,4);$num++)
             {
-                $calsign.=rand(0,9);
+                $numbers .= rand(0,9);
             }
+
+            //Позывной может сгенерироваться полностью нулевым, поэтому меняем цифры принудительно.
+            if($numbers == "000") {
+                $numbers = "001";
+            } elseif($numbers == "0000") {
+                $numbers == "0001";
+            }
+
+            $calsign .= $numbers;
+
             return $calsign;
         }
     }
