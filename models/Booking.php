@@ -102,7 +102,7 @@ class Booking extends \yii\db\ActiveRecord
             if($numbers == "000") {
                 $numbers = "001";
             } elseif($numbers == "0000") {
-                $numbers == "0001";
+                $numbers = "0001";
             }
 
             $calsign .= $numbers;
