@@ -99,10 +99,16 @@ class Booking extends \yii\db\ActiveRecord
             }
 
             //Позывной может сгенерироваться полностью нулевым, поэтому меняем цифры принудительно.
-            if($numbers == "000") {
-                $numbers = "001";
-            } elseif($numbers == "0000") {
-                $numbers = "0001";
+            if(strlen($numbers) == 3) {
+                if($numbers == "000") {
+                    $numbers = "001";
+                }
+            } else {
+                //Если 4-х значный позывной сформировался в виде '0XXX', то меняем ноль на число от 1 до 9
+                if(substr($numbers, 0, 1) == "0") {
+                    $randomNumber = rand(1,9);
+                    $numbers = $randomNumber.substr($numbers, 1, 3);
+                }
             }
 
             $calsign .= $numbers;
