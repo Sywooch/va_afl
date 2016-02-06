@@ -33,8 +33,8 @@ use dosamigos\ckeditor\CKEditor;
     <?php if (!isset($model->machine_name)) {
         echo $form->field($model, 'machine_name')->textInput(['maxlength' => true]);
     } ?>
-    <?= $form->field($model, 'img')->fileInput() ?>
-    <?= $form->field($model, 'preview')->fileInput() ?>
+    <?= $form->field($model, 'img_file')->fileInput() ?>
+    <?= $form->field($model, 'preview_file')->fileInput() ?>
     <?=
     $form->field($model, 'text_ru')->widget(
         CKEditor::className(),
@@ -54,16 +54,16 @@ use dosamigos\ckeditor\CKEditor;
     <?= $form->field($model, 'description_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description_en')->textInput(['maxlength' => true]) ?>
 
-    <?php if (!isset($model->category)) {
-    echo $form->field($model, 'category')->widget(
+    <?php //if (!isset($model->category))
+    ?>
+    <?= $form->field($model, 'category')->widget(
     /**
      * TODO: Видеть только те категории, которые доступны по ролям юзера.
      * @bth, можно так сделать?)
      */
         Select2::classname(),
         ['data' => \yii\helpers\ArrayHelper::map(\app\models\ContentCategories::find()->all(), 'id', 'name_en')]
-    );}
-    ?>
+    );?>
 
     <div class="form-group">
         <?=

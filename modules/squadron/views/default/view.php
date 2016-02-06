@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 class="fa fa-pencil"></i></a></span>
                                     <a href="/pilot/profile/<?= $news_one->author ?>"
                                        class="name"><?= $news_one->authorUser->full_name ?></a>
-                                    <a class="image"><img alt="" src="/img/news/preview/<?= $news_one->preview ?>"/></a>
+                                    <a class="image"><img alt="" src="/img/content/preview/<?= $news_one->preview ?>"/></a>
 
                                     <div class="message">
                                         <?= $news_one->text ?>

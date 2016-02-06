@@ -81,7 +81,7 @@ class DefaultController extends Controller
             'fleetProvider' => $fleetProvider,
             'flightsProvider' => $flightsProvider,
             'user' => Users::getAuthUser(),
-            'news' => Content::find()->where(['category' => 4])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
+            'news' => Content::find()->where(['category' => 2])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
         ]);
     }
 

@@ -64,51 +64,51 @@ class DefaultController extends Controller
     public function actionCreate()
     {
         $model = new Content();
-        if(isset($_POST['category_id']))
-        {
+        if (isset($_POST['category_id'])) {
             $model->category = $_POST['category_id'];
         }
         $model->author = Yii::$app->user->identity->vid;
 
-        if ($model->load(Yii::$app->request->post())){
-            if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-            {
-                throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
-            }
-
-            if (UploadedFile::getInstance($model, 'img')) {
-                $model->img = UploadedFile::getInstance($model, 'img');
-                if (in_array($model->img->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/news/');
-                    $extension = $model->img->extension;
-                    $model->img->name = md5($model->img->baseName);
-                    $model->img->saveAs($dir . $model->img->name . "." . $extension);
-                    $model->img = $model->img->name . "." . $extension;
+        if ($model->load(Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'img_file');
+            if (isset($img)) {
+                if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $img->extension;
+                    $img->name = md5($img->baseName);
+                    if ($img->saveAs(Yii::getAlias('@app/web/img/content/') . $img->name . "." . $extension)) {
+                        $model->img = $img->name . "." . $extension;
+                    }
+                } else {
+                    $model->img = null;
                 }
             }
 
-            if (UploadedFile::getInstance($model, 'preview')) {
-                $model->preview = UploadedFile::getInstance($model, 'preview');
-                if (in_array($model->preview->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/news/preview');
-                    $extension = $model->preview->extension;
-                    $model->preview->name = md5($model->preview->baseName);
-                    $model->preview->saveAs($dir . $model->preview->name . "." . $extension);
-                    $model->preview = $model->preview->name . "." . $extension;
+            $preview = UploadedFile::getInstance($model, 'preview_file');
+            if (isset($preview)) {
+                if ($preview->size !== 0 && in_array($preview->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $preview->extension;
+                    $preview->name = md5($preview->baseName);
+                    if ($preview->saveAs(Yii::getAlias('@app/web/img/content/preview/') . $preview->name . "." . $extension)) {
+                        $model->preview = $preview->name . "." . $extension;
+                    }
+                } else {
+                    $model->preview = null;
                 }
             }
-
-            $model->save();
+            if ($model->validate()) {
+                $model->save();
+            } else {
+                throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));
+            }
             return $this->redirect(['view/' . $model->id]);
-        } else{
+        } else {
             return $this->render(
-            'create',
-            [
-                'model' => $model,
-            ]
-        );
-         }
+                'create',
+                [
+                    'model' => $model,
+                ]
+            );
+        }
     }
 
     /**
@@ -122,34 +122,42 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-        {
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))
+        ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
         if ($model->load(Yii::$app->request->post())) {
-            if (UploadedFile::getInstance($model, 'img')) {
-                $model->img = UploadedFile::getInstance($model, 'img');
-                if (in_array($model->img->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/news/');
-                    $extension = $model->img->extension;
-                    $model->img->name = md5($model->img->baseName);
-                    $model->img->saveAs($dir . $model->img->name . "." . $extension);
-                    $model->img = $model->img->name . "." . $extension;
+            $img = UploadedFile::getInstance($model, 'img_file');
+            if (isset($img)) {
+                if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $img->extension;
+                    $img->name = md5($img->baseName);
+                    if ($img->saveAs(Yii::getAlias('@app/web/img/content/') . $img->name . "." . $extension)) {
+                        $model->img = $img->name . "." . $extension;
+                    }
+                } else {
+                    $model->img = null;
                 }
             }
 
-            if (UploadedFile::getInstance($model, 'preview')) {
-                $model->preview = UploadedFile::getInstance($model, 'preview');
-                if (in_array($model->preview->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/news/preview/');
-                    $extension = $model->preview->extension;
-                    $model->preview->name = md5($model->preview->baseName);
-                    $model->preview->saveAs($dir . $model->preview->name . "." . $extension);
-                    $model->preview = $model->preview->name . "." . $extension;
+            $preview = UploadedFile::getInstance($model, 'preview_file');
+            if (isset($preview)) {
+                if ($preview->size !== 0 && in_array($preview->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $preview->extension;
+                    $preview->name = md5($preview->baseName);
+                    if ($preview->saveAs(Yii::getAlias('@app/web/img/content/preview/') . $preview->name . "." . $extension)) {
+                        $model->preview = $preview->name . "." . $extension;
+                    }
+                } else {
+                    $model->preview = null;
                 }
             }
-            $model->update();
+            if ($model->validate()) {
+                $model->update();
+            } else {
+                throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));
+            }
             return $this->redirect(['view/' . $model->id]);
         } else {
             return $this->render(
@@ -172,8 +180,8 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-        {
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))
+        ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
