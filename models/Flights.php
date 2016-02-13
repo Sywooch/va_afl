@@ -155,7 +155,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
+        return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
     }
 
     public function getTrack()
