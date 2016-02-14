@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
+
 
 /**
  * This is the model class for table "content".
@@ -22,6 +24,10 @@ class Content extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $img_file;
+    public $preview_file;
+
     public static function tableName()
     {
         return 'content';
@@ -33,10 +39,14 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name_ru', 'name_en', 'text_ru', 'text_en', 'category'], 'required'],
-            [['text_ru', 'text_en', 'description_ru', 'description_en', 'machine_name'], 'string'],
-            [['name_ru', 'name_en'], 'string', 'max' => 50],
-            [['img', 'preview'], 'string', 'max' => 512]
+            [['category', 'name_ru', 'name_en', 'text_ru', 'text_en', 'author'], 'required'],
+            [['category', 'author'], 'integer'],
+            [['text_ru', 'text_en'], 'string'],
+            [['created'], 'safe'],
+            [['name_ru', 'name_en', 'description_ru', 'description_en'], 'string', 'max' => 50],
+            [['img', 'preview'], 'string', 'skipOnEmpty' => true, 'max' => 255],
+            [['machine_name'], 'string', 'max' => 100],
+            [['machine_name'], 'unique']
         ];
     }
 
@@ -84,7 +94,7 @@ class Content extends \yii\db\ActiveRecord
 
     public function getCategoryInfo()
     {
-        return $this->hasOne('app\models\ContentCategories', ['id' => 'category']);
+        return $this->hasOne(ContentCategories::className(), ['id' => 'category']);
     }
 
     /**

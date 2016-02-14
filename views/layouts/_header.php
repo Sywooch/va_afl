@@ -95,15 +95,6 @@ use app\models\Users;
             <?php if (!Yii::$app->user->isGuest): ?>
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php $user = Users::getAuthUser();
-                        if (isset($user->avatar) && file_exists(
-                                Yii::getAlias('@app/web/img/avatars/') . $user->avatar
-                            )
-                        ) {
-                            echo Html::img('/img/avatars/' . $user->avatar);
-                        } else {
-                            echo Html::img('/img/avatars/default.png');
-                        } ?>
                         <span class="hidden-xs"><?php echo Yii::$app->user->identity->full_name ?></span> <b
                             class="caret"></b>
                     </a>
