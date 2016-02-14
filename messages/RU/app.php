@@ -51,6 +51,7 @@ return [
     'Total hours' => 'Часов налета',
     'Total pax' => 'Кол-во пассажиров',
     'Total miles' => 'Миль пройдено',
+    'VUC earned' => 'VUC заработано',
     'Content' => 'Контент',
     'Contents' => 'Контент',
     'Categories' => 'Категории',

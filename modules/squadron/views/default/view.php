@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-black">
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-money fa-fw"></i></div>
-                <div class="stats-title">VUC заработано</div>
+                <div class="stats-title"><?= Yii::t('app', 'VUC earned') ?></div>
                 <div class="stats-number"><?= $squadron->totalVUC ?></div>
             </div>
         </div>
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-black">
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-arrows-h fa-fw"></i></div>
-                <div class="stats-title">Миль пройдено</div>
+                <div class="stats-title"><?= Yii::t('app', 'Total miles') ?></div>
                 <div class="stats-number"><?= $squadron->totalMiles ?></div>
             </div>
         </div>
@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-heading">
                     <h4 class="panel-title">Список пилотов
                         <?php if (!$squadron->getUserStatus()) {
-                            echo Html::button('Подать заявку',
+                            echo Html::button(Yii::t('squadron', 'Join'),
                                 [
                                     'class' => 'btn btn-primary btn-xs pull-right',
                                     'data-toggle' => 'modal',
@@ -108,7 +108,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ]);
                             echo $this->render('squadron_join', ['squadron' => $squadron]);
                         } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
-                            echo Html::a('Отменить заявку', Url::to(['memberdelete']),
+                            echo Html::a(Yii::t('squadron', 'Cancel joining'), Url::to(['memberdelete']),
                                 [
                                     'class' => 'btn btn-default btn-xs pull-right',
                                     'data' => [
