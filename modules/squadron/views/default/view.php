@@ -43,16 +43,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="widget widget-stats bg-black">
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-money fa-fw"></i></div>
                 <div class="stats-title">VUC заработано</div>
-                <div class="stats-number">100500</div>
+                <div class="stats-number"><?= $squadron->totalVUC ?></div>
             </div>
         </div>
         <!-- end col-3 -->
         <!-- begin col-3 -->
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-black">
-                <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
-                <div class="stats-title">NEW COMMENTS</div>
-                <div class="stats-number">3,988</div>
+                <div class="stats-icon stats-icon-lg"><i class="fa fa-arrows-h fa-fw"></i></div>
+                <div class="stats-title">Миль пройдено</div>
+                <div class="stats-number"><?= $squadron->totalMiles ?></div>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
-                        <?= Html::a('Add', Url::to(['/content/create']),
+                        <?= Html::a('<i class="fa fa-plus"></i>', Url::to(['/content/create']),
                             [
                                 'class' => 'btn btn-success btn-xs pull-right',
                                 'data' => [
@@ -98,7 +98,26 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Список пилотов</h4>
+                    <h4 class="panel-title">Список пилотов
+                        <?php if (!$squadron->getUserStatus()) {
+                            echo Html::button('Подать заявку',
+                                [
+                                    'class' => 'btn btn-primary btn-xs pull-right',
+                                    'data-toggle' => 'modal',
+                                    'data-target' => '#modal-dialog'
+                                ]);
+                            echo $this->render('squadron_join', ['squadron' => $squadron]);
+                        } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
+                            echo Html::a('Отменить заявку', Url::to(['memberdelete']),
+                                [
+                                    'class' => 'btn btn-default btn-xs pull-right',
+                                    'data' => [
+                                        'method' => 'post',
+                                        'params' => ['squadron' => $squadron->id, 'user_id' => Yii::$app->user->id]
+                                    ]
+                                ]);
+                        } ?>
+                    </h4>
                 </div>
                 <div class="panel-body">
                     <?php Pjax::begin() ?>
@@ -192,28 +211,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]); ?>
                     <?php Pjax::end() ?>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php if (!$squadron->getUserStatus()) {
-                                echo Html::button('Подать заявку',
-                                    [
-                                        'class' => 'btn btn-primary',
-                                        'data-toggle' => 'modal',
-                                        'data-target' => '#modal-dialog'
-                                    ]);
-                                echo $this->render('squadron_join', ['squadron' => $squadron]);
-                            } elseif ($squadron->getUserStatus() == SquadronUsers::STATUS_PENDING) {
-                                echo Html::a('Отменить заявку', Url::to(['memberdelete']),
-                                    [
-                                        'class' => 'btn btn-default',
-                                        'data' => [
-                                            'method' => 'post',
-                                            'params' => ['squadron' => $squadron->id, 'user_id' => Yii::$app->user->id]
-                                        ]
-                                    ]);
-                            } ?>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

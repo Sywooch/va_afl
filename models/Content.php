@@ -94,7 +94,7 @@ class Content extends \yii\db\ActiveRecord
 
     public function getCategoryInfo()
     {
-        return $this->hasOne('app\models\ContentCategories', ['id' => 'category']);
+        return $this->hasOne(ContentCategories::className(), ['id' => 'category']);
     }
 
     /**

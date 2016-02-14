@@ -74,6 +74,16 @@ class Squadrons extends \yii\db\ActiveRecord
         return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->id)->sum('pob');
     }
 
+    public function getTotalVUC()
+    {
+        return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->id)->sum('vucs');
+    }
+
+    public function getTotalMiles()
+    {
+        return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->id)->sum('nm');
+    }
+
     public function getFleet()
     {
         return $this->hasMany(Fleet::className(), ['squadron_id' => 'id']);
