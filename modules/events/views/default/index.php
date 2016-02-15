@@ -13,27 +13,29 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="events-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Events'), ['/events/create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <h4 class="panel-title"><?= Html::encode($this->title) ?>
+                <?php if (Yii::$app->user->can('events/edit')): ?>
+                    <a class="btn btn-success btn-xs pull-right" href="/events/create"><i class="fa fa-plus"></i></a>
+                <?php endif; ?>
+            </h4>
+        </div>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'content',
-            'start',
-            'stop',
-            'author',
-            // 'created',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
-
+        <div class="panel-body">
+            <div class="container">
+                <?=
+                \talma\widgets\FullCalendar::widget(
+                    [
+                        'googleCalendar' => false,
+                        'config' => [
+                            'lang' => Yii::$app->language == 'RU' ? 'ru' : 'en',
+                            'events' => $events
+                        ],
+                    ]
+                ); ?>
+            </div>
+        </div>
+    </div>
 </div>

@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use app\models\Events;
-use app\modules\events\models\Search;
+use app\modules\events\models\Calendar;
 
 /**
  * DefaultController implements the CRUD actions for Events model.
@@ -43,12 +43,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new Search();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'events' => Calendar::All()
         ]);
     }
 

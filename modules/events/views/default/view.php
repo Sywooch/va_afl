@@ -19,10 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
         <div class="well row" style="min-height: 50px">
             <div class="col-md-6">
-                <?php if (Yii::$app->user->can($model->contentInfo->categoryInfo->access_edit) || Yii::$app->user->can(
-                        'content/edit'
-                    )
-                ): ?>
+                <?php if (Yii::$app->user->can('events/edit')): ?>
                     <?= Html::a(Yii::t('app', 'Update Content'), ['/content/update/' . $model->contentInfo->id], ['class' => 'btn btn-primary']) ?>
                     <?= Html::a(Yii::t('app', 'Update Event'), ['/events/update/' . $model->id], ['class' => 'btn btn-primary']) ?>
                     <?=

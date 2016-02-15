@@ -11,11 +11,14 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => [
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="events-create">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
-
+    <a class="btn btn-danger btn-xs pull-right" href="/content/create" target="_blank" data-method="post"
+       data-params="{&quot;category_id&quot;:7}">Add Content</a>
+    <?=
+    $this->render(
+        '_form',
+        [
+            'model' => $model,
+        ]
+    ) ?>
 </div>
