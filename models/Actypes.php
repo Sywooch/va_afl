@@ -58,7 +58,7 @@ class Actypes extends \yii\db\ActiveRecord
     {
         return [
             [['code'], 'required'],
-            [['eng_qty'], 'integer'],
+            [['eng_qty', 'max_pax'], 'integer'],
             [['code'], 'string', 'max' => 4],
             [['manufacturer', 'name'], 'string', 'max' => 150],
             [['turbulence'], 'string', 'max' => 1],

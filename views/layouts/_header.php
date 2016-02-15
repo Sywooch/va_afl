@@ -1,34 +1,30 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nikita Fedoseev
- * Date: 21.09.15
- * Time: 18:36
- */
+
+use yii\bootstrap\Html;
+
+use app\models\Users;
+
 ?>
-<div id="header" class="header navbar navbar-default navbar-fixed-top">
+<div id="header" class="header navbar navbar-default navbar-fixed-top navbar-inverse">
     <!-- begin container-fluid -->
     <div class="container-fluid">
         <!-- begin mobile sidebar expand / collapse button -->
         <div class="navbar-header">
-            <a href="/site/index" class="navbar-brand"><span class="navbar-logo"></span> Color Admin</a>
-            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            <p align="center"><a href="/site/index" class="navbar-brand"><img src="/img/afl_logo.png" style="height: 100%"></a></p>
         </div>
         <!-- end mobile sidebar expand / collapse button -->
 
         <!-- begin header navigation right -->
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <form class="navbar-form full-width">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Enter keyword"/>
-                        <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-                    </div>
-                </form>
+                <div id="clock">
+                    <ul>
+                        <li id="hours"></li>
+                        <li id="point">:</li>
+                        <li id="min"></li>
+                        <li id="point">:</li>
+                        <li id="sec"></li>
+                    </ul>
             </li>
             <li class="dropdown">
                 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
@@ -99,7 +95,15 @@
             <?php if (!Yii::$app->user->isGuest): ?>
                 <li class="dropdown navbar-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/img/user-13.jpg" alt=""/>
+                        <?php $user = Users::getAuthUser();
+                        if (isset($user->avatar) && file_exists(
+                                Yii::getAlias('@app/web/img/avatars/') . $user->avatar
+                            )
+                        ) {
+                            echo Html::img('/img/avatars/' . $user->avatar);
+                        } else {
+                            echo Html::img('/img/avatars/default.png');
+                        } ?>
                         <span class="hidden-xs"><?php echo Yii::$app->user->identity->full_name ?></span> <b
                             class="caret"></b>
                     </a>

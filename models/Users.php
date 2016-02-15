@@ -3,7 +3,7 @@
 namespace app\models;
 
 use Yii;
-
+use app\components\Helper;
 
 /**
  * This is the model class for table "users".
@@ -29,9 +29,9 @@ class Users extends \yii\db\ActiveRecord
      */
     public static function transfer($vid, $location)
     {
-        $user = self::find()->andWhere(['user_id' => $vid])->one();
-        $user->location = $location;
-        $user->save();
+        $user = self::find()->andWhere(['vid' => $vid])->one();
+        $user->pilot->location = $location;
+        $user->pilot->save();
     }
 
     /**
@@ -69,23 +69,24 @@ class Users extends \yii\db\ActiveRecord
         ];
     }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'vid' => 'IVAO ID',
-			'full_name' => Yii::t('user','Full Name'),
-			'email' => 'Email',
-			'country' => Yii::t('user','Country'),
-			'authKey' => 'Auth Key',
-			'language' => Yii::t('user','Language'),
-			'created_date' => 'Created Date',
-			'last_visited' => 'Last Visited',
-			'avatar' => 'Avatar'
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'vid' => 'IVAO ID',
+            'full_name' => Yii::t('user', 'Full Name'),
+            'email' => 'Email',
+            'country' => Yii::t('user', 'Country'),
+            'authKey' => 'Auth Key',
+            'language' => 'Language/Язык',
+            'created_date' => Yii::t('user', 'Register Date'),
+            'last_visited' => Yii::t('user', 'Last Visited'),
+            'avatar' => Yii::t('user', 'Avatar')
+        ];
+    }
+
     public function getPilot()
     {
         return $this->hasOne(UserPilot::className(), ['user_id' => 'vid']);
@@ -99,5 +100,19 @@ class Users extends \yii\db\ActiveRecord
     public static function getAuthUser()
     {
         return self::find()->andWhere(['vid' => Yii::$app->user->id])->one();
+    }
+
+    public function getOnline()
+    {
+        return (strtotime($this->last_visited) > strtotime('-10 minutes')) ? true : false;
+    }
+
+    public function getFlaglink()
+    {
+        return Helper::getFlagLink($this->country);
+    }
+
+    public function getAvatarLink(){
+        return Helper::getAvatarLink((isset($this->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $this->avatar)) ? $this->avatar : 'default.png');
     }
 }

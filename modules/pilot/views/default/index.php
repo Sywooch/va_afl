@@ -1,14 +1,36 @@
-<div class="pilot-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
+<?php
+use app\assets\MapAsset;
+use app\assets\StatisticAsset;
 
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+use yii\grid\GridView;
 
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
+MapAsset::register($this);
+StatisticAsset::register($this);
+
+
+/* @var $this yii\web\View */
+
+$this->title = Yii::t('app', 'My Statistics');
+$this->params['breadcrumbs'] = [
+    ['label' => Yii::t('app', 'Pilot Center'), 'url' => '/pilot/center'],
+    ['label' => $this->title]
+];
+
+?>
+
+<h1><?= Html::encode($this->title) ?></h1>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title">Map</h4>
+    </div>
+    <div class="panel-body">
+        <div id="map" style="width: 1000px; height: 670px;"></div>
+        <script>
+            setTimeout(function () {
+                initialize(<?= Yii::$app->user->identity->vid ?>);
+            }, 500);
+        </script>
+    </div>
 </div>

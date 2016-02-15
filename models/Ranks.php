@@ -13,6 +13,10 @@ use Yii;
  */
 class Ranks extends \yii\db\ActiveRecord
 {
+    public function getName()
+    {
+        return Yii::$app->language == 'ru' ? $this->name_ru : $this->name_en;
+    }
     /**
      * @inheritdoc
      */

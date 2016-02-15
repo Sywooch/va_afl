@@ -31,10 +31,9 @@ class StaffController extends Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'only' => ['create', 'update', 'delete'],
                 'rules' => [
-                    // allow authenticated users
                     [
                         'allow' => true,
-                        'roles' => ['edit_staff'],
+                        'roles' => ['staff/edit'],
                     ],
                 ]
             ]

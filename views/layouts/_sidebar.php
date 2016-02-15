@@ -1,27 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nikita Fedoseev
- * Date: 21.09.15
- * Time: 18:36
- */
+
+use yii\helpers\Html;
+
 use app\components\Menu;
 use app\models\Users;
-use yii\helpers\Html;
 
 ?>
 <div id="sidebar" class="sidebar">
     <div data-scrollbar="true" data-height="100%">
         <ul class="nav">
-            <li class="nav-profile">
+            <li class="nav-profile" style="background-color: #2D353C; text-align: center">
                 <?php if (!Yii::$app->user->isGuest): ?>
-                    <div class="info">
-                        <?php echo Yii::$app->user->identity->full_name ?>
-                        <small>Front end developer</small>
-                    </div>
-                    <?php $user = Users::getAuthUser();
+                    <?php
+                    $user = Users::getAuthUser();
                     if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $user->avatar)) {
-                        echo Html::img('/img/avatars/' . $user->avatar,['style' => 'width: 100%;border-bottom: 2px solid #889097;']);
+                        echo Html::img(
+                            '/img/avatars/' . $user->avatar,
+                            ['style' => 'width: 100%;']
+                        );
+                    } else {
+                        echo Html::img(
+                            '/img/avatars/default.png',
+                            ['style' => 'width: 100%;']
+                        );
                     } ?>
                 <?php endif; ?>
             </li>
@@ -44,8 +45,14 @@ use yii\helpers\Html;
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
                             ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
-                            ['name' => Yii::t('app', 'Balance'), 'url' => \yii\helpers\Url::to('/pilot/balance/'.Yii::$app->user->identity->vid)],
-                            ['name' => Yii::t('app', 'Flights'), 'url' => \yii\helpers\Url::to('/pilot/flights/'.Yii::$app->user->identity->vid)],
+                            [
+                                'name' => Yii::t('app', 'Balance'),
+                                'url' => \yii\helpers\Url::to('/pilot/balance/' . Yii::$app->user->identity->vid)
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Flights'),
+                                'url' => \yii\helpers\Url::to('/airline/flights/index/' . Yii::$app->user->identity->vid)
+                            ],
                             ['name' => Yii::t('app', 'IVAO profile'), 'url' => \yii\helpers\Url::to('IVAO')],
                         ],
                         'icon' => 'fa-bar-chart'
@@ -72,7 +79,7 @@ use yii\helpers\Html;
                     ],
                     [
                         'name' => Yii::t('app', 'Events'),
-                        'url' => \yii\helpers\Url::to('/events/list'),
+                        'url' => \yii\helpers\Url::to('/events'),
                         'icon' => 'fa-cutlery'
                     ],
                     [
@@ -85,8 +92,8 @@ use yii\helpers\Html;
                         'name' => Yii::t('app', 'Services'),
                         'icon' => 'fa-laptop',
                         'items' => [
-                            ['name' => Yii::t('app', 'БД Аэропортов'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'TS3 Viewer'), 'url' => '/content/ts3']
+                            ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
+                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/17']
                         ]
                     ],
                     [
@@ -103,8 +110,8 @@ use yii\helpers\Html;
                         'icon' => 'fa-rss'
                     ],
                     [
-                        'name' => Yii::t('app', 'Resources'),
-                        'url' => \yii\helpers\Url::to('/resources/index'),
+                        'name' => Yii::t('app', 'Content'),
+                        'url' => \yii\helpers\Url::to('/content/index'),
                         'icon' => 'fa-cloud-download'
                     ],
                     [

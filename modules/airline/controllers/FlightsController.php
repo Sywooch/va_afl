@@ -3,11 +3,13 @@
 namespace app\modules\airline\controllers;
 
 use Yii;
-use app\models\Flights;
+use yii\base\View;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Flights;
+use yii\widgets\DetailView;
 
 /**
  * FightController implements the CRUD actions for Flights model.
@@ -22,7 +24,7 @@ class FlightsController extends Controller
                 'actions' => [
                     'delete' => ['post'],
                 ],
-            ],
+            ]
         ];
     }
 
@@ -30,15 +32,22 @@ class FlightsController extends Controller
      * Lists all Flights models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id = null)
     {
+        $query = $id ? Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]) : Flights::find();
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Flights::find(),
+            'query' => $query,
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'view',
+            [
+                'user_id' => $id,
+                'dataProvider' => $dataProvider,
+                'from_view' => false,
+            ]
+        );
     }
 
     /**
@@ -48,27 +57,24 @@ class FlightsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        $model = $this->findModel($id);
+
+        $query = Flights::find()->where(['user_id' => $model->user_id])->andWhere(['status' => 2])->orderBy(
+            ['id' => SORT_DESC]
+        );
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
         ]);
-    }
 
-    /**
-     * Creates a new Flights model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Flights();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
+        return $this->render(
+            'view',
+            [
+                'user_id' => $model->user_id,
                 'model' => $model,
-            ]);
-        }
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
@@ -84,23 +90,24 @@ class FlightsController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            return $this->render(
+                'update',
+                [
+                    'model' => $model,
+                ]
+            );
         }
     }
 
-    /**
-     * Deletes an existing Flights model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
+    public function actionMapdata($id = null)
     {
-        $this->findModel($id)->delete();
+        echo Flights::prepareTrackerData($id);
+    }
 
-        return $this->redirect(['index']);
+    public function actionDetails($id = null)
+    {
+        $model = $this->findModel($id);
+        return $this->renderPartial('details', ['model' => $model]);
     }
 
     /**

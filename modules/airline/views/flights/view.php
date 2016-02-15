@@ -3,53 +3,78 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
+use app\assets\MapAsset;
+use app\models\Users;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Flights */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Flights', 'url' => ['index']];
+MapAsset::register($this);
+\app\assets\FlightsAsset::register($this);
+$this->title = isset($model) ? "{$model->callsign} {$model->from_icao}-{$model->to_icao}" : 'Flights ' . $user_id ? 'of ' . Users::find(
+        ['vid' => $user_id]
+    )->one()->full_name . " ({$user_id})" : '';
+
+if ($user_id) {
+    $this->params['breadcrumbs'][] = [
+        'label' => Yii::$app->user->identity->vid == $user_id ? Yii::t(
+                'app',
+                'Pilot Center'
+            ) : Users::find(['vid' => $user_id])->one()->full_name,
+        'url' => [Yii::$app->user->identity->vid == $user_id ? 'center' : 'profile']
+    ];
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="flights-view">
+<style>
+    .left {
+        position: absolute;
+        top: 70px;
+        left: 250px;
+        z-index: 10;
+        width: 500px;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    .right {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        z-index: 10;
+        width: 450px;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    .main {
+        position: absolute;
+        top: 22px;
+        left: 0px;
+        right: 1px;
+        bottom: 1px;
+    }
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'user_id',
-            'booking_id',
-            'callsign',
-            'first_seen',
-            'last_seen',
-            'from_icao',
-            'to_icao',
-            'flightplan:ntext',
-            'remarks:ntext',
-            'dep_time',
-            'eet',
-            'landing_time',
-            'sim',
-            'fob',
-            'pob',
-            'acf_type',
-            'fleet_regnum',
-            'status',
-            'alternate1',
-            'alternate2',
-        ],
-    ]) ?>
+    .title {
+        color: yellow;
+        cursor: pointer;
+    }
+</style>
 
+<div class="left panel">
+    <div class="panel-header">
+        <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app', 'Flights') ?></h4>
+    </div>
+    <div class="panel-body" id="flights" data-scrollbar="true" data-height="400px">
+        <?= $this->render('index', ['dataProvider' => $dataProvider, 'from_view' => $this]) ?>
+    </div>
 </div>
+<div class="right panel">
+    <div class="panel-heading">
+        <h4 class="title text-center" data-toggle="details" id="callsign"><?= Yii::t('flights', 'Flight Information') ?></h4>
+    </div>
+    <div class="panel-body" id="details">
+
+    </div>
+</div>
+<div class="main" id="map" data-flightid="<?= isset($model) ? $model->id : '' ?>"></div>
+

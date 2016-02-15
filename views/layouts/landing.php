@@ -17,25 +17,26 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="<?= Yii::$app->language ?>">
 <!--<![endif]-->
 <head>
-    <meta charset="<?= Yii::$app->charset ?>" />
+    <meta charset="<?= Yii::$app->charset ?>"/>
     <title>Color Admin | One Page Parallax Front End Theme</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link href="/landing/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/landing/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="/landing/css/animate.min.css" rel="stylesheet" />
-    <link href="/landing/css/style.min.css" rel="stylesheet" />
-    <link href="/landing/css/style-responsive.min.css" rel="stylesheet" />
-    <link href="/landing/css/theme/default.css" id="theme" rel="stylesheet" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="/landing/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/landing/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="/landing/css/animate.min.css" rel="stylesheet"/>
+    <link href="/landing/css/style.min.css" rel="stylesheet"/>
+    <link href="/landing/css/style-responsive.min.css" rel="stylesheet"/>
+    <link href="/landing/css/theme/default.css" id="theme" rel="stylesheet"/>
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN BASE JS ================== -->
@@ -83,7 +84,7 @@ AppAsset::register($this);
                 <li><a href="#client" data-click="scroll-to-target">CLIENT</a></li>
                 <li><a href="#pricing" data-click="scroll-to-target">PRICING</a></li>
                 <li><a href="#contact" data-click="scroll-to-target">CONTACT</a></li>
-                <li><a href="site/login"><i class="fa fa-user"></i>LOGIN</a></li>
+                <li><a href="/site/login"><i class="fa fa-user"></i>LOGIN</a></li>
             </ul>
         </div>
         <!-- end navbar-collapse -->
@@ -96,19 +97,21 @@ AppAsset::register($this);
 <div id="home" class="content has-bg home">
     <!-- begin content-bg -->
     <div class="content-bg">
-        <img src="/landing/img/home-bg.jpg" alt="Home" />
+        <img src="/landing/img/home-bg.jpg" alt="Home"/>
     </div>
     <!-- end content-bg -->
     <!-- begin container -->
     <div class="container home-content">
         <h1>Welcome to Color Admin</h1>
+
         <h3>Multipurpose One Page Theme</h3>
+
         <p>
-            We have created a multi-purpose theme that take the form of One-Page or Multi-Page Version.<br />
+            We have created a multi-purpose theme that take the form of One-Page or Multi-Page Version.<br/>
             Use our <a href="#">theme panel</a> to select your favorite theme color.
         </p>
-        <a href="#" class="btn btn-theme">Explore More</a> <a href="#" class="btn btn-outline">Purchase Now</a><br />
-        <br />
+        <a href="#" class="btn btn-theme">Explore More</a> <a href="#" class="btn btn-outline">Purchase Now</a><br/>
+        <br/>
         or <a href="#">subscribe</a> newsletter
     </div>
     <!-- end container -->
@@ -120,8 +123,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container" data-animation="true" data-animation-type="fadeInDown">
         <h2 class="content-title">About Us</h2>
+
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
             sed bibendum turpis luctus eget
         </p>
         <!-- begin row -->
@@ -131,6 +135,7 @@ AppAsset::register($this);
                 <!-- begin about -->
                 <div class="about">
                     <h3>Our Story</h3>
+
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Vestibulum posuere augue eget ante porttitor fringilla.
@@ -138,6 +143,7 @@ AppAsset::register($this);
                         non rutrum dolor risus non sapien. Vivamus vel tincidunt quam.
                         Donec ultrices nisl ipsum, sed elementum ex dictum nec.
                     </p>
+
                     <p>
                         In non libero at orci rutrum viverra at ac felis.
                         Curabitur a efficitur libero, eu finibus quam.
@@ -156,12 +162,13 @@ AppAsset::register($this);
                 <div class="about-author">
                     <div class="quote bg-silver">
                         <i class="fa fa-quote-left"></i>
-                        <h3>We work harder,<br /><span>to let our user keep simple</span></h3>
+
+                        <h3>We work harder,<br/><span>to let our user keep simple</span></h3>
                         <i class="fa fa-quote-right"></i>
                     </div>
                     <div class="author">
                         <div class="image">
-                            <img src="/landing/img/user-1.jpg" alt="Sean Ngu" />
+                            <img src="/landing/img/user-1.jpg" alt="Sean Ngu"/>
                         </div>
                         <div class="info">
                             Sean Ngu
@@ -216,7 +223,7 @@ AppAsset::register($this);
 <div id="milestone" class="content bg-black-darker has-bg" data-scrollview="true">
     <!-- begin content-bg -->
     <div class="content-bg">
-        <img src="/landing/img/milestone-bg.jpg" alt="Milestone" />
+        <img src="/landing/img/milestone-bg.jpg" alt="Milestone"/>
     </div>
     <!-- end content-bg -->
     <!-- begin container -->
@@ -226,7 +233,9 @@ AppAsset::register($this);
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="1292">1,292</div>
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="1292">
+                        1,292
+                    </div>
                     <div class="title">Themes & Template</div>
                 </div>
             </div>
@@ -234,7 +243,9 @@ AppAsset::register($this);
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="9039">9,039</div>
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="9039">
+                        9,039
+                    </div>
                     <div class="title">Registered Members</div>
                 </div>
             </div>
@@ -242,7 +253,9 @@ AppAsset::register($this);
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="89291">89,291</div>
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="89291">
+                        89,291
+                    </div>
                     <div class="title">Items Sold</div>
                 </div>
             </div>
@@ -250,7 +263,8 @@ AppAsset::register($this);
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="129">129</div>
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="129">129
+                    </div>
                     <div class="title">Theme Authors</div>
                 </div>
             </div>
@@ -267,8 +281,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container">
         <h2 class="content-title">Our Team</h2>
+
         <p class="content-desc">
-            Phasellus suscipit nisi hendrerit metus pharetra dignissim. Nullam nunc ante, viverra quis<br />
+            Phasellus suscipit nisi hendrerit metus pharetra dignissim. Nullam nunc ante, viverra quis<br/>
             ex non, porttitor iaculis nisi.
         </p>
         <!-- begin row -->
@@ -278,12 +293,15 @@ AppAsset::register($this);
                 <!-- begin team -->
                 <div class="team">
                     <div class="image" data-animation="true" data-animation-type="flipInX">
-                        <img src="/landing/img/user-1.jpg" alt="Ryan Teller" />
+                        <img src="/landing/img/user-1.jpg" alt="Ryan Teller"/>
                     </div>
                     <div class="info">
                         <h3 class="name">Ryan Teller</h3>
+
                         <div class="title text-theme">FOUNDER</div>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
+                            dolor.</p>
+
                         <div class="social">
                             <a href="#"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                             <a href="#"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
@@ -299,12 +317,15 @@ AppAsset::register($this);
                 <!-- begin team -->
                 <div class="team">
                     <div class="image" data-animation="true" data-animation-type="flipInX">
-                        <img src="/landing/img/user-2.jpg" alt="Jonny Cash" />
+                        <img src="/landing/img/user-2.jpg" alt="Jonny Cash"/>
                     </div>
                     <div class="info">
                         <h3 class="name">Johnny Cash</h3>
+
                         <div class="title text-theme">WEB DEVELOPER</div>
-                        <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.</p>
+                        <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
+                            quis enim.</p>
+
                         <div class="social">
                             <a href="#"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                             <a href="#"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
@@ -320,12 +341,14 @@ AppAsset::register($this);
                 <!-- begin team -->
                 <div class="team">
                     <div class="image" data-animation="true" data-animation-type="flipInX">
-                        <img src="/landing/img/user-3.jpg" alt="Mia Donovan" />
+                        <img src="/landing/img/user-3.jpg" alt="Mia Donovan"/>
                     </div>
                     <div class="info">
                         <h3 class="name">Mia Donovan</h3>
+
                         <div class="title text-theme">WEB DESIGNER</div>
                         <p>Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. </p>
+
                         <div class="social">
                             <a href="#"><i class="fa fa-facebook fa-lg fa-fw"></i></a>
                             <a href="#"><i class="fa fa-twitter fa-lg fa-fw"></i></a>
@@ -347,7 +370,7 @@ AppAsset::register($this);
 <div id="quote" class="content bg-black-darker has-bg" data-scrollview="true">
     <!-- begin content-bg -->
     <div class="content-bg">
-        <img src="/landing/img/quote-bg.jpg" alt="Quote" />
+        <img src="/landing/img/quote-bg.jpg" alt="Quote"/>
     </div>
     <!-- end content-bg -->
     <!-- begin container -->
@@ -356,7 +379,7 @@ AppAsset::register($this);
         <div class="row">
             <!-- begin col-12 -->
             <div class="col-md-12 quote">
-                <i class="fa fa-quote-left"></i> Passion leads to design, design leads to performance, <br />
+                <i class="fa fa-quote-left"></i> Passion leads to design, design leads to performance, <br/>
                 performance leads to <span class="text-theme">success</span>!
                 <i class="fa fa-quote-right"></i>
                 <small>Sean Themes, Developer Teams in Malaysia</small>
@@ -374,8 +397,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container">
         <h2 class="content-title">Our Services</h2>
+
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
             sed bibendum turpis luctus eget
         </p>
         <!-- begin row -->
@@ -383,10 +407,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-cog"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-cog"></i></div>
                     <div class="info">
                         <h4 class="title">Easy to Customize</h4>
-                        <p class="desc">Duis in lorem placerat, iaculis nisi vitae, ultrices tortor. Vestibulum molestie ipsum nulla. Maecenas nec hendrerit eros, sit amet maximus leo.</p>
+
+                        <p class="desc">Duis in lorem placerat, iaculis nisi vitae, ultrices tortor. Vestibulum molestie
+                            ipsum nulla. Maecenas nec hendrerit eros, sit amet maximus leo.</p>
                     </div>
                 </div>
             </div>
@@ -394,10 +421,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-paint-brush"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-paint-brush"></i></div>
                     <div class="info">
                         <h4 class="title">Clean & Careful Design</h4>
-                        <p class="desc">Etiam nulla turpis, gravida et orci ac, viverra commodo ipsum. Donec nec mauris faucibus, congue nisi sit amet, lobortis arcu.</p>
+
+                        <p class="desc">Etiam nulla turpis, gravida et orci ac, viverra commodo ipsum. Donec nec mauris
+                            faucibus, congue nisi sit amet, lobortis arcu.</p>
                     </div>
                 </div>
             </div>
@@ -405,10 +435,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-file"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-file"></i></div>
                     <div class="info">
                         <h4 class="title">Well Documented</h4>
-                        <p class="desc">Ut vel laoreet tortor. Donec venenatis ex velit, eget bibendum purus accumsan cursus. Curabitur pulvinar iaculis diam.</p>
+
+                        <p class="desc">Ut vel laoreet tortor. Donec venenatis ex velit, eget bibendum purus accumsan
+                            cursus. Curabitur pulvinar iaculis diam.</p>
                     </div>
                 </div>
             </div>
@@ -420,10 +453,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-code"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-code"></i></div>
                     <div class="info">
                         <h4 class="title">Re-usable Code</h4>
-                        <p class="desc">Aenean et elementum dui. Aenean massa enim, suscipit ut molestie quis, pretium sed orci. Ut faucibus egestas mattis.</p>
+
+                        <p class="desc">Aenean et elementum dui. Aenean massa enim, suscipit ut molestie quis, pretium
+                            sed orci. Ut faucibus egestas mattis.</p>
                     </div>
                 </div>
             </div>
@@ -431,10 +467,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-shopping-cart"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-shopping-cart"></i></div>
                     <div class="info">
                         <h4 class="title">Online Shop</h4>
-                        <p class="desc">Quisque gravida metus in sollicitudin feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+
+                        <p class="desc">Quisque gravida metus in sollicitudin feugiat. Class aptent taciti sociosqu ad
+                            litora torquent per conubia nostra, per inceptos himenaeos.</p>
                     </div>
                 </div>
             </div>
@@ -442,10 +481,13 @@ AppAsset::register($this);
             <!-- begin col-4 -->
             <div class="col-md-4 col-sm-4">
                 <div class="service">
-                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i class="fa fa-heart"></i></div>
+                    <div class="icon bg-theme" data-animation="true" data-animation-type="bounceIn"><i
+                            class="fa fa-heart"></i></div>
                     <div class="info">
                         <h4 class="title">Free Support</h4>
-                        <p class="desc">Integer consectetur, massa id mattis tincidunt, sapien erat malesuada turpis, nec vehicula lacus felis nec libero. Fusce non lorem nisl.</p>
+
+                        <p class="desc">Integer consectetur, massa id mattis tincidunt, sapien erat malesuada turpis,
+                            nec vehicula lacus felis nec libero. Fusce non lorem nisl.</p>
                     </div>
                 </div>
             </div>
@@ -461,7 +503,7 @@ AppAsset::register($this);
 <div id="action-box" class="content has-bg" data-scrollview="true">
     <!-- begin content-bg -->
     <div class="content-bg">
-        <img src="/landing/img/action-bg.jpg" alt="Action" />
+        <img src="/landing/img/action-bg.jpg" alt="Action"/>
     </div>
     <!-- end content-bg -->
     <!-- begin container -->
@@ -474,6 +516,7 @@ AppAsset::register($this);
                     <i class="fa fa-binoculars"></i>
                 </div>
                 <h3>CHECK OUT OUR ADMIN THEME!</h3>
+
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus faucibus magna eu lacinia eleifend.
                 </p>
@@ -496,8 +539,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container" data-animation="true" data-animation-type="fadeInDown">
         <h2 class="content-title">Our Latest Work</h2>
+
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
             sed bibendum turpis luctus eget
         </p>
         <!-- begin row -->
@@ -507,7 +551,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-1.jpg" alt="Work 1" /></a>
+                        <a href="#"><img src="/landing/img/work-1.jpg" alt="Work 1"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Aliquam molestie</span>
@@ -522,7 +566,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-3.jpg" alt="Work 3" /></a>
+                        <a href="#"><img src="/landing/img/work-3.jpg" alt="Work 3"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Quisque at pulvinar lacus</span>
@@ -537,7 +581,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-5.jpg" alt="Work 5" /></a>
+                        <a href="#"><img src="/landing/img/work-5.jpg" alt="Work 5"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Vestibulum et erat ornare</span>
@@ -552,7 +596,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-7.jpg" alt="Work 7" /></a>
+                        <a href="#"><img src="/landing/img/work-7.jpg" alt="Work 7"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Sed vitae mollis magna</span>
@@ -571,7 +615,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-2.jpg" alt="Work 2" /></a>
+                        <a href="#"><img src="/landing/img/work-2.jpg" alt="Work 2"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Suspendisse at mattis odio</span>
@@ -586,7 +630,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-4.jpg" alt="Work 4" /></a>
+                        <a href="#"><img src="/landing/img/work-4.jpg" alt="Work 4"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Aliquam vitae commodo diam</span>
@@ -601,7 +645,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-6.jpg" alt="Work 6" /></a>
+                        <a href="#"><img src="/landing/img/work-6.jpg" alt="Work 6"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Phasellus eu vehicula lorem</span>
@@ -616,7 +660,7 @@ AppAsset::register($this);
                 <!-- begin work -->
                 <div class="work">
                     <div class="image">
-                        <a href="#"><img src="/landing/img/work-8.jpg" alt="Work 8" /></a>
+                        <a href="#"><img src="/landing/img/work-8.jpg" alt="Work 8"/></a>
                     </div>
                     <div class="desc">
                         <span class="desc-title">Morbi bibendum pellentesque</span>
@@ -637,7 +681,7 @@ AppAsset::register($this);
 <div id="client" class="content has-bg bg-green" data-scrollview="true">
     <!-- begin content-bg -->
     <div class="content-bg">
-        <img src="/landing/img/client-bg.jpg" alt="Client" />
+        <img src="/landing/img/client-bg.jpg" alt="Client"/>
     </div>
     <!-- end content-bg -->
     <!-- begin container -->
@@ -651,7 +695,8 @@ AppAsset::register($this);
                 <div class="item active">
                     <blockquote>
                         <i class="fa fa-quote-left"></i>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra, nulla ut interdum fringilla,<br />
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra, nulla ut interdum
+                        fringilla,<br/>
                         urna massa cursus lectus, eget rutrum lectus neque non ex.
                         <i class="fa fa-quote-right"></i>
                     </blockquote>
@@ -662,7 +707,7 @@ AppAsset::register($this);
                 <div class="item">
                     <blockquote>
                         <i class="fa fa-quote-left"></i>
-                        Donec cursus ligula at ante vulputate laoreet. Nulla egestas sit amet lorem non bibendum.<br />
+                        Donec cursus ligula at ante vulputate laoreet. Nulla egestas sit amet lorem non bibendum.<br/>
                         Nulla eget risus velit. Pellentesque tincidunt velit vitae tincidunt finibus.
                         <i class="fa fa-quote-right"></i>
                     </blockquote>
@@ -673,7 +718,7 @@ AppAsset::register($this);
                 <div class="item">
                     <blockquote>
                         <i class="fa fa-quote-left"></i>
-                        Sed tincidunt quis est sed ultrices. Sed feugiat auctor ipsum, sit amet accumsan elit vestibulum<br />
+                        Sed tincidunt quis est sed ultrices. Sed feugiat auctor ipsum, sit amet accumsan elit vestibulum<br/>
                         fringilla. In sollicitudin ac ligula eget vestibulum.
                         <i class="fa fa-quote-right"></i>
                     </blockquote>
@@ -701,8 +746,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container">
         <h2 class="content-title">Our Price</h2>
+
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
             sed bibendum turpis luctus eget
         </p>
         <!-- begin pricing-table -->
@@ -710,6 +756,7 @@ AppAsset::register($this);
             <li data-animation="true" data-animation-type="fadeInUp">
                 <div class="pricing-container">
                     <h3>Starter</h3>
+
                     <div class="price">
                         <div class="price-figure">
                             <span class="price-number">FREE</span>
@@ -731,6 +778,7 @@ AppAsset::register($this);
             <li data-animation="true" data-animation-type="fadeInUp">
                 <div class="pricing-container">
                     <h3>Basic</h3>
+
                     <div class="price">
                         <div class="price-figure">
                             <span class="price-number">$9.99</span>
@@ -753,6 +801,7 @@ AppAsset::register($this);
             <li class="highlight" data-animation="true" data-animation-type="fadeInUp">
                 <div class="pricing-container">
                     <h3>Premium</h3>
+
                     <div class="price">
                         <div class="price-figure">
                             <span class="price-number">$19.99</span>
@@ -775,6 +824,7 @@ AppAsset::register($this);
             <li data-animation="true" data-animation-type="fadeInUp">
                 <div class="pricing-container">
                     <h3>Lifetime</h3>
+
                     <div class="price">
                         <div class="price-figure">
                             <span class="price-number">$999</span>
@@ -804,8 +854,9 @@ AppAsset::register($this);
     <!-- begin container -->
     <div class="container">
         <h2 class="content-title">Contact Us</h2>
+
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br />
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
             sed bibendum turpis luctus eget
         </p>
         <!-- begin row -->
@@ -813,17 +864,21 @@ AppAsset::register($this);
             <!-- begin col-6 -->
             <div class="col-md-6" data-animation="true" data-animation-type="fadeInLeft">
                 <h3>If you have a project you would like to discuss, get in touch with us.</h3>
+
                 <p>
-                    Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu pulvinar risus, vitae facilisis libero dolor a purus.
+                    Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus
+                    arcu pulvinar risus, vitae facilisis libero dolor a purus.
                 </p>
+
                 <p>
-                    <strong>SeanTheme Studio, Inc</strong><br />
-                    795 Folsom Ave, Suite 600<br />
-                    San Francisco, CA 94107<br />
-                    P: (123) 456-7890<br />
+                    <strong>SeanTheme Studio, Inc</strong><br/>
+                    795 Folsom Ave, Suite 600<br/>
+                    San Francisco, CA 94107<br/>
+                    P: (123) 456-7890<br/>
                 </p>
+
                 <p>
-                    <span class="phone">+11 (0) 123 456 78</span><br />
+                    <span class="phone">+11 (0) 123 456 78</span><br/>
                     <a href="mailto:hello@emailaddress.com">seanthemes@support.com</a>
                 </p>
             </div>
@@ -833,24 +888,28 @@ AppAsset::register($this);
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-md-3">Name <span class="text-theme">*</span></label>
+
                         <div class="col-md-9">
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Email <span class="text-theme">*</span></label>
+
                         <div class="col-md-9">
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3">Message <span class="text-theme">*</span></label>
+
                         <div class="col-md-9">
                             <textarea class="form-control" rows="10"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3"></label>
+
                         <div class="col-md-9 text-left">
                             <button type="submit" class="btn btn-theme btn-block">Send Message</button>
                         </div>
@@ -873,9 +932,10 @@ AppAsset::register($this);
             Color Admin
         </div>
         <p>
-            &copy; Copyright Color Admin 2014 <br />
+            &copy; Copyright Color Admin 2014 <br/>
             An admin & front end theme with serious impact. Created by <a href="#">SeanTheme</a>
         </p>
+
         <p class="social-list">
             <a href="#"><i class="fa fa-facebook fa-fw"></i></a>
             <a href="#"><i class="fa fa-instagram fa-fw"></i></a>
@@ -890,13 +950,20 @@ AppAsset::register($this);
 <!-- begin theme-panel -->
 <div class="theme-panel">
     <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-cog"></i></a>
+
     <div class="theme-panel-content">
         <ul class="theme-list clearfix">
-            <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
-            <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
-            <li class="active"><a href="javascript:;" class="bg-green" data-theme="default" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">&nbsp;</a></li>
-            <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
-            <li><a href="javascript:;" class="bg-red" data-theme="red" data-click="theme-selector" data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-purple" data-theme="purple" data-click="theme-selector"
+                   data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Purple">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-blue" data-theme="blue" data-click="theme-selector"
+                   data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Blue">&nbsp;</a></li>
+            <li class="active"><a href="javascript:;" class="bg-green" data-theme="default" data-click="theme-selector"
+                                  data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Default">
+                    &nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-orange" data-theme="orange" data-click="theme-selector"
+                   data-toggle="tooltip" data-trigger="hover" data-container="body" data-title="Orange">&nbsp;</a></li>
+            <li><a href="javascript:;" class="bg-red" data-theme="red" data-click="theme-selector" data-toggle="tooltip"
+                   data-trigger="hover" data-container="body" data-title="Red">&nbsp;</a></li>
         </ul>
     </div>
 </div>
@@ -919,7 +986,7 @@ AppAsset::register($this);
 <!-- ================== END BASE JS ================== -->
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         App.init();
     });
 </script>
