@@ -8,22 +8,57 @@
 namespace app\commands;
 
 
-use app\models\Events\ExternalEvents;
+use yii\console\Controller;
+
+use app\models\Events\ExternalEvent;
 
 class EventsController extends Controller
 {
+    public function actionIndex()
+    {
+        $this->getDivisionEvents();
+    }
+
+    /**
+     * Функция забирает эвенты дивизиона
+     */
     private function getDivisionEvents()
     {
         if (!\Yii::$app->cache->get('ru_div_events')) {
+
+            /*
+             * Пример данных:
+             * '{"events" : [{
+             * "id":122,
+             * "event":"Test123",
+             * "eevent":"Test123",
+             * "date":"16.2.2016",
+             * "fromUTC":"12:20:00",
+             * "toUTC":"19:00:00",
+             * "description":"123",
+             * "edescription":"122",
+             * "banner":"https://pp.vk.me/c629517/v629517055/32ab9/zwnEErBSNG0.jpg",
+             * "engbanner":"https://pp.vk.me/c629517/v629517055/32ab9/zwnEErBSNG0.jpg"
+             * }]}'
+             */
+
+            //скачиваем данные
             $edata = json_decode(
-                file_get_contents('http://ivaoru.org/api/futureevents?key=149b1f2f758e4ffa9ff0dec3b6a1e81a')
+                file_get_contents(Yii::$app->params['ivao_ru_api'])
             );
+
+            //проверяем есть ли они
             if (isset($edata->errorMessage) or empty($edata)) {
-                return false;
+                throw new \Exception(isset($edata->errorMessage) ? $edata->errorMessage : 'empty data');
             }
+
+            //ставим кэш
             \Yii::$app->cache->set('ru_div_events', $edata, 3600);
+
+            //прогоняем
             foreach ($edata->events as $evt) {
-                ExternalEvents::add($evt);
+                ExternalEvent::add($evt);
             }
         }
     }
+}

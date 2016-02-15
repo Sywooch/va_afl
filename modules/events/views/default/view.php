@@ -37,11 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php endif; ?>
             </div>
             <div class="col-md-6">
+                <?php if($model->author != 0): ?>
                 <p class="text-right"> Author: <?=
                     Html::a(
                         $model->authorUser->full_name,
                         Url::to('/pilot/profile/' . $model->authorUser->vid)
                     ) ?></p>
+                <?php endif; ?>
             </div>
         </div>
         <div class="container">
