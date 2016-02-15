@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-use app\models\Events;
+use app\models\Events\Events;
 
 /**
  * Search represents the model behind the search form about `app\models\Events`.

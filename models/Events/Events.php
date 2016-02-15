@@ -1,8 +1,11 @@
 <?php
 
-namespace app\models;
+namespace app\models\Events;
 
 use Yii;
+
+use app\models\Content;
+use app\models\Users;
 
 /**
  * This is the model class for table "events".
@@ -20,6 +23,7 @@ use Yii;
  */
 class Events extends \yii\db\ActiveRecord
 {
+    const CONTENT_CATEGORY = 7;
     /**
      * @inheritdoc
      */

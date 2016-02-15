@@ -8,8 +8,7 @@
 
 namespace app\modules\events\models;
 
-use app\models\Events;
-use yii\helpers\BaseVarDumper;
+use app\models\Events\Events;
 
 class Calendar
 {
