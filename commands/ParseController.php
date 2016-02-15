@@ -140,13 +140,13 @@ class ParseController extends Controller
         if ($booking->fleet_regnum) {
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
-        $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         $flight->acf_type = Fleet::find()->andWhere(['id'=>$flight->fleet_regnum])->one()->type_code;
         $flight->booking_id = $booking->id;
         $flight->user_id = $booking->user_id;
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
+        $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         $flight->pob = $paxs['total'];
         $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->to_icao,$paxs['paxtypes']);
         if ($flight->save()) {
@@ -233,7 +233,7 @@ class ParseController extends Controller
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
         $flight->last_seen = gmdate('Y-m-d H:i:s');
-        $flight->flightplan = getFlightRoute($data);
+        $flight->flightplan = $this->getFlightRoute($data);
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
         $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);

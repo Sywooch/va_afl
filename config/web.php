@@ -61,18 +61,17 @@ $config = [
                 '<module:content>/categories' => '<module>/categories/index',
                 '<module:content>/categories/<action:\.*>' => '<module>/categories/index',
                 '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
-                '<module:content>/categories/<action:\w+>/<id:\w+>' => '<module>/categories/<action>',
                 '<module:content>/categories/<action:\w+>' => '<module>/categories/<action>',
                 '<module:content>/<action:\w+>' => '<module>/default/<action>',
                 '<module:content>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
                 '<module:content>' => '<module>/default/index',
                 '<module:content>/<action:\.*>' => '<module>/default/index',
-                '<module:pilot|fleet|events>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
-                '<module:pilot|fleet|events>/<action:\w+>' => '<module>/default/<action>',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:pilot|airline|fleet|events|admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                '<module:content|pilot|fleet|events>' => '<module>/default/index',
+                '<module:pilot|fleet|events|squadron>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:pilot|fleet|events|squadron>/<action:\w+>' => '<module>/default/<action>',
+                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -94,6 +93,9 @@ $config = [
         ],
         'events' => [
             'class' => 'app\modules\events\Module',
+	]
+        'squadron' => [
+            'class' => 'app\modules\squadron\Module',
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
