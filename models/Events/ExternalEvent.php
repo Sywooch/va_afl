@@ -9,24 +9,42 @@
 namespace app\models\Events;
 
 use app\models\Content;
+use app\components\Slack;
+
+
 use yii\helpers\BaseVarDumper;
 
 class ExternalEvent
 {
+    private $old;
+    private $name;
+    private $event;
+
     /**
      * процесс добавления
      * @param $evt Класс с данными
      */
-    public static function add($evt)
+    public function __construct($evt)
     {
+        $this->old = $this->checkContent($evt);
         //если контента нет
-        if (!self::checkContent($evt)) {
+        if (!$this->old) {
             //сохраняем контент
-            $content = self::saveContent($evt);
+            $content =  $this->saveContent($evt);
             //сохраняем эвент
-            $event = self::saveEvent($evt, $content);
+            $event =  $this->saveEvent($evt, $content);
+            $this->event =  $event;
             //сохраняем условия эвента
-            //$eventConditions = self::saveEventConditions($evt, $event);
+            //$eventConditions =  $this->saveEventConditions($evt, $event);
+            return true;
+        }
+    }
+
+    public function slack($channel){
+        if(!$this->old){
+            $slack = new Slack($channel, 'New Event - ');
+            $slack->addLink('http://dev.va-aeroflot.su/events/'.$this->event, $this->name);
+            $slack->sent();
         }
     }
 
@@ -35,7 +53,7 @@ class ExternalEvent
      * @param $evt Класс с данными
      * @return bool
      */
-    private static function checkContent($evt)
+    private function checkContent($evt)
     {
         return Content::find()->andWhere(['=', 'name_ru', $evt->event])->andWhere(
             ['=', 'category', Events::CONTENT_CATEGORY]
@@ -47,7 +65,7 @@ class ExternalEvent
      * @param $evt Класс с данными
      * @param int $event_id ID Эвента
      */
-    private static function saveEventConditions($evt, $event_id)
+    private function saveEventConditions($evt, $event_id)
     {
         $eventCondition1 = new EventsConditions();
         $eventCondition1->event_id = $event_id;
@@ -63,7 +81,7 @@ class ExternalEvent
      * @param int $content ID Контента
      * @return int ID Эвента
      */
-    private static function saveEvent($evt, $content)
+    private function saveEvent($evt, $content)
     {
         $event = new Events();
 
@@ -81,7 +99,7 @@ class ExternalEvent
      * @param $evt Класс с данными
      * @return int ID Контента
      */
-    private static function saveContent($evt)
+    private function saveContent($evt)
     {
         $content = new Content();
 
@@ -93,6 +111,8 @@ class ExternalEvent
         $content->category = Events::CONTENT_CATEGORY;
         $content->created = date('Y-m-d H:i:s');
         $content->save();
+
+        $this->name = $content->name_en;
 
         return $content->id;
     }
