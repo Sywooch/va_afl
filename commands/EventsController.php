@@ -5,7 +5,12 @@
  * Date: 15.02.16
  * Time: 12:28
  */
-class ParseController extends Controller
+namespace app\commands;
+
+
+use app\models\Events\ExternalEvents;
+
+class EventsController extends Controller
 {
     private function getDivisionEvents()
     {
