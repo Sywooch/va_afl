@@ -93,7 +93,7 @@ $config = [
         ],
         'events' => [
             'class' => 'app\modules\events\Module',
-	]
+	],
         'squadron' => [
             'class' => 'app\modules\squadron\Module',
         ],
