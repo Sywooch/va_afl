@@ -85,44 +85,6 @@ class DefaultController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Squads model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Squadrons();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Squads model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-
     public function actionJoin()
     {
         $squadron_id = Yii::$app->request->post('squadron');
@@ -134,7 +96,7 @@ class DefaultController extends Controller
                 $member->squadron_id = $squadron->id;
                 $member->status = SquadronUsers::STATUS_PENDING;
                 if (!$member->save()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
                 }
             }
         }
@@ -170,7 +132,7 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_ACTIVE;
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
                 }
             }
         }
@@ -190,7 +152,7 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_SUSPENDED;
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                   //var_dump($member->errors);
                 }
             }
         }
@@ -210,24 +172,11 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_ACTIVE;
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
                 }
             }
         }
         return $this->redirect(['view', 'id' => $squadron_id]);
-    }
-
-    /**
-     * Deletes an existing Squads model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**
