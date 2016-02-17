@@ -4,6 +4,7 @@
 
 var features = [];
 var map;
+
 function reload(flight_id) {
     window.history.pushState({}, window.title, "/airline/flights/view/" + flight_id);
     for (var i = 0; i < features.length; i++) {
@@ -20,8 +21,7 @@ function reload(flight_id) {
 
 }
 
-setTimeout(function () {
-    initialize();
+function load() {
     reload($('#map').data('flightid'));
     map.data.setStyle(function (feature) {
         if (feature.getGeometry().getType() == 'Point') {
@@ -44,4 +44,15 @@ setTimeout(function () {
         var eid = $(this).data('toggle');
         $('#' + eid).toggle();
     });
+}
+
+setTimeout(function () {
+    if (typeof init !== 'undefined') {
+        if (init == true) {
+            setTimeout(function () {
+                initialize();
+                load();
+            }, 500);
+        }
+    }
 }, 1000);

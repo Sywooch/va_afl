@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <style>
     .left {
         position: absolute;
-        top: 70px;
-        left: 250px;
+        top: 50px;
+        left: 20px;
         z-index: 10;
         width: 500px;
         background-color: rgba(0, 0, 0, 0.7);
@@ -39,29 +39,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     .right {
         position: absolute;
-        top: 70px;
+        top: 50px;
         right: 20px;
         z-index: 10;
         width: 450px;
         background-color: rgba(0, 0, 0, 0.7);
     }
 
-    .main {
+    .map {
         position: absolute;
-        top: 22px;
+        top: 10px;
         left: 0px;
-        right: 1px;
-        bottom: 1px;
+        right: 0px;
+        bottom: 0px;
     }
 
     .title {
         color: yellow;
         cursor: pointer;
     }
-</style>
 
-<div class="left panel">
-    <div class="panel-header">
+    .relative-map {
+        position: relative;
+        height: 100%;
+    }
+</style>
+    <div class="relative-map">
+        <div class="left panel">
+        <div class="panel-header">
         <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app', 'Flights') ?></h4>
     </div>
     <div class="panel-body" id="flights" data-scrollbar="true" data-height="400px">
@@ -76,5 +81,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 </div>
-<div class="main" id="map" data-flightid="<?= isset($model) ? $model->id : '' ?>"></div>
-
+        <div class="map" id="map" data-flightid="<?= isset($model) ? $model->id : '' ?>"></div>
+    </div>
+<?php if (isset($init)): ?>
+    <script>
+        var init = <?= ($init == true ? 'true' : 'false')?>;
+    </script>
+<?php endif; ?>

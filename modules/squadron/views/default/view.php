@@ -5,9 +5,16 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+
+use app\assets\SquadronAsset;
+use app\assets\MapAsset;
+use app\assets\FlightsAsset;
+use app\components\Helper;
 use app\models\SquadronUsers;
 
-\app\assets\SquadronAsset::register($this);
+SquadronAsset::register($this);
+MapAsset::register($this);
+FlightsAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Squadrons */
 
@@ -67,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'data' => [
                                     'method' => 'post',
                                     'params' => [
-                                        'category_id' => 2,
+                                        'category_id' => $squadron->news,
                                     ]
                                 ]
                             ]) ?>
@@ -127,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'rowOptions' => function ($model) {
                             switch ($model->status) {
                                 case($model::STATUS_PENDING):
-                                    return ['class' => 'success'];
+                                    return ['class' => 'warning'];
                                     break;
                                 case($model::STATUS_SUSPENDED):
                                     return ['class' => 'danger'];
@@ -221,32 +228,35 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#default-tab-1" data-toggle="tab"
+                        <li class="active"><a href="#info" data-toggle="tab"
                                               aria-expanded="true"><?= $squadron->squadronInfo->name ?></a>
                         </li>
-                        <li class=""><a href="#default-tab-2" data-toggle="tab"
+                        <li class=""><a href="#rules" data-toggle="tab"
                                         aria-expanded="false"><?= $squadron->squadronRules->name ?></a>
                         </li>
-                        <li class=""><a href="#default-tab-3" data-toggle="tab"
-                                        aria-expanded="false"><?= Yii::t('squadron', 'Fleet and Last Flights') ?></a>
+                        <li class=""><a href="#fleet" data-toggle="tab"
+                                        aria-expanded="false"><?= Yii::t('app', 'Fleet') ?></a>
+                        </li>
+                        <li class=""><a href="#flights" data-toggle="tab"
+                                        aria-expanded="false"><?= Yii::t('app', 'Flights') ?></a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade active in" id="default-tab-1">
+                        <div class="tab-pane fade active in" id="info">
                             <?= $squadron->squadronInfo->text ?>
                             <?= Html::a(Yii::t('app', 'Update'),
                                 Url::to(['/content/update', 'id' => $squadron->squadronInfo->id]),
                                 ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
-                        <div class="tab-pane fade" id="default-tab-2">
+                        <div class="tab-pane fade" id="rules">
                             <?= $squadron->squadronRules->text ?>
                             <?= Html::a(Yii::t('app', 'Update'),
                                 Url::to(['/content/update', 'id' => $squadron->squadronRules->id]),
                                 ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
-                        <div class="tab-pane fade" id="default-tab-3">
+                        <div class="tab-pane fade" id="fleet">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-12">
                                     <?php Pjax::begin() ?>
                                     <?= GridView::widget([
                                         'dataProvider' => $fleetProvider,
@@ -259,20 +269,104 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ]); ?>
                                     <?php Pjax::end() ?>
                                 </div>
-                                <div class="col-md-9">
-                                    <?php Pjax::begin() ?>
-                                    <?= GridView::widget([
-                                        'dataProvider' => $flightsProvider,
-                                        'columns' => [
-                                            'user_id',
-                                            'callsign',
-                                            'fleet_regnum',
-                                            'to_icao',
-                                            'pob',
-                                            'nm',
-                                            'flight_time'
-                                        ],
-                                    ]); ?>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="flights">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php Pjax::begin(); $from_view = false; ?>
+                                    <?=
+                                    GridView::widget(
+                                        [
+                                            'dataProvider' => $flightsProvider,
+                                            'layout' => (!$from_view)?'{items}{pager}':'{items}',
+                                            'tableOptions' => ($from_view)?['class'=>'table table-bordered']:['class'=>'table table-bordered table-striped table-condensed'],
+                                            'columns' => [
+                                                [
+                                                    'attribute' => 'callsign',
+                                                    'label' => Yii::t('flights', 'Callsign'),
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) use ($from_view) {
+                                                            if(!empty($data->track))
+                                                                return Html::a(
+                                                                    Html::encode($data->callsign),
+                                                                    (!$from_view)?
+                                                                        Url::to(['/airline/flights/view/' . $data->id]):
+                                                                        'javascript:reload('.$data->id.',map)'
+                                                                );
+                                                            return Html::encode($data->callsign);
+                                                        },
+                                                ],
+                                                [
+                                                    'attribute' => 'acf_type',
+                                                    'label' => Yii::t('flights', 'Aircraft'),
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) {
+                                                            return Html::a(
+                                                                Html::encode($data->fleet->regnum)." (".Html::encode($data->fleet->type_code).")",
+                                                                Url::to(
+                                                                    [
+                                                                        '/fleet/view/',
+                                                                        'id' => $data->fleet->regnum
+                                                                    ]
+                                                                ));
+
+                                                        }
+                                                ],
+                                                [
+                                                    'attribute' => 'user.full_name',
+                                                    'label' => Yii::t('flights', 'Pilot'),
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) {
+                                                            return Html::img(Helper::getFlagLink($data->user->country)).' '.Html::a(
+                                                                Html::encode($data->user->full_name),
+                                                                Url::to(
+                                                                    [
+                                                                        '/pilot/profile/',
+                                                                        'id' => $data->user_id
+                                                                    ]
+                                                                ));
+
+                                                        }
+                                                ],
+                                                [
+                                                    'attribute' => 'from_to',
+                                                    'label' => Yii::t('flights', 'Route'),
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) {
+                                                            return Html::a(
+                                                                Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
+                                                                Html::encode($data->from_icao),
+                                                                Url::to(
+                                                                    [
+                                                                        '/airline/airports/view/',
+                                                                        'id' => $data->from_icao
+                                                                    ]
+                                                                )
+                                                            ) . ' - ' . Html::a(
+                                                                Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
+                                                                Html::encode($data->to_icao),
+                                                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
+                                                            );
+                                                        },
+                                                ],
+                                                [
+                                                    'attribute' => 'flight_time',
+                                                    'label' => Yii::t('flights', 'Flight Time'),
+                                                    'value' => function ($data) {
+                                                            return Helper::getTimeFormatted($data->flight_time);
+                                                        },
+                                                    'visible' => !$from_view
+                                                ],
+                                                [
+                                                    'attribute' => 'first_seen',
+                                                    'label' => Yii::t('app', 'Date'),
+                                                    'format' => ['date', 'php:d.m.Y']
+                                                ],
+                                            ],
+                                        ]
+                                    ) ?>
+                                    <?php Pjax::end() ?>
                                 </div>
                             </div>
                         </div>
