@@ -74,7 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'data' => [
                                     'method' => 'post',
                                     'params' => [
-                                        'category_id' => $squadron->news,
+                                        'category_id' => \app\models\ContentCategories::find()->where(
+                                                "link = '{$squadron->abbr}_news'"
+                                            )->one()->id,
                                     ]
                                 ]
                             ]) ?>
@@ -240,6 +242,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#flights" data-toggle="tab"
                                         aria-expanded="false"><?= Yii::t('app', 'Flights') ?></a>
                         </li>
+                        <li class=""><a href="#documents" data-toggle="tab"
+                                        aria-expanded="false"><?= Yii::t('app', 'Documents') ?></a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="info">
@@ -366,6 +371,68 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ],
                                         ]
                                     ) ?>
+                                    <?php Pjax::end() ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="documents">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?= Html::a('<i class="fa fa-plus"></i>', Url::to(['/content/create']),
+                                        [
+                                            'class' => 'btn btn-success btn-xs pull-right',
+                                            'data' => [
+                                                'method' => 'post',
+                                                'params' => [
+                                                    'category_id' => \app\models\ContentCategories::find()->where(
+                                                            "link = '{$squadron->abbr}_documents'"
+                                                        )->one()->id,
+                                                ]
+                                            ]
+                                        ]) ?>
+                                    <?php Pjax::begin() ?>
+                                    <?=
+                                    GridView::widget(
+                                        [
+                                            'dataProvider' => $documentsProvider,
+                                            'columns' => [
+                                                [
+                                                    'attribute' => 'name',
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) {
+                                                            return Html::a(
+                                                                $data->name,
+                                                                \yii\helpers\Url::to('/content/view/' . $data->id)
+                                                            );
+                                                        }
+                                                ],
+                                                [
+                                                    'attribute' => 'authorUser.full_name',
+                                                    'label' => Yii::t('app', 'Author'),
+                                                    'format' => 'raw',
+                                                    'value' => function ($data) {
+                                                            return ($data->author > 0 ? Html::img(
+                                                                    Helper::getFlagLink($data->authorUser->country)
+                                                                ) . ' ' . Html::a(
+                                                                    Html::encode($data->authorUser->full_name),
+                                                                    Url::to(
+                                                                        [
+                                                                            '/pilot/profile/',
+                                                                            'id' => $data->author
+                                                                        ]
+                                                                    )
+                                                                ) : '');
+
+                                                        }
+                                                ],
+                                                [
+                                                    'attribute' => 'created',
+                                                    'label' => Yii::t('app', 'Created'),
+                                                    'format' => ['date', 'php:d.m.Y']
+                                                ],
+                                            ],
+                                        ]
+                                    ); ?>
                                     <?php Pjax::end() ?>
                                 </div>
                             </div>
