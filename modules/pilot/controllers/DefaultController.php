@@ -17,6 +17,7 @@ use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
 use app\models\Content;
+use app\models\Events\Calendar;
 
 class DefaultController extends Controller
 {
@@ -120,13 +121,29 @@ class DefaultController extends Controller
             'pagination' => false,
         ]);
 
+        $topProvider = new ActiveDataProvider([
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(
+                    ['status' => UserPilot::STATUS_ACTIVE]
+                )
+        ]);
+        $topProvider->sort->attributes['pilot.rank.name_en'] = [
+            'asc' => ['ranks.name_en' => SORT_ASC],
+            'desc' => ['ranks.name_en' => SORT_DESC]
+        ];
+        $topProvider->sort->attributes['pilot.rank.name_ru'] = [
+            'asc' => ['ranks.name_ru' => SORT_ASC],
+            'desc' => ['ranks.name_ru' => SORT_DESC]
+        ];
+
         return $this->render(
             'center/index',
             [
                 'user' => $user,
                 'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
+                'events' => Calendar::All(),
                 'flightsProvider' => $flightsProvider,
-                'onlineProvider' => $onlineProvider
+                'onlineProvider' => $onlineProvider,
+                'topProvider' => $topProvider
             ]
         );
     }

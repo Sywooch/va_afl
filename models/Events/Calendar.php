@@ -6,9 +6,7 @@
  * Time: 12:02
  */
 
-namespace app\modules\events\models;
-
-use app\models\Events\Events;
+namespace app\models\Events;
 
 class Calendar
 {

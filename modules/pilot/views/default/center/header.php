@@ -21,7 +21,7 @@ use yii\helpers\Html;
         <div class="stats-progress progress">
             <div class="progress-bar" style="width: 70.1%;"></div>
         </div>
-        <div class="stats-desc">Better than last week (70.1%)</div>
+        <div class="stats-desc"><?= app\components\IvaoWx::metar($user->pilot->location) ?></div>
     </div>
 </div>
 <!-- end col-3 -->

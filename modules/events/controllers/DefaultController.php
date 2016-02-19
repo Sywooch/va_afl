@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 use app\models\Events\Events;
-use app\modules\events\models\Calendar;
+use app\models\Events\Calendar;
 
 /**
  * DefaultController implements the CRUD actions for Events model.
