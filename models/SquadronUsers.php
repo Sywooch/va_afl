@@ -57,6 +57,11 @@ class SquadronUsers extends \yii\db\ActiveRecord
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
     }
 
+    public function getLastFlight()
+    {
+        return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->squadron_id)->andWhere(['flights.user_id' => $this->user_id])->orderBy(['flights.id' => SORT_DESC])->one();
+    }
+
     public static function getStatusesArray()
     {
         return [
