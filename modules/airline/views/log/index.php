@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -13,21 +14,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Log'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            [
+                'attribute' => 'id',
+                'label' => Yii::t('app', 'ID'),
+                'format' => 'raw',
+                'value' => function ($data) {
+                        return Html::a(Html::encode($data->id), Url::to(['/airline/log/view/', 'id' => $data->id]));
+                    },
+            ],
             'author',
             'subject',
             'action',
             'type',
             'sub_type',
+            'datetime'
             // 'old:ntext',
             // 'new:ntext',
         ],
