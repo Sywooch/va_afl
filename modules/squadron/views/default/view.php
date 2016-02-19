@@ -68,18 +68,24 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
-                        <?= Html::a('<i class="fa fa-plus"></i>', Url::to(['/content/create']),
-                            [
-                                'class' => 'btn btn-success btn-xs pull-right',
-                                'data' => [
-                                    'method' => 'post',
-                                    'params' => [
-                                        'category_id' => \app\models\ContentCategories::find()->where(
-                                                "link = '{$squadron->abbr}_news'"
-                                            )->one()->id,
+                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                            <?=
+                            Html::a(
+                                '<i class="fa fa-plus"></i>',
+                                Url::to(['/content/create']),
+                                [
+                                    'class' => 'btn btn-success btn-xs pull-right',
+                                    'data' => [
+                                        'method' => 'post',
+                                        'params' => [
+                                            'category_id' => \app\models\ContentCategories::find()->where(
+                                                    "link = '{$squadron->abbr}_news'"
+                                                )->one()->id,
+                                        ]
                                     ]
                                 ]
-                            ]) ?>
+                            ) ?>
+                        <?php endif; ?>
                     </h4>
                 </div>
                 <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
@@ -89,9 +95,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <li class="left">
                                     <span class="date-time"><?= (new \DateTime($news_one->created))->format(
                                             'g:ia \o\n l jS F'
-                                        ) ?> <a
+                                        ) ?> <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?><a
                                             href="/content/update/<?= $news_one->id ?>"><i
-                                                class="fa fa-pencil"></i></a></span>
+                                                    class="fa fa-pencil"></i></a><?php endif; ?></span>
                                     <a href="/pilot/profile/<?= $news_one->author ?>"
                                        class="name"><?= $news_one->authorUser->full_name ?></a>
                                     <a class="image"><img alt="" src="/img/content/preview/<?= $news_one->preview ?>"/></a>
@@ -130,95 +136,31 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <?php Pjax::begin() ?>
-                    <?= GridView::widget([
-                        'dataProvider' => $membersProvider,
-                        'tableOptions' => ['class' => 'table table-bordered'],
-                        'rowOptions' => function ($model) {
-                            switch ($model->status) {
-                                case($model::STATUS_PENDING):
-                                    return ['class' => 'warning'];
-                                    break;
-                                case($model::STATUS_SUSPENDED):
-                                    return ['class' => 'danger'];
-                                    break;
-                                default:
-                                    return ['class' => ''];
-                                    break;
-                            }
-                        },
-                        'columns' => [
-                            [
-                                'attribute' => 'member_name',
-                                'label' => 'Member Name',
-                                'value' => function ($data) {
-                                    return $data->user->full_name;
-                                }
-                            ],
-                            [
-                                'class' => 'yii\grid\ActionColumn',
-                                'template' => '{button1} {button2}',
-                                'buttons' => [
-                                    'button1' => function ($url, $model, $key) {
-                                        switch ($model->status) {
-                                            case($model::STATUS_PENDING):
-                                                return Html::a('<i class="fa fa-plus"></i>', Url::to(['accept']), [
-                                                    'title' => Yii::t('app', 'Accept'),
-                                                    'data' => [
-                                                        'method' => 'post',
-                                                        'params' => [
-                                                            'squadron' => $model->squadron_id,
-                                                            'user_id' => $model->user_id
-                                                        ]
-                                                    ]
-                                                ]);
-                                                break;
-                                            case($model::STATUS_ACTIVE):
-                                                return Html::a('<i class="fa fa-lock"></i></span>',
-                                                    Url::to(['suspend']), [
-                                                        'title' => Yii::t('app', 'Suspend'),
-                                                        'data' => [
-                                                            'method' => 'post',
-                                                            'params' => [
-                                                                'squadron' => $model->squadron_id,
-                                                                'user_id' => $model->user_id
-                                                            ]
-                                                        ]
-                                                    ]);
-                                                break;
-                                            case($model::STATUS_SUSPENDED):
-                                                return Html::a('<i class="fa fa-unlock"></i></span>',
-                                                    Url::to(['unlock']),
+                    <?=
+                    GridView::widget(
+                        [
+                            'dataProvider' => $activeMembersProvider,
+                            'tableOptions' => ['class' => 'table table-bordered'],
+                            'columns' => [
+                                [
+                                    'attribute' => 'member_name',
+                                    'label' => 'Member Name',
+                                    'format' => 'raw',
+                                    'value' => function ($data) {
+                                            return Html::img(Helper::getFlagLink($data->user->country)) . ' ' . Html::a(
+                                                Html::encode($data->user->full_name),
+                                                Url::to(
                                                     [
-                                                        'title' => Yii::t('app', 'Unlock'),
-                                                        'data' => [
-                                                            'method' => 'post',
-                                                            'params' => [
-                                                                'squadron' => $model->squadron_id,
-                                                                'user_id' => $model->user_id
-                                                            ]
-                                                        ]
-                                                    ]);
-                                                break;
-                                            default:
-                                                break;
-                                        };
-                                    },
-                                    'button2' => function ($url, $model, $key) {
-                                        return Html::a('<i class="fa fa-minus"></i>', Url::to(['memberdelete']), [
-                                            'title' => Yii::t('app', 'Delete Member'),
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'squadron' => $model->squadron_id,
-                                                    'user_id' => $model->user_id
-                                                ]
-                                            ]
-                                        ]);
-                                    },
-                                ],
+                                                        '/pilot/profile/',
+                                                        'id' => $data->user->vid
+                                                    ]
+                                                )
+                                            );
+                                        }
+                                ]
                             ],
-                        ],
-                    ]); ?>
+                        ]
+                    ); ?>
                     <?php Pjax::end() ?>
                 </div>
             </div>
@@ -245,19 +187,39 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#documents" data-toggle="tab"
                                         aria-expanded="false"><?= Yii::t('app', 'Documents') ?></a>
                         </li>
+                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/members")): ?>
+                            <li class=""><a href="#members" data-toggle="tab"
+                                            aria-expanded="false"><i class="fa fa-lock"></i> <?= Yii::t('app', 'Members') ?></a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/log")): ?>
+                            <li class=""><a href="#log" data-toggle="tab"
+                                            aria-expanded="false"><i class="fa fa-lock"></i> <?= Yii::t('app', 'Log') ?></a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="info">
+                            <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                                <?=
+                                Html::a(
+                                    '<i class="fa fa-pencil"></i>',
+                                    Url::to(['/content/update', 'id' => $squadron->squadronInfo->id]),
+                                    ['class' => 'btn btn-primary pull-right']
+                                ) ?>
+                            <?php endif; ?>
                             <?= $squadron->squadronInfo->text ?>
-                            <?= Html::a(Yii::t('app', 'Update'),
-                                Url::to(['/content/update', 'id' => $squadron->squadronInfo->id]),
-                                ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
                         <div class="tab-pane fade" id="rules">
+                            <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                                <?=
+                                Html::a(
+                                    '<i class="fa fa-pencil"></i>',
+                                    Url::to(['/content/update', 'id' => $squadron->squadronRules->id]),
+                                    ['class' => 'btn btn-primary pull-right']
+                                ) ?>
+                            <?php endif; ?>
                             <?= $squadron->squadronRules->text ?>
-                            <?= Html::a(Yii::t('app', 'Update'),
-                                Url::to(['/content/update', 'id' => $squadron->squadronRules->id]),
-                                ['class' => 'btn btn-primary pull-right']) ?>
                         </div>
                         <div class="tab-pane fade" id="fleet">
                             <div class="row">
@@ -266,9 +228,45 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= GridView::widget([
                                         'dataProvider' => $fleetProvider,
                                         'columns' => [
-                                            'regnum',
+                                            [
+                                                'attribute' => 'regnum',
+                                                'label' => Yii::t('flights', 'Aircraft'),
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return Html::a(
+                                                            Html::encode($data->regnum),
+                                                            Url::to(
+                                                                [
+                                                                    '/fleet/view/',
+                                                                    'id' => $data->regnum
+                                                                ]
+                                                            )
+                                                        );
+
+                                                    }
+                                            ],
                                             'type_code',
-                                            'location',
+                                            [
+                                                'attribute' => 'location',
+                                                'label' => Yii::t('app', 'Location'),
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return Html::a(
+                                                            Html::img(
+                                                                Helper::getFlagLink($data->airportInfo->iso)
+                                                            ) . ' ' .
+                                                            Html::encode(
+                                                                $data->airportInfo->name
+                                                            ) . ' (' . Html::encode($data->location) . ')',
+                                                            Url::to(
+                                                                [
+                                                                    '/airline/airports/view/',
+                                                                    'id' => $data->location
+                                                                ]
+                                                            )
+                                                        );
+                                                    },
+                                            ],
                                             'max_hrs'
                                         ],
                                     ]); ?>
@@ -331,7 +329,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         'id' => $data->user_id
                                                                     ]
                                                                 ));
-
                                                         }
                                                 ],
                                                 [
@@ -378,18 +375,24 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="tab-pane fade" id="documents">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?= Html::a('<i class="fa fa-plus"></i>', Url::to(['/content/create']),
-                                        [
-                                            'class' => 'btn btn-success btn-xs pull-right',
-                                            'data' => [
-                                                'method' => 'post',
-                                                'params' => [
-                                                    'category_id' => \app\models\ContentCategories::find()->where(
-                                                            "link = '{$squadron->abbr}_documents'"
-                                                        )->one()->id,
+                                    <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                                        <?=
+                                        Html::a(
+                                            '<i class="fa fa-plus"></i>',
+                                            Url::to(['/content/create']),
+                                            [
+                                                'class' => 'btn btn-primary pull-right',
+                                                'data' => [
+                                                    'method' => 'post',
+                                                    'params' => [
+                                                        'category_id' => \app\models\ContentCategories::find()->where(
+                                                                "link = '{$squadron->abbr}_documents'"
+                                                            )->one()->id,
+                                                    ]
                                                 ]
                                             ]
-                                        ]) ?>
+                                        ) ?>
+                                    <?php endif; ?>
                                     <?php Pjax::begin() ?>
                                     <?=
                                     GridView::widget(
@@ -437,6 +440,165 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                         </div>
+                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/members")): ?>
+                            <div class="tab-pane fade" id="members">
+                                <?php Pjax::begin() ?>
+                                <?=
+                                GridView::widget(
+                                    [
+                                        'dataProvider' => $membersProvider,
+                                        'tableOptions' => ['class' => 'table table-bordered'],
+                                        'rowOptions' => function ($model) {
+                                                switch ($model->status) {
+                                                    case($model::STATUS_PENDING):
+                                                        return ['class' => 'warning'];
+                                                        break;
+                                                    case($model::STATUS_SUSPENDED):
+                                                        return ['class' => 'danger'];
+                                                        break;
+                                                    default:
+                                                        return ['class' => ''];
+                                                        break;
+                                                }
+                                            },
+                                        'columns' => [
+                                            [
+                                                'attribute' => 'member_name',
+                                                'label' => 'Member Name',
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return Html::img(
+                                                            Helper::getFlagLink($data->user->country)
+                                                        ) . ' ' . Html::a(
+                                                            Html::encode($data->user->full_name),
+                                                            Url::to(
+                                                                [
+                                                                    '/pilot/profile/',
+                                                                    'id' => $data->user->vid
+                                                                ]
+                                                            )
+                                                        );
+                                                    }
+                                            ],
+                                            'request',
+                                            'accepted',
+                                            [
+                                                'attribute' => 'accepted_by',
+                                                'label' => 'Accepted By',
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return $data->accepted_by > 0 ? Html::img(
+                                                                Helper::getFlagLink($data->acceptedByUser->country)
+                                                            ) . ' ' . Html::a(
+                                                                Html::encode($data->acceptedByUser->full_name),
+                                                                Url::to(
+                                                                    [
+                                                                        '/pilot/profile/',
+                                                                        'id' => $data->acceptedByUser->vid
+                                                                    ]
+                                                                )
+                                                            ) : '';
+                                                    }
+                                            ],
+                                            [
+                                                'class' => 'yii\grid\ActionColumn',
+                                                'template' => '{button1} {button2}',
+                                                'visible' => Yii::$app->user->can("squads/{$squadron->abbr}/members"),
+                                                'buttons' => [
+                                                    'button1' => function ($url, $model, $key) {
+                                                            switch ($model->status) {
+                                                                case($model::STATUS_PENDING):
+                                                                    return Html::a(
+                                                                        '<i class="fa fa-plus"></i>',
+                                                                        Url::to(['accept']),
+                                                                        [
+                                                                            'title' => Yii::t('app', 'Accept'),
+                                                                            'data' => [
+                                                                                'method' => 'post',
+                                                                                'params' => [
+                                                                                    'squadron' => $model->squadron_id,
+                                                                                    'user_id' => $model->user_id
+                                                                                ]
+                                                                            ]
+                                                                        ]
+                                                                    );
+                                                                    break;
+                                                                case($model::STATUS_ACTIVE):
+                                                                    return Html::a(
+                                                                        '<i class="fa fa-lock"></i></span>',
+                                                                        Url::to(['suspend']),
+                                                                        [
+                                                                            'title' => Yii::t('app', 'Suspend'),
+                                                                            'data' => [
+                                                                                'method' => 'post',
+                                                                                'params' => [
+                                                                                    'squadron' => $model->squadron_id,
+                                                                                    'user_id' => $model->user_id
+                                                                                ]
+                                                                            ]
+                                                                        ]
+                                                                    );
+                                                                    break;
+                                                                case($model::STATUS_SUSPENDED):
+                                                                    return Html::a(
+                                                                        '<i class="fa fa-unlock"></i></span>',
+                                                                        Url::to(['unlock']),
+                                                                        [
+                                                                            'title' => Yii::t('app', 'Unlock'),
+                                                                            'data' => [
+                                                                                'method' => 'post',
+                                                                                'params' => [
+                                                                                    'squadron' => $model->squadron_id,
+                                                                                    'user_id' => $model->user_id
+                                                                                ]
+                                                                            ]
+                                                                        ]
+                                                                    );
+                                                                    break;
+                                                                default:
+                                                                    break;
+                                                            };
+                                                        },
+                                                    'button2' => function ($url, $model, $key) {
+                                                            return Html::a(
+                                                                '<i class="fa fa-minus"></i>',
+                                                                Url::to(['memberdelete']),
+                                                                [
+                                                                    'title' => Yii::t('app', 'Delete Member'),
+                                                                    'data' => [
+                                                                        'method' => 'post',
+                                                                        'params' => [
+                                                                            'squadron' => $model->squadron_id,
+                                                                            'user_id' => $model->user_id
+                                                                        ]
+                                                                    ]
+                                                                ]
+                                                            );
+                                                        },
+                                                ],
+                                            ],
+                                        ],
+                                    ]
+                                ); ?>
+                                <?php Pjax::end() ?>
+                            </div>
+                        <?php endif; ?><?php if (Yii::$app->user->can("squads/{$squadron->abbr}/log")): ?>
+                            <div class="tab-pane fade" id="log">
+                                <?php Pjax::begin() ?>
+                                <?= GridView::widget([
+                                        'dataProvider' => $logProvider,
+                                        'columns' => [
+                                            'id',
+                                            'author',
+                                            'subject',
+                                            'action',
+                                            // 'old:ntext',
+                                            // 'new:ntext',
+                                        ],
+                                    ]); ?>
+                                <?php Pjax::end() ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

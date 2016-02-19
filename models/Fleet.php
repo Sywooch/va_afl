@@ -42,6 +42,11 @@ class Fleet extends \yii\db\ActiveRecord
         return Json::encode($out);
     }
 
+    public function getAirportInfo()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'location']);
+    }
+
     /**
      * @inheritdoc
      */

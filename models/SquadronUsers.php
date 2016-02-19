@@ -66,6 +66,10 @@ class SquadronUsers extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getAcceptedByUser()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'accepted_by']);
+    }
 
     public function getUser()
     {
