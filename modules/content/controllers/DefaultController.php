@@ -6,6 +6,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 
 use app\models\Content;
@@ -61,27 +62,54 @@ class DefaultController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id = null)
+    public function actionCreate()
     {
         $model = new Content();
+        if (isset($_POST['category_id'])) {
+            $model->category = $_POST['category_id'];
+        }
         $model->author = Yii::$app->user->identity->vid;
 
-        if ($model->load(Yii::$app->request->post())){
-            if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-            {
-                throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        if ($model->load(Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'img_file');
+            if (isset($img)) {
+                if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $img->extension;
+                    $img->name = md5($img->baseName);
+                    if ($img->saveAs(Yii::getAlias('@app/web/img/content/') . $img->name . "." . $extension)) {
+                        $model->img = $img->name . "." . $extension;
+                    }
+                } else {
+                    $model->img = null;
+                }
             }
-            $model->save();
+
+            $preview = UploadedFile::getInstance($model, 'preview_file');
+            if (isset($preview)) {
+                if ($preview->size !== 0 && in_array($preview->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $preview->extension;
+                    $preview->name = md5($preview->baseName);
+                    if ($preview->saveAs(Yii::getAlias('@app/web/img/content/preview/') . $preview->name . "." . $extension)) {
+                        $model->preview = $preview->name . "." . $extension;
+                    }
+                } else {
+                    $model->preview = null;
+                }
+            }
+            if ($model->validate()) {
+                $model->save();
+            } else {
+                throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));
+            }
             return $this->redirect(['view/' . $model->id]);
-        } else{
+        } else {
             return $this->render(
-            'create',
-            [
-                'model' => $model,
-            ]
-        );
-         }
+                'create',
+                [
+                    'model' => $model,
+                ]
+            );
+        }
     }
 
     /**
@@ -95,12 +123,42 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-        {
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))
+        ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'img_file');
+            if (isset($img)) {
+                if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $img->extension;
+                    $img->name = md5($img->baseName);
+                    if ($img->saveAs(Yii::getAlias('@app/web/img/content/') . $img->name . "." . $extension)) {
+                        $model->img = $img->name . "." . $extension;
+                    }
+                } else {
+                    $model->img = null;
+                }
+            }
+
+            $preview = UploadedFile::getInstance($model, 'preview_file');
+            if (isset($preview)) {
+                if ($preview->size !== 0 && in_array($preview->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $preview->extension;
+                    $preview->name = md5($preview->baseName);
+                    if ($preview->saveAs(Yii::getAlias('@app/web/img/content/preview/') . $preview->name . "." . $extension)) {
+                        $model->preview = $preview->name . "." . $extension;
+                    }
+                } else {
+                    $model->preview = null;
+                }
+            }
+            if ($model->validate()) {
+                $model->update();
+            } else {
+                throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));
+            }
             return $this->redirect(['view/' . $model->id]);
         } else {
             return $this->render(
@@ -123,8 +181,8 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if (!Yii::$app->user->can('content/edit')
-            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit)))
-        {
+            && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))
+        ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 

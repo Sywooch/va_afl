@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nikita Fedoseev
- * Date: 10.01.16
- * Time: 20:52
- */
 use yii\helpers\Html;
-
 ?>
 <div class="modal fade" id="modal-dialog">
     <div class="modal-dialog">
@@ -32,8 +25,3 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
-<script>
-    function submitform() {
-        $('#profile_edit').submit();
-    }
-</script>

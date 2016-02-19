@@ -127,6 +127,7 @@ class UserPilot extends \yii\db\ActiveRecord
         return Flights::getStatAcfTypes($this->user_id);
     }
 
+
     public function getUserRoutes()
     {
         return Helper::userRoutes($this->user_id);

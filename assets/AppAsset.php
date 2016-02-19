@@ -18,9 +18,10 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        '/css/style_watch.css'
     ];
     public $js = [
-        '/js/clock.js'
+        '/js/clock/clock.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

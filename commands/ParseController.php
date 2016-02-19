@@ -10,6 +10,7 @@ namespace app\commands;
 use app\components\Helper;
 use app\models\Actypes;
 use app\models\Airports;
+use app\models\Billing;
 use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
@@ -145,7 +146,9 @@ class ParseController extends Controller
         $flight->status = self::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $flight->pob = Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
+        $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
+        $flight->pob = $paxs['total'];
+        $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->to_icao,$paxs['paxtypes']);
         if ($flight->save()) {
             $booking->status = 2;
             $booking->save();
@@ -183,6 +186,8 @@ class ParseController extends Controller
             $flight->save();
             $this->transferPilot($flight);
             $this->transferCraft($flight);
+            //Биллинг
+            Billing::doFlightCosts($flight);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
@@ -228,7 +233,7 @@ class ParseController extends Controller
         $flight->from_icao = $booking->from_icao;
         $flight->to_icao = $booking->to_icao;
         $flight->last_seen = gmdate('Y-m-d H:i:s');
-        $flight->flightplan = getFlightRoute($data);
+        $flight->flightplan = $this->getFlightRoute($data);
         $flight->callsign = $data[self::WZ_CALLSIGN];
         $flight->remarks = $data[self::WZ_REMARKS];
         $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);

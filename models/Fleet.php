@@ -28,7 +28,7 @@ class Fleet extends \yii\db\ActiveRecord
         if (!$regnum) {
             return;
         }
-        $fleet = self::find()->andWhere(['regnum' => $regnum])->one();
+        $fleet = self::find()->andWhere(['id' => $regnum])->one();
         $fleet->location = $location;
         $fleet->save();
     }

@@ -47,7 +47,7 @@ class Flights extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time'], 'integer'],
-            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob'], 'safe'],
+            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
             [['from_icao', 'to_icao', 'alternate1'], 'string', 'max' => 5],
@@ -87,27 +87,27 @@ class Flights extends \yii\db\ActiveRecord
     public $day;
     public $count;
 
-    public static function getFlightsCount($id)
+    public static function getFlightsCount($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->count();
     }
 
-    public static function getPassengers($id)
+    public static function getPassengers($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->sum('pob');
     }
 
-    public static function getMiles($id)
+    public static function getMiles($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->sum('nm');
     }
 
-    public static function getTime($id)
+    public static function getTime($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->sum('flight_time');
     }
 
-    public static function getStatWeekdays($id)
+    public static function getStatWeekdays($id)//TODO: перенести в UserPilot
     {
         $stats_raw = Flights::find()->where(['user_id' => $id])->select(
             'WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`'
@@ -127,7 +127,7 @@ class Flights extends \yii\db\ActiveRecord
         return $stat;
     }
 
-    public static function getStatAcfTypes($id)
+    public static function getStatAcfTypes($id)//TODO: перенести в UserPilot
     {
         $stats_raw = Flights::find()->where(['user_id' => $id])->select('acf_type,COUNT(*) AS `count`')
             ->groupBy(
@@ -155,7 +155,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(), ['regnum' => 'fleet_regnum']);
+        return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
     }
 
     public function getTrack()
@@ -246,4 +246,5 @@ class Flights extends \yii\db\ActiveRecord
 
         return json_encode($data);
     }
+
 }
