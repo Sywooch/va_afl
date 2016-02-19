@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "booking".
@@ -91,22 +92,83 @@ class Booking extends \yii\db\ActiveRecord
             return $sched->flight;
         else{
             $namelist=['AFL','TSO'];
-            $calsign=$namelist[rand(0,sizeof($namelist)-1)];
+            $airline=$namelist[rand(0,sizeof($namelist)-1)];
+            $numbers = "";
             for($num=0;$num<rand(3,4);$num++)
             {
-                $calsign.=rand(0,9);
+                $numbers .= rand(0,9);
             }
+
+            $calsign = "";
+
+            if($airline == "AFL")
+            {
+                if($numbers == "000" or $numbers == "0000")
+                {
+                    $numbers = "001";
+                }
+
+                if(strlen($numbers) == 4)
+                {
+                    if(substr($numbers, 0, 1) == "0")
+                    {
+                        $numbers = substr($numbers, 1);
+                    }
+                }
+            }
+            
+            if($airline == "TSO")
+            {
+                if(strlen($numbers) == 3)
+                {
+                    if(substr($numbers, 0, 1) == "0")
+                    {
+                        $numbers = substr($numbers, 1);
+                        if(substr($numbers, 0, 1) == "0")
+                        {
+                            $numbers = substr($numbers, 1);
+                            if($numbers == "0")
+                            {
+                                $numbers = rand(1,9);
+                            }
+                        }
+                    }
+                }
+
+                if(strlen($numbers) == 4)
+                {
+                    if(substr($numbers, 0, 1) == "0")
+                    {
+                        $numbers = substr($numbers, 1);
+                        if(substr($numbers, 0, 1) == "0")
+                        {
+                            $numbers = substr($numbers, 1);
+                            if(substr($numbers, 0, 1) == "0")
+                            {
+                                $numbers = substr($numbers, 1);
+                                if($numbers == "0")
+                                {
+                                    $numbers = rand(1,9);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $calsign .= $airline.$numbers;
+
             return $calsign;
         }
     }
 
     public static function smartBooking($icao)
     {
-        $data=[];
-        $apt = Airports::find()->andWhere(['icao'=>$icao])->one();
+        $data = [];
+        $apt = Airports::find()->andWhere(['icao' => $icao])->one();
         $user = Users::getAuthUser();
-        $data['callsign']=self::generateCallsign($user->pilot->location,$icao);
-        $data['aname']=$apt->name;
+        $data['callsign'] = self::generateCallsign($user->pilot->location, $icao);
+        $data['aname'] = $apt->name;
         return $data;
     }
     public static function jsonMapData()
