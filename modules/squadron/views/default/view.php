@@ -113,11 +113,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Список пилотов
+                    <h4 class="panel-title"><?= Yii::t('squadron', 'Pilots List') ?>
                         <?php if (!$squadron->getUserStatus()) {
                             echo Html::button(Yii::t('squadron', 'Join'),
                                 [
-                                    'class' => 'btn btn-primary btn-xs pull-right',
+                                    'class' => 'btn btn-success btn-xs pull-right',
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modal-dialog'
                                 ]);
@@ -168,7 +168,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-9">
             <div class="panel panel-inverse">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Информация</h4>
+                    <h4 class="panel-title"><?= Yii::t('app', 'Information') ?></h4>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
@@ -205,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 Html::a(
                                     '<i class="fa fa-pencil"></i>',
                                     Url::to(['/content/update', 'id' => $squadron->squadronInfo->id]),
-                                    ['class' => 'btn btn-primary pull-right']
+                                    ['class' => 'btn btn-success pull-right']
                                 ) ?>
                             <?php endif; ?>
                             <?= $squadron->squadronInfo->text ?>
@@ -216,7 +216,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 Html::a(
                                     '<i class="fa fa-pencil"></i>',
                                     Url::to(['/content/update', 'id' => $squadron->squadronRules->id]),
-                                    ['class' => 'btn btn-primary pull-right']
+                                    ['class' => 'btn btn-success pull-right']
                                 ) ?>
                             <?php endif; ?>
                             <?= $squadron->squadronRules->text ?>
@@ -381,7 +381,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             '<i class="fa fa-plus"></i>',
                                             Url::to(['/content/create']),
                                             [
-                                                'class' => 'btn btn-primary pull-right',
+                                                'class' => 'btn btn-success pull-right',
                                                 'data' => [
                                                     'method' => 'post',
                                                     'params' => [
