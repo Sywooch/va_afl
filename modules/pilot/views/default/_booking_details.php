@@ -6,6 +6,7 @@
  * Time: 16:19
  */
 use app\models\Pax;
+$paxes = Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet);
 echo \yii\widgets\DetailView::widget(
     [
         'model' => $model,
@@ -35,7 +36,29 @@ echo \yii\widgets\DetailView::widget(
             ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),
-                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)
+                'value' =>$paxes['total']
+            ],
+            'pax_red' => [
+                'label' => Yii::t('booking','Pax\'s Red'),
+                'value' =>$paxes['paxtypes']['red']
+            ],
+            'pax_yellow' => [
+                'label' => Yii::t('booking','Pax\'s Yellow'),
+                'value' =>$paxes['paxtypes']['yellow']
+            ],
+            'pax_green' => [
+                'label' => Yii::t('booking','Pax\'s Green'),
+                'value' =>$paxes['paxtypes']['green']
+            ],
+            'total_vucs' => [
+                'label' => Yii::t('app','Total flight VUC\'s'),
+                'format' => 'html',
+                'value' => \app\models\Billing::calculatePriceForFlight($model->from_icao,$model->to_icao,$paxes['paxtypes'])."VUC"
+            ],
+            'distance' => [
+                'label' => Yii::t('app','Distance'),
+                'format' => 'html',
+                'value' => \app\components\Helper::calculateDistanceLatLng($model->departure->lat,$model->arrival->lat,$model->departure->lon,$model->arrival->lon)
             ],
             'status' => [
                 'label' => Yii::t('flights', 'Booking status'),
