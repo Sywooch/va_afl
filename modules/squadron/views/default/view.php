@@ -283,26 +283,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     '/airline/flights/view/',
                                                                     'id' => $data->lastFlight->id
                                                                 ]
-                                                            )
+                                                            ),
+                                                            [
+                                                                'data-toggle' => "tooltip",
+                                                                'data-placement' => "top",
+                                                                'title' => Html::encode(
+                                                                        $data->lastFlight->user->full_name
+                                                                    ) . ' (' . $data->lastFlight->user->vid . ')'
+                                                            ]
                                                         ) : '';
-                                                    }
-                                            ],
-                                            [
-                                                'attribute' => 'lastFlight',
-                                                'label' => Yii::t('app', 'Last') . ' ' . Yii::t('app', 'Pilot'),
-                                                'format' => 'raw',
-                                                'visible' => Yii::$app->user->can("squads/{$squadron->abbr}/fleet"),
-                                                'value' => function ($data) {
-                                                        return $data->lastFlight != null ? Html::a(
-                                                            Html::encode(
-                                                                $data->lastFlight->user->full_name
-                                                            ) . ' (' . $data->lastFlight->user->vid . ')',
-                                                            Url::to(
-                                                                [
-                                                                    '/pilot/profile/',
-                                                                    'id' => $data->lastFlight->user->vid
-                                                                ]
-                                                            )) : '';
                                                     }
                                             ],
                                         ],
@@ -542,7 +531,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'label' => 'Last Flight',
                                                 'format' => 'raw',
                                                 'value' => function ($data) {
-                                                        return Html::a(
+                                                        return $data->lastFLight != null ? Html::a(
                                                             Html::encode(
                                                                 $data->lastFlight->callsign
                                                             ) . ' (' . $data->lastFlight->landing_time . ')',
@@ -551,8 +540,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     '/airline/flights/view/',
                                                                     'id' => $data->lastFlight->id
                                                                 ]
-                                                            )
-                                                        );
+                                                            ),
+                                                            [
+                                                                'data-toggle' => "tooltip",
+                                                                'data-placement' => "top",
+                                                                'title' => Html::encode(
+                                                                        $data->lastFlight->fleet->regnum
+                                                                    ) . ' (' . $data->lastFlight->fleet->type_code . ')'
+                                                            ]
+                                                        ) : '';
                                                     }
                                             ],
                                             [
