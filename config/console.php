@@ -2,7 +2,7 @@
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
-$consoleparams = require(__DIR__ . '/consoleparams.php');
+$consoleparams = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
 return [

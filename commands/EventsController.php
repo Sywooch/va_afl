@@ -25,18 +25,20 @@ class EventsController extends Controller
     private function getDivisionEvents()
     {
         if (!\Yii::$app->cache->get('ru_div_events')) {
-           /*$data = '{"events" : [{
+           /*
+            $data = '{"events" : [{
              "id":122,
              "event":"Test123",
              "eevent":"Test123",
-             "date":"16.2.2016",
+             "date":"21.2.2016",
              "fromUTC":"12:20:00",
              "toUTC":"19:00:00",
              "description":"123",
              "edescription":"122",
              "banner":"https://pp.vk.me/c629517/v629517055/32ab9/zwnEErBSNG0.jpg",
              "engbanner":"https://pp.vk.me/c629517/v629517055/32ab9/zwnEErBSNG0.jpg"
-              }]}';*/
+              }]}';
+           */
 
             $data = file_get_contents(Yii::$app->params['ivaoru_api_url']);
 

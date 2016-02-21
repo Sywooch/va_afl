@@ -17,7 +17,7 @@ use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
 use app\models\Content;
-use app\models\Events\Calendar;
+use app\models\Events\Events;
 
 class DefaultController extends Controller
 {
@@ -140,7 +140,7 @@ class DefaultController extends Controller
             [
                 'user' => $user,
                 'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
-                'events' => Calendar::All(),
+                'events' => Events::actual(),
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider,
                 'topProvider' => $topProvider

@@ -59,6 +59,11 @@ class Events extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function actual()
+    {
+        return self::find()->where('DATE(start) >= DATE(NOW())')->orderBy(['start' => SORT_ASC])->all();
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -10,14 +10,24 @@ namespace app\models\Events;
 
 use app\models\Content;
 use app\components\Slack;
-
-
-use yii\helpers\BaseVarDumper;
+use app\models\Log;
 
 class ExternalEvent
 {
+    /**
+     * Старый ли это эвент
+     * @var bool
+     */
     private $old;
+    /**
+     * Название на англ.
+     * @var string
+     */
     private $name;
+    /**
+     * Эвент
+     * @var app\models\Events
+     */
     private $event;
 
     /**
@@ -29,21 +39,27 @@ class ExternalEvent
         $this->old = $this->checkContent($evt);
         //если контента нет
         if (!$this->old) {
+            //добавляем в лог
+            Log::action($evt->eevent, 'create', 'events', 'div', '', serialize($evt), 1);
+
             //сохраняем контент
-            $content =  $this->saveContent($evt);
+            $content = $this->saveContent($evt);
+
             //сохраняем эвент
-            $event =  $this->saveEvent($evt, $content);
-            $this->event =  $event;
+            $event = $this->saveEvent($evt, $content);
+
+            $this->event = $event;
             //сохраняем условия эвента
             //$eventConditions =  $this->saveEventConditions($evt, $event);
             return true;
         }
     }
 
-    public function slack($channel){
-        if(!$this->old){
+    public function slack($channel)
+    {
+        if (!$this->old) {
             $slack = new Slack($channel, 'New Event - ');
-            $slack->addLink('http://dev.va-aeroflot.su/events/'.$this->event, $this->name);
+            $slack->addLink('http://dev.va-aeroflot.su/events/' . $this->event, $this->name);
             $slack->sent();
         }
     }
