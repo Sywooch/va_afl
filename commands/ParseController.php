@@ -29,7 +29,7 @@ class ParseController extends Controller
     const WZ_LONGITUDE = 6;
     const WZ_ALTITUDE = 7;
     const WZ_GROUNDSPEED = 8;
-    const WZ_FPL_SPD = 9;
+    const WZ_FPL_SPD = 10;
     const WZ_ICAOFROM = 11;
     const WZ_FPL_ALT = 12;
     const WZ_ICAOTO = 13;
