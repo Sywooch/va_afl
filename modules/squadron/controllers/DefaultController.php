@@ -2,18 +2,20 @@
 
 namespace app\modules\squadron\controllers;
 
-use app\models\Fleet;
-use app\models\Flights;
-use app\models\Content;
-use app\models\Squadrons;
-use app\models\SquadronUsers;
-use app\models\Users;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\data\Sort;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use app\models\Fleet;
+use app\models\Flights;
+use app\models\Content;
+use app\models\Squadrons;
+use app\models\SquadronUsers;
+use app\models\Users;
+use app\models\Log;
 
 /**
  * DefaultController implements the CRUD actions for Squads model.
@@ -55,73 +57,63 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $squadron = $this->findModel($id);
+
         $membersProvider = new ActiveDataProvider([
-            'query' => SquadronUsers::find()->where(['squadron_id' => $id])/*->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])*/
-            ->orderBy(['id' => SORT_DESC]),
+            'query' => SquadronUsers::find()->where(['squadron_id' => $id])->orderBy(['user_id' => SORT_ASC]),
+            'pagination' => [
+                'pageSize' => 50,
+            ],
+        ]);
+
+        $activeMembersProvider = new ActiveDataProvider([
+            'query' => SquadronUsers::find()->where(['squadron_id' => $id])
+                    ->andWhere(['status' => SquadronUsers::STATUS_ACTIVE])
+                    ->orderBy(['status' => SORT_DESC]),
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]);
+
         $flightsProvider = new ActiveDataProvider([
             'query' => Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $id)->orderBy(['id' => SORT_DESC]),
             'pagination' => [
                 'pageSize' => 20,
             ]
         ]);
+
         $fleetProvider = new ActiveDataProvider([
             'query' => Fleet::find()->where(['squadron_id' => $id])->orderBy(['id' => SORT_ASC]),
             'pagination' => [
                 'pageSize' => 20,
             ]
         ]);
+
+        $documentsProvider = new ActiveDataProvider([
+            'query' => Content::find()->joinWith('categoryInfo')->where(
+                    'content_categories.link = ' . "'" . $squadron->abbr . "_documents'"
+                )->orderBy(['id' => SORT_ASC]),
+            'pagination' => [
+                'pageSize' => 20,
+            ]
+        ]);
+
+        $logProvider = Yii::$app->user->can("squads/{$squadron->abbr}/log") ? new ActiveDataProvider([
+            'query' => Log::find()->where(['type' => 'squads'])->andWhere(['sub_type' => $id]),
+        ]) : null;
+
         return $this->render('view', [
             'squadron' => $squadron,
             'membersProvider' => $membersProvider,
+            'activeMembersProvider' => $activeMembersProvider,
             'fleetProvider' => $fleetProvider,
             'flightsProvider' => $flightsProvider,
+            'logProvider' => $logProvider,
             'user' => Users::getAuthUser(),
             'news' => Content::find()->joinWith('categoryInfo')->where('content_categories.link = ' . "'" . $squadron->abbr . "_news'")->limit(10)->all(),
-            'documents' => Content::find()->joinWith('categoryInfo')->where('content_categories.link = ' . "'" . $squadron->abbr . "_documents'")->limit(10)->all(),
-        ]);
+                'documentsProvider' => $documentsProvider,
+            ]
+        );
     }
-
-    /**
-     * Creates a new Squads model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Squadrons();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing Squads model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
-
 
     public function actionJoin()
     {
@@ -134,7 +126,7 @@ class DefaultController extends Controller
                 $member->squadron_id = $squadron->id;
                 $member->status = SquadronUsers::STATUS_PENDING;
                 if (!$member->save()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
                 }
             }
         }
@@ -152,6 +144,7 @@ class DefaultController extends Controller
             ])->one();
             if (isset($member)) {
                 $member->delete();
+                Log::action($user_id, 'delete', 'squads', $squadron_id);
             }
         }
         return $this->redirect(['view', 'id' => $squadron_id]);
@@ -169,8 +162,12 @@ class DefaultController extends Controller
             ])->one();
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_ACTIVE;
+                $member->accepted = gmdate('Y-m-d H:i:s');
+
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
+                } else {
+                    Log::action($user_id, 'accept', 'squads', $squadron_id);
                 }
             }
         }
@@ -190,7 +187,9 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_SUSPENDED;
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                   //var_dump($member->errors);
+                } else {
+                    Log::action($user_id, 'suspend', 'squads', $squadron_id);
                 }
             }
         }
@@ -210,24 +209,13 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_ACTIVE;
                 if (!$member->update()) {
-                    var_dump($member->errors);
+                    //var_dump($member->errors);
+                } else {
+                    Log::action($user_id, 'unlock', 'squads', $squadron_id);
                 }
             }
         }
         return $this->redirect(['view', 'id' => $squadron_id]);
-    }
-
-    /**
-     * Deletes an existing Squads model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

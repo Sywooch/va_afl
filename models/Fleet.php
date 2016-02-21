@@ -42,6 +42,16 @@ class Fleet extends \yii\db\ActiveRecord
         return Json::encode($out);
     }
 
+    public function getAirportInfo()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'location']);
+    }
+
+    public function getLastFlight()
+    {
+        return Flights::find()->where('fleet_regnum = ' . $this->id)->orderBy(['flights.id' => SORT_DESC])->one();
+    }
+
     /**
      * @inheritdoc
      */
