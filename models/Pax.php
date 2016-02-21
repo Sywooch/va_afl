@@ -200,7 +200,7 @@ class Pax extends \yii\db\ActiveRecord
             if($need_save_pax)$px->save();
             if($flightpax <= 0) break;
         }
-        //return ['total'=>($maxpax-$flightpax),'paxtypes'=>$paxtypes];
-        return ($maxpax-$flightpax);
+        return ['total'=>($maxpax-$flightpax),'paxtypes'=>$paxtypes];
+        //return ($maxpax-$flightpax);
     }
 }
