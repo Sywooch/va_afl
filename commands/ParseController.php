@@ -153,6 +153,9 @@ class ParseController extends Controller
             $booking->status = 2;
             $booking->save();
         }
+        else{
+            var_dump($flight->errors);
+        }
     }
 
 
