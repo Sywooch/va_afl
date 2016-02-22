@@ -44,7 +44,7 @@ class Events extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['content', 'start', 'stop', 'author'], 'required'],
+            [['content', 'start', 'stop'], 'required'],
             [['content', 'author'], 'integer'],
             [['start', 'stop', 'created'], 'safe']
         ];

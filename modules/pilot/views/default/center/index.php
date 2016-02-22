@@ -22,7 +22,7 @@ $this->params['breadcrumbs'] = [
     </div>
     <div class="col-md-4">
         <!-- begin panel -->
-    <?= $this->render('news', ['news' => $news]) ?>
+        <?= $this->render('news', ['news' => $news]) ?>
     </div>
 </div>
 <div class="row">
@@ -33,29 +33,18 @@ $this->params['breadcrumbs'] = [
     <!-- end col-4 -->
     <!-- begin col-4 -->
     <div class="col-md-4">
-        <!-- begin panel -->
-        <div class="panel panel-inverse">
-            <div class="panel-heading">
-                <h4 class="panel-title"><?= Yii::t('app', 'Calendar') ?></h4>
-            </div>
-            <div class="panel-body">
-                <?=
-                \talma\widgets\FullCalendar::widget(
-                    [
-                        'googleCalendar' => false,
-                        'config' => [
-                            'lang' => Yii::$app->language == 'RU' ? 'ru' : 'en',
-                            'events' => $events
-                        ],
-                    ]
-                ); ?>
-            </div>
-        </div>
-        <!-- end panel -->
+        <?= $this->render('events', ['events' => $events]) ?>
     </div>
     <!-- end col-4 -->
 </div>
-<?= Html::button('Launch edit profile',
-    ['class' => 'btn btn-primary btn-lg', 'data-toggle' => 'modal', 'data-target' => '#modal-dialog']) ?>
+<div class="row">
+    <div class="col-md-12">
+        <?= $this->render('events_calendar', ['eventsCalendar' => $eventsCalendar]) ?>
+    </div>
+</div>
+<?= Html::button(
+    'Launch edit profile',
+    ['class' => 'btn btn-primary btn-lg', 'data-toggle' => 'modal', 'data-target' => '#modal-dialog']
+) ?>
 
 <?= $this->render('../edit_modal', ['user' => $user]) ?>

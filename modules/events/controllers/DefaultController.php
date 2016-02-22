@@ -44,7 +44,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'events' => Calendar::All()
+            'events' => Calendar::all()
         ]);
     }
 

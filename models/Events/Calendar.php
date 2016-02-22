@@ -12,10 +12,18 @@ use Yii;
 
 class Calendar
 {
-    public static function All()
+    public static function all(){
+        return self::prepare(Events::find()->all());
+    }
+
+    public static function center(){
+        return self::prepare(Events::find()->where('type > 1')->all());
+    }
+
+    public static function prepare($mEvents)
     {
         $events = [];
-        foreach (Events::find()->all() as $event) {
+        foreach ($mEvents as $event) {
             if (empty($event->access) || Yii::$app->user->can($event->access)) {
                 $events[] = [
                     'title' => $event->contentInfo->name,

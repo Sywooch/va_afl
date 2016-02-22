@@ -31,8 +31,11 @@ class EventsController extends Controller
                 if ($key == 'item') {
 
                     $title = explode(" - ", $item->title);
+
+                    $name = (string)(strripos($title[0], "online") !== false ? $title[0]." ".$item->date : $title[0]);
+
                     $description = $item->description;
-                    $url = $item->link;
+                    $url = "<a href=\"{$item->link}\">More info</a><br>";
 
                     $date_start = $item->date;
                     $date_stop = $date_start;
@@ -49,13 +52,13 @@ class EventsController extends Controller
                     $stop_time = ($temp).":"."00";
 
                     $event = (object)[
-                        'event' => (string)$title[0],
-                        'eevent' => (string)$title[0],
+                        'event' => $name,
+                        'eevent' => $name,
                         'date' => (string)$item->date,
                         'fromUTC' => $start_time,
                         'toUTC' => $stop_time,
-                        'description' => (string)$item->link." ".$item->description,
-                        'edescription' => (string)$item->link." ". $item->description,
+                        'description' => (string)$url." ".$item->description,
+                        'edescription' => (string)$url." ". $item->description,
                         'banner' => '',
                         'engbanner' => ''
                     ];
