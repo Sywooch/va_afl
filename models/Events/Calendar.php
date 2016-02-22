@@ -8,19 +8,23 @@
 
 namespace app\models\Events;
 
+use Yii;
+
 class Calendar
 {
     public static function All()
     {
         $events = [];
         foreach (Events::find()->all() as $event) {
-            $events[] = [
-                'title' => $event->contentInfo->name,
-                'start' => $event->start,
-                'stop' => $event->stop,
-                'color' => 'green',
-                'url' => '/events/' . $event->id,
-            ];
+            if (empty($event->access) || Yii::$app->user->can($event->access)) {
+                $events[] = [
+                    'title' => $event->contentInfo->name,
+                    'start' => $event->start,
+                    'stop' => $event->stop,
+                    'color' => $event->color,
+                    'url' => '/events/' . $event->id,
+                ];
+            }
         }
         return $events;
     }

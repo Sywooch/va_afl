@@ -34,13 +34,13 @@ class ExternalEvent
      * процесс добавления
      * @param $evt Класс с данными
      */
-    public function __construct($evt)
+    public function __construct($evt, $type = '')
     {
         $this->old = $this->checkContent($evt);
         //если контента нет
         if (!$this->old) {
             //добавляем в лог
-            Log::action($evt->eevent, 'create', 'events', 'div', '', serialize($evt), 1);
+            Log::action($evt->eevent, 'create', 'events', $type, '', serialize($evt), 1);
 
             //сохраняем контент
             $content = $this->saveContent($evt);

@@ -24,6 +24,12 @@ use app\models\Users;
 class Events extends \yii\db\ActiveRecord
 {
     const CONTENT_CATEGORY = 7;
+
+    const TYPE_MAJOR_EVENT = 0;
+    const TYPE_EVENT = 5;
+    const TYPE_TRAINING = 10;
+
+
     /**
      * @inheritdoc
      */
@@ -59,9 +65,26 @@ class Events extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function actual()
+    public static function center()
     {
-        return self::find()->where('DATE(start) >= DATE(NOW())')->orderBy(['start' => SORT_ASC])->all();
+        return self::find()->where('DATE(start) >= DATE(NOW())')->andWhere(['center' => 1])->orderBy(['start' => SORT_ASC])->all();
+    }
+
+    public function getColor(){
+        switch($this->type){
+            case 10:
+                return 'blue';
+                break;
+            case 20:
+                return 'green';
+                break;
+            case 30:
+                return 'red';
+                break;
+            default:
+                return 'black';
+                break;
+        }
     }
 
     /**
