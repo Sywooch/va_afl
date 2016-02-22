@@ -45,7 +45,7 @@ class Events extends \yii\db\ActiveRecord
     {
         return [
             [['content', 'start', 'stop'], 'required'],
-            [['content', 'author'], 'integer'],
+            [['content', 'author', 'type', 'free_join', 'center'], 'integer'],
             [['start', 'stop', 'created'], 'safe']
         ];
     }

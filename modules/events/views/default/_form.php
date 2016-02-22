@@ -37,7 +37,7 @@ use kartik\select2\Select2;
         ]); ?>
     <?= $form->field($model, 'type')->widget(
         Select2::classname(),
-        ['data' => [1 => Yii::t('app', 'No type'), 10 => Yii::t('app', 'Major'), 20 => Yii::t('app', 'Normal'), 30 => Yii::t('app', 'Minor')]]
+        ['data' => [1 => Yii::t('app', 'No type'), 10 => Yii::t('app', 'Minor'), 20 => Yii::t('app', 'Normal'), 30 => Yii::t('app', 'Major')]]
     )
     ?>
 
