@@ -39,7 +39,7 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category', 'name_ru', 'name_en', 'text_ru', 'text_en'], 'required'],
+            [['category', 'name_ru', 'name_en'], 'required'],
             [['category', 'author'], 'integer'],
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
