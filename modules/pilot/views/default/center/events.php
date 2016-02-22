@@ -14,14 +14,6 @@ use yii\helpers\Url;
     </div>
     <div class="panel-body">
         <div id="carousel-example" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <?php $i = 0; ?>
-                <?php foreach ($events as $event) : ?>
-                    <li data-target="#carousel-example" data-slide-to="<?= $i ?>"
-                        class="<?= $i == 0 ? 'active' : '' ?>"></li>
-                    <?php $i++; ?>
-                <?php endforeach; ?>
-            </ol>
             <div class="carousel-inner">
                 <?php $i = 0; ?>
                 <?php foreach ($events as $event) : ?>
