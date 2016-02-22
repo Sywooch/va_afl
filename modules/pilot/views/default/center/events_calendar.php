@@ -12,7 +12,6 @@
         <h4 class="panel-title"><?= Yii::t('app', 'Events') ?></h4>
     </div>
     <div class="panel-body">
-        <div class="container">
             <?=
             \talma\widgets\FullCalendar::widget(
                 [
@@ -23,7 +22,6 @@
                     ],
                 ]
             ); ?>
-        </div>
     </div>
 </div>
 <!-- end panel -->
