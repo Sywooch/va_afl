@@ -34,7 +34,7 @@ use yii\helpers\Html;
         <div class="stats-progress progress">
             <div class="progress-bar" style="width: 40.5%;"></div>
         </div>
-        <div class="stats-desc">Better than last week (40.5%)</div>
+        <div class="stats-desc"></div>
     </div>
 </div>
 <!-- end col-3 -->
@@ -47,7 +47,7 @@ use yii\helpers\Html;
         <div class="stats-progress progress">
             <div class="progress-bar" style="width: 76.3%;"></div>
         </div>
-        <div class="stats-desc">Better than last week (76.3%)</div>
+        <div class="stats-desc"></div>
     </div>
 </div>
 <!-- end col-3 -->
@@ -55,12 +55,12 @@ use yii\helpers\Html;
 <div class="col-md-3 col-sm-6">
     <div class="widget widget-stats bg-black">
         <div class="stats-icon stats-icon-lg"><i class="fa fa-comments fa-fw"></i></div>
-        <div class="stats-title">NEW COMMENTS</div>
-        <div class="stats-number">3,988</div>
+        <div class="stats-title">VUC's</div>
+        <div class="stats-number"><?= isset($user->pilot->billingUserBalance) ? $user->pilot->billingUserBalance->balance : 0 ?></div>
         <div class="stats-progress progress">
             <div class="progress-bar" style="width: 54.9%;"></div>
         </div>
-        <div class="stats-desc">Better than last week (54.9%)</div>
+        <div class="stats-desc"></div>
     </div>
 </div>
 <!-- end col-3 -->

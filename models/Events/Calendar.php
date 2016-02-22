@@ -17,7 +17,7 @@ class Calendar
     }
 
     public static function center(){
-        return self::prepare(Events::find()->where(['center' => 1])->all());
+        return self::prepare(Events::find()->where('type > 1')->all());
     }
 
     public static function prepare($mEvents)

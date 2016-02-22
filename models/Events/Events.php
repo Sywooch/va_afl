@@ -63,7 +63,7 @@ class Events extends \yii\db\ActiveRecord
 
     public static function center()
     {
-        return self::find()->where('DATE(start) >= DATE(NOW())')->andWhere(['center' => 1])->andWhere(['type' => 30])->orderBy(['start' => SORT_ASC])->all();
+        return self::find()->where('DATE(NOW()) < DATE(start) OR (DATE(NOW()) >= DATE(start) AND DATE(NOW()) <= DATE(stop))')->andWhere(['center' => 1])->orderBy(['start' => SORT_ASC])->all();
     }
 
     public function getColor(){

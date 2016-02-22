@@ -96,11 +96,8 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
-                        'icon' => 'fa-picture-o',
-                        'items' => [
-                            ['name' => Yii::t('app', 'Feed'), 'url' => '/screens/index'],
-                            ['name' => Yii::t('app', 'Top of the week'), 'url' => '/screens/top']
-                        ]
+                        'url' => \yii\helpers\Url::to('/screens'),
+                        'icon' => 'fa-picture-o'
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),
