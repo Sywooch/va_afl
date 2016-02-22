@@ -9,7 +9,7 @@
 <!-- begin panel -->
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('app', 'Events') ?></h4>
+        <h4 class="panel-title"><?= Yii::t('app', 'Calendar') ?></h4>
     </div>
     <div class="panel-body">
             <?=
