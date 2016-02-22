@@ -53,6 +53,11 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
+                '<module:screens>/<action:(create|delete|update)>' => '<module>/default/<action>',
+                '<module:screens>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
+                '<module:screens>/<id:\w+>' => '<module>/default/view',
+                '<module:screens>' => '<module>/default/index',
+                '<module:screens>/<action:\.*>' => '<module>/default/index',
                 '<module:events>/<action:(create|delete|update)>' => '<module>/default/<action>',
                 '<module:events>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:events>/<id:\w+>' => '<module>/default/view',
@@ -111,6 +116,9 @@ $config = [
         ],
         'content' => [
             'class' => 'app\modules\content\Module',
+        ],
+        'screens' => [
+            'class' => 'app\modules\screens\Module',
         ],
     ],
     'params' => $params,
