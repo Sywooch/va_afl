@@ -25,11 +25,6 @@ class Events extends \yii\db\ActiveRecord
 {
     const CONTENT_CATEGORY = 7;
 
-    const TYPE_MAJOR_EVENT = 0;
-    const TYPE_EVENT = 5;
-    const TYPE_TRAINING = 10;
-
-
     /**
      * @inheritdoc
      */
@@ -46,6 +41,7 @@ class Events extends \yii\db\ActiveRecord
         return [
             [['content', 'start', 'stop'], 'required'],
             [['content', 'author', 'type', 'free_join', 'center'], 'integer'],
+            [['access'], 'string'],
             [['start', 'stop', 'created'], 'safe']
         ];
     }

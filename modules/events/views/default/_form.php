@@ -53,6 +53,8 @@ use kartik\select2\Select2;
     )
     ?>
 
+    <?= $form->field($model, 'access')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
