@@ -97,6 +97,18 @@ class Content extends \yii\db\ActiveRecord
         return $this->hasOne(ContentCategories::className(), ['id' => 'category']);
     }
 
+    public function getImgLink(){
+        if(strpos($this->img, 'http://') !== false){
+            return $this->img;
+        }else{
+            return "/img/content/{$this->img}";
+        }
+    }
+
+    public function getCreatedDT(){
+        return new \DateTime($this->created);
+    }
+
     /**
      * Возвращает переменную взависимости от языка
      * @param $ru string
