@@ -27,7 +27,7 @@ class UserPilot extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_SUSPENDED = 2;
     const STATUS_DELETED = 3;
-
+    const STATUS_PENDING = 4;
 
     public static function tableName()
     {
@@ -42,7 +42,7 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'status', 'rank_id', 'minutes'], 'integer'],
-            [['staff_comments'], 'string'],
+            [['staff_comments', 'email_token'], 'string'],
             [['location'], 'string', 'max' => 4],
         ];
     }
@@ -73,6 +73,7 @@ class UserPilot extends \yii\db\ActiveRecord
             self::STATUS_ACTIVE => Yii::t('user', 'Active'),
             self::STATUS_SUSPENDED => Yii::t('user', 'Suspended'),
             self::STATUS_DELETED => Yii::t('user', 'Deleted'),
+            self::STATUS_PENDING => Yii::t('user', 'Pending')
         ];
     }
 
@@ -131,5 +132,30 @@ class UserPilot extends \yii\db\ActiveRecord
     public function getUserRoutes()
     {
         return Helper::userRoutes($this->user_id);
+    }
+
+    /**
+     * @param string $email_confirm_token
+     * @return static|null
+     */
+    public static function findByEmailToken($email_confirm_token)
+    {
+        return static::findOne(['email_token' => $email_confirm_token, 'status' => self::STATUS_PENDING]);
+    }
+
+    /**
+     * Generates email confirmation token
+     */
+    public function generateEmailToken()
+    {
+        $this->email_token = Yii::$app->security->generateRandomString();
+    }
+
+    /**
+     * Removes email confirmation token
+     */
+    public function removeEmailToken()
+    {
+        $this->email_token = null;
     }
 }
