@@ -27,7 +27,7 @@ use app\components\Helper;
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
-            <td><b> <?= $model->acf_type ?></b></td>
+            <td><b> <?= $model->fleet->full_type ?> (<?= $model->fleet->type_code ?>)</b></td>
             <td align="right"> <?= Yii::t('flights', 'Tail number') ?>:</td>
             <td><b> <?=
                     Html::a(
