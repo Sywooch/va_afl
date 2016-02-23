@@ -75,6 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'visible' => !$from_view
                     ],
+                    'vucs',
                     [
                         'attribute' => 'first_seen',
                         'label' => Yii::t('app', 'Date'),
