@@ -55,7 +55,7 @@ use app\models\Users;
                             ],
                             [
                                 'name' => Yii::t('app', 'IVAO profile'),
-                                'url' => 'https://www.ivao.aero/Member.aspx'
+                                'url' => 'https://www.ivao.aero/Member.aspx',
                                 'linkOptions' => ['target' => '_blank']
                             ],
                         ],
