@@ -19,6 +19,7 @@ use app\models\Users;
 use app\models\Content;
 use app\models\Events\Events;
 use app\models\Events\Calendar;
+use app\models\BillingPayments;
 
 class DefaultController extends Controller
 {
@@ -104,6 +105,14 @@ class DefaultController extends Controller
                 'flightsProvider' => $flightsProvider
             ]
         );
+    }
+
+    public function actionBalance($id){
+        $dataProvider = new ActiveDataProvider([
+            'query' => BillingPayments::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC])
+        ]);
+
+        return $this->render('balance', ['dataProvider' => $dataProvider]);
     }
 
     public function actionCenter()

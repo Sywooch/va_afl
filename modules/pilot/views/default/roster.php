@@ -12,7 +12,6 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('app', 'Pilots roster');
 $this->params['breadcrumbs'] = [
-    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
     ['label' => $this->title]
 ]; ?>
 <div class="panel panel-inverse">
