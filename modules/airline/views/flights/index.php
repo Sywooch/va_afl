@@ -45,7 +45,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::encode($data->callsign);
                         },
                     ],
-                    'acf_type',
+                    [
+                        'attribute' => 'acf_type',
+                        'label' => Yii::t('flights', 'Aircraft'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                return Html::a(
+                                    Html::encode($data->fleet->type_code),
+                                    '#',
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode("{$data->fleet->regnum} ({$data->fleet->full_type})")
+                                    ]);
+                            }
+                    ],
                     [
                         'attribute' => 'from_to',
                         'label' => Yii::t('flights', 'Route'),
@@ -59,11 +73,25 @@ $this->params['breadcrumbs'][] = $this->title;
                                         '/airline/airports/view/',
                                         'id' => $data->from_icao
                                     ]
-                                )
+                                ),
+                                [
+                                    'data-toggle' => "tooltip",
+                                    'data-placement' => "top",
+                                    'title' => Html::encode(
+                                            $data->depAirport->name
+                                        ) . ' (' . $data->depAirport->city . ')'
+                                ]
                             ) . ' - ' . Html::a(
                                 Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                 Html::encode($data->to_icao),
-                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
+                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
+                                [
+                                    'data-toggle' => "tooltip",
+                                    'data-placement' => "top",
+                                    'title' => Html::encode(
+                                            $data->arrAirport->name
+                                        ) . ' (' . $data->arrAirport->city . ')'
+                                ]
                             );
                         },
                     ],
