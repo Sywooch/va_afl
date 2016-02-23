@@ -5,11 +5,14 @@ namespace app\modules\airline\controllers;
 use Yii;
 use yii\base\View;
 use yii\data\ActiveDataProvider;
+use yii\helpers\BaseVarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Flights;
 use yii\widgets\DetailView;
+
+use app\models\Flights;
+use app\models\Squadrons;
 
 /**
  * FightController implements the CRUD actions for Flights model.
@@ -28,26 +31,51 @@ class FlightsController extends Controller
         ];
     }
 
+    public function actionSquadron($id)
+    {
+        return $this->actionIndex(
+            null,
+            Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $id)->orderBy(
+                ['id' => SORT_DESC]
+            ),
+            false
+        );
+    }
+
     /**
      * Lists all Flights models.
      * @return mixed
      */
-    public function actionIndex($id = null)
+    public function actionIndex($id = null, $query = null, $partial = false)
     {
-        $query = $id ? Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]) : Flights::find();
+        if ($query == null) {
+            $query = $id ? Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]) : Flights::find();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        return $this->render(
+        if ($partial == false) {
+            return $this->render(
             'view',
             [
                 'user_id' => $id,
                 'dataProvider' => $dataProvider,
                 'from_view' => false,
+                'init' => true
             ]
         );
+        } else {
+            return $this->renderAjax(
+                'view',
+                [
+                    'user_id' => $id,
+                    'dataProvider' => $dataProvider,
+                    'from_view' => false
+                ]
+            );
+        }
     }
 
     /**
@@ -73,6 +101,7 @@ class FlightsController extends Controller
                 'user_id' => $model->user_id,
                 'model' => $model,
                 'dataProvider' => $dataProvider,
+                'init' => true
             ]
         );
     }

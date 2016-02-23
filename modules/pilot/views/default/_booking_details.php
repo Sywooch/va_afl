@@ -35,7 +35,7 @@ echo \yii\widgets\DetailView::widget(
             ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),
-                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)
+                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)['total']
             ],
             'status' => [
                 'label' => Yii::t('flights', 'Booking status'),

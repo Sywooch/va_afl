@@ -64,8 +64,10 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Squadrons'),
                         'items' => [
-                            ['name' => Yii::t('app', 'Squadron B73X'), 'url' => \yii\helpers\Url::to('squadron/view/1')],
-                            ['name' => Yii::t('app', 'Squadron A32X'), 'url' => \yii\helpers\Url::to('squadron/view/2')],
+                            ['name' => Yii::t('app', 'Squadron A32X'), 'url' => \yii\helpers\Url::to('/squadron/view/1')],
+                            ['name' => Yii::t('app', 'Squadron B738'), 'url' => \yii\helpers\Url::to('/squadron/view/2')],
+                            ['name' => Yii::t('app', 'Squadron HEAVX'), 'url' => \yii\helpers\Url::to('/squadron/view/3')],
+                            ['name' => Yii::t('app', 'Squadron SU95'), 'url' => \yii\helpers\Url::to('/squadron/view/4')],
                         ],
                         'icon' => 'fa-plane'
                     ],
