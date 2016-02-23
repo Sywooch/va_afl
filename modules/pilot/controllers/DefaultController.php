@@ -108,6 +108,10 @@ class DefaultController extends Controller
     }
 
     public function actionBalance($id){
+        if($id != Yii::$app->user->identity->vid && !Yii::$app->user->can('billing/user/view_balance')){
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => BillingPayments::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC])
         ]);
