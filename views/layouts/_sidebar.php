@@ -131,7 +131,7 @@ use app\models\Users;
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/view/about'],
                             //['name' => Yii::t('app', 'News'), 'url' => ''],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
-                            ['name' => Yii::t('app', 'Fleet'), 'url' => '/fleet/index'],
+                            ['name' => Yii::t('app', 'Fleet'), 'url' => '/airline/fleet'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
                             ['name' => Yii::t('app', 'Staff'), 'url' => '/airline/staff'],
                             [
