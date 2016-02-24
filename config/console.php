@@ -1,8 +1,11 @@
 <?php
 
+use yii\helpers\ArrayHelper;
+
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
-$consoleparams = require(__DIR__ . '/params.php');
+$params = ArrayHelper::merge(require(__DIR__ . 'consoleparams.php'), require(__DIR__ . '/globalparams.php'));
+
 $db = require(__DIR__ . '/db.php');
 
 return [
@@ -36,5 +39,5 @@ return [
         ],
         'db' => $db,
     ],
-    'params' => $consoleparams,
+    'params' => $params,
 ];
