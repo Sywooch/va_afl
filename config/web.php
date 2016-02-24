@@ -1,6 +1,8 @@
 <?php
 
-$params = require(__DIR__ . '/params.php');
+use yii\helpers\ArrayHelper;
+
+$params = ArrayHelper::merge(require(__DIR__ . '/params.php'), require(__DIR__ . '/globalparams.php'));
 
 $config = [
     'id' => 'basic',

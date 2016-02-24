@@ -159,6 +159,11 @@ class DefaultController extends Controller
                     $model->preview = null;
                 }
             }
+
+            if(empty($model->machine_name)){
+                $model->machine_name = null;
+            }
+
             if ($model->validate()) {
                 $model->update();
             } else {
