@@ -98,17 +98,19 @@ class EventsController extends Controller
             $edata = json_decode($data);
 
             //проверяем есть ли они
-            if (isset($edata->errorMessage) or empty($edata)) {
-                throw new \Exception(isset($edata->errorMessage) ? $edata->errorMessage : 'empty data');
+            if (isset($edata->errorMessage)) {
+                throw new \Exception($edata->errorMessage);
             }
 
-            //ставим кэш
-            \Yii::$app->cache->set('ru_div_events', $edata, 3600);
+            if(!empty($edata)){
+                //ставим кэш
+                \Yii::$app->cache->set('ru_div_events', $edata, 3600);
 
-            //прогоняем
-            foreach ($edata->events as $evt) {
-                $event = new ExternalEvent($evt, 'div');
-                $event->slack('#events');
+                //прогоняем
+                foreach ($edata->events as $evt) {
+                    $event = new ExternalEvent($evt, 'div');
+                    $event->slack('#events');
+                }
             }
         }
     }
