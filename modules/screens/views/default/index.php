@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="timeline-content">
                     <h4 class="template-title">
                         <i class="fa fa-map-marker text-danger fa-fw"></i>
-                        <?= $screen->name ?>
+                        <a href="/screens/view/<?= $screen->id ?>"><?= $screen->name ?></a>
                     </h4>
 
                     <p><?= $screen->description ?></p>
