@@ -57,6 +57,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findByUsername($model)
     {
+        $needrelation = false;
         $sec = new Security();
         if (!$user = Users::findOne($model->vid)) {
             $user = new Users();
@@ -65,6 +66,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $user->created_date = date('Y-m-d H:i:s');
             $user->country = $model->country;
             $user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
+            $needrelation = true;
+        }
+        $user->full_name = $model->username;
+        $user->authKey = $sec->generateRandomString(32);
+        $user->last_visited = date('Y-m-d H:i:s');
+        $user->save();
+        if($needrelation)
+        {
             $pilot = new UserPilot();
             $pilot->user_id = $model->vid;
             $pilot->status = 0;
@@ -72,10 +81,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $pilot->location = 'UUEE';
             $pilot->save();
         }
-        $user->full_name = $model->username;
-        $user->authKey = $sec->generateRandomString(32);
-        $user->last_visited = date('Y-m-d H:i:s');
-        $user->save();
+
 
 
         //check the forum user exists;
