@@ -17,6 +17,9 @@ use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
 use app\models\Content;
+use app\models\Events\Events;
+use app\models\Events\Calendar;
+use app\models\BillingPayments;
 
 class DefaultController extends Controller
 {
@@ -104,6 +107,18 @@ class DefaultController extends Controller
         );
     }
 
+    public function actionBalance($id){
+        if($id != Yii::$app->user->identity->vid && !Yii::$app->user->can('billing/user/view_balance')){
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => BillingPayments::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC])
+        ]);
+
+        return $this->render('balance', ['dataProvider' => $dataProvider]);
+    }
+
     public function actionCenter()
     {
         $user = Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one();
@@ -120,13 +135,30 @@ class DefaultController extends Controller
             'pagination' => false,
         ]);
 
+        $topProvider = new ActiveDataProvider([
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(
+                    ['status' => UserPilot::STATUS_ACTIVE]
+                )
+        ]);
+        $topProvider->sort->attributes['pilot.rank.name_en'] = [
+            'asc' => ['ranks.name_en' => SORT_ASC],
+            'desc' => ['ranks.name_en' => SORT_DESC]
+        ];
+        $topProvider->sort->attributes['pilot.rank.name_ru'] = [
+            'asc' => ['ranks.name_ru' => SORT_ASC],
+            'desc' => ['ranks.name_ru' => SORT_DESC]
+        ];
+
         return $this->render(
             'center/index',
             [
                 'user' => $user,
                 'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
+                'events' => Events::center(),
+                'eventsCalendar' => Calendar::center(),
                 'flightsProvider' => $flightsProvider,
-                'onlineProvider' => $onlineProvider
+                'onlineProvider' => $onlineProvider,
+                'topProvider' => $topProvider
             ]
         );
     }

@@ -35,6 +35,25 @@ use kartik\select2\Select2;
                 'autoclose' => true
             ]
         ]); ?>
+    <?= $form->field($model, 'type')->widget(
+        Select2::classname(),
+        ['data' => [1 => Yii::t('app', 'No type'), 10 => Yii::t('app', 'Minor'), 20 => Yii::t('app', 'Normal'), 30 => Yii::t('app', 'Major')]]
+    )
+    ?>
+
+    <?= $form->field($model, 'center')->widget(
+        Select2::classname(),
+        ['data' => [1 => Yii::t('app', 'On'), 0 => Yii::t('app', 'Off')]]
+    )
+    ?>
+
+    <?= $form->field($model, 'free_join')->widget(
+        Select2::classname(),
+        ['data' => [1 => Yii::t('app', 'On'), 0 => Yii::t('app', 'Off')]]
+    )
+    ?>
+
+    <?= $form->field($model, 'access')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

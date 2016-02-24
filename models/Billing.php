@@ -48,6 +48,21 @@ class Billing extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getPriceType(){
+        return $this->getLocale('price_type_ru', 'price_type');
+    }
+
+    /**
+     * Возвращает переменную взависимости от языка
+     * @param $ru string
+     * @param $en string
+     * @return string
+     */
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+    }
+
     public static function calculatePriceForFlight($from,$to,$paxlist)
     {
         $afrom = Airports::find()->andWhere(['icao'=>$from])->one();

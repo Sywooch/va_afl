@@ -39,7 +39,7 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category', 'name_ru', 'name_en', 'text_ru', 'text_en', 'author'], 'required'],
+            [['category', 'name_ru', 'name_en'], 'required'],
             [['category', 'author'], 'integer'],
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
@@ -95,6 +95,18 @@ class Content extends \yii\db\ActiveRecord
     public function getCategoryInfo()
     {
         return $this->hasOne(ContentCategories::className(), ['id' => 'category']);
+    }
+
+    public function getImgLink(){
+        if(strpos($this->img, 'http://') !== false){
+            return $this->img;
+        }else{
+            return "/img/content/{$this->img}";
+        }
+    }
+
+    public function getCreatedDT(){
+        return new \DateTime($this->created);
     }
 
     /**

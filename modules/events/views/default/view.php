@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->contentInfo->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = $model->contentInfo->name;
 ?>
 <div class="panel panel-inverse">
     <div class="panel-heading">

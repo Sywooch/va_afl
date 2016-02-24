@@ -17,6 +17,15 @@ use Yii;
  */
 class BillingPayments extends \yii\db\ActiveRecord
 {
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBilling()
+    {
+        return $this->hasOne(Billing::className(), ['id' => 'bill_cost_id']);
+    }
+
     /**
      * @inheritdoc
      */
