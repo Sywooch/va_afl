@@ -27,13 +27,12 @@ use app\components\Helper;
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
-            <td><b> <?= $model->acf_type ?></b></td>
+            <td><b> <?= $model->fleet->full_type ?> (<?= $model->fleet->type_code ?>)</b></td>
             <td align="right"> <?= Yii::t('flights', 'Tail number') ?>:</td>
             <td><b> <?=
-                    //TODO: Url::to?
                     Html::a(
-                        $model->fleet_regnum,
-                        Url::to(['/airline/fleet/view/', 'id' => $model->fleet_regnum])
+                        $model->fleet->regnum,
+                        Url::to(['/airline/fleet/view/', 'id' => $model->fleet->regnum])
                     ) ?></b>
             </td>
         </tr>

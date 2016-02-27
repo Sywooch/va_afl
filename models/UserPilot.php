@@ -82,6 +82,11 @@ class UserPilot extends \yii\db\ActiveRecord
         return $this->hasOne(Ranks::className(), ['id' => 'rank_id']);
     }
 
+    public function getBillingUserBalance()
+    {
+        return $this->hasOne(BillingUserBalance::className(), ['user_vid' => 'user_id']);
+    }
+
     public function getAirport()
     {
         return $this->hasOne(Airports::className(), ['icao' => 'location']);

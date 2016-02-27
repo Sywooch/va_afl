@@ -11,16 +11,15 @@ use app\models\Users;
 
 MapAsset::register($this);
 \app\assets\FlightsAsset::register($this);
-$this->title = isset($model) ? "{$model->callsign} {$model->from_icao}-{$model->to_icao}" : 'Flights ' . $user_id ? 'of ' . Users::find(
-        ['vid' => $user_id]
-    )->one()->full_name . " ({$user_id})" : '';
+$this->title = isset($model) ? "{$model->callsign} {$model->from_icao}-{$model->to_icao}" : $user_id ? 'Flights of ' .
+    Users::find()->where(['vid' => $user_id])->one()->full_name . " ({$user_id})" : 'Flights';
 
 if ($user_id) {
     $this->params['breadcrumbs'][] = [
         'label' => Yii::$app->user->identity->vid == $user_id ? Yii::t(
                 'app',
                 'Pilot Center'
-            ) : Users::find(['vid' => $user_id])->one()->full_name,
+            ) : Users::find()->where(['vid' => $user_id])->one()->full_name,
         'url' => [Yii::$app->user->identity->vid == $user_id ? 'center' : 'profile']
     ];
 }

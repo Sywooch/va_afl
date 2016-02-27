@@ -24,6 +24,7 @@ use app\models\Users;
 class Events extends \yii\db\ActiveRecord
 {
     const CONTENT_CATEGORY = 7;
+
     /**
      * @inheritdoc
      */
@@ -38,8 +39,9 @@ class Events extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['content', 'start', 'stop', 'author'], 'required'],
-            [['content', 'author'], 'integer'],
+            [['content', 'start', 'stop'], 'required'],
+            [['content', 'author', 'type', 'free_join', 'center'], 'integer'],
+            [['access'], 'string'],
             [['start', 'stop', 'created'], 'safe']
         ];
     }
@@ -57,6 +59,28 @@ class Events extends \yii\db\ActiveRecord
             'author' => Yii::t('app', 'Author'),
             'created' => Yii::t('app', 'Created'),
         ];
+    }
+
+    public static function center()
+    {
+        return self::find()->where('DATE(NOW()) < DATE(start) OR (DATE(NOW()) >= DATE(start) AND DATE(NOW()) <= DATE(stop))')->andWhere(['center' => 1])->orderBy(['start' => SORT_ASC])->all();
+    }
+
+    public function getColor(){
+        switch($this->type){
+            case 10:
+                return 'blue';
+                break;
+            case 20:
+                return 'green';
+                break;
+            case 30:
+                return 'red';
+                break;
+            default:
+                return 'black';
+                break;
+        }
     }
 
     /**

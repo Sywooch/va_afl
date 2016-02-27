@@ -16,6 +16,17 @@ use Yii;
  */
 class ContentCategories extends \yii\db\ActiveRecord
 {
+    public static function available(){
+        $categories = [];
+        foreach(self::find()->all() as $cat){
+            if(empty($cat->access) || Yii::$app->user->can($cat->access))
+            {
+                $categories[$cat->id] = $cat->name;
+            }
+        }
+        return $categories;
+    }
+
     /**
      * @inheritdoc
      */

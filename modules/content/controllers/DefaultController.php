@@ -39,7 +39,8 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'machine_name';
+        $model = $this->findModel([$key => $id]);
 
         if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
                     $model->categoryInfo->access_read
@@ -95,6 +96,11 @@ class DefaultController extends Controller
                     $model->preview = null;
                 }
             }
+
+            if(empty($model->machine_name)){
+                $model->machine_name = null;
+            }
+
             if ($model->validate()) {
                 $model->save();
             } else {
@@ -153,6 +159,11 @@ class DefaultController extends Controller
                     $model->preview = null;
                 }
             }
+
+            if(empty($model->machine_name)){
+                $model->machine_name = null;
+            }
+
             if ($model->validate()) {
                 $model->update();
             } else {

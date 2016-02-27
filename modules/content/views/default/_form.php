@@ -54,15 +54,9 @@ use dosamigos\ckeditor\CKEditor;
     <?= $form->field($model, 'description_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description_en')->textInput(['maxlength' => true]) ?>
 
-    <?php //if (!isset($model->category))
-    ?>
     <?= $form->field($model, 'category')->widget(
-    /**
-     * TODO: Видеть только те категории, которые доступны по ролям юзера.
-     * @bth, можно так сделать?)
-     */
         Select2::classname(),
-        ['data' => \yii\helpers\ArrayHelper::map(\app\models\ContentCategories::find()->all(), 'id', 'name_en')]
+        ['data' => \app\models\ContentCategories::available()]
     );?>
 
     <div class="form-group">
