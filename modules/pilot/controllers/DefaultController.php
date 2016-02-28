@@ -11,6 +11,7 @@ use yii\web\HttpException;
 use yii\web\UploadedFile;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use yii\swiftmailer\Mailer;
 
 use app\commands\ParseController;
 use app\models\Flights;
@@ -199,11 +200,11 @@ class DefaultController extends Controller
             {
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
                 $pilot->generateEmailToken(); //тут все работает
-                /*Yii::$app->mailer->compose('@app/modules/user/mail/emailConfirm', ['user' => $this->user])
-                    ->setFrom([Yii::$app->params['supportEmail'] => ''])
-                    ->setTo($this->email)
+                Yii::$app->mailer->compose('test.php', ['user' => $user])
+                    ->setFrom('noreply@va-transaero.ru')
+                    ->setTo($user->email)
                     ->setSubject('Потверждение учетной записи')
-                    ->send();*/
+                    ->send();
 
                 $pilot->status = UserPilot::STATUS_PENDING;
                 $pilot->save();
