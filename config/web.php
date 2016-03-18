@@ -126,8 +126,8 @@ $config = [
     'params' => $params,
     'on beforeAction' => function ($event) {
         if (!Yii::$app->user->isGuest) {
-            if(!in_array(Yii::$app->user->id,Yii::$app->params['whitelist']))
-                throw new \yii\web\HttpException(401,'Not allowed');
+            //if(!in_array(Yii::$app->user->id,Yii::$app->params['whitelist']))
+            //    throw new \yii\web\HttpException(401,'Not allowed');
             Yii::$app->layout = 'main';
         }
         if (!Yii::$app->user->isGuest && !in_array($event->action->id,['edit','toolbar','getservertime'])) {
