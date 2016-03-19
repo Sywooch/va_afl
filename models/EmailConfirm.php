@@ -40,7 +40,7 @@ class EmailConfirm extends Model
     {
         $user = $this->_user;
         $user->status = UserPilot::STATUS_ACTIVE;
-        $user->removeEmailToken();
+        $user->email_token = null;
 
         return $user->save();
     }
