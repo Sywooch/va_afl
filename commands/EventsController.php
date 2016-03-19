@@ -30,8 +30,10 @@ class EventsController extends Controller
             foreach ($rss as $key => $item) {
                 if ($key == 'item') {
 
-                    $title = explode(" - ", $item->title);
-
+                    //$title = explode(" - ", $item->title);
+                    //Я не захотел переписывать весь код, потому что мне лень. Дёрнул что нужно регекспами и сделал такой массив, который ожидается в семантике
+                    preg_match('/^(.+)\s\-\s(\d+\/\d+\s\d+\:\d+)/',$item->title,$matches);
+                    $title=[$matches[1],$matches[2]];
                     $name = (string)(strripos($title[0], "online") !== false ? $title[0]." ".$item->date : $title[0]);
 
                     $description = $item->description;
