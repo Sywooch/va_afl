@@ -199,8 +199,9 @@ class DefaultController extends Controller
             if ($user->email != $old_mail)
             {
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
-                $pilot->generateEmailToken(); //тут все работает
-                Yii::$app->mailer->compose('test.php', ['user' => $user])
+                $token = Yii::$app->security->generateRandomString();
+                $pilot->email_token = $token;
+                Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
                     ->setFrom('noreply@va-transaero.ru')
                     ->setTo($user->email)
                     ->setSubject('Потверждение учетной записи')

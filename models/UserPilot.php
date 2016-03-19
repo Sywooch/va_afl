@@ -147,20 +147,4 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return static::findOne(['email_token' => $email_confirm_token, 'status' => self::STATUS_PENDING]);
     }
-
-    /**
-     * Generates email confirmation token
-     */
-    public function generateEmailToken()
-    {
-        $this->email_token = Yii::$app->security->generateRandomString();
-    }
-
-    /**
-     * Removes email confirmation token
-     */
-    public function removeEmailToken()
-    {
-        $this->email_token = null;
-    }
 }
