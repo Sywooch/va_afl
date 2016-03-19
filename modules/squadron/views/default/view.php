@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-3 col-sm-6">
             <div class="widget widget-stats bg-green">
                 <div class="stats-icon stats-icon-lg"><img width="50"
-                                                           src="http://s004.radikal.ru/i207/1601/0a/b7c972385ab0.png">
+                                                           src="">
                 </div>
                 <div class="stats-title"></div>
                 <div class="stats-number">
@@ -237,7 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             Html::encode($data->regnum),
                                                             Url::to(
                                                                 [
-                                                                    '/fleet/view/',
+                                                                    '/airline/fleet/view/',
                                                                     'id' => $data->regnum
                                                                 ]
                                                             )
@@ -335,7 +335,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 Html::encode($data->fleet->regnum)." (".Html::encode($data->fleet->type_code).")",
                                                                 Url::to(
                                                                     [
-                                                                        '/fleet/view/',
+                                                                        '/airline/fleet/view/',
                                                                         'id' => $data->fleet->regnum
                                                                     ]
                                                                 ));

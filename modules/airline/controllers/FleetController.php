@@ -47,10 +47,10 @@ class FleetController extends Controller
      * @param string $regnum
      * @return mixed
      */
-    public function actionView($id, $regnum)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id, $regnum),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -79,9 +79,9 @@ class FleetController extends Controller
      * @param string $regnum
      * @return mixed
      */
-    public function actionUpdate($id, $regnum)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($id, $regnum);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'regnum' => $model->regnum]);
@@ -99,9 +99,9 @@ class FleetController extends Controller
      * @param string $regnum
      * @return mixed
      */
-    public function actionDelete($id, $regnum)
+    public function actionDelete($id)
     {
-        $this->findModel($id, $regnum)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -114,9 +114,10 @@ class FleetController extends Controller
      * @return Fleet the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $regnum)
+    protected function findModel($id)
     {
-        if (($model = Fleet::findOne(['id' => $id, 'regnum' => $regnum])) !== null) {
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'regnum';
+        if (($model = Fleet::findOne([$key => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
