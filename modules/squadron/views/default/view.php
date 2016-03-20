@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel panel-inverse">
                 <div class="panel-heading">
                     <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
-                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                        <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/documents")): ?>
                             <?=
                             Html::a(
                                 '<i class="fa fa-plus"></i>',
@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <li class="left">
                                     <span class="date-time"><?= (new \DateTime($news_one->created))->format(
                                             'g:ia \o\n l jS F'
-                                        ) ?> <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?><a
+                                        ) ?> <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/documents")): ?><a
                                             href="/content/update/<?= $news_one->id ?>"><i
                                                     class="fa fa-pencil"></i></a><?php endif; ?></span>
                                     <a href="/pilot/profile/<?= $news_one->author ?>"
@@ -187,12 +187,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#documents" data-toggle="tab"
                                         aria-expanded="false"><?= Yii::t('app', 'Documents') ?></a>
                         </li>
-                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/members")): ?>
+                        <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/members")): ?>
                             <li class=""><a href="#members" data-toggle="tab"
                                             aria-expanded="false"><i class="fa fa-lock"></i> <?= Yii::t('app', 'Members') ?></a>
                             </li>
                         <?php endif; ?>
-                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/log")): ?>
+                        <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/log")): ?>
                             <li class=""><a href="#log" data-toggle="tab"
                                             aria-expanded="false"><i class="fa fa-lock"></i> <?= Yii::t('app', 'Log') ?></a>
                             </li>
@@ -200,7 +200,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="info">
-                            <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                            <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/documents")): ?>
                                 <?=
                                 Html::a(
                                     '<i class="fa fa-pencil"></i>',
@@ -211,7 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $squadron->squadronInfo->text ?>
                         </div>
                         <div class="tab-pane fade" id="rules">
-                            <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                            <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/documents")): ?>
                                 <?=
                                 Html::a(
                                     '<i class="fa fa-pencil"></i>',
@@ -272,7 +272,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'attribute' => 'lastFlight',
                                                 'label' => Yii::t('app', 'Last') . ' ' . Yii::t('app', 'Flight'),
                                                 'format' => 'raw',
-                                                'visible' => Yii::$app->user->can("squads/{$squadron->abbr}/fleet"),
+                                                'visible' => Yii::$app->user->can("squadrons/{$squadron->abbr}/fleet"),
                                                 'value' => function ($data) {
                                                         return $data->lastFlight != null ? Html::a(
                                                             Html::encode(
@@ -401,7 +401,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="tab-pane fade" id="documents">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/documents")): ?>
+                                    <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/documents")): ?>
                                         <?=
                                         Html::a(
                                             '<i class="fa fa-plus"></i>',
@@ -466,7 +466,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                         </div>
-                        <?php if (Yii::$app->user->can("squads/{$squadron->abbr}/members")): ?>
+                        <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/members")): ?>
                             <div class="tab-pane fade" id="members">
                                 <?php Pjax::begin() ?>
                                 <?=
@@ -554,7 +554,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             [
                                                 'class' => 'yii\grid\ActionColumn',
                                                 'template' => '{button1} {button2}',
-                                                'visible' => Yii::$app->user->can("squads/{$squadron->abbr}/members"),
+                                                'visible' => Yii::$app->user->can("squadrons/{$squadron->abbr}/members"),
                                                 'buttons' => [
                                                     'button1' => function ($url, $model, $key) {
                                                             switch ($model->status) {
@@ -633,7 +633,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ); ?>
                                 <?php Pjax::end() ?>
                             </div>
-                        <?php endif; ?><?php if (Yii::$app->user->can("squads/{$squadron->abbr}/log")): ?>
+                        <?php endif; ?><?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/log")): ?>
                             <div class="tab-pane fade" id="log">
                                 <?php Pjax::begin() ?>
                                 <?= GridView::widget([
