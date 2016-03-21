@@ -127,7 +127,7 @@ class DefaultController extends Controller
     {
         $model = $this->findModel($id);
 
-        if (!Yii::$app->user->can('content/edit')
+        if (!Yii::$app->user->can($model->categoryInfo->access_edit)
             && (!Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))
         ) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));

@@ -97,7 +97,7 @@ class DefaultController extends Controller
             ]
         ]);
 
-        $logProvider = Yii::$app->user->can("squads/{$squadron->abbr}/log") ? new ActiveDataProvider([
+        $logProvider = Yii::$app->user->can("squadrons/{$squadron->abbr}/log") ? new ActiveDataProvider([
             'query' => Log::find()->where(['type' => 'squads'])->andWhere(['sub_type' => $id]),
         ]) : null;
 

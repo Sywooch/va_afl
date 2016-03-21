@@ -66,11 +66,10 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
-        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
         return $this->render(
             'view',
             [
-                'model' => $this->findModel([$key => $id]),
+                'model' => $this->findModel($id),
             ]
         );
     }
@@ -140,7 +139,8 @@ class AirportsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Airports::findOne($id)) !== null) {
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
+        if (($model = Airports::findOne([$key => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
