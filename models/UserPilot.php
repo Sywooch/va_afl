@@ -133,6 +133,11 @@ class UserPilot extends \yii\db\ActiveRecord
         return Flights::getStatAcfTypes($this->user_id);
     }
 
+    public function getStatFlightTypes()
+    {
+        return Flights::getStatFlightTypes($this->user_id);
+    }
+
 
     public function getUserRoutes()
     {

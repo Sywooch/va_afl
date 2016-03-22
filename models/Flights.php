@@ -46,7 +46,10 @@ class Flights extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'], 'integer'],
+            [
+                ['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],
+                'integer'
+            ],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs'], 'safe'],
             [['flightplan', 'remarks'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
@@ -105,6 +108,26 @@ class Flights extends \yii\db\ActiveRecord
     public static function getTime($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->sum('flight_time');
+    }
+
+    public static function getStatFLightTypes($id)//TODO: перенести в UserPilot
+    {
+        $stats_raw = Flights::find()->where(['user_id' => $id])->select(
+            'domestic,COUNT(*) AS `count`'
+        )
+            ->groupBy(
+                [
+                    'domestic',
+                ]
+            )->all();
+        $stat = [];
+        foreach ($stats_raw as $stat_raw) {
+            $stat[] = [
+                'name' => $stat_raw->domestic == '1' ? Yii::t('flights', 'Domestic') : Yii::t('flights', 'International'),
+                'y' => intval($stat_raw->count)
+            ];
+        }
+        return $stat;
     }
 
     public static function getStatWeekdays($id)//TODO: перенести в UserPilot
