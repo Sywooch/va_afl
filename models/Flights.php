@@ -110,7 +110,7 @@ class Flights extends \yii\db\ActiveRecord
         return Flights::find()->where(['user_id' => $id])->sum('flight_time');
     }
 
-    public static function getStatFLightTypes($id)//TODO: перенести в UserPilot
+    public static function getStatFLightsDomestic($id)//TODO: перенести в UserPilot
     {
         $stats_raw = Flights::find()->where(['user_id' => $id])->select(
             'domestic,COUNT(*) AS `count`'
@@ -189,6 +189,11 @@ class Flights extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getBooking()
+    {
+        return $this->hasOne(Booking::className(), ['id' => 'booking_id']);
     }
 
     public static function prepareTrackerData($id)
