@@ -118,9 +118,9 @@ class SiteController extends Controller
         return Actypes::searchByICAO($q, $id);
     }
 
-    public function actionGetacfregnums()
+    public function actionGetacfregnums($q=null)
     {
-        echo Fleet::getForBooking();
+        echo Fleet::getForBooking($q);
     }
 
     public function actionDeletemybooking()

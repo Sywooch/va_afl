@@ -33,11 +33,13 @@ class Fleet extends \yii\db\ActiveRecord
         $fleet->save();
     }
 
-    public static function getForBooking()
+    public static function getForBooking($q)
     {
         $out = [];
-        foreach (Fleet::find()->andWhere(['location' => Users::getAuthUser()->pilot->location])->all() as $data) {
-            $out['results'][] = ['id' => $data->id, 'text' => $data->regnum];
+        $d=Fleet::find()->andWhere(['location' => Users::getAuthUser()->pilot->location]);
+        if($q) $d->andWhere('regnum like "%'.$q.'%"');
+        foreach ($d->all() as $data) {
+            $out['results'][] = ['id' => $data->id, 'text' => $data->regnum." (".$data->type_code.")"];
         }
         return Json::encode($out);
     }
