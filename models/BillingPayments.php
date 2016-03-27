@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\HttpException;
 
 /**
  * This is the model class for table "billing_payments".
@@ -40,7 +41,6 @@ class BillingPayments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
             [['id', 'direction', 'user_id', 'flight_id', 'bill_cost_id'], 'integer'],
             [['payment'], 'number'],
             [['dtime'], 'safe']
@@ -61,5 +61,25 @@ class BillingPayments extends \yii\db\ActiveRecord
             'payment' => 'Payment',
             'dtime' => 'Dtime',
         ];
+    }
+    public static function registerPayment($direction,$user_id,$flight_id,$bcost_id,$payment)
+    {
+        $bc = new BillingPayments();
+        $bc->direction=$direction;
+        $bc->user_id=$user_id;
+        $bc->flight_id=$flight_id;
+        $bc->bill_cost_id=$bcost_id;
+        $bc->payment=$payment;
+        $bc->dtime=date('Y-m-d H:i:s');
+        if(!$bc->save()) {
+            throw new HttpException(500, json_encode($bc->errors));
+        }
+    }
+    public static function registerTaxiPayment($user_id,$payment)
+    {
+        self::registerPayment(2,$user_id,null,56,$payment);
+            $ub = BillingUserBalance::find()->andWhere(['user_vid' => $user_id])->one();
+            $ub->balance -= $payment;
+            $ub->save();
     }
 }

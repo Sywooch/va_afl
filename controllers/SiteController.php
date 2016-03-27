@@ -2,6 +2,11 @@
 
 namespace app\controllers;
 
+use app\components\Helper;
+use app\models\Billing;
+use app\models\BillingPayments;
+use app\models\BillingUserBalance;
+use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
 use yii\web\Controller;
@@ -159,5 +164,24 @@ class SiteController extends Controller
     public function actionMybookingdetails()
     {
         echo Booking::jsonMapData();
+    }
+    public function actionCalctaxiprice()
+    {
+        $to=$_POST['to'];
+        $from = Users::getAuthUser()->pilot->location;
+        $money = Helper::calcTaxiPrice($from,$to);
+        $valid = BillingUserBalance::checkHavingMoney(Users::getAuthUser()->vid,$money);
+        echo json_encode(['msg'=>"COST for this flight is: <b>$money</b>VUC's",'valid'=>$valid]);
+    }
+    public function actionDotaxi()
+    {
+        $to=$_POST['to'];
+        $from = Users::getAuthUser()->pilot->location;
+        $money = Helper::calcTaxiPrice($from,$to);
+        $valid = BillingUserBalance::checkHavingMoney(Users::getAuthUser()->vid,$money);
+        if($valid){
+            Users::transfer(Users::getAuthUser()->vid,$to);
+            BillingPayments::registerTaxiPayment(Users::getAuthUser()->vid,$money);
+        }
     }
 }

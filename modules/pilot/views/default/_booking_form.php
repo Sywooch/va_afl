@@ -70,6 +70,6 @@ $form->field($model, 'fleet_regnum')->widget(
 );
 */
 ?>
-<?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'), ['class' => 'btn btn-success']); ?>
+<?= \yii\helpers\Html::submitButton(Yii::t('booking', 'Book'), ['class' => 'btn btn-success']); ?> <?= \yii\helpers\Html::Button(Yii::t('booking', 'Taxi'), ['id'=>'taxibtn','class' => 'btn btn-primary']); ?>
 <?php
 \yii\widgets\ActiveForm::end();

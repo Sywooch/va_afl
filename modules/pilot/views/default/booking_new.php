@@ -28,6 +28,10 @@ $this->title = Yii::t('app', 'Booking');
 
         color: yellow !important;
     }
+    .modal-body .select2-selection, .modal-body .select2-selection__rendered, .modal-body .select2-selection__placeholder{
+
+        color: black !important;
+    }
 </style>
 <div id="map" style="height: 90vh;"></div>
 <div id="drilldownwindow"
@@ -49,3 +53,25 @@ $this->title = Yii::t('app', 'Booking');
     ?>
     </div>
 </div>
+<?php
+\yii\bootstrap\Modal::begin([
+    'header' => '<h2>Request AirTaxi</h2>',
+    'toggleButton' => ['label' => 'Close'],
+    'options' => ['id'=>'taxiModal','tabindex' => false,'style'=>'background-color: rgba(0,0,0,0.5); color: black !important'],
+
+]);
+echo \kartik\select2\Select2::widget([
+        'name'=>'from_icao_taxi',
+        'options' => ['placeholder' => 'Search for an airport...','id'=>'taxi_to'],
+        'pluginOptions' => [
+            'ajax' => [
+                'url' => \yii\helpers\Url::to('/site/getairports'),
+                'dataType' => 'json',
+                'data' => new \yii\web\JsExpression('function(params) { return {q:params.term}; }')
+            ],
+        ]
+]);
+echo "<hr><span id='taxi_price' style='padding: 5px;'>&nbsp;</span><hr>";
+echo \yii\helpers\Html::button('Lets fly',['class'=>'btn-success btn','id'=>'letsfly']);
+\yii\bootstrap\Modal::end();
+

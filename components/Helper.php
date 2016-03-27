@@ -1,6 +1,8 @@
 <?php
 namespace app\components;
 
+use app\models\Airports;
+use app\models\Billing;
 use Yii;
 use yii\base\Component;
 
@@ -71,5 +73,13 @@ class Helper extends Component
             6 => 'Sun.'
         ];
         return $array[$day];
+    }
+    public static function calcTaxiPrice($from,$to)
+    {
+        $apfrom = Airports::find()->andWhere(['icao'=>$from])->one();
+        $apto = Airports::find()->andWhere(['icao'=>$to])->one();
+        $nms = self::calculateDistanceLatLng($apfrom->lat,$apto->lat,$apfrom->lon,$apto->lon);
+        $priceforone = Billing::findOne(2)->base_cost;
+        return ceil($nms*$priceforone);
     }
 }
