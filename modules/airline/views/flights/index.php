@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
     }
     ?>
-    <div id="flights">
+    <div id="flights_grid">
         <?php Pjax::begin() ?>
         <?=
         GridView::widget(

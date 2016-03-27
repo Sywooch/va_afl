@@ -62,13 +62,17 @@ $this->params['breadcrumbs'][] = $this->title;
         position: relative;
         height: 100%;
     }
+    .flightslist{
+        max-height: 500px;
+        overflow-x: scroll;
+    }
 </style>
     <div class="relative-map">
         <div class="left panel">
         <div class="panel-header">
         <h4 class="title text-center" data-toggle="flights"><?= Yii::t('app', 'Flights') ?></h4>
-    </div>
-    <div class="panel-body" id="flights" data-scrollbar="true" data-height="400px">
+        </div>
+    <div class="panel-body" id="flights" class="flightslist">
         <?= $this->render('index', ['dataProvider' => $dataProvider, 'from_view' => $this]) ?>
     </div>
 </div>
