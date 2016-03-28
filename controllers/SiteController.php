@@ -114,7 +114,7 @@ class SiteController extends Controller
 
         $model = new IvaoLogin;
         $model->login($IVAOTOKEN);
-        $this->redirect('/pilot/center');
+        $this->goHome();
 
         return 1;
     }
