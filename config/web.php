@@ -55,6 +55,7 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
+                '' => 'site/index',
                 '<module:screens>/<action:(create|delete|update)>' => '<module>/default/<action>',
                 '<module:screens>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:screens>/<id:\w+>' => '<module>/default/view',
@@ -130,6 +131,11 @@ $config = [
                 throw new \yii\web\HttpException(401, 'Not allowed');
             }
             Yii::$app->layout = 'main';
+        }
+        if (Yii::$app->user->isGuest) {
+            if (Yii::$app->controller->id != 'site' || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index') && (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'login')) {
+                Yii::$app->getResponse()->redirect('/site/index');
+            }
         }
         if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
             \app\models\User::checkEmail();
