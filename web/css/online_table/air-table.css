@@ -1,0 +1,124 @@
+@font-face {
+    font-family: 'crystal';
+    src: url('fonts/CRYSTAL-webfont.eot');
+    src: url('fonts/CRYSTAL-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/CRYSTAL-webfont.woff2') format('woff2'),
+         url('fonts/CRYSTAL-webfont.woff') format('woff'),
+         url('fonts/CRYSTAL-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+/*Time-table*/
+.table-container{
+	overflow: hidden;
+	border-radius: 5px;
+}
+#time{
+	margin-left: 30px;
+}
+.title{
+	border: none;
+	margin: 0;
+	background: #2c3e50;
+	color: #fff;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.table.time-table{
+	font-family: 'crystal';
+	font-weight: normal;
+	/*background: #fff;*/
+	/*color: #ecf0f1;*/
+	border-collapse: collapse;
+	margin-bottom: 0;
+}
+.table.time-table th{
+	padding: 10px;
+	/*background: #2c3e50;*/
+	/*color: #f1c40f;*/
+	text-align: left;
+	font-size: 14px;
+	border-bottom: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+.table.time-table tr .fa{
+	display: inline-block;
+	padding-right: 10px;
+	color: #ccc;
+}
+.table.time-table tr.streamed .fa
+	{
+		color: #4bb700;
+	}
+.table.time-table td{
+	padding: 10px;
+	text-align: center;
+	font-size: 13px;
+}
+.table.time-table td.nowrap{
+	white-space: nowrap;
+}
+.table.time-table td a, .table.time-table td a:active{
+	text-decoration: underline;
+	color: #2c3e50;
+}
+.table.time-table td a:hover, .table.time-table td a:focus{
+	text-decoration: none;
+}
+.table.time-table tr{
+	/*background: #ecf0f1;*/
+	color: #2c3e50 ;
+}
+.time-table .status span{
+	border-radius: 4px;
+	padding: 3px 5px 0;
+	display: inline-block;
+	min-width: 100px;
+	text-align: center;
+	color: #fff;
+}
+.time-table .status .departing{
+	background: #f1c40f;
+}
+.time-table .status .approuch{
+	background: #2ecc71;
+}
+.time-table .status .boarding{
+	background: #3498db;
+}
+.time-table .status .en-route{
+	background: #1abc9c;
+}
+.time-table .status .landing{
+	background: #f39c12;
+}
+.time-table .status .on-blocks{
+	background: #95a5a6;
+}
+.time-table .status .booked{
+	background: #e74c3c;
+}
+@media(min-width: 992px) {
+	.table.time-table th{
+		font-size: 15px;
+	}
+	.table.time-table td{
+		font-size: 14px;
+	}
+	/*.table.time-table th:nth-child(4), table th:nth-child(3){
+		min-width: 250px;
+	}
+	.table.time-table th:last-child{
+		min-width: 120px;
+	}*/
+}
+.table.time-table tr td{
+	border-top: none;
+}
+.table.time-table tr+tr{
+	border-top: 1px solid #2c3e50;
+}

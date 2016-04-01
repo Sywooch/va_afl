@@ -9,27 +9,23 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
+use app\assets\AppAsset;
+use app\assets\OnlineTableAsset;
 AppAsset::register($this);
+OnlineTableAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<!--[if IE 8]>
-<html lang="en" class="ie8"> <![endif]-->
-<!--[if !IE]><!-->
 <html lang="<?= Yii::$app->language ?>">
-<!--<![endif]-->
 <head>
-    <meta charset="<?= Yii::$app->charset ?>"/>
-    <title>Color Admin | One Page Parallax Front End Theme</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-    <meta content="" name="description"/>
-    <meta content="" name="author"/>
-
-    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
     <link href="/landing/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/landing/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
@@ -37,20 +33,22 @@ AppAsset::register($this);
     <link href="/landing/css/style.min.css" rel="stylesheet"/>
     <link href="/landing/css/style-responsive.min.css" rel="stylesheet"/>
     <link href="/landing/css/theme/default.css" id="theme" rel="stylesheet"/>
+
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="/landing/plugins/pace/pace.min.js"></script>
+    <script src="/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
 <body data-spy="scroll" data-target="#header-navbar" data-offset="51">
+<?php $this->beginBody() ?>
 <!-- begin #page-container -->
 <div id="page-container" class="fade">
     <?= $content ?>
     <!-- end theme-panel -->
 </div>
 <!-- end #page-container -->
-
+<?php $this->endBody() ?>
 <!-- ================== BEGIN BASE JS ================== -->
 <script src="/landing/plugins/jquery/jquery-1.9.1.min.js"></script>
 <script src="/landing/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
@@ -72,4 +70,5 @@ AppAsset::register($this);
 </script>
 </body>
 </html>
+<?php $this->endPage() ?>
 
