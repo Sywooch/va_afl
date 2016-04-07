@@ -14,11 +14,16 @@ class DefaultController extends Controller
         return $this->render('index', ['screens' => $screens]);
     }
 
-    public function actionView($id){
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $model->views++;
+        $model->save();
+
         return $this->render(
             'view',
             [
-                'model' => $this->findModel(['id' => $id]),
+                'model' => $model,
             ]
         );
     }
@@ -32,8 +37,8 @@ class DefaultController extends Controller
      */
     protected function findModel($id)
     {
-        if ($model = Content::find()->where(['category' => 16, 'id' => $id])->one() !== null) {
-            return $model;
+        if (Content::find()->where(['category' => 16, 'id' => $id])->one() == true) {
+            return Content::findOne($id);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
