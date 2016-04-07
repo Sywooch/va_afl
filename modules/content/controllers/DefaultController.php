@@ -32,6 +32,16 @@ class DefaultController extends Controller
         );
     }
 
+    public function actionLike(){
+        $model = $this->findModel(\Yii::$app->request->post('cid'));
+        $model->like(Yii::$app->user->identity->vid);
+    }
+
+    public function actionComment(){
+        $model = $this->findModel(\Yii::$app->request->post('cid'));
+        $model->comment(Yii::$app->user->identity->vid, \Yii::$app->request->post('text'));
+    }
+
     /**
      * Displays a single Content model.
      * @param integer $id

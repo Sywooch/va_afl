@@ -16,6 +16,9 @@ use Yii;
  */
 class ContentLikes extends \yii\db\ActiveRecord
 {
+    public static function check($content, $user){
+        return (self::find()->where(['content_id' => $content, 'user_id' => $user])->one() ? true : false);
+    }
     /**
      * @inheritdoc
      */
