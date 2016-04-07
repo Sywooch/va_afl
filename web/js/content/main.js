@@ -8,10 +8,17 @@ function content_like(content_id) {
         $.post('/content/like',{cid: content_id},function(){
             $(name).addClass("disabled");
             $(name).addClass("btn-success");
+
+            var likes = parseInt($(name + '_num').text());
+            $(name + '_num').html(likes + 1);
         });
     }
 }
 
 function content_comment(content_id) {
+    var text = $('#message').val();
 
+    $.post('/content/comment',{cid: content_id, text: text},function(){
+        $("#comments").load("/content/comments/" + content_id);
+    });
 }

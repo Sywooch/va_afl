@@ -102,9 +102,19 @@ class Content extends \yii\db\ActiveRecord
         return $this->hasMany('app\models\ContentLikes', ['content_id' => 'id']);
     }
 
+    public function getLikesCount()
+    {
+        return ContentLikes::find()->where(['content_id' => $this->id])->count();
+    }
+
     public function getComments()
     {
         return $this->hasMany('app\models\ContentComments', ['content_id' => 'id']);
+    }
+
+    public function getCommentsCount()
+    {
+        return ContentComments::find()->where(['content_id' => $this->id])->count();
     }
 
     public function getImgLink(){

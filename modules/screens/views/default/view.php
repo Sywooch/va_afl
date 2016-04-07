@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+\app\assets\ContentAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Content */
 $this->title = $model->name;
@@ -53,27 +53,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title"><?= Yii::t('app', 'Comments') ?> <span
-                        class="label label-success pull-right"><?= count($model->comments) ?> comments</span>
+                        class="label label-success pull-right"><?= $model->likesCount ?> comments</span>
                 </h4>
             </div>
             <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
-                <div>
-                    <ul class="chats">
-                        <?php foreach ($model->comments as $comment): ?>
-                            <li class="left">
-                        <span class="date-time"><?=
-                            (new \DateTime($comment->write))->format(
-                                'g:ia \o\n l jS F'
-                            ) ?></span>
-                                <a href="/pilot/profile/<?= $comment->user_id ?>"
-                                   class="name"><img alt="" height="50px" src="<?= $comment->user->avatarLink ?>"/> <?= $comment->user->full_name ?></a>
+                <div id="comments">
 
-                                <div class="message">
-                                    <?= $comment->text ?>
-                                </div>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" name="message" id="message"
+                           placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
+             <span class="input-group-btn">
+                 <button onclick="content_comment(<?= $model->id ?>)" class="btn btn-primary btn-sm"
+                         type="button"><?= Yii::t('app', 'Send') ?></button>
+             </span>
                 </div>
             </div>
         </div>
@@ -82,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title"><?= Yii::t('app', 'Likes') ?> <span
-                        class="label label-success pull-right"><?= count($model->likes) ?> likes</span>
+                        class="label label-success pull-right"><?= $model->likesCount ?> likes</span>
                 </h4>
             </div>
             <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
@@ -100,3 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+<script>
+    setTimeout(function () {
+        $("#comments").load("/content/comments/<?= $model->id ?>");
+    }, 400);
+</script>

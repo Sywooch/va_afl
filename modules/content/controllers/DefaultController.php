@@ -42,6 +42,11 @@ class DefaultController extends Controller
         $model->comment(Yii::$app->user->identity->vid, \Yii::$app->request->post('text'));
     }
 
+    public function actionComments($id){
+        $model = $this->findModel($id);
+        return $this->renderPartial('comments', ['model' => $model]);
+    }
+
     /**
      * Displays a single Content model.
      * @param integer $id

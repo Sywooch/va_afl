@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+
 \app\assets\ContentAsset::register($this);
 /* @var $this yii\web\View */
 
@@ -43,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="timeline-footer">
                     <a href="javascript:content_like(<?= $screen->id ?>);" id="btn_like_<?= $screen->id ?>" class="m-r-15 btn btn-default<?= $screen->like ? ' disabled btn-success' : '' ?>"><i class="fa fa-thumbs-up fa-fw"></i> Like</a>
-                    <a href="javascript:content_comment(<?= $screen->id ?>);" class="m-r-15 btn btn-default "><i class="fa fa-comments fa-fw"></i> Comment</a>
+                    <button class="btn btn-default" id="btn_like_<?= $screen->id ?>_num"disabled><?= $screen->likesCount ?></button>
                 </div>
 
             </div>
