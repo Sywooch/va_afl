@@ -30,8 +30,10 @@ class EventsController extends Controller
             foreach ($rss as $key => $item) {
                 if ($key == 'item') {
 
-                    $title = explode(" - ", $item->title);
-
+                    //$title = explode(" - ", $item->title);
+                    //Я не захотел переписывать весь код, потому что мне лень. Дёрнул что нужно регекспами и сделал такой массив, который ожидается в семантике
+                    preg_match('/^(.+)\s\-\s(\d+\/\d+\s\d+\:\d+)/',$item->title,$matches);
+                    $title=[$matches[1],$matches[2]];
                     $name = (string)(strripos($title[0], "online") !== false ? $title[0]." ".$item->date : $title[0]);
 
                     $description = $item->description;
@@ -98,17 +100,19 @@ class EventsController extends Controller
             $edata = json_decode($data);
 
             //проверяем есть ли они
-            if (isset($edata->errorMessage) or empty($edata)) {
-                throw new \Exception(isset($edata->errorMessage) ? $edata->errorMessage : 'empty data');
+            if (isset($edata->errorMessage)) {
+                throw new \Exception($edata->errorMessage);
             }
 
-            //ставим кэш
-            \Yii::$app->cache->set('ru_div_events', $edata, 3600);
+            if(!empty($edata)){
+                //ставим кэш
+                \Yii::$app->cache->set('ru_div_events', $edata, 3600);
 
-            //прогоняем
-            foreach ($edata->events as $evt) {
-                $event = new ExternalEvent($evt, 'div');
-                $event->slack('#events');
+                //прогоняем
+                foreach ($edata->events as $evt) {
+                    $event = new ExternalEvent($evt, 'div');
+                    $event->slack('#events');
+                }
             }
         }
     }

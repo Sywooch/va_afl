@@ -2,6 +2,11 @@
 
 namespace app\controllers;
 
+use app\components\Helper;
+use app\models\Billing;
+use app\models\BillingPayments;
+use app\models\BillingUserBalance;
+use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
 use yii\web\Controller;
@@ -9,6 +14,9 @@ use yii\web\Response;
 use yii\web\User;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
+use app\commands\ParseController;
 
 use app\components\UserRoutes;
 use app\models\Airports;
@@ -20,6 +28,7 @@ use app\models\Pax;
 use app\models\Schedule;
 use app\models\Users;
 use app\models\Actypes;
+use app\models\Flights;
 
 /**
  * Class SiteController
@@ -71,7 +80,17 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+
+        if(Yii::$app->user->isGuest) {
+            $onlineProvider = new ActiveDataProvider([
+                'query' => Flights::find()->where(['status' => ParseController::FLIGHT_STATUS_STARTED]),
+                'sort' => false,
+                'pagination' => false,
+            ]);
+            return $this->render('index', ['onlineProvider' => $onlineProvider]);
+        } else {
+            $this->redirect('pilot/center');
+        }
     }
 
     public function actionError()
@@ -95,7 +114,7 @@ class SiteController extends Controller
 
         $model = new IvaoLogin;
         $model->login($IVAOTOKEN);
-        $this->redirect(Yii::$app->user->returnUrl);
+        $this->goHome();
 
         return 1;
     }
@@ -118,9 +137,9 @@ class SiteController extends Controller
         return Actypes::searchByICAO($q, $id);
     }
 
-    public function actionGetacfregnums()
+    public function actionGetacfregnums($q = null)
     {
-        echo Fleet::getForBooking();
+        echo Fleet::getForBooking($q);
     }
 
     public function actionDeletemybooking()
@@ -140,24 +159,49 @@ class SiteController extends Controller
         echo json_encode((new UserRoutes($id))->getAsArray());
     }
 
-    public function actionGetairportpaxdetail($airport,$paxtype)
+    public function actionGetairportpaxdetail($airport, $paxtype)
     {
-        echo Pax::detailList($airport,$paxtype);
+        echo Pax::detailList($airport, $paxtype);
     }
+
     public function actionGetservertime()
     {
         echo gmdate("F j, Y G:i:s");
     }
+
     public function actionPaxdata()
     {
         echo Pax::jsonMapData();
     }
+
     public function actionSmartbooking($icao)
     {
         echo json_encode(Booking::smartBooking($icao));
     }
+
     public function actionMybookingdetails()
     {
         echo Booking::jsonMapData();
+    }
+
+    public function actionCalctaxiprice()
+    {
+        $to = $_POST['to'];
+        $from = Users::getAuthUser()->pilot->location;
+        $money = Helper::calcTaxiPrice($from, $to);
+        $valid = BillingUserBalance::checkHavingMoney(Users::getAuthUser()->vid, $money);
+        echo json_encode(['msg' => "COST for this flight is: <b>$money</b>VUC's", 'valid' => $valid]);
+    }
+
+    public function actionDotaxi()
+    {
+        $to = $_POST['to'];
+        $from = Users::getAuthUser()->pilot->location;
+        $money = Helper::calcTaxiPrice($from, $to);
+        $valid = BillingUserBalance::checkHavingMoney(Users::getAuthUser()->vid, $money);
+        if ($valid) {
+            Users::transfer(Users::getAuthUser()->vid, $to);
+            BillingPayments::registerTaxiPayment(Users::getAuthUser()->vid, $money);
+        }
     }
 }

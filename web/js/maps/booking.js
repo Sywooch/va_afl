@@ -78,4 +78,26 @@ setTimeout(function () {
         infowindow.open(map);
     });
     $('.sidebar-minify-btn').remove();
+    $('#taxibtn').bind('click',function(){
+        $('#taxiModal').modal('show');
+        $('#taxi_to').bind('change',function(e){
+            var reqTo=e.target.value;
+            $.post('/site/calctaxiprice',{to:reqTo},function(response){
+                var res = JSON.parse(response);
+                var message = res.msg;
+                if(!res.valid){
+                    $('#letsfly').prop('disabled',true);
+                    message+=" <b>You don't have enough VUC's</b>";
+                }
+                else{
+                    $('#letsfly').prop('disabled',false).bind('click',function(){
+                        $.post('/site/dotaxi',{to:reqTo},function(){
+                            location.reload();
+                        });
+                    });
+                }
+                $('#taxi_price').html(message);
+            })
+        });
+    })
 }, 1000);

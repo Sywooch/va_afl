@@ -7,7 +7,11 @@ use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\UploadedFile;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use yii\swiftmailer\Mailer;
 
 use app\commands\ParseController;
 use app\models\Flights;
@@ -17,6 +21,7 @@ use app\models\UserPilot;
 use app\models\Booking;
 use app\models\Users;
 use app\models\Content;
+use app\models\EmailConfirm;
 use app\models\Events\Events;
 use app\models\Events\Calendar;
 use app\models\BillingPayments;
@@ -177,8 +182,8 @@ class DefaultController extends Controller
         if (!$user) {
             throw new \yii\web\HttpException(404, 'User not found');
         }
-
         $user->scenario = Users::SCENARIO_EDIT;
+        $old_mail = $user->email;
 
         if ($user->load(Yii::$app->request->post())) {
             if (UploadedFile::getInstance($user, 'avatar')) {
@@ -191,6 +196,20 @@ class DefaultController extends Controller
                     $user->avatar = $user->avatar->name . "." . $extension;
                 }
             }
+            if ($user->email != $old_mail)
+            {
+                $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
+                $token = Yii::$app->security->generateRandomString();
+                $pilot->email_token = $token;
+                Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
+                    ->setFrom('noreply@va-transaero.ru')
+                    ->setTo($user->email)
+                    ->setSubject('Потверждение учетной записи')
+                    ->send();
+
+                $pilot->status = UserPilot::STATUS_PENDING;
+                $pilot->save();
+            }
             if (!$user->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
             }
@@ -198,6 +217,21 @@ class DefaultController extends Controller
             return $this->redirect(['index']);
         } else {
             return $this->render('edit', ['user' => $user]);
+        }
+    }
+
+    public function actionConfirmtoken($id)
+    {
+        try {
+            $model = new EmailConfirm($id);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if($model->confirmEmail()) {
+            $this->goHome();
+        } else {
+            throw new HttpException('500');
         }
     }
 }

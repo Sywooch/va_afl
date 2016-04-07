@@ -35,10 +35,10 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'constructArgs' => ['localhost', 25],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -55,8 +55,9 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '<module:screens>/<action:(view|create|delete|update)>' => '<module>/default/<action>',
-                '<module:screens>/<action:(view|create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
+                '' => 'site/index',
+                '<module:screens>/<action:(create|delete|update)>' => '<module>/default/<action>',
+                '<module:screens>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:screens>/<id:\w+>' => '<module>/default/view',
                 '<module:screens>' => '<module>/default/index',
                 '<module:screens>/<action:\.*>' => '<module>/default/index',
@@ -100,7 +101,7 @@ $config = [
         ],
         'events' => [
             'class' => 'app\modules\events\Module',
-	],
+	    ],
         'squadron' => [
             'class' => 'app\modules\squadron\Module',
         ],
@@ -126,14 +127,20 @@ $config = [
     'params' => $params,
     'on beforeAction' => function ($event) {
         if (!Yii::$app->user->isGuest) {
-            if(!in_array(Yii::$app->user->id,Yii::$app->params['whitelist']))
-                throw new \yii\web\HttpException(401,'Not allowed');
+            if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
+                throw new \yii\web\HttpException(401, 'Not allowed');
+            }
             Yii::$app->layout = 'main';
         }
-        if (!Yii::$app->user->isGuest && !in_array($event->action->id,['edit','toolbar','getservertime'])) {
+        if (Yii::$app->user->isGuest) {
+            if (Yii::$app->controller->id != 'site' || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index') && (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'login')) {
+                Yii::$app->getResponse()->redirect('/site/index');
+            }
+        }
+        if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
             \app\models\User::checkEmail();
-            $user=\app\models\Users::getAuthUser();
-            $user->last_visited=date('Y-m-d H:i:s');
+            $user = \app\models\Users::getAuthUser();
+            $user->last_visited = date('Y-m-d H:i:s');
             $user->save();
         }
         \app\models\User::setLanguage();

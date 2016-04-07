@@ -1,4 +1,4 @@
-?><?php
+<?php
 use yii\bootstrap\Html;
 
 $this->title = Yii::t('app', 'Profile editor');

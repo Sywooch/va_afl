@@ -47,4 +47,10 @@ class BillingUserBalance extends \yii\db\ActiveRecord
             'lastupdate' => 'Lastupdate',
         ];
     }
+    public static function checkHavingMoney($vid,$money)
+    {
+        $balance = self::find()->andWhere(['user_vid'=>$vid])->one();
+        if(!$balance) return false;
+        return $balance->balance >= $money;
+    }
 }
