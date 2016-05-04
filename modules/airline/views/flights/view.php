@@ -20,7 +20,7 @@ if ($user_id) {
                 'app',
                 'Pilot Center'
             ) : Users::find()->where(['vid' => $user_id])->one()->full_name,
-        'url' => [Yii::$app->user->identity->vid == $user_id ? 'center' : 'profile']
+        'url' => [Yii::$app->user->identity->vid == $user_id ? '/pilot/center' : '/pilot/profile']
     ];
 }
 
