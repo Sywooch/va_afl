@@ -3,15 +3,68 @@
 namespace app\modules\screens\controllers;
 
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 use app\models\Content;
+use app\models\Users;
 
 class DefaultController extends Controller
 {
     public function actionIndex()
     {
         $screens = Content::find()->where(['category' => 16])->orderBy(['id' => SORT_DESC])->all();
-        return $this->render('index', ['screens' => $screens]);
+        return $this->render('index', ['screens' => $screens, 'title' => \Yii::t('app', 'Feed')]);
+    }
+
+    public function actionUser($id)
+    {
+        $screens = Content::find()->where(['category' => 16])->andWhere(['author' => $id])->orderBy(['id' => SORT_DESC])->all();
+        return $this->render('index', ['screens' => $screens, 'title' => \Yii::t('app', 'of').' '.Users::getUserName($id)]);
+    }
+
+    public function actionTop()
+    {
+        $screens = Content::find()->where(['category' => 16])->orderBy(['views' => SORT_DESC])->limit(20)->all();
+        return $this->render('index', ['screens' => $screens, 'title' => \YIi::t('screens', 'Top'). 20]);
+    }
+
+    public function actionCreate(){
+        $model = new Content();
+
+        $model->category = 16;
+        $model->author = \Yii::$app->user->identity->vid;
+        $model->machine_name = null;
+
+        if ($model->load(\Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'img_file');
+            if (isset($img)) {
+                if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {
+                    $extension = $img->extension;
+                    $img->name = md5($img->baseName);
+                    if ($img->saveAs(\Yii::getAlias('@app/web/img/content/') . $img->name . "." . $extension)) {
+                        $model->img = $img->name . "." . $extension;
+                    }
+                } else {
+                    $model->img = null;
+                }
+            }
+
+            if ($model->validate()) {
+                $model->save();
+            } else {
+                throw new \yii\web\HttpException(500, \Yii::t('app', 'Error'));
+            }
+
+            return $this->redirect(['view/' . $model->id]);
+        } else {
+            return $this->render(
+                'create',
+                [
+                    'model' => $model,
+                ]
+            );
+        }
     }
 
     public function actionView($id)

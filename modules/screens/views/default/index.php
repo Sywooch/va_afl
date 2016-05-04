@@ -5,7 +5,7 @@ use yii\helpers\Html;
 \app\assets\ContentAsset::register($this);
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app', 'Screens');
+$this->title = Yii::t('app', 'Screens')." ".$title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="timeline-body">
                 <div class="timeline-header">
                     <span class="userimage"><img src="<?= $screen->authorUser->avatarLink ?>" alt=""/></span>
-                    <span class="username"><?= $screen->authorUser->full_name ?></span>
+                    <span class="username"><a href="/screens/user/<?= $screen->authorUser->vid ?>"><?= $screen->authorUser->full_name ?></a></span>
                     <span class="pull-right text-muted"><?= $screen->views ?></span>
                 </div>
                 <div class="timeline-content">

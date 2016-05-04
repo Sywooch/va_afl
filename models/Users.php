@@ -42,6 +42,12 @@ class Users extends \yii\db\ActiveRecord
         return 'users';
     }
 
+    public static function getUserName($id)
+    {
+        $user = self::find()->where(['vid' => $id])->one();
+        return $user ? $user->full_name : '';
+    }
+
 
     public function scenarios()
     {

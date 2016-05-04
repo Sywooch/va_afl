@@ -20,6 +20,7 @@ return [
     'Events' => 'Мероприятия',
     'Services' => 'Сервисы',
     'Screenshots' => 'Скриншоты',
+    'Screens' =>  'Скриншоты',
     'Feed' => 'Лента',
     'Top of the week' => 'Лидер недели',
     'Forum' => 'Форум',
@@ -66,4 +67,5 @@ return [
     'Comment' => 'Комментарий',
     'Send' => 'Отправить',
     'Enter your message here' => 'Оставьте своё сообщение здесь',
+    'of' => '',
 ];
