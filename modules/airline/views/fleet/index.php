@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\modules\airline\models\FleetSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Fleets');
@@ -12,6 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="fleet-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('app', 'Create Fleet'), ['create'], ['class' => 'btn btn-success']) ?>
@@ -19,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -34,6 +37,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'squadron_id',
             // 'max_pax',
             // 'max_hrs',
+            // 'profile',
+            // 'selcal',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

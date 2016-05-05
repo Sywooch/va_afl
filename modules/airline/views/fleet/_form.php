@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\Fleet */
 /* @var $form yii\widgets\ActiveForm */
@@ -33,6 +33,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'max_pax')->textInput() ?>
 
     <?= $form->field($model, 'max_hrs')->textInput() ?>
+
+    <?= $form->field($model, 'profile')->widget(
+        Select2::classname(),
+        ['data' => \yii\helpers\ArrayHelper::map(\app\models\FleetProfiles::find()->all(), 'id', 'name')]
+    );?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
