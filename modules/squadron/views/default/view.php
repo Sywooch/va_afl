@@ -237,8 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             Html::encode($data->regnum),
                                                             Url::to(
                                                                 [
-                                                                    '/airline/fleet/view/',
-                                                                    'id' => $data->regnum
+                                                                    '/airline/fleet/view/'.$data->regnum,
                                                                 ]
                                                             )
                                                         );
@@ -335,8 +334,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 Html::encode($data->fleet->regnum)." (".Html::encode($data->fleet->type_code).")",
                                                                 Url::to(
                                                                     [
-                                                                        '/airline/fleet/view/',
-                                                                        'id' => $data->fleet->regnum
+                                                                        '/airline/fleet/view/'.$data->fleet->regnum,
                                                                     ]
                                                                 ));
 

@@ -9,10 +9,11 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Screenshots'), 'url' => ['/screens']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="well row" style="min-height: 50px">
     <div class="col-md-6">
-        <?php if (Yii::$app->user->can('content/edit')): ?>
-            <?= Html::a(Yii::t('app', 'Update'), ['update/' . $model->id], ['class' => 'btn btn-primary']) ?>
+        <a href="javascript:content_like(<?= $model->id ?>);" id="btn_like_<?= $model->id ?>" class="m-r-15 btn btn-default<?= $model->like ? ' disabled btn-success' : '' ?>"><i class="fa fa-thumbs-up fa-fw"></i> Like</a>
+        <?php if (($model->author == \Yii::$app->user->identity->vid) || (\Yii::$app->user->can('content/edit')) || (\Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))): ?>
             <?=
             Html::a(
                 Yii::t('app', 'Delete'),

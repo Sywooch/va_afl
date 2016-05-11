@@ -19,17 +19,23 @@ class DefaultController extends Controller
 
     public function actionUser($id)
     {
-        $screens = Content::find()->where(['category' => 16])->andWhere(['author' => $id])->orderBy(['id' => SORT_DESC])->all();
-        return $this->render('index', ['screens' => $screens, 'title' => \Yii::t('app', 'of').' '.Users::getUserName($id)]);
+        $screens = Content::find()->where(['category' => 16])->andWhere(['author' => $id])->orderBy(
+            ['id' => SORT_DESC]
+        )->all();
+        return $this->render(
+            'index',
+            ['screens' => $screens, 'title' => \Yii::t('app', 'of') . ' ' . Users::getUserName($id)]
+        );
     }
 
     public function actionTop()
     {
         $screens = Content::find()->where(['category' => 16])->orderBy(['views' => SORT_DESC])->limit(20)->all();
-        return $this->render('index', ['screens' => $screens, 'title' => \YIi::t('screens', 'Top'). 20]);
+        return $this->render('index', ['screens' => $screens, 'title' => \YIi::t('screens', 'Top') . 20]);
     }
 
-    public function actionCreate(){
+    public function actionCreate()
+    {
         $model = new Content();
 
         $model->category = 16;
@@ -79,6 +85,22 @@ class DefaultController extends Controller
                 'model' => $model,
             ]
         );
+    }
+
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+
+        if (($model->author != \Yii::$app->user->identity->vid) && (!\Yii::$app->user->can('content/edit'))
+            && (!\Yii::$app->user->can($model->categoryInfo->access_edit)
+            && !empty($model->categoryInfo->access_edit))
+        ) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
+        $model->delete();
+
+        return $this->redirect(['index']);
     }
 
     /**
