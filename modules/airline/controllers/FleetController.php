@@ -4,7 +4,7 @@ namespace app\modules\airline\controllers;
 
 use Yii;
 use app\models\Fleet;
-use yii\data\ActiveDataProvider;
+use app\modules\airline\models\FleetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,11 +32,11 @@ class FleetController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Fleet::find(),
-        ]);
+        $searchModel = new FleetSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -44,7 +44,6 @@ class FleetController extends Controller
     /**
      * Displays a single Fleet model.
      * @param integer $id
-     * @param string $regnum
      * @return mixed
      */
     public function actionView($id)
@@ -64,7 +63,7 @@ class FleetController extends Controller
         $model = new Fleet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'regnum' => $model->regnum]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -76,7 +75,6 @@ class FleetController extends Controller
      * Updates an existing Fleet model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
-     * @param string $regnum
      * @return mixed
      */
     public function actionUpdate($id)
@@ -84,7 +82,7 @@ class FleetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'regnum' => $model->regnum]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -96,7 +94,6 @@ class FleetController extends Controller
      * Deletes an existing Fleet model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
-     * @param string $regnum
      * @return mixed
      */
     public function actionDelete($id)
@@ -110,14 +107,12 @@ class FleetController extends Controller
      * Finds the Fleet model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @param string $regnum
      * @return Fleet the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        $key = preg_match('/^\d+$/', $id) ? 'id' : 'regnum';
-        if (($model = Fleet::findOne([$key => $id])) !== null) {
+        if (($model = Fleet::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

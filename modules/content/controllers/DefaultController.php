@@ -32,6 +32,21 @@ class DefaultController extends Controller
         );
     }
 
+    public function actionLike(){
+        $model = $this->findModel(\Yii::$app->request->post('cid'));
+        $model->like(Yii::$app->user->identity->vid);
+    }
+
+    public function actionComment(){
+        $model = $this->findModel(\Yii::$app->request->post('cid'));
+        $model->comment(Yii::$app->user->identity->vid, \Yii::$app->request->post('text'));
+    }
+
+    public function actionComments($id){
+        $model = $this->findModel($id);
+        return $this->renderPartial('comments', ['model' => $model]);
+    }
+
     /**
      * Displays a single Content model.
      * @param integer $id
@@ -40,7 +55,10 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $key = preg_match('/^\d+$/', $id) ? 'id' : 'machine_name';
+
         $model = $this->findModel([$key => $id]);
+        $model->views++;
+        $model->save();
 
         if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
                     $model->categoryInfo->access_read

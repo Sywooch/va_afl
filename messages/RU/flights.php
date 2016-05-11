@@ -20,5 +20,7 @@ return [
     'Arrival' => 'Прилет',
     'Aircraft' => 'ВС',
     'Departure UTC' => 'Время вылета (UTC)',
-    'Arrival UTC' => 'Время прилета (UTC)'
+    'Arrival UTC' => 'Время прилета (UTC)',
+    'Domestic' => 'Внутренние',
+    'International' => 'Международные'
 ];

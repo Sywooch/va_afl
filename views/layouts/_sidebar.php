@@ -51,7 +51,9 @@ use app\models\Users;
                             ],
                             [
                                 'name' => Yii::t('app', 'Flights'),
-                                'url' => \yii\helpers\Url::to('/airline/flights/index/' . Yii::$app->user->identity->vid)
+                                'url' => \yii\helpers\Url::to(
+                                        '/airline/flights/index/' . Yii::$app->user->identity->vid
+                                    )
                             ],
                             [
                                 'name' => Yii::t('app', 'IVAO profile'),
@@ -64,10 +66,22 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Squadrons'),
                         'items' => [
-                            ['name' => Yii::t('app', 'Squadron A32X'), 'url' => \yii\helpers\Url::to('/squadron/view/1')],
-                            ['name' => Yii::t('app', 'Squadron B738'), 'url' => \yii\helpers\Url::to('/squadron/view/2')],
-                            ['name' => Yii::t('app', 'Squadron HEAVX'), 'url' => \yii\helpers\Url::to('/squadron/view/3')],
-                            ['name' => Yii::t('app', 'Squadron SU95'), 'url' => \yii\helpers\Url::to('/squadron/view/4')],
+                            [
+                                'name' => Yii::t('app', 'Squadron A32X'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/1')
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Squadron B738'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/2')
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Squadron HEAVX'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/3')
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Squadron SU95'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/4')
+                            ],
                         ],
                         'icon' => 'fa-plane'
                     ],
@@ -102,8 +116,13 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
-                        'url' => \yii\helpers\Url::to('/screens'),
-                        'icon' => 'fa-picture-o'
+                        'icon' => 'fa-picture-o',
+                        'items' => [
+                            ['name' => Yii::t('screens', 'Feed'), 'url' => '/screens'],
+                            ['name' => Yii::t('screens', 'Upload'), 'url' => '/screens/create'],
+                            ['name' => Yii::t('screens', 'Personal Feed'), 'url' => '/screens/user/'.Yii::$app->user->identity->vid],
+                            ['name' => Yii::t('screens', 'Top'), 'url' => '/screens/top'],
+                        ]
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),

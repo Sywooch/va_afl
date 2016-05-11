@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Fleet */
+/* @var $model app\models\FleetProfiles */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Fleets'), 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Fleet Profiles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="fleet-view">
+<div class="fleet-profiles-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,19 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'regnum',
-            'type_code',
-            'full_type',
-            'status',
-            'user_id',
-            'home_airport',
-            'location',
-            'image_path:ntext',
-            'squadron_id',
-            'max_pax',
-            'max_hrs',
-            'profile',
-            'selcal',
+            'name',
+            'pbn',
+            'nav',
+            'rvr',
+            'equipment',
+            'transponder',
         ],
     ]) ?>
 

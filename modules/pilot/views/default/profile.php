@@ -299,9 +299,15 @@ $this->params['breadcrumbs'] = [
         </div>
         <div class="profile-section">
             <div class="row">
-                <div class="col-md-4">
-                    <h4 class="title">Сообщения</h4>
-                    <div data-scrollbar="true" data-height="270px" class="bg-silver">
+                <div class="col-md-4" style=>
+                    <h4 class="title">Сообщения
+                        <small>в разработке</small></h4>
+                    <div data-scrollbar="false" data-height="270px" class="bg-silver" style="
+                            -webkit-filter: blur(7px);
+                            -moz-filter: blur(15px);
+                            -o-filter: blur(15px);
+                            -ms-filter: blur(15px);
+                            filter: blur(15px);">
                         <ul class="chats">
                             <li class="left">
                                 <span class="date-time">yesterday 11:23pm</span>
@@ -334,9 +340,7 @@ $this->params['breadcrumbs'] = [
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h4 class="title">Последние полеты
-                        <small> как вариант</small>
-                    </h4>
+                    <h4 class="title">Последние полеты</h4>
                     <div class="bg-silver">
                         <?=
                         GridView::widget(
@@ -389,10 +393,15 @@ $this->params['breadcrumbs'] = [
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <h4 class="title">Здесь будет что-то
-                        <small>возможно</small>
+                    <h4 class="title">Медали
+                        <small>в разработке</small>
                     </h4>
-                    <div data-scrollbar="true" data-height="270px" class="bg-silver">
+                    <div data-scrollbar="true" data-height="270px" class="bg-silver" style="
+                            -webkit-filter: blur(7px);
+                            -moz-filter: blur(15px);
+                            -o-filter: blur(15px);
+                            -ms-filter: blur(15px);
+                            filter: blur(15px);">
                         <ul class="todolist">
                             <li class="active">
                                 <a href="javascript:;" class="todolist-container active" data-click="todolist">

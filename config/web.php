@@ -56,9 +56,8 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
-                '<module:screens>/<action:(create|delete|update)>' => '<module>/default/<action>',
-                '<module:screens>/<action:(create|delete|update)>/<id:\w+>' => '<module>/default/<action>',
-                '<module:screens>/<id:\w+>' => '<module>/default/view',
+                '<module:screens>/<action:(view|create|user|top)>' => '<module>/default/<action>',
+                '<module:screens>/<action:(view|create|user|top)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:screens>' => '<module>/default/index',
                 '<module:screens>/<action:\.*>' => '<module>/default/index',
                 '<module:events>/<action:(create|delete|update)>' => '<module>/default/<action>',
@@ -101,7 +100,7 @@ $config = [
         ],
         'events' => [
             'class' => 'app\modules\events\Module',
-        ],
+	    ],
         'squadron' => [
             'class' => 'app\modules\squadron\Module',
         ],

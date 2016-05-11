@@ -2,9 +2,10 @@
 
 use yii\helpers\Html;
 
+\app\assets\ContentAsset::register($this);
 /* @var $this yii\web\View */
 
-$this->title = Yii::t('app', 'Screens');
+$this->title = Yii::t('app', 'Screens')." ".$title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
@@ -26,13 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="timeline-body">
                 <div class="timeline-header">
                     <span class="userimage"><img src="<?= $screen->authorUser->avatarLink ?>" alt=""/></span>
-                    <span class="username"><?= $screen->authorUser->full_name ?></span>
+                    <span class="username"><a href="/screens/user/<?= $screen->authorUser->vid ?>"><?= $screen->authorUser->full_name ?></a></span>
                     <span class="pull-right text-muted"><?= $screen->views ?></span>
                 </div>
                 <div class="timeline-content">
                     <h4 class="template-title">
                         <i class="fa fa-map-marker text-danger fa-fw"></i>
-                        <?= $screen->name ?>
+                        <a href="/screens/view/<?= $screen->id ?>"><?= $screen->name ?></a>
                     </h4>
 
                     <p><?= $screen->description ?></p>
@@ -42,8 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     </p>
                 </div>
                 <div class="timeline-footer">
-                    <a href="javascript:;" class="m-r-15"><i class="fa fa-thumbs-up fa-fw"></i> Like</a>
-                    <a href="javascript:;"><i class="fa fa-comments fa-fw"></i> Comment</a>
+                    <a href="javascript:content_like(<?= $screen->id ?>);" id="btn_like_<?= $screen->id ?>" class="m-r-15 btn btn-default<?= $screen->like ? ' disabled btn-success' : '' ?>"><i class="fa fa-thumbs-up fa-fw"></i> Like</a>
+                    <button class="btn btn-default" id="btn_like_<?= $screen->id ?>_num"disabled><?= $screen->likesCount ?></button>
                 </div>
 
             </div>

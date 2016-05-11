@@ -97,6 +97,26 @@ class Content extends \yii\db\ActiveRecord
         return $this->hasOne(ContentCategories::className(), ['id' => 'category']);
     }
 
+    public function getLikes()
+    {
+        return $this->hasMany('app\models\ContentLikes', ['content_id' => 'id']);
+    }
+
+    public function getLikesCount()
+    {
+        return ContentLikes::find()->where(['content_id' => $this->id])->count();
+    }
+
+    public function getComments()
+    {
+        return $this->hasMany('app\models\ContentComments', ['content_id' => 'id']);
+    }
+
+    public function getCommentsCount()
+    {
+        return ContentComments::find()->where(['content_id' => $this->id])->count();
+    }
+
     public function getImgLink(){
         if(strpos($this->img, 'http://') !== false){
             return $this->img;
@@ -118,5 +138,27 @@ class Content extends \yii\db\ActiveRecord
     private function getLocale($ru, $en)
     {
         return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+    }
+
+    public function getLike()
+    {
+        return ContentLikes::check($this->id, Yii::$app->user->identity->vid);
+    }
+
+    public function like($user){
+        $like = new ContentLikes();
+        $like->content_id = $this->id;
+        $like->user_id = $user;
+        $like->submit = gmdate("Y-m-d H:i:s");
+        $like->save();
+    }
+
+    public function comment($user, $text){
+        $comment = new ContentComments();
+        $comment->content_id = $this->id;
+        $comment->user_id = $user;
+        $comment->write = gmdate("Y-m-d H:i:s");
+        $comment->text = $text;
+        $comment->save();
     }
 }
