@@ -34,6 +34,8 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'max_hrs')->textInput() ?>
 
+    <?= $form->field($model, 'selcal')->textInput() ?>
+
     <?= $form->field($model, 'profile')->widget(
         Select2::classname(),
         ['data' => \yii\helpers\ArrayHelper::map(\app\models\FleetProfiles::find()->all(), 'id', 'name')]
