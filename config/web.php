@@ -132,7 +132,7 @@ $config = [
             Yii::$app->layout = 'main';
         }
         if (Yii::$app->user->isGuest) {
-            if (Yii::$app->controller->id != 'site' || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index') && (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'login')) {
+            if (Yii::$app->controller->id != 'api' || Yii::$app->controller->id != 'site' || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index') && (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'login')) {
                 Yii::$app->getResponse()->redirect('/site/index');
             }
         }
