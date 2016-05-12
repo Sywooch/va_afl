@@ -20,6 +20,10 @@ use yii\db\Expression;
  */
 class Booking extends \yii\db\ActiveRecord
 {
+    const BOOKING_INIT = 1;
+    const BOOKING_FLIGHT_START = 2;
+    const BOOKING_FLIGHT_END = 3;
+
     /**
      * @inheritdoc
      */
@@ -73,7 +77,7 @@ class Booking extends \yii\db\ActiveRecord
 
     public function getFlight()
     {
-        return $this->hasOne(Flights::className(), ['booking_id' => 'id']);
+        return $this->hasOne(Flights::className(), ['id' => 'id']);
     }
 
     public function getDeparture()

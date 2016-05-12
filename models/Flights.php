@@ -32,6 +32,10 @@ use yii\i18n\Formatter;
  */
 class Flights extends \yii\db\ActiveRecord
 {
+    const FLIGHT_STATUS_OK = 2;
+    const FLIGHT_STATUS_BREAK = 3;
+    const FLIGHT_STATUS_STARTED = 1;
+
     /**
      * @inheritdoc
      */
@@ -47,7 +51,7 @@ class Flights extends \yii\db\ActiveRecord
     {
         return [
             [
-                ['user_id', 'booking_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],
+                ['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],
                 'integer'
             ],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs'], 'safe'],
@@ -66,7 +70,6 @@ class Flights extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'booking_id' => 'Booking ID',
             'callsign' => Yii::t('flights', 'Callsign'),
             'first_seen' => 'First Seen',
             'last_seen' => 'Last Seen',
@@ -193,7 +196,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getBooking()
     {
-        return $this->hasOne(Booking::className(), ['id' => 'booking_id']);
+        return $this->hasOne(Booking::className(), ['id' => 'id']);
     }
 
     public static function prepareTrackerData($id)
