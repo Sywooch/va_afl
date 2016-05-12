@@ -83,7 +83,7 @@ class SiteController extends Controller
 
         if(Yii::$app->user->isGuest) {
             $onlineProvider = new ActiveDataProvider([
-                'query' => Flights::find()->where(['status' => ParseController::FLIGHT_STATUS_STARTED]),
+                'query' => Flights::find()->where(['status' => Flights::FLIGHT_STATUS_STARTED]),
                 'sort' => false,
                 'pagination' => false,
             ]);
