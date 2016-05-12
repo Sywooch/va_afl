@@ -163,7 +163,7 @@ class ParseController extends Controller
         $flight = $this->updateData($flight);
         $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         $flight->pob = $paxs['total'];
-        $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->to_icao,$paxs['paxtypes']);
+        $flight->paxtypes = serialize($paxs['paxtypes']);
 
         if ($flight->save()) {
             $booking->status = Booking::BOOKING_FLIGHT_START;
@@ -209,6 +209,8 @@ class ParseController extends Controller
             $this->transferPilot($flight, $landing);
             $this->transferCraft($flight, $landing);
             //Биллинг
+
+            $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->landing,unserialize($flight->paxtypes));
             Billing::doFlightCosts($flight);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
