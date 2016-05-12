@@ -50,14 +50,11 @@ class Flights extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [
-                ['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],
-                'integer'
-            ],
+            [['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],'integer'],
             [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs'], 'safe'],
-            [['flightplan', 'remarks'], 'string'],
+            [['flightplan', 'remarks', 'fpl'], 'string'],
             [['eet', 'sim', 'nm'], 'required'],
-            [['from_icao', 'to_icao', 'alternate1'], 'string', 'max' => 5],
+            [['from_icao', 'to_icao', 'alternate1', 'alternate2', 'landing'], 'string', 'max' => 4],
             [['acf_type', 'callsign'], 'string', 'max' => 10]
         ];
     }
