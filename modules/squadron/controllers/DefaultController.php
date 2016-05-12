@@ -163,6 +163,7 @@ class DefaultController extends Controller
             if (isset($member)) {
                 $member->status = SquadronUsers::STATUS_ACTIVE;
                 $member->accepted = gmdate('Y-m-d H:i:s');
+                $member->accepted_by = Yii::$app->user->id;
 
                 if (!$member->update()) {
                     //var_dump($member->errors);

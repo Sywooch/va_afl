@@ -83,7 +83,7 @@ class SiteController extends Controller
 
         if(Yii::$app->user->isGuest) {
             $onlineProvider = new ActiveDataProvider([
-                'query' => Flights::find()->where(['status' => ParseController::FLIGHT_STATUS_STARTED]),
+                'query' => Flights::find()->where(['status' => Flights::FLIGHT_STATUS_STARTED]),
                 'sort' => false,
                 'pagination' => false,
             ]);
@@ -145,9 +145,11 @@ class SiteController extends Controller
     public function actionDeletemybooking()
     {
         if ($user = Yii::$app->user) {
-            $booking = Booking::find()->andWhere(['user_id' => $user->id])->one();
-            $booking->delete();
+            $booking = Booking::find()->andWhere(['user_id' => $user->id])->andWhere('status < '.Booking::BOOKING_FLIGHT_END)->one();
+            $booking->status = Booking::BOOKING_DELETED_BY_USER;
+            $booking->save();
         }
+
         $this->goBack();
     }
 

@@ -47,11 +47,13 @@ class ParseController extends Controller
     const WZ_ONGROUND = 46;
     const WZ_REMARKS = 29;
     const WZ_ALTERNATE = 28;
+    const WZ_FLIGHT_RULES = 21;
+    const WZ_FLIGHT_TYPE = 43;
+    const WZ_AIRCRAFT = 9;
+    const WZ_DEPTIME = 22;
+
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
-    const HOLD_TIME = 900;
-    const FLIGHT_STATUS_OK = 2;
-    const FLIGHT_STATUS_BREAK = 3;
-    const FLIGHT_STATUS_STARTED = 1;
+    const HOLD_TIME = 10;
 
     /**
      * Whazzup
@@ -116,18 +118,29 @@ class ParseController extends Controller
     /**
      * Валидирует полет. Проверяет, что он завершен в радиусе MAX_DISTANCE от аэродрома назначения.
      * @param $flight
-     * @return bool
+     * @return bool|string
      */
     private function validateFlight($flight)
     {
-        $airport = Airports::find()->andWhere(['icao' => $flight->to_icao])->one();
+        $airports = [
+            $flight->to_icao => Airports::find()->andWhere(['icao' => $flight->to_icao])->one(),
+            $flight->from_icao => Airports::find()->andWhere(['icao' => $flight->from_icao])->one(),
+            $flight->alternate1 => Airports::find()->andWhere(['icao' => $flight->alternate1])->one(),
+            $flight->alternate2 => Airports::find()->andWhere(['icao' => $flight->alternate2])->one(),
+        ];
+
         $tracker = Tracker::find()->andWhere(['user_id' => $flight->user_id])->orderBy('dtime desc')->one();
-        return (Helper::calculateDistanceLatLng(
-                $tracker->latitude,
-                $airport->lat,
-                $tracker->longitude,
-                $airport->lon
-            ) < self::MAX_DISTANCE_TO_SAVE_FLIGHT);
+
+        foreach ($airports as $name => $airport) {
+            if (Helper::calculateDistanceLatLng($tracker->latitude, $airport->lat, $tracker->longitude, $airport->lon)
+                < self::MAX_DISTANCE_TO_SAVE_FLIGHT
+            ) {
+                return $name;
+            }
+        }
+
+        return false;
+
     }
 
     /**
@@ -137,20 +150,23 @@ class ParseController extends Controller
     private function startFlight($booking)
     {
         $flight = new Flights();
+
         if ($booking->fleet_regnum) {
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
+
         $flight->acf_type = Fleet::find()->andWhere(['id'=>$flight->fleet_regnum])->one()->type_code;
-        $flight->booking_id = $booking->id;
+        $flight->id = $booking->id;
         $flight->user_id = $booking->user_id;
-        $flight->status = self::FLIGHT_STATUS_STARTED;
+        $flight->status = Flights::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
         $paxs=Pax::appendPax($flight->from_icao,$flight->to_icao,$flight->fleet,true);
         $flight->pob = $paxs['total'];
         $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->to_icao,$paxs['paxtypes']);
+
         if ($flight->save()) {
-            $booking->status = 2;
+            $booking->status = Booking::BOOKING_FLIGHT_START;
             $booking->save();
         }
         else{
@@ -165,7 +181,7 @@ class ParseController extends Controller
      */
     private function updateFlights()
     {
-        foreach (Flights::find()->andWhere(['status' => 1])->all() as $flight) {
+        foreach (Flights::find()->andWhere(['status' => Flights::FLIGHT_STATUS_STARTED])->all() as $flight) {
             if (empty($this->onlinepilotslist) || !in_array($flight->user_id, $this->onlinepilotslist)) {
                 $this->endFlight($flight);
             } else {
@@ -180,43 +196,38 @@ class ParseController extends Controller
      */
     private function endFlight($flight)
     {
-        $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
-        if($booking)$booking->delete();
-        if ($this->validateFlight($flight)) {
+        $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
+        $booking->status = Booking::BOOKING_FLIGHT_END;
+        $booking->save();
+
+        if ($landing = $this->validateFlight($flight)) {
             $flight->last_seen = gmdate('Y-m-d H:i:s');
-            $flight->status = self::FLIGHT_STATUS_OK;
+            $flight->status = Flights::FLIGHT_STATUS_OK;
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
-            $flight->save();
-            $this->transferPilot($flight);
-            $this->transferCraft($flight);
+            $flight->landing = $landing;
+
+            $this->transferPilot($flight, $landing);
+            $this->transferCraft($flight, $landing);
             //Биллинг
             Billing::doFlightCosts($flight);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
-                $flight->status = self::FLIGHT_STATUS_BREAK;
-                $flight->save();
+                $flight->status = Flights::FLIGHT_STATUS_BREAK;
             }
         }
-        ;
+
+        $flight->save();
     }
 
-    /**
-     * Перемещает пилота
-     * @param $flight
-     */
-    private function transferPilot($flight)
+    private function transferPilot($flight, $landing)
     {
-        Users::transfer($flight->user_id, $flight->to_icao);
+        Users::transfer($flight->user_id, $landing);
     }
 
-    /**
-     * Перемещает борт
-     * @param $flight
-     */
-    private function transferCraft($flight)
+    private function transferCraft($flight, $landing)
     {
-        Fleet::transfer($flight->fleet_regnum, $flight->to_icao);
+        Fleet::transfer($flight->fleet_regnum, $landing);
     }
 
     /**
@@ -232,23 +243,39 @@ class ParseController extends Controller
     private function updateData($flight)
     {
         $data = $this->ourpilots[$flight->user_id];
-        $booking = Booking::find()->andWhere(['id' => $flight->booking_id])->one();
-        $flight->from_icao = $booking->from_icao;
-        $flight->to_icao = $booking->to_icao;
-        $flight->last_seen = gmdate('Y-m-d H:i:s');
-        $flight->flightplan = $this->getFlightRoute($data);
-        $flight->callsign = $data[self::WZ_CALLSIGN];
-        $flight->remarks = $data[self::WZ_REMARKS];
-        $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
-        //$flight->pob = $data[self::WZ_POB];
-        $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
-        $flight->alternate1 = $data[self::WZ_ALTERNATE];
-        $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
-        $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
-        $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
-        if($flight->dep_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==0 && $data[self::WZ_GROUNDSPEED]>40) $flight->dep_time=gmdate('Y-m-d H:i:s');
-        if($flight->dep_time>'0000-00-00 00:00:00' && $flight->landing_time=='0000-00-00 00:00:00' && $data[self::WZ_ONGROUND]==1 && $data[self::WZ_GROUNDSPEED]<=40) $flight->landing_time=gmdate('Y-m-d H:i:s');
-        $this->insertTrackerData($flight);
+
+        $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
+
+        if ($this->validateBooking($booking, $data)){
+
+            $flight->from_icao = $booking->from_icao;
+            $flight->to_icao = $booking->to_icao;
+            $flight->last_seen = gmdate('Y-m-d H:i:s');
+            $flight->flightplan = $this->getFlightRoute($data);
+            $flight->callsign = $data[self::WZ_CALLSIGN];
+            $flight->remarks = $data[self::WZ_REMARKS];
+            $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
+            //$flight->pob = $data[self::WZ_POB];
+            $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
+            $flight->alternate1 = $data[self::WZ_ICAOALT1];
+            $flight->alternate2 = $data[self::WZ_ICAOALT2];
+            $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
+            $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
+            $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
+
+            if ($flight->dep_time == '0000-00-00 00:00:00' && $data[self::WZ_ONGROUND] == 0 && $data[self::WZ_GROUNDSPEED] > 40) {
+                $flight->dep_time = gmdate('Y-m-d H:i:s');
+            }
+
+            if ($flight->dep_time > '0000-00-00 00:00:00' && $flight->landing_time == '0000-00-00 00:00:00' && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40) {
+                $flight->landing_time = gmdate('Y-m-d H:i:s');
+            }
+
+            $flight->fpl = $this->getFPL($data);
+
+            $this->insertTrackerData($flight);
+        }
+
         return $flight;
     }
 
@@ -260,6 +287,17 @@ class ParseController extends Controller
     private function getFlightRoute($data)
     {
         return $data[self::WZ_FPL_SPD] . $data[self::WZ_FPL_ALT] . " " . $data[self::WZ_FLIGHTPLAN];
+    }
+
+    private function getFPL($data){
+        return '(FPL-'.$data[self::WZ_CALLSIGN].'-'.$data[self::WZ_FLIGHT_RULES].$data[self::WZ_FLIGHT_TYPE]."\n".
+                '-'.$data[self::WZ_AIRCRAFT]."\n".
+                '-'.$data[self::WZ_ICAOFROM].$data[self::WZ_DEPTIME]."\n".
+                '-'.$this->getFlightRoute($data)."\n".
+                '-'.$data[self::WZ_ICAOTO].sprintf("%02d%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]).' '.$data[self::WZ_ICAOALT1].' '.$data[self::WZ_ICAOALT2]."\n".
+                '-'.$data[self::WZ_RMK]."\n".
+                '-'.sprintf("%02d%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES])."\n".
+            ')';
     }
 
     /**
@@ -274,8 +312,8 @@ class ParseController extends Controller
             $booking->from_icao == $data[self::WZ_ICAOFROM] &&
             $booking->to_icao == $data[self::WZ_ICAOTO] &&
             $booking->callsign == $data[self::WZ_CALLSIGN] &&
-            $booking->status == 1 &&
-            !Flights::find()->andWhere(['booking_id' => $booking->id])->one()
+            $booking->status == Booking::BOOKING_INIT &&
+            !Flights::find()->andWhere(['id' => $booking->id])->one()
         );
 
     }

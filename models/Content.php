@@ -33,6 +33,21 @@ class Content extends \yii\db\ActiveRecord
         return 'content';
     }
 
+    public static function news(){
+        return self::prepare(self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy('created desc')->all());
+    }
+
+    public static function prepare($mNews)
+    {
+        $news = [];
+        foreach ($mNews as $new) {
+            if (empty($new->access) || Yii::$app->user->can($new->access)) {
+                $news[] = $new;
+            }
+        }
+        return $news;
+    }
+
     /**
      * @inheritdoc
      */
@@ -40,7 +55,7 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             [['category', 'name_ru', 'name_en'], 'required'],
-            [['category', 'author'], 'integer'],
+            [['category', 'author', 'views'], 'integer'],
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
             [['name_ru', 'name_en', 'description_ru', 'description_en'], 'string', 'max' => 50],

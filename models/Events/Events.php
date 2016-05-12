@@ -33,6 +33,16 @@ class Events extends \yii\db\ActiveRecord
         return 'events';
     }
 
+    private static function eventArray($all)
+    {
+        $events = [];
+        foreach($all as $event){
+            $events[$event['id']] = $event;
+            $events[$event['id']]['content'] = Content::find()->where(['id' => $event['content']])->asArray()->one()    ;
+        }
+        return $events;
+    }
+
     /**
      * @inheritdoc
      */
@@ -64,7 +74,7 @@ class Events extends \yii\db\ActiveRecord
     public static function center($array = false)
     {
         $request = self::find()->where('DATE(NOW()) < DATE(start) OR (DATE(NOW()) >= DATE(start) AND DATE(NOW()) <= DATE(stop))')->andWhere(['center' => 1])->orderBy(['start' => SORT_ASC]);
-        return $array ? $request->asArray()->all() : $request->all();
+        return $array ? self::eventArray($request->asArray()->all()) : $request->all();
     }
 
     public function getColor(){

@@ -11,8 +11,7 @@ use yii\helpers\Html;
 ?>
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('app', 'News') ?> <span
-                class="label label-success pull-right">4 message</span>
+        <h4 class="panel-title"><?= Yii::t('app', 'News') ?>
         </h4>
     </div>
     <div class="panel-body bg-silver" data-scrollbar="true" data-height="350px">
@@ -28,7 +27,7 @@ use yii\helpers\Html;
                                                                   src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
                         <div class="message">
-                            <?= $news_one->description ?>
+                            <?= $news_one->text ?>
                         </div>
                     </li>
                 <?php endforeach; ?>

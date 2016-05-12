@@ -172,8 +172,8 @@ class Pax extends \yii\db\ActiveRecord
         $maxpax = $fleet->max_pax;
         $paxtypes=['red'=>0,'yellow'=>0,'green'=>0];
         $flightpax = $maxpax;
-        $needpax = self::find()->andWhere('from_icao = "'.$from.'"')
-            ->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
+        $needpax = self::find()->andWhere('from_icao = "'.$from.'"')->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
+
         foreach($needpax as $px)
         {
             if($px->num_pax <= $flightpax)
@@ -200,6 +200,7 @@ class Pax extends \yii\db\ActiveRecord
             if($need_save_pax)$px->save();
             if($flightpax <= 0) break;
         }
+        Yii::trace(['total'=>($maxpax-$flightpax),'paxtypes'=>$paxtypes]);
         return ['total'=>($maxpax-$flightpax),'paxtypes'=>$paxtypes];
     }
 }
