@@ -159,7 +159,7 @@ class DefaultController extends Controller
             'center/index',
             [
                 'user' => $user,
-                'news' => Content::find()->where(['category' => 1])->orderBy(['created' => SORT_DESC])->limit(10)->all(),
+                'news' => Content::news(),
                 'events' => Events::center(),
                 'eventsCalendar' => Calendar::center(),
                 'flightsProvider' => $flightsProvider,

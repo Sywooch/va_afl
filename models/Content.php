@@ -33,6 +33,21 @@ class Content extends \yii\db\ActiveRecord
         return 'content';
     }
 
+    public static function news(){
+        return self::prepare(self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy('created desc')->all());
+    }
+
+    public static function prepare($mNews)
+    {
+        $news = [];
+        foreach ($mNews as $new) {
+            if (empty($new->access) || Yii::$app->user->can($new->access)) {
+                $news[] = $new;
+            }
+        }
+        return $news;
+    }
+
     /**
      * @inheritdoc
      */
