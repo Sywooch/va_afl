@@ -27,7 +27,7 @@ use yii\helpers\Html;
                                                                   src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
                         <div class="message">
-                            <?= $news_one->description ?>
+                            <?= $news_one->text ?>
                         </div>
                     </li>
                 <?php endforeach; ?>
