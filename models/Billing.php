@@ -63,6 +63,7 @@ class Billing extends \yii\db\ActiveRecord
         return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
     }
 
+    //TODO: Продумать алгоритм при посадке не в аэропорту назначения
     public static function calculatePriceForFlight($from,$to,$paxlist)
     {
         $afrom = Airports::find()->andWhere(['icao'=>$from])->one();

@@ -178,15 +178,16 @@ class Booking extends \yii\db\ActiveRecord
     }
     public static function jsonMapData()
     {
-        $booking = self::find()->andWhere(['user_id'=>Users::getAuthUser()->vid])->one();
+        $booking = self::find()->andWhere(['user_id'=>Users::getAuthUser()->vid])->andWhere('status < '.self::BOOKING_FLIGHT_END)->one();
         $data = [
             'type' => 'FeatureCollection',
             'features' => [
                 [
                     'type'=>'Feature',
                     'properties'=>[
-                        'type'=>'departure',
-                        'name'=>$booking->from_icao,
+                        'type'=>'start',
+                        'name'=> $booking->from_icao,
+                        'title' => $booking->from_icao
                     ],
                     'geometry'=>[
                         'type'=>'point',
@@ -196,11 +197,12 @@ class Booking extends \yii\db\ActiveRecord
                 [
                     'type'=>'Feature',
                     'properties'=>[
-                        'type'=>'arrival',
-                        'name'=>$booking->to_icao
+                        'type'=>'stop',
+                        'name'=>$booking->to_icao,
+                        'title' => $booking->to_icao
                     ],
                     'geometry'=>[
-                        'type'=>'point',
+                        'type'=>'Point',
                         'coordinates' => [$booking->arrival->lon, $booking->arrival->lat],
                     ]
                 ],

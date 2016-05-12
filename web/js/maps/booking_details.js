@@ -28,12 +28,13 @@ setTimeout(function () {
     map.data.loadGeoJson('/site/mybookingdetails');
     map.data.setStyle(function(feature) {
         if(feature.getGeometry().getType()=='Point') {
-            return {
-                clickable: true,
-                icon: {
-                    path: (feature.getProperty('type')=='departure')?"https://maps.google.com/mapfiles/marker.png" : "https://maps.google.com/mapfiles/marker_green.png",
-                }
-            };
+            icon = (feature.getProperty('type') == 'start') ? "https://maps.google.com/mapfiles/marker.png" : "https://maps.google.com/mapfiles/marker_green.png";
+
+            return{
+                icon: icon,
+                animation: google.maps.Animation.DROP,
+                title: feature.getProperty('title')
+            }
         }
         else{
             return {
