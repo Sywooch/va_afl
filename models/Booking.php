@@ -23,6 +23,7 @@ class Booking extends \yii\db\ActiveRecord
     const BOOKING_INIT = 1;
     const BOOKING_FLIGHT_START = 2;
     const BOOKING_FLIGHT_END = 3;
+    const BOOKING_DELETED_BY_USER = 10;
 
     /**
      * @inheritdoc

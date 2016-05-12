@@ -61,14 +61,14 @@ class DefaultController extends Controller
     {
         \Yii::$app->user->returnUrl = '/pilot/booking';
 
-        if (!$model = Booking::find()->andWhere(['user_id' => \Yii::$app->user->id])->one()) {
+        if (!$model = Booking::find()->andWhere(['user_id' => \Yii::$app->user->id])->andWhere('status < '.Booking::BOOKING_FLIGHT_END)->one()) {
             $model = new Booking();
             $model->addData();
         }
 
         if (isset($_POST['Booking'])) {
             $model->attributes = $_POST['Booking'];
-            $model->status = 1;
+            $model->status = Booking::BOOKING_INIT;
             $model->save();
             $this->refresh();
         }
@@ -136,7 +136,7 @@ class DefaultController extends Controller
         ]);
 
         $onlineProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['status' => ParseController::FLIGHT_STATUS_STARTED]),
+            'query' => Flights::find()->where(['status' => Flights::FLIGHT_STATUS_STARTED]),
             'sort' => false,
             'pagination' => false,
         ]);

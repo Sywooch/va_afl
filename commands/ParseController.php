@@ -53,7 +53,7 @@ class ParseController extends Controller
     const WZ_DEPTIME = 22;
 
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
-    const HOLD_TIME = 900;
+    const HOLD_TIME = 10;
 
     /**
      * Whazzup
@@ -118,19 +118,29 @@ class ParseController extends Controller
     /**
      * Валидирует полет. Проверяет, что он завершен в радиусе MAX_DISTANCE от аэродрома назначения.
      * @param $flight
-     * @return bool
+     * @return bool|string
      */
     private function validateFlight($flight)
     {
-        $airport = Airports::find()->andWhere(['icao' => $flight->to_icao])->one();
+        $airports = [
+            $flight->to_icao => Airports::find()->andWhere(['icao' => $flight->to_icao])->one(),
+            $flight->from_icao => Airports::find()->andWhere(['icao' => $flight->from_icao])->one(),
+            $flight->alternate1 => Airports::find()->andWhere(['icao' => $flight->alternate1])->one(),
+            $flight->alternate2 => Airports::find()->andWhere(['icao' => $flight->alternate2])->one(),
+        ];
+
         $tracker = Tracker::find()->andWhere(['user_id' => $flight->user_id])->orderBy('dtime desc')->one();
 
-        return (Helper::calculateDistanceLatLng(
-                $tracker->latitude,
-                $airport->lat,
-                $tracker->longitude,
-                $airport->lon
-            ) < self::MAX_DISTANCE_TO_SAVE_FLIGHT);
+        foreach ($airports as $name => $airport) {
+            if (Helper::calculateDistanceLatLng($tracker->latitude, $airport->lat, $tracker->longitude, $airport->lon)
+                < self::MAX_DISTANCE_TO_SAVE_FLIGHT
+            ) {
+                return $name;
+            }
+        }
+
+        return false;
+
     }
 
     /**
@@ -188,15 +198,16 @@ class ParseController extends Controller
     {
         $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
         $booking->status = Booking::BOOKING_FLIGHT_END;
+        $booking->save();
 
-
-        if ($this->validateFlight($flight)) {
+        if ($landing = $this->validateFlight($flight)) {
             $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->status = Flights::FLIGHT_STATUS_OK;
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time))/60);
+            $flight->landing = $landing;
 
-            $this->transferPilot($flight);
-            $this->transferCraft($flight);
+            $this->transferPilot($flight, $landing);
+            $this->transferCraft($flight, $landing);
             //Биллинг
             Billing::doFlightCosts($flight);
         } else {
@@ -209,22 +220,14 @@ class ParseController extends Controller
         $flight->save();
     }
 
-    /**
-     * Перемещает пилота
-     * @param $flight
-     */
-    private function transferPilot($flight)
+    private function transferPilot($flight, $landing)
     {
-        Users::transfer($flight->user_id, $flight->to_icao);
+        Users::transfer($flight->user_id, $landing);
     }
 
-    /**
-     * Перемещает борт
-     * @param $flight
-     */
-    private function transferCraft($flight)
+    private function transferCraft($flight, $landing)
     {
-        Fleet::transfer($flight->fleet_regnum, $flight->to_icao);
+        Fleet::transfer($flight->fleet_regnum, $landing);
     }
 
     /**
@@ -254,7 +257,8 @@ class ParseController extends Controller
             $flight->fob = sprintf("%02d:%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]);
             //$flight->pob = $data[self::WZ_POB];
             $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
-            $flight->alternate1 = $data[self::WZ_ALTERNATE];
+            $flight->alternate1 = $data[self::WZ_ICAOALT1];
+            $flight->alternate2 = $data[self::WZ_ICAOALT2];
             $flight->nm = intval(Helper::calculateDistanceLatLng($flight->depAirport->lat,$flight->arrAirport->lat,$flight->depAirport->lon,$flight->arrAirport->lon));
             $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
             $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
