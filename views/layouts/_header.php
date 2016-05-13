@@ -10,7 +10,7 @@ use app\models\Users;
     <div class="container-fluid">
         <!-- begin mobile sidebar expand / collapse button -->
         <div class="navbar-header">
-            <p align="center"><a href="/site/index" class="navbar-brand"><img src="/img/afl_logo.png" style="height: 100%"></a></p>
+            <p align="center"><a href="/pilot/center" class="navbar-brand"><img src="/img/afl_logo.png" style="height: 100%"></a></p>
         </div>
         <!-- end mobile sidebar expand / collapse button -->
 
@@ -19,11 +19,11 @@ use app\models\Users;
             <li>
                 <div id="clock">
                     <ul>
-                        <li id="hours"></li>
+                        <li id="hours"><?= gmdate("G") ?></li>
                         <li id="point">:</li>
-                        <li id="min"></li>
+                        <li id="min"><?= gmdate("i") ?></li>
                         <li id="point">:</li>
-                        <li id="sec"></li>
+                        <li id="sec"><?= gmdate("s") ?></li>
                     </ul>
             </li>
             <li class="dropdown">
