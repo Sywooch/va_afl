@@ -248,7 +248,7 @@ class ParseController extends Controller
 
         $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
 
-        if ($this->validateBooking($booking, $data)){
+        if ($this->validateOnlineFlight($booking, $data)){
 
             $flight->from_icao = $booking->from_icao;
             $flight->to_icao = $booking->to_icao;
@@ -298,8 +298,7 @@ class ParseController extends Controller
                 '-'.$this->getFlightRoute($data)."\n".
                 '-'.$data[self::WZ_ICAOTO].sprintf("%02d%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]).' '.$data[self::WZ_ICAOALT1].' '.$data[self::WZ_ICAOALT2]."\n".
                 '-'.$data[self::WZ_RMK]."\n".
-                '-'.sprintf("%02d%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES])."\n".
-            ')';
+                '-E/'.sprintf("%02d%02d",$data[self::WZ_FOB_HOURS],$data[self::WZ_FOB_MINUTES]).')';
     }
 
     /**
@@ -318,6 +317,16 @@ class ParseController extends Controller
             !Flights::find()->andWhere(['id' => $booking->id])->one()
         );
 
+    }
+
+    private function validateOnlineFlight($booking, $data)
+    {
+        return (
+            $booking->from_icao == $data[self::WZ_ICAOFROM] &&
+            $booking->to_icao == $data[self::WZ_ICAOTO] &&
+            $booking->callsign == $data[self::WZ_CALLSIGN] &&
+            $booking->status == Booking::BOOKING_FLIGHT_START
+        );
     }
 
     /**
