@@ -225,7 +225,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="row">
                                 <div class="col-md-12">
                                     <?php Pjax::begin() ?>
-                                    <?= GridView::widget([
+                                        <?= GridView::widget([
                                         'dataProvider' => $fleetProvider,
                                         'columns' => [
                                             [
@@ -237,7 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             Html::encode($data->regnum),
                                                             Url::to(
                                                                 [
-                                                                    '/airline/fleet/view/'.$data->regnum,
+                                                                    '/airline/fleet/view/'.$data->id,
                                                                 ]
                                                             )
                                                         );
@@ -292,6 +292,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             ]
                                                         ) : '';
                                                     }
+                                            ],
+                                            [
+                                                'attribute' => 'profileInfo.name',
+                                                'label' => 'Profile Name',
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return isset($data->profileInfo) ? $data->profileInfo->name : '###';
+                                                    },
+                                                'visible' => Yii::$app->user->can("squadrons/{$squadron->abbr}/fleet")
                                             ],
                                         ],
                                     ]); ?>
