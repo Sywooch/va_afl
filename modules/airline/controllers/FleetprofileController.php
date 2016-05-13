@@ -2,6 +2,7 @@
 
 namespace app\modules\airline\controllers;
 
+use app\models\Squadrons;
 use Yii;
 use app\models\FleetProfiles;
 use yii\data\ActiveDataProvider;
@@ -24,6 +25,30 @@ class FleetprofileController extends Controller
                 ],
             ],
         ];
+    }
+
+
+    public function actionStats()
+    {
+        $stats_t = Yii::$app->getDb()->createCommand(
+            'SELECT fleet.squadron_id, count(DISTINCT id) as acoun, a.coun
+                    FROM fleet
+                    LEFT JOIN
+                    (SELECT squadron_id, count(DISTINCT id) as coun FROM fleet WHERE profile IS NOT NULL GROUP BY fleet.squadron_id)
+                    AS a ON a.squadron_id = fleet.squadron_id WHERE profile IS NULL AND fleet.squadron_id > 0 AND fleet.squadron_id < 4
+                    GROUP BY fleet.squadron_id'
+        )->queryAll();
+        $stats = [];
+
+        foreach($stats_t as $stat){
+            $stats[Squadrons::findOne($stat['squadron_id'])->name_en][] = ['name' => 'Without profile', 'y' => (int) $stat['acoun']];
+            $stats[Squadrons::findOne($stat['squadron_id'])->name_en][] = ['name' => 'With profile', 'y' => (int) $stat['coun']];
+        }
+
+
+        return $this->render('stats', [
+                'stats' => $stats,
+            ]);
     }
 
     /**
