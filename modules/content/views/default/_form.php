@@ -34,7 +34,9 @@ use dosamigos\ckeditor\CKEditor;
         echo $form->field($model, 'machine_name')->textInput(['maxlength' => true]);
     } ?>
     <?= $form->field($model, 'img_file')->fileInput() ?>
+    <?= $form->field($model, 'img')->textInput() ?>
     <?= $form->field($model, 'preview_file')->fileInput() ?>
+    <?= $form->field($model, 'preview')->textInput() ?>
     <?=
     $form->field($model, 'text_ru')->widget(
         CKEditor::className(),
