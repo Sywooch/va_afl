@@ -19,6 +19,7 @@ use app\models\Pax;
 use app\models\Tracker;
 use app\models\UserPilot;
 use app\models\Users;
+use yii\base\Exception;
 use yii\console\Controller;
 
 class ParseController extends Controller
@@ -128,6 +129,7 @@ class ParseController extends Controller
      */
     private function validateFlight($flight)
     {
+        try{
         $airports = [
             $flight->to_icao => Airports::find()->andWhere(['icao' => $flight->to_icao])->one(),
             $flight->from_icao => Airports::find()->andWhere(['icao' => $flight->from_icao])->one(),
@@ -136,13 +138,18 @@ class ParseController extends Controller
         ];
 
         $tracker = Tracker::find()->where(['flight_id' => $flight->id])->orderBy('dtime desc')->one();
-
+        if(!$tracker){
+            var_dump($tracker);
+        }
         foreach ($airports as $name => $airport) {
             if (Helper::calculateDistanceLatLng($tracker->latitude, $airport->lat, $tracker->longitude, $airport->lon)
                 < self::MAX_DISTANCE_TO_SAVE_FLIGHT
             ) {
                 return $name;
             }
+        }
+        }catch (\Exception $ex){
+            var_dump($ex);
         }
 
         return false;
