@@ -52,7 +52,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => function ($data) {
                                 return Html::a(
                                     Html::encode($data->fleet->type_code),
-                                    '#',
+                                    Url::to(
+                                        [
+                                            '/airline/fleet/view/'.$data->fleet->id,
+                                        ]
+                                    ),
                                     [
                                         'data-toggle' => "tooltip",
                                         'data-placement' => "top",

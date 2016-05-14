@@ -32,7 +32,7 @@ use app\components\Helper;
             <td><b> <?=
                     Html::a(
                         $model->fleet->regnum,
-                        Url::to(['/airline/fleet/view/', 'id' => $model->fleet->regnum])
+                        Url::to(['/airline/fleet/view/'.$model->fleet->id])
                     ) ?></b>
             </td>
         </tr>
