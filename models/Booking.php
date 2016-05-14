@@ -91,37 +91,38 @@ class Booking extends \yii\db\ActiveRecord
         return $this->hasOne(Airports::className(), ['icao' => 'to_icao']);
     }
 
-    private static function generateCallsign($from,$to)
+    private static function generateCallsign($from, $to)
     {
-        if($sched = Schedule::find()->andWhere(['arr'=>$from])->andWhere(['dep'=>$to])->andWhere('SUBSTRING(day_of_weeks,'.(date('N')-1).',1) = 1')->one())
+        if ($sched = Schedule::find()->andWhere(['arr' => $from])
+            ->andWhere(['dep' => $to])
+            ->andWhere('SUBSTRING(day_of_weeks,' . (date('N') - 1) . ',1) = 1')->one()) {
             return $sched->flight;
-        else{
-            $namelist=['AFL','TSO'];
-            $airline=$namelist[rand(0,sizeof($namelist)-1)];
+        } else {
+            //$namelist=['AFL','TSO'];
+            //$namelist=['AFL','TSO'];
+
+            $airline = "AFL";
             $numbers = "";
-            for($num=0;$num<rand(3,4);$num++)
-            {
-                $numbers .= rand(0,9);
+            for ($num = 0; $num < rand(3, 4); $num++) {
+                $numbers .= rand(0, 9);
             }
 
             $calsign = "";
 
-            if($airline == "AFL")
-            {
-                if($numbers == "000" or $numbers == "0000")
-                {
-                    $numbers = "001";
-                }
+            /*if($airline == "AFL")
+            {*/
+            if ($numbers == "000" or $numbers == "0000") {
+                $numbers = "001";
+            }
 
-                if(strlen($numbers) == 4)
-                {
-                    if(substr($numbers, 0, 1) == "0")
-                    {
-                        $numbers = substr($numbers, 1);
-                    }
+            if (strlen($numbers) == 4) {
+                if (substr($numbers, 0, 1) == "0") {
+                    $numbers = substr($numbers, 1);
                 }
             }
-            
+            //}
+
+            /*
             if($airline == "TSO")
             {
                 if(strlen($numbers) == 3)
@@ -159,9 +160,9 @@ class Booking extends \yii\db\ActiveRecord
                         }
                     }
                 }
-            }
+            }*/
 
-            $calsign .= $airline.$numbers;
+            $calsign .= $airline . $numbers;
 
             return $calsign;
         }
@@ -176,6 +177,7 @@ class Booking extends \yii\db\ActiveRecord
         $data['aname'] = $apt->name;
         return $data;
     }
+
     public static function jsonMapData()
     {
         $booking = self::find()->andWhere(['user_id'=>Users::getAuthUser()->vid])->andWhere('status < '.self::BOOKING_FLIGHT_END)->one();
