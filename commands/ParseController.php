@@ -72,6 +72,11 @@ class ParseController extends Controller
      * @var array
      */
     private $onlinepilotslist;
+    /**
+     * Отправлять или не отправлять, вот в чём вопрос.
+     * @var bool
+     */
+    private $slackFeed = true;
 
     /**
      * Главная функция, запускает остальные функции
