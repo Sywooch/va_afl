@@ -185,6 +185,11 @@ class Flights extends \yii\db\ActiveRecord
         return $this->hasMany(Tracker::className(), ['flight_id' => 'id']);
     }
 
+    public function getLastTrack()
+    {
+        Tracker::find()->where(['flight_id' => $this->id])->one();
+    }
+
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
