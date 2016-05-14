@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\components\Helper;
+use app\components\Slack;
 use app\models\Actypes;
 use app\models\Airports;
 use app\models\Billing;
@@ -71,6 +72,11 @@ class ParseController extends Controller
      * @var array
      */
     private $onlinepilotslist;
+    /**
+     * Отправлять или не отправлять, вот в чём вопрос.
+     * @var bool
+     */
+    private $slackFeed = true;
 
     /**
      * Главная функция, запускает остальные функции
@@ -168,6 +174,11 @@ class ParseController extends Controller
         if ($flight->save()) {
             $booking->status = Booking::BOOKING_FLIGHT_START;
             $booking->save();
+
+            if ($this->slackFeed) {
+                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} started with {$paxs['total']} pax on board.");
+                $slack->sent();
+            }
         }
         else{
             var_dump($flight->errors);
@@ -212,10 +223,22 @@ class ParseController extends Controller
 
             $flight->vucs = Billing::calculatePriceForFlight($flight->from_icao,$flight->landing,unserialize($flight->paxtypes));
             Billing::doFlightCosts($flight);
+
+            if ($this->slackFeed) {
+                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} finished in {$landing}.");
+                $slack->addText($flight->fpl);
+                $slack->sent();
+            }
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
                 $flight->status = Flights::FLIGHT_STATUS_BREAK;
+
+                if ($this->slackFeed) {
+                    $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} failed.");
+                    $slack->addText($flight->fpl);
+                    $slack->sent();
+                }
             }
         }
 
