@@ -93,4 +93,8 @@ class Squadrons extends \yii\db\ActiveRecord
     {
         return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->id)->all();
     }
+
+    public function getStaff(){
+        return Staff::getSquad($this->abbr);
+    }
 }

@@ -178,6 +178,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li class=""><a href="#rules" data-toggle="tab"
                                         aria-expanded="false"><?= $squadron->squadronRules->name ?></a>
                         </li>
+                        <li class=""><a href="#staff" data-toggle="tab"
+                                        aria-expanded="false"><?= Yii::t('app', 'Staff') ?></a>
+                        </li>
                         <li class=""><a href="#fleet" data-toggle="tab"
                                         aria-expanded="false"><?= Yii::t('app', 'Fleet') ?></a>
                         </li>
@@ -220,6 +223,37 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ) ?>
                             <?php endif; ?>
                             <?= $squadron->squadronRules->text ?>
+                        </div>
+                        <div class="tab-pane fade" id="staff">
+                            <?php Pjax::begin() ?>
+                            <?=
+                            GridView::widget(
+                                [
+                                    'dataProvider' => $staffProvider,
+                                    'tableOptions' => ['class' => 'table table-bordered'],
+                                    'columns' => [
+                                        Yii::$app->language == 'RU' ? 'name_ru' : 'name_en',
+                                        [
+                                            'attribute' => 'Name',
+                                            'format' => 'raw',
+                                            'value' => function ($data) {
+                                                    return "<img src='" . \app\components\Helper::getFlagLink(
+                                                        $data->user->country
+                                                    ) . "'> " . Html::a(
+                                                        Html::encode($data->user->full_name),
+                                                        Url::to(
+                                                            [
+                                                                '/pilot/profile/',
+                                                                'id' => $data->user->vid
+                                                            ]
+                                                        )
+                                                    );
+                                                }
+                                        ],
+                                    ],
+                                ]
+                            ); ?>
+                            <?php Pjax::end() ?>
                         </div>
                         <div class="tab-pane fade" id="fleet">
                             <div class="row">
@@ -266,7 +300,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         );
                                                     },
                                             ],
-                                            'max_hrs',
+                                    [
+                                        'attribute' => 'status',
+                                        'label' => Yii::t('app', 'Status'),
+                                        'format' => 'raw',
+                                        'value' => function ($data) {
+                                                switch($data->status){
+                                                    case 0:
+                                                        return '<i class="fa fa-unlock"></i> '.Yii::t('flights', 'Available');
+                                                        break;
+                                                    case 1:
+                                                        return '<i class="fa fa-lock"></i> '.Yii::t('flights', 'Booked');
+                                                        break;
+                                                    case 2:
+                                                        return '<i class="fa fa-plane"></i> '.Yii::t('flights', 'In flight');
+                                                        break;
+                                                    default:
+                                                        return '<i class="fa fa-lock"></i> '.Yii::t('flights', 'No info');
+                                                }
+                                            },
+                                    ],
                                             [
                                                 'attribute' => 'lastFlight',
                                                 'label' => Yii::t('app', 'Last') . ' ' . Yii::t('app', 'Flight'),
@@ -345,8 +398,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     [
                                                                         '/airline/fleet/view/'.$data->fleet->regnum,
                                                                     ]
-                                                                ));
-
+                                                                ),
+                                                                [
+                                                                    'data-toggle' => "tooltip",
+                                                                    'data-placement' => "top",
+                                                                    'title' => Html::encode("{$data->fleet->full_type}")
+                                                                ]);
                                                         }
                                                 ],
                                                 [
@@ -377,11 +434,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                         '/airline/airports/view/',
                                                                         'id' => $data->from_icao
                                                                     ]
-                                                                )
+                                                                ),
+                                                                [
+                                                                    'data-toggle' => "tooltip",
+                                                                    'data-placement' => "top",
+                                                                    'title' => Html::encode("{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})")
+                                                                ]
                                                             ) . ' - ' . Html::a(
                                                                 Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                                                 Html::encode($data->to_icao),
-                                                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
+                                                                Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
+                                                                [
+                                                                    'data-toggle' => "tooltip",
+                                                                    'data-placement' => "top",
+                                                                    'title' => Html::encode("{$data->arrAirport->name} ({$data->arrAirport->city}, {$data->arrAirport->iso})")
+                                                                ]
                                                             );
                                                         },
                                                 ],
@@ -503,7 +570,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         return Html::img(
                                                             Helper::getFlagLink($data->user->country)
                                                         ) . ' ' . Html::a(
-                                                            Html::encode($data->user->full_name),
+                                                            Html::encode($data->user->full_name).' ('.$data->user->vid.')',
                                                             Url::to(
                                                                 [
                                                                     '/pilot/profile/',
@@ -640,14 +707,29 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ); ?>
                                 <?php Pjax::end() ?>
                             </div>
-                        <?php endif; ?><?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/log")): ?>
+                        <?php endif; ?>
+                        <?php if (Yii::$app->user->can("squadrons/{$squadron->abbr}/log")): ?>
                             <div class="tab-pane fade" id="log">
                                 <?php Pjax::begin() ?>
                                 <?= GridView::widget([
                                         'dataProvider' => $logProvider,
                                         'columns' => [
                                             'id',
-                                            'author',
+                                            [
+                                                'attribute' => 'users.full_name',
+                                                'label' => Yii::t('app', 'User'),
+                                                'format' => 'raw',
+                                                'value' => function ($data) {
+                                                        return $data ? Html::img(Helper::getFlagLink($data->user->country)).' '.Html::a(
+                                                            Html::encode($data->user->full_name),
+                                                            Url::to(
+                                                                [
+                                                                    '/pilot/profile/',
+                                                                    'id' => $data->author
+                                                                ]
+                                                            )) : '';
+                                                    }
+                                            ],
                                             'subject',
                                             'action',
                                             // 'old:ntext',

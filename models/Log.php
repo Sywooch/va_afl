@@ -65,4 +65,9 @@ class Log extends \yii\db\ActiveRecord
             'new' => Yii::t('app', 'New'),
         ];
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'author']);
+    }
 }
