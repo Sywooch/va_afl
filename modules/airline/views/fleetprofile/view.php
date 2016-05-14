@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'rvr',
             'equipment',
             'transponder',
+            'rmk',
         ],
     ]) ?>
 
