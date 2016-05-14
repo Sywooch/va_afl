@@ -284,7 +284,11 @@ class ParseController extends Controller
             $flight->domestic = $this->isDomestic($flight) ? 1 : 0;
             $flight->alternate1 = $data[self::WZ_ICAOALT1];
             $flight->alternate2 = $data[self::WZ_ICAOALT2];
-            $flight->nm += intval(Helper::calculateDistanceLatLng($flight->lastTrack->latitude,$data[self::WZ_LATITUDE],$flight->lastTrack->longitude,$data[self::WZ_LONGITUDE]));
+
+            if(isset($flight->lastTrack)){
+                $flight->nm += intval(Helper::calculateDistanceLatLng($flight->lastTrack->latitude,$data[self::WZ_LATITUDE],$flight->lastTrack->longitude,$data[self::WZ_LONGITUDE]));
+            }
+
             $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
             $flight->eet = sprintf("%02d:%02d",$data[self::WZ_EET_HOURS],$data[self::WZ_EET_MINUTES]);
 
