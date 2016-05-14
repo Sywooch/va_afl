@@ -24,7 +24,7 @@ use yii\grid\GridView;
             [
                 'dataProvider' => $onlineProvider,
                 'layout' => '{items}{pager}',
-                'options' => ['class' => 'table table-condensed'],
+                'options' => ['class' => 'time-table table table-striped table-bordered'],
                 'columns' => [
                     [
                         'attribute' => 'callsign',
@@ -53,34 +53,61 @@ use yii\grid\GridView;
 
                             }
                     ],
-                    'acf_type',
+                    [
+                        'attribute' => 'acf_type',
+                        'label' => Yii::t('flights', 'Type'),
+                    ],
                     [
                         'attribute' => 'from_to',
                         'label' => Yii::t('flights', 'Route'),
                         'format' => 'raw',
                         'value' => function ($data) {
                                 return Html::a(
-                                    Html::img(Helper::getFlagLink($data->depAirport->iso)) . ' ' .
+                                    Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
                                     Html::encode($data->from_icao),
                                     Url::to(
                                         [
                                             '/airline/airports/view/',
                                             'id' => $data->from_icao
                                         ]
-                                    )
+                                    ),
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode("{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})")
+                                    ]
                                 ) . ' - ' . Html::a(
-                                    Html::img(Helper::getFlagLink($data->arrAirport->iso)) . ' ' .
+                                    Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                     Html::encode($data->to_icao),
-                                    Url::to(['/airline/airports/view/', 'id' => $data->to_icao])
+                                    Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode("{$data->arrAirport->name} ({$data->arrAirport->city}, {$data->arrAirport->iso})")
+                                    ]
                                 );
                             },
                     ],
                     [
-                        'attribute' => 'flight_time',
-                        'label' => Yii::t('flights', 'Flight Time'),
+                        'attribute' => 'dep_time',
+                        'label' => Yii::t('flights', 'Dep Time'),
+                        'format' => ['date', 'php:H:i']
+                    ],
+                    [
+                        'attribute' => 'landing_time',
+                        'label' => Yii::t('flights', 'Landing Time'),
+                        'format' => ['date', 'php:H:i'],
                         'value' => function ($data) {
-                                return Helper::getTimeFormatted($data->flight_time);
+                                $eet = explode(':', $data->eet);
+                                $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
+                                $dep_time = strtotime($data->dep_time);
+                                $landing_time = $dep_time + $eet_seconds;
+                                return date('H:i', $landing_time);
                             }
+                    ],
+                    [
+                        'attribute' => 'status',
+
                     ]
                 ],
             ]
