@@ -135,7 +135,7 @@ class ParseController extends Controller
             $flight->alternate2 => Airports::find()->andWhere(['icao' => $flight->alternate2])->one(),
         ];
 
-        $tracker = Tracker::find()->andWhere(['user_id' => $flight->user_id])->orderBy('dtime desc')->one();
+        $tracker = Tracker::find()->where(['flight_id' => $flight->id])->orderBy('dtime desc')->one();
 
         foreach ($airports as $name => $airport) {
             if (Helper::calculateDistanceLatLng($tracker->latitude, $airport->lat, $tracker->longitude, $airport->lon)
