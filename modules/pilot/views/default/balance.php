@@ -24,14 +24,34 @@ $this->params['breadcrumbs'] = [
             [
                 'dataProvider' => $dataProvider,
                 'tableOptions' => [
-                    'class' => 'table table-bordered table-striped table-hover'
+                    'class' => 'table table-bordered table-striped table-condensed'
                 ],
                 'layout' => '{items}{pager}',
                 'columns' => [
-                    'id',
-                    'billing.priceType',
+                    [
+                        'attribute' => 'direction',
+                        'label' => Yii::t('flights', 'Type'),
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                switch($data->direction){
+                                    case 2:
+                                        return '<i class="fa fa-4 fa-arrow-circle-right" style="color:#8b0000;">' . $data->billing->priceType.'</i>';
+                                        break;
+                                    case 1:
+                                        return '<i class="fa fa-4 fa-arrow-circle-left" style="color:darkgreen;">' . $data->billing->priceType.'</i>';
+                                        break;
+                                    default:
+                                        return '';
+                                }
+                            }
+                    ],
                     'payment',
-                    'dtime'
+                    [
+                        'attribute' => 'dtime',
+                        'label' => Yii::t('app', 'Date'),
+                        'format' => ['date', 'php:d.m.Y G:i']
+                    ],
+
                 ]
             ]
         ); ?>
