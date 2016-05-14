@@ -78,7 +78,7 @@ class Fleet extends \yii\db\ActiveRecord
             [['image_path'], 'string'],
             [['regnum', 'type_code'], 'string', 'max' => 10],
             [['full_type'], 'string', 'max' => 100],
-            [['home_airport', 'location'], 'string', 'max' => 5]
+            [['home_airport', 'location', 'selcal'], 'string', 'max' => 44]
         ];
     }
 
