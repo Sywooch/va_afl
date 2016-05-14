@@ -81,6 +81,10 @@ class DefaultController extends Controller
             ]
         ]);
 
+        $staffProvider = new ActiveDataProvider([
+            'query' => \app\models\Staff::getSquad($squadron->abbr)
+        ]);
+
         $fleetProvider = new ActiveDataProvider([
             'query' => Fleet::find()->where(['squadron_id' => $id])->orderBy(['id' => SORT_ASC]),
             'pagination' => [
@@ -105,6 +109,7 @@ class DefaultController extends Controller
             'squadron' => $squadron,
             'membersProvider' => $membersProvider,
             'activeMembersProvider' => $activeMembersProvider,
+            'staffProvider' => $staffProvider,
             'fleetProvider' => $fleetProvider,
             'flightsProvider' => $flightsProvider,
             'logProvider' => $logProvider,

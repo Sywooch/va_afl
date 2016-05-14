@@ -68,4 +68,5 @@ return [
     'Send' => 'Отправить',
     'Enter your message here' => 'Оставьте своё сообщение здесь',
     'of' => '',
+    'Status' => 'Статус'
 ];

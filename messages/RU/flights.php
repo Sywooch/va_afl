@@ -22,5 +22,8 @@ return [
     'Departure UTC' => 'Время вылета (UTC)',
     'Arrival UTC' => 'Время прилета (UTC)',
     'Domestic' => 'Внутренние',
-    'International' => 'Международные'
+    'International' => 'Международные',
+    'Available' => 'Доступен',
+    'Booked' => 'Забронирован',
+    'In flight' => 'В полёте'
 ];

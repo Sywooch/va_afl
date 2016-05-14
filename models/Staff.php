@@ -15,6 +15,9 @@ use Yii;
  */
 class Staff extends \yii\db\ActiveRecord
 {
+    public static function getSquad($id){
+        return self::find()->where(['department' => 'Squadrons'])->andWhere(['direction' => $id]);
+    }
     /**
      * @inheritdoc
      */
