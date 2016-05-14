@@ -35,7 +35,7 @@ class Log extends \yii\db\ActiveRecord
         $log->sub_type = $sub_type;
         $log->old = $old;
         $log->new = $new;
-        $log->author = $author == 0 ? Yii::$app->user->id : $author;
+        $log->author = $author == 0 ? $author : Yii::$app->user->id;
         $log->save();
     }
 
