@@ -34,7 +34,8 @@ class FleetProfiles extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'pbn', 'nav', 'rvr', 'equipment', 'transponder'], 'string', 'max' => 50]
+            [['name', 'pbn', 'nav', 'rvr', 'equipment', 'transponder'], 'string', 'max' => 50],
+            [['rmk'], 'string', 'max' => 100]
         ];
     }
 
@@ -48,7 +49,6 @@ class FleetProfiles extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'pbn' => Yii::t('app', 'Pbn'),
             'nav' => Yii::t('app', 'Nav'),
-            'sel' => Yii::t('app', 'Sel'),
             'rvr' => Yii::t('app', 'Rvr'),
             'equipment' => Yii::t('app', 'Equipment'),
             'transponder' => Yii::t('app', 'Transponder'),
