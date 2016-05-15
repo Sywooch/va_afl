@@ -47,19 +47,19 @@ class Briefing extends Component
     }
 
     public function getPBN(){
-        return $this->aircraft->profileInfo ? 'PBN/'.$this->aircraft->profileInfo->pbn : '';
+        return $this->aircraft->profileInfo->pbn ? 'PBN/'.$this->aircraft->profileInfo->pbn : '';
     }
 
     public function getNAV(){
-        return $this->aircraft->profileInfo ? 'NAV/'.$this->aircraft->profileInfo->nav : '';
+        return $this->aircraft->profileInfo->nav ? 'NAV/'.$this->aircraft->profileInfo->nav : '';
     }
 
     public function getSEL(){
-        return $this->aircraft->profileInfo ? 'SEL/'.$this->aircraft->selcal : '';
+        return $this->aircraft->selcal ? 'SEL/'.$this->aircraft->selcal : '';
     }
 
     public function getRMK(){
-        return $this->aircraft->profileInfo ? 'RMK/'.$this->aircraft->profileInfo->rmk : '';
+        return $this->aircraft->profileInfo->rmk ? 'RMK/'.$this->aircraft->profileInfo->rmk : '';
     }
 
     public function getOPR(){
