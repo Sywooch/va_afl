@@ -21,6 +21,11 @@ $this->title = Yii::t('app', 'Booking');
     .control-label {
         color: #ffffff;
     }
+
+    label {
+        color: #ffffff;
+    }
+
     input.form-control, .select2-selection{
         background-color: rgba(255,255,255,0.2) !important;
     }

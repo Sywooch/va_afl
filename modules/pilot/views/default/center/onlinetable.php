@@ -28,6 +28,18 @@ use yii\grid\GridView;
                 'columns' => [
                     [
                         'attribute' => 'callsign',
+                        'label' => '',
+                        'format' => 'raw',
+                        'value' => function($data){
+                                if($data->booking->stream){
+                                    return '<a href="'.$data->user->stream.'">'.'<i class="fa fa-rss" style="color: green"></i></a>';
+                                }else{
+                                    return '<i class="fa fa-rss"></i>';
+                                }
+                            }
+                    ],
+                    [
+                        'attribute' => 'callsign',
                         'label' => Yii::t('flights', 'Callsign'),
                         'format' => 'raw',
                         'value' => function ($data) {

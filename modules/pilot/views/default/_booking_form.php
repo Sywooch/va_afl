@@ -54,6 +54,10 @@ $form->field($model, 'fleet_regnum')->widget(
 );
 ?>
 
+<?=
+$form->field($model, 'stream')->checkbox();
+?>
+
 <?php
 /*
 $form->field($model, 'fleet_regnum')->widget(

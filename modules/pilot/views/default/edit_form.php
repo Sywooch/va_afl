@@ -26,6 +26,7 @@ $form = ActiveForm::begin([
 <?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
 <?= $form->field($user, 'language')->dropDownList(['EN' => 'English', 'RU' => 'Русский']) ?>
 <?= $form->field($user, 'avatar')->fileInput() ?>
+<?= $form->field($user, 'stream')->textInput(['maxlength' => true]) ?>
 <?php ActiveForm::end(); ?>
 
 
