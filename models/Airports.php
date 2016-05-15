@@ -31,6 +31,11 @@ class Airports extends \yii\db\ActiveRecord
         return 'airports';
     }
 
+    public static function icao($icao)
+    {
+        return self::find()->where(['icao' => $icao])->one();
+    }
+
     /**
      * @inheritdoc
      */

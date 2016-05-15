@@ -67,4 +67,15 @@ class ApiController extends Controller
             ]
         );
     }
+
+    public function actionBriefing($id){
+        $fleet = \app\models\Fleet::find()->where(['regnum' => $id])->one();
+        if($fleet){
+            $id = $fleet->id;
+            $brif = new \app\components\Briefing($id);
+            echo json_encode($brif->getRemarks());
+        }else{
+            echo json_encode("REG/{$id} OPR/AFLGROUP");
+        }
+    }
 }
