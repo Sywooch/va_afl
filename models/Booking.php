@@ -40,7 +40,7 @@ class Booking extends \yii\db\ActiveRecord
     {
         return [
             [['user_id','to_icao','from_icao','callsign','fleet_regnum'],'required'],
-            [['user_id', 'schedule_id', 'status', 'fleet_regnum'], 'integer'],
+            [['user_id', 'schedule_id', 'status', 'fleet_regnum', 'stream'], 'integer'],
             [['non_schedule_utc', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
             [['callsign'], 'string', 'max' => 10]

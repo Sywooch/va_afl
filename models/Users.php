@@ -53,7 +53,7 @@ class Users extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language'];
+        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language', 'stream'];
 
         return $scenarios;
     }
@@ -66,10 +66,11 @@ class Users extends \yii\db\ActiveRecord
         return [
             [['vid'], 'required'],
             [['email', 'language'], 'required', 'on' => self::SCENARIO_EDIT],
-            [['vid', 'blocked', 'blocked_by'], 'integer'],
-            [['authKey', 'block_reason'], 'string'],
+            [['vid'], 'integer'],
+            [['authKey'], 'string'],
             [['created_date', 'last_visited', 'language'], 'safe'],
             [['full_name', 'email'], 'string', 'max' => 200],
+            [['stream'], 'string', 'max' => 255],
             [['country', 'language'], 'string', 'max' => 2],
             [['avatar'], 'safe'],
         ];
@@ -89,7 +90,8 @@ class Users extends \yii\db\ActiveRecord
             'language' => 'Language/Язык',
             'created_date' => Yii::t('user', 'Register Date'),
             'last_visited' => Yii::t('user', 'Last Visited'),
-            'avatar' => Yii::t('user', 'Avatar')
+            'avatar' => Yii::t('user', 'Avatar'),
+            'stream_link' => Yii::t('user', 'Link to stream channel'),
         ];
     }
 

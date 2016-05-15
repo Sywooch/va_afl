@@ -30,6 +30,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $language;
     public $created_date;
     public $avatar;
+    public $stream;
 
     /**
      * @inheritdoc
@@ -69,6 +70,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $needrelation = true;
         }
         $user->full_name = $model->username;
+        $user->skype = $model->skype;
+        $user->ratingatc = $model->ratingatc;
+        $user->ratingpilot = $model->ratingpilot;
+        $user->division = $model->division;
         $user->authKey = $sec->generateRandomString(32);
         $user->last_visited = date('Y-m-d H:i:s');
         $user->save();

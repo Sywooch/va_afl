@@ -190,6 +190,10 @@ class DefaultController extends Controller
         $old_mail = $user->email;
 
         if ($user->load(Yii::$app->request->post())) {
+            Yii::trace(var_export($user, 1));
+            Yii::trace(var_export($user->stream, 1));
+            Yii::trace(var_export(Yii::$app->request->post(), 1));
+
             if (UploadedFile::getInstance($user, 'avatar')) {
                 $user->avatar = UploadedFile::getInstance($user, 'avatar');
                 if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
@@ -218,7 +222,8 @@ class DefaultController extends Controller
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();
-            return $this->redirect(['index']);
+            Yii::trace($user->stream);
+            return $this->redirect(['/pilot/center']);
         } else {
             return $this->render('edit', ['user' => $user]);
         }

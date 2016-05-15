@@ -3,7 +3,7 @@ use yii\bootstrap\Html;
 
 $this->title = Yii::t('app', 'Profile editor');
 $this->params['breadcrumbs'] = [
-    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
+    ['label' => Yii::t('app', 'Pilot Center'), 'url' => '/pilot/center'],
     ['label' => $this->title]
 ];?>
 <div class="edit-form">
