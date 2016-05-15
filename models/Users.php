@@ -91,7 +91,7 @@ class Users extends \yii\db\ActiveRecord
             'created_date' => Yii::t('user', 'Register Date'),
             'last_visited' => Yii::t('user', 'Last Visited'),
             'avatar' => Yii::t('user', 'Avatar'),
-            'stream_link' => Yii::t('user', 'Link to stream channel'),
+            'stream' => Yii::t('user', 'Stream Channel'),
         ];
     }
 

@@ -15,7 +15,7 @@ return [
     'Total miles' => 'Миль пройдено',
     'Last Visited' => 'Последний визит',
     'Location' => 'Местоположение',
-    'Link to stream channel' => 'Ссылка на канал стримов',
+    'Stream Channel' => 'Канал стримов',
 
     //Статусы
     'Status' => 'Статус',
