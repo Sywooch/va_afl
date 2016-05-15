@@ -71,11 +71,11 @@ use app\models\Users;
                                 'url' => \yii\helpers\Url::to('/squadron/view/1')
                             ],
                             [
-                                'name' => Yii::t('app', 'Squadron B738'),
+                                'name' => Yii::t('app', 'Squadron B73X'),
                                 'url' => \yii\helpers\Url::to('/squadron/view/2')
                             ],
                             [
-                                'name' => Yii::t('app', 'Squadron HEAVX'),
+                                'name' => Yii::t('app', 'Squadron HEAVY'),
                                 'url' => \yii\helpers\Url::to('/squadron/view/3')
                             ],
                             [
