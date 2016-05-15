@@ -38,7 +38,7 @@ class Briefing extends Component
     public function getRemarks(){
         $remarks = '';
         foreach($this->template as $part){
-            if(isset($this->$part)){
+            if(!empty($this->$part)){
                 $remarks .= $this->$part.' ';
             }
         }
