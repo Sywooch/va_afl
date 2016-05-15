@@ -80,7 +80,8 @@ $this->params['breadcrumbs'] = [
                                             'format' => 'raw',
                                             'value' => Html::a(
                                                 Html::encode($user->vid),
-                                                'http://ivao.aero/Member.aspx?Id=' . $user->vid
+                                                'http://ivao.aero/Member.aspx?Id=' . $user->vid,
+                                                ['target' => '_blank']
                                             ),
                                         ],
                                         [
