@@ -27,7 +27,8 @@ use yii\helpers\Html;
                                                                   src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
                         <div class="message">
-                            <?= $news_one->description ?>
+                            <a href="<?= (empty($news_one->categoryInfo->link_to) ? '/content/categories/view/'.$news_one->categoryInfo->id : $news_one->categoryInfo->link_to )?>">#<?= $news_one->categoryInfo->link ?></a>
+                            <p><?= $news_one->description ?></p>
                         </div>
                     </li>
                 <?php endforeach; ?>
