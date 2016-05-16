@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'link_to')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>

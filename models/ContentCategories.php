@@ -44,7 +44,8 @@ class ContentCategories extends \yii\db\ActiveRecord
             [['link', 'name_ru', 'name_en'], 'required'],
             [['link'], 'string', 'max' => 20],
             [['news'], 'integer'],
-            [['name_ru', 'name_en', 'access_read', 'access_edit', 'access_feed'], 'string', 'max' => 50]
+            [['name_ru', 'name_en', 'access_read', 'access_edit', 'access_feed'], 'string', 'max' => 50],
+            [['link_to'], 'string', 'max' => 100]
         ];
     }
 
@@ -56,6 +57,7 @@ class ContentCategories extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'link' => Yii::t('app', 'Link'),
+            'link_to' => Yii::t('app', 'Link To'),
             'name_ru' => Yii::t('app', 'Name') .' '.Yii::t('app', '(Ru.)'),
             'name_en' => Yii::t('app', 'Name') .' '.Yii::t('app', '(En.)'),
             'access' => Yii::t('app', 'Access'),
