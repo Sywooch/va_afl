@@ -13,10 +13,6 @@ use Yii;
  */
 class Ranks extends \yii\db\ActiveRecord
 {
-    public function getName()
-    {
-        return Yii::$app->language == 'ru' ? $this->name_ru : $this->name_en;
-    }
     /**
      * @inheritdoc
      */
@@ -45,5 +41,25 @@ class Ranks extends \yii\db\ActiveRecord
             'name_ru' => 'Звание',
             'name_en' => 'Rank',
         ];
+    }
+
+    /**
+     * Вернёт имя
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getLocale('name_ru', 'name_en');
+    }
+
+    /**
+     * Возвращает переменную взависимости от языка
+     * @param $ru string
+     * @param $en string
+     * @return string
+     */
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
     }
 }

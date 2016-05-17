@@ -77,6 +77,22 @@ class UserPilot extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getStatusType()
+    {
+        return ArrayHelper::getValue(self::getStatusTypesArray(), $this->status);
+    }
+
+    public static function getStatusTypesArray()
+    {
+        return [
+            self::STATUS_INACTIVE => 'info',
+            self::STATUS_ACTIVE => 'success',
+            self::STATUS_SUSPENDED => 'danger',
+            self::STATUS_DELETED => 'danger',
+            self::STATUS_PENDING => 'warning'
+        ];
+    }
+
     public function getRank()
     {
         return $this->hasOne(Ranks::className(), ['id' => 'rank_id']);

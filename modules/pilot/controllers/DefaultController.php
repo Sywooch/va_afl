@@ -12,6 +12,7 @@ use yii\web\UploadedFile;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\swiftmailer\Mailer;
+use yii\web\UserEvent;
 
 use app\commands\ParseController;
 use app\models\Flights;
@@ -25,7 +26,8 @@ use app\models\EmailConfirm;
 use app\models\Events\Events;
 use app\models\Events\Calendar;
 use app\models\BillingPayments;
-use yii\web\UserEvent;
+use app\models\Staff;
+
 
 class DefaultController extends Controller
 {
@@ -108,7 +110,8 @@ class DefaultController extends Controller
             'profile',
             [
                 'user' => $user,
-                'flightsProvider' => $flightsProvider
+                'flightsProvider' => $flightsProvider,
+                'staff' => Staff::byUser($id)
             ]
         );
     }
