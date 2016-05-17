@@ -28,8 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-                //'id',
                 [
                     'attribute' => 'icao',
                     'format' => 'raw',
