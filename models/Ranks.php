@@ -46,4 +46,24 @@ class Ranks extends \yii\db\ActiveRecord
             'name_en' => 'Rank',
         ];
     }
+
+    /**
+     * Вернёт имя
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getLocale('name_ru', 'name_en');
+    }
+
+    /**
+     * Возвращает переменную взависимости от языка
+     * @param $ru string
+     * @param $en string
+     * @return string
+     */
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+    }
 }
