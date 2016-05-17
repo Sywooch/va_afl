@@ -9,9 +9,9 @@ use dosamigos\highcharts\HighCharts;
 
 use app\components\Helper;
 
-$this->title = Yii::t('app', 'Profile');
+$this->title = $user->full_name;
 $this->params['breadcrumbs'] = [
-    ['label' => Yii::t('app', 'Pilot'), 'url' => '/pilot'],
+    ['label' => Yii::t('app', 'Pilots Roaster'), 'url' => '/pilot/roaster'],
     ['label' => $this->title]
 ]; ?>
 <div class="profile-container">
@@ -30,10 +30,10 @@ $this->params['breadcrumbs'] = [
             <?= Html::endTag('div') ?>
             <div class="">
                 <ul class="list-group nopoints">
-                    <li class="list-group-item" style="background-color: #33BDBD">
+                    <li class="list-group-item list-group-item-<?= $user->pilot->statusType; ?>">
                         <?= $user->pilot->statusName; ?>
                     </li>
-                    <li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
+                    <!--<li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
                         Supervisor
                     </li>
                     <li class="list-group-item list-group-item">
@@ -41,10 +41,12 @@ $this->params['breadcrumbs'] = [
                     </li>
                     <li class="list-group-item list-group-item">
                         Trainer
-                    </li>
-                    <li class="list-group-item list-group-item">
-                        <a href="">Board of Directors Member</a>
-                    </li>
+                    </li>-->
+                    <?php foreach($staff as $pos):?>
+                        <li class="list-group-item list-group-item">
+                            <a href="#"><?= $pos->name ?></a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
@@ -53,8 +55,7 @@ $this->params['breadcrumbs'] = [
             <div class="profile-info">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2><img
-                                src="<?= $user->flaglink ?>"> <?= $user->full_name ?>
+                        <h2><img title="<?= $user->countryInfo->country ?>" src="<?= $user->flaglink ?>"> <img title="<?= $user->pilot->rank->name ?>" style="height: 15px;"src="<?= $user->pilot->rank->img ?>"> <?= $user->full_name ?>
                         </h2><?php echo $user->online ? Html::tag(
                             'span',
                             'Online',
@@ -95,8 +96,18 @@ $this->params['breadcrumbs'] = [
                                                             '/airline/airports/view/',
                                                             'id' => $user->pilot->location
                                                         ]
-                                                    )
+                                                    ),
+                                                    [
+                                                        'data-toggle' => "tooltip",
+                                                        'data-placement' => "top",
+                                                        'title' => Html::encode("{$user->pilot->airport->city}, {$user->pilot->airport->iso}")
+                                                    ]
                                                 ),
+                                        ],
+                                        [
+                                            'attribute' => 'Rank',
+                                            'label' => Yii::t('user', 'Rank'),
+                                            'value' => $user->pilot->rank->name
                                         ],
                                         [
                                             'attribute' => 'flights_num',

@@ -100,6 +100,11 @@ class Users extends \yii\db\ActiveRecord
         return $this->hasOne(UserPilot::className(), ['user_id' => 'vid']);
     }
 
+    public function getCountryInfo()
+    {
+        return $this->hasOne(Isocodes::className(), ['code' => 'country']);
+    }
+
     public static function findIdentity($id)
     {
         return \app\models\User::findIdentity($id);

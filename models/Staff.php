@@ -18,6 +18,11 @@ class Staff extends \yii\db\ActiveRecord
     public static function getSquad($id){
         return self::find()->where(['department' => 'Squadrons'])->andWhere(['direction' => $id]);
     }
+
+    public static function byUser($id){
+        return self::find()->where(['vid' => $id])->all();
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,5 +61,25 @@ class Staff extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'vid']);
+    }
+
+    /**
+     * Вернёт имя
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getLocale('name_ru', 'name_en');
+    }
+
+    /**
+     * Возвращает переменную взависимости от языка
+     * @param $ru string
+     * @param $en string
+     * @return string
+     */
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
     }
 }
