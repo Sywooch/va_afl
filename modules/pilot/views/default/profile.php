@@ -44,7 +44,7 @@ $this->params['breadcrumbs'] = [
                     </li>-->
                     <?php foreach($staff as $pos):?>
                         <li class="list-group-item list-group-item">
-                            <a href="#"><?= $pos->name ?></a>
+                            <a href="/airline/staff/view/<?= $pos->id?>"><?= $pos->name ?></a>
                         </li>
                     <?php endforeach; ?>
                 </ul>

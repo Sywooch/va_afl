@@ -33,7 +33,13 @@ use yii\grid\GridView;
                                 Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
                             }
                     ],
-                    Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
+                    [
+                        'attribute' => Yii::$app->language == 'RU' ? 'pilot.rank.name_ru' : 'pilot.rank.name_en',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                                return '<img style="height: 15px; margin: 0;"src="' . $data->pilot->rank->img. '"> '.$data->pilot->rank->name;
+                            }
+                    ],
                 ],
             ]
         ) ?>
