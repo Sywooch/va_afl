@@ -10,11 +10,23 @@ use app\models\Users;
     <div class="container-fluid">
         <!-- begin mobile sidebar expand / collapse button -->
         <div class="navbar-header">
-            <p align="center"><a href="/pilot/center" class="navbar-brand"><img src="/img/afl_logo.png" style="height: 100%"></a></p>
+            <p align="center"><a href="/pilot/center" class="navbar-brand"><img src="/img/afl_logo.png"
+                                                                                style="height: 100%"></a></p>
         </div>
-        <!-- end mobile sidebar expand / collapse button -->
 
-        <!-- begin header navigation right -->
+        <div class="nav navbar-text progress progress-striped active" style="width: 500px; height: 20px">
+            <div class="progress-bar progress-bar-success" style="font-weight: lighter; width: 80%"><?=
+                Html::tag(
+                    'span',
+                    '600000 / 750000',
+                    [
+                        'title' => Yii::t('app', 'Experience'),
+                        'data-toggle' => 'tooltip',
+                        'data-placement' => "top"
+                    ]
+                )?></div>
+        </div>
+
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div id="clock">
@@ -100,12 +112,18 @@ use app\models\Users;
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
-                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>">Edit Profile</a></li>
-                        <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
-                        <li><a href="javascript:;">Calendar</a></li>
-                        <li><a href="javascript:;">Setting</a></li>
+                        <li><a href="/pilot/center"><?= Yii::t('app', 'Pilot Center') ?></a></li>
                         <li class="divider"></li>
-                        <li><a data-method="post" href="/site/logout">Log Out</a></li>
+                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?></a>
+                        </li>
+                        <li><a href="/pilot/setting/<?= Yii::$app->user->identity->vid ?>"><?=
+                                Yii::t(
+                                    'app',
+                                    'Setting'
+                                ) ?></a></li>
+                        <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
+                        <li class="divider"></li>
+                        <li><a data-method="post" href="/site/logout"><?= Yii::t('app', 'Log out') ?></a></li>
                     </ul>
                 </li>
             <?php else: ?>
