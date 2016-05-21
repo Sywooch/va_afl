@@ -82,4 +82,18 @@ class Helper extends Component
         $priceforone = Billing::findOne(2)->base_cost;
         return ceil($nms*$priceforone);
     }
+
+    public static function dec2deg($dec, $dct)
+    {
+        $diretions = ['lat' => ['N', 'S'], 'lon' => ['E', 'W']];
+        $direction = $diretions[$dct];
+        $dir = ($dec < 0) ? $direction[1] : $direction[0];
+        $dec = ($dec < 0) ? -$dec : $dec;
+        $deg = intval($dec);
+        $mns = ($dec - $deg) * 60;
+        $scs = round(($mns - intval($mns)) * 60);
+        $mns = intval($mns);
+
+        return "$dir" . $deg . '° ' . $mns . '′ ' . $scs . '″';
+    }
 }

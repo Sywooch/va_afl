@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Airports */
 
-$this->title = $model->name;
+$this->title = $model->fullname;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Airports'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -35,13 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     DetailView::widget(
         [
+            'options' => ['class' => 'table table-condensed table-striped'],
             'model' => $model,
             'attributes' => [
-                'id',
                 'icao',
-                'name',
-                'lat',
-                'lon',
+                'fullname',
+                'coord',
                 'alt',
                 'iata',
                 'city',

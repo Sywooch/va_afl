@@ -175,7 +175,7 @@ class ParseController extends Controller
         $flight->status = Flights::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
         $flight = $this->updateData($flight);
-        $paxs = Pax::appendPax($flight->from_icao, $flight->to_icao, $flight->fleet, true);
+        $paxs = Pax::appendPax($booking->from_icao, $booking->to_icao, $flight->fleet, true);
         $flight->pob = $paxs['total'];
         $flight->paxtypes = serialize($paxs['paxtypes']);
 

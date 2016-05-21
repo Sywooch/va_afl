@@ -129,4 +129,12 @@ class Airports extends \yii\db\ActiveRecord
     {
         return Helper::getFlagLink($this->iso);
     }
+
+    public function getCoord(){
+        return Helper::dec2deg($this->lat,'lat').' '.Helper::dec2deg($this->lon,'lon');
+    }
+
+    public function getFullname(){
+        return $this->name.' ('.$this->iata.' / '.$this->icao.')';
+    }
 }

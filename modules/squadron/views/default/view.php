@@ -296,7 +296,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     '/airline/airports/view/',
                                                                     'id' => $data->location
                                                                 ]
-                                                            )
+                                                            ),
+                                                            [
+                                                                'data-toggle' => "tooltip",
+                                                                'data-placement' => "top",
+                                                                'title' => Html::encode($data->airportInfo->city)
+                                                            ]
                                                         );
                                                     },
                                             ],
