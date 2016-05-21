@@ -100,12 +100,13 @@ use app\models\Users;
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
-                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>">Edit Profile</a></li>
-                        <li><a href="javascript:;"><span class="badge badge-danger pull-right">2</span> Inbox</a></li>
-                        <li><a href="javascript:;">Calendar</a></li>
-                        <li><a href="javascript:;">Setting</a></li>
+                        <li><a href="/pilot/center"><?= Yii::t('app', 'My Center') ?></a></li>
                         <li class="divider"></li>
-                        <li><a data-method="post" href="/site/logout">Log Out</a></li>
+                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?>Edit</a></li>
+                        <li><a href="/pilot/setting/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Setting') ?></a></li>
+                        <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
+                        <li class="divider"></li>
+                        <li><a data-method="post" href="/site/logout"><?= Yii::t('app', 'Log out') ?></a></li>
                     </ul>
                 </li>
             <?php else: ?>
