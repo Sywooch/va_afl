@@ -15,6 +15,19 @@ $this->params['breadcrumbs'] = [
     <div class="col-md-12">
     <?= $this->render('header', ['user' => $user]) ?>
     </div>
+    <div class="col-md-12">
+        <div class="progress progress-striped active" style="height: 30px">
+            <div class="progress-bar progress-bar-inverse" style="font-weight: lighter; width: 80%"><?=  Html::tag(
+                    'span',
+                    '600000 / 750000',
+                    [
+                        'title' => Yii::t('app', 'Experience'),
+                        'data-toggle' => 'tooltip',
+                        'data-placement' => "top"
+                    ]
+                )?></div>
+        </div>
+    </div>
     <div class="col-md-8">
         <?= $this->render('onlinetable', ['onlineProvider' => $onlineProvider]) ?>
         <?= $this->render('top', ['top' => $topProvider]) ?>
