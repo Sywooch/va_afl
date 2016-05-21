@@ -91,6 +91,11 @@ class Booking extends \yii\db\ActiveRecord
         return $this->hasOne(Airports::className(), ['icao' => 'to_icao']);
     }
 
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
     private static function generateCallsign($from, $to)
     {
         if ($sched = Schedule::find()->andWhere(['arr' => $from])

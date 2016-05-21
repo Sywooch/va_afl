@@ -23,8 +23,7 @@ use yii\helpers\Html;
                                 'g:ia \o\n l jS F'
                             ) ?></span>
                         <a href="/pilot/profile/<?= $news_one->author ?>" class="name"><?= $news_one->authorUser->full_name ?></a>
-                        <a href="/content/view/<?= $news_one->id ?>" class="image"><img alt=""
-                                                                  src="<?= $news_one->authorUser->avatarLink ?>"/></a>
+                        <a href="/pilot/profile/<?= $news_one->author ?>" class="image"><img alt="" src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
                         <div class="message">
                             <a href="<?= (empty($news_one->categoryInfo->link_to) ? '/content/categories/view/'.$news_one->categoryInfo->id : $news_one->categoryInfo->link_to )?>">#<?= $news_one->categoryInfo->link ?></a>

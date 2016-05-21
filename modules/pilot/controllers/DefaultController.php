@@ -139,7 +139,7 @@ class DefaultController extends Controller
         ]);
 
         $onlineProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['status' => Flights::FLIGHT_STATUS_STARTED]),
+            'query' => Booking::find()->where('status > 0')->andWhere('status < 3'),
             'sort' => false,
             'pagination' => false,
         ]);
