@@ -23,7 +23,8 @@ class Briefing extends Component
      */
     private $aircraft;
     private $template = [
-        'PBN', 'NAV', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
+        //'PBN', 'NAV', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
+        'PBN', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
     ];
     private $operator = 'AFLGROUP';
 
