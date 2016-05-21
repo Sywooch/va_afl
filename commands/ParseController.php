@@ -347,7 +347,7 @@ class ParseController extends Controller
             $data[self::WZ_EET_MINUTES]
         ) . ' ' . $data[self::WZ_ICAOALT1] . ' ' . $data[self::WZ_ICAOALT2] . "\n" .
         '-' . $data[self::WZ_RMK] . "\n" .
-        '-E/' . sprintf("%02d%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]) . ')';
+        '-E/' . sprintf("%02d%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]) .' '. 'P/'.$data[self::WZ_POB].')';
     }
 
     /**
