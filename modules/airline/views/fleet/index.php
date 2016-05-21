@@ -36,7 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'image_path:ntext',
             // 'squadron_id',
             // 'max_pax',
-            // 'max_hrs',
+             'max_hrs',
+             'hrs',
+             'need_srv',
             // 'profile',
             // 'selcal',
 
