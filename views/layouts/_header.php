@@ -102,7 +102,7 @@ use app\models\Users;
                         <li class="arrow"></li>
                         <li><a href="/pilot/center"><?= Yii::t('app', 'My Center') ?></a></li>
                         <li class="divider"></li>
-                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?>Edit</a></li>
+                        <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?></a></li>
                         <li><a href="/pilot/setting/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Setting') ?></a></li>
                         <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
                         <li class="divider"></li>
