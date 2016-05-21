@@ -100,7 +100,7 @@ use app\models\Users;
                     </a>
                     <ul class="dropdown-menu animated fadeInLeft">
                         <li class="arrow"></li>
-                        <li><a href="/pilot/center"><?= Yii::t('app', 'My Center') ?></a></li>
+                        <li><a href="/pilot/center"><?= Yii::t('app', 'Pilot Center') ?></a></li>
                         <li class="divider"></li>
                         <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?></a></li>
                         <li><a href="/pilot/setting/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Setting') ?></a></li>

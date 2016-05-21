@@ -9,7 +9,6 @@ return [
     'Pilot center' => 'Центр пилота',
     'Booking' => 'Бронирование',
     'My statistics' => 'Моя статистика',
-    'My Center' => 'Мой центр',
     'Main' => 'Главная',
     'Edit' => 'Изменить',
     'Setting' => 'Настройки',
