@@ -14,7 +14,7 @@ use app\models\Users;
                                                                                 style="height: 100%"></a></p>
         </div>
 
-        <div class="nav navbar-text progress progress-striped active" style="width: 70%; height: 20px">
+        <div class="nav navbar-text progress progress-striped active" style="width: 330px; height: 20px">
             <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><?=
                 Html::tag(
                     'span',
