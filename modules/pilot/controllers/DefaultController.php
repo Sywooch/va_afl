@@ -106,7 +106,7 @@ class DefaultController extends Controller
         ]);
 
         return $this->render(
-            'profile',
+            'profile/index',
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider,
