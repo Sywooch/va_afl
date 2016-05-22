@@ -38,6 +38,7 @@ class DefaultController extends Controller
                     ['status' => UserPilot::STATUS_ACTIVE]
                 ),
             'pagination' => array('pageSize' => 100),
+            'sort'=> ['defaultOrder' => ['created_date'=>SORT_ASC]]
         ]);
 
         $dataProvider->sort->attributes['pilot.location'] = [
