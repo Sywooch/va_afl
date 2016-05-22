@@ -15,7 +15,7 @@ use app\models\Users;
         </div>
 
         <div class="nav navbar-text progress progress-striped active" style="width: 330px; height: 20px">
-            <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><?=
+            <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><h4 style="margin-left: 5px; margin-top: 0px; text-align: left;"><?=
                 Html::tag(
                     'span',
                     '<i class="fa fa-star" aria-hidden="true"></i> '.Yii::$app->user->identity->level,
@@ -24,7 +24,7 @@ use app\models\Users;
                         'data-toggle' => 'tooltip',
                         'data-placement' => "left"
                     ]
-                )?></div>
+                )?></h4></div>
         </div>
 
         <ul class="nav navbar-nav navbar-right">
