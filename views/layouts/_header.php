@@ -20,7 +20,7 @@ use app\models\Users;
                     'span',
                     '<i class="fa fa-star" aria-hidden="true"></i> '.Yii::$app->user->identity->level,
                     [
-                        'title' => Yii::t('app', 'Level'),
+                        'data-original-title' => Yii::t('app', 'Level').' '.Yii::$app->user->identity->level,
                         'data-toggle' => 'tooltip',
                         'data-placement' => "left"
                     ]
