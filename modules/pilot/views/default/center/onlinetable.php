@@ -38,8 +38,8 @@ use yii\grid\GridView;
                                 'label' => Yii::t('flights', 'Callsign'),
                                 'format' => 'raw',
                                 'value' => function ($data) {
-                                        return (($data->stream && isset($data->user->stream)) ?
-                                            '<a href="' . $data->user->stream . '">' . '<i class="fa fa-rss" style="color: green"></i></a>' :
+                                        return (($data->stream && isset($data->user->pilot->stream_link)) ?
+                                            '<a href="' . $data->user->pilot->stream_link . '">' . '<i class="fa fa-rss" style="color: green"></i></a>' :
                                             '<i class="fa fa-rss"></i>') . ' ' . ((isset($data->flight)) ?
                                             Html::a(
                                                 Html::encode($data->callsign),

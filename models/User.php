@@ -29,7 +29,6 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $language;
     public $created_date;
     public $avatar;
-    public $stream;
 
     /**
      * @inheritdoc

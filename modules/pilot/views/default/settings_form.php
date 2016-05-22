@@ -7,9 +7,9 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 
 $form = ActiveForm::begin([
-    'action' => '/pilot/edit/' . $pilot->user_id,
+    'action' => '/pilot/settings/' . $user->vid,
     'options' => ['enctype' => 'multipart/form-data', 'class' => 'form-horizontal form-bordered'],
-    'id' => 'profile_edit',
+    'id' => 'profile_settings',
     'layout' => 'horizontal',
     'fieldConfig' => [
         'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -23,7 +23,10 @@ $form = ActiveForm::begin([
     ],
 ]); ?>
 
-<?= $form->field($pilot, 'stream_link')->textInput(['maxlength' => true]) ?>
+<?= $form->field($user, 'email')->textInput(['maxlength' => true]) ?>
+<?= $form->field($user, 'language')->dropDownList(['EN' => 'English', 'RU' => 'Русский']) ?>
+<?= $form->field($user, 'avatar')->fileInput() ?>
+
 <?php ActiveForm::end(); ?>
 
 

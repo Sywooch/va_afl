@@ -166,7 +166,27 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionEdit($id=null)
+    public function actionEdit($id = null)
+    {
+        if(!$id) $id=Users::getAuthUser()->vid;
+        $pilot = UserPilot::find()->andWhere(['user_id' => $id])->one();
+
+        if (!$pilot) {
+            throw new \yii\web\HttpException(404, 'User not found');
+        }
+
+        if ($pilot->load(Yii::$app->request->post())) {
+            if (!$pilot->validate()) {
+                throw new \yii\web\HttpException(404, 'be');
+            }
+            $pilot->save();
+            return $this->redirect(['/pilot/center']);
+        } else {
+            return $this->render('edit', ['pilot' => $pilot]);
+        }
+    }
+
+    public function actionSettings($id = null)
     {
         if(!$id) $id=Users::getAuthUser()->vid;
         $user = Users::find()->andWhere(['vid' => $id])->one();
@@ -177,10 +197,6 @@ class DefaultController extends Controller
         $old_mail = $user->email;
 
         if ($user->load(Yii::$app->request->post())) {
-            Yii::trace(var_export($user, 1));
-            Yii::trace(var_export($user->stream, 1));
-            Yii::trace(var_export(Yii::$app->request->post(), 1));
-
             if (UploadedFile::getInstance($user, 'avatar')) {
                 $user->avatar = UploadedFile::getInstance($user, 'avatar');
                 if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
@@ -209,12 +225,12 @@ class DefaultController extends Controller
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();
-            Yii::trace($user->stream);
             return $this->redirect(['/pilot/center']);
         } else {
-            return $this->render('edit', ['user' => $user]);
+            return $this->render('settings', ['user' => $user]);
         }
     }
+
 
     public function actionConfirmtoken($id)
     {
