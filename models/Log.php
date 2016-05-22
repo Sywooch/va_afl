@@ -27,7 +27,7 @@ class Log extends \yii\db\ActiveRecord
         return 'log';
     }
 
-    public static function action($subject, $action, $type, $sub_type, $old = '', $new = '', $author = 0){
+    public static function action($subject, $action, $type, $sub_type, $old = '', $new = '', $author = 1){
         $log = new Log();
         $log->subject = $subject;
         $log->action = $action;
@@ -35,7 +35,7 @@ class Log extends \yii\db\ActiveRecord
         $log->sub_type = $sub_type;
         $log->old = $old;
         $log->new = $new;
-        $log->author = $author == 0 ? $author : Yii::$app->user->id;
+        $log->author = $author == 1 ? Yii::$app->user->id : $author;
         $log->save();
     }
 

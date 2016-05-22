@@ -10,7 +10,7 @@ use app\components\Helper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
 ?>
 <!-- begin panel -->
 <div class="panel panel-inverse">
@@ -18,6 +18,9 @@ use yii\grid\GridView;
         <h4 class="panel-title"><?= Yii::t('app', 'Top') ?></h4>
     </div>
     <div class="panel-body bg-silver">
+
+
+        <?php Pjax::begin();?>
         <?=
         GridView::widget(
             [
@@ -34,13 +37,35 @@ use yii\grid\GridView;
                             }
                     ],
                     [
-                        'attribute' => 'pilot.level',
+                        'attribute' => 'pilot.location',
+                        'format' => 'raw',
                         'value' => function ($data) {
-                                return $data->pilot->level;
+                                return '<img src="' . $data->pilot->airport->flaglink . '"> ' . Html::a(
+                                    Html::encode($data->pilot->airport->name . ' (' . $data->pilot->location . ')'),
+                                    Url::to(
+                                        [
+                                            '/airline/airports/view/',
+                                            'id' => $data->pilot->location
+                                        ]
+                                    ),
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode("{$data->pilot->airport->city}, {$data->pilot->airport->iso}")
+                                    ]
+                                );
                             }
                     ],
-                ],
+                    'pilot.level',
+                    [
+                        'attribute' => 'pilot.billingUserBalance',
+                        'value' => function ($data) {
+                                return isset($data->pilot->billingUserBalance) ? $data->pilot->billingUserBalance->balance : 0;
+                            }
+                    ]
+                ]
             ]
-        ) ?>
+        ); ?>
+        <?php Pjax::end(); ?>
     </div>
 </div>

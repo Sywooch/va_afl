@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         ?>
     </p>
-
+    <?php Pjax::begin(); ?>
     <?=
     GridView::widget(
         [
@@ -54,5 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]
     ); ?>
+    <?php Pjax::end(); ?>
 
 </div>

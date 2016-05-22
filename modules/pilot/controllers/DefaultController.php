@@ -34,18 +34,24 @@ class DefaultController extends Controller
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::find()->joinWith('pilot')->andWhere(
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.billingUserBalance')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
-                )
+                ),
+            'pagination' => array('pageSize' => 100),
         ]);
 
         $dataProvider->sort->attributes['pilot.location'] = [
             'asc' => ['user_pilot.location' => SORT_ASC],
             'desc' => ['user_pilot.location' => SORT_DESC]
         ];
-        $dataProvider->sort->attributes['pilot.staff_comments'] = [
-            'asc' => ['user_pilot.staff_comments' => SORT_ASC],
-            'desc' => ['user_pilot.staff_comments' => SORT_DESC]
+        $dataProvider->sort->attributes['pilot.level'] = [
+            'asc' => ['user_pilot.level' => SORT_ASC],
+            'desc' => ['user_pilot.level' => SORT_DESC]
+        ];
+
+        $dataProvider->sort->attributes['pilot.billingUserBalance'] = [
+            'asc' => ['billing_user_balance.balance' => SORT_ASC],
+            'desc' => ['billing_user_balance.balance' => SORT_DESC]
         ];
 
         return $this->render('roster', ['dataProvider' => $dataProvider]);
@@ -137,10 +143,26 @@ class DefaultController extends Controller
         ]);
 
         $topProvider = new ActiveDataProvider([
-            'query' => Users::find()->joinWith('pilot')->andWhere(
+            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.billingUserBalance')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
-                )
+                ),
+            'pagination' => array('pageSize' => 10),
+            'sort'=> ['defaultOrder' => ['pilot.level'=>SORT_DESC]]
         ]);
+
+        $topProvider->sort->attributes['pilot.location'] = [
+            'asc' => ['user_pilot.location' => SORT_ASC],
+            'desc' => ['user_pilot.location' => SORT_DESC]
+        ];
+        $topProvider->sort->attributes['pilot.level'] = [
+            'asc' => ['user_pilot.level' => SORT_ASC],
+            'desc' => ['user_pilot.level' => SORT_DESC]
+        ];
+
+        $topProvider->sort->attributes['pilot.billingUserBalance'] = [
+            'asc' => ['billing_user_balance.balance' => SORT_ASC],
+            'desc' => ['billing_user_balance.balance' => SORT_DESC]
+        ];
 
         return $this->render(
             'center/index',

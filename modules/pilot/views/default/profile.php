@@ -11,7 +11,7 @@ use app\components\Helper;
 
 $this->title = $user->full_name;
 $this->params['breadcrumbs'] = [
-    ['label' => Yii::t('app', 'Pilots Roaster'), 'url' => '/pilot/roaster'],
+    ['label' => Yii::t('app', 'Pilots Roster'), 'url' => '/pilot/roster'],
     ['label' => $this->title]
 ]; ?>
 <div class="profile-container">
