@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Helper;
+use app\components\Levels;
 use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
@@ -184,6 +185,10 @@ class SiteController extends Controller
     public function actionMybookingdetails()
     {
         echo Booking::jsonMapData();
+    }
+
+    public function actionTest(){
+        Levels::addExp(1000, 442121);
     }
 
     public function actionCalctaxiprice()
