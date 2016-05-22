@@ -3,6 +3,7 @@ return [
     'Full Name' => 'Полное имя',
     'Country' => 'Страна',
     'Staff Comments' => 'Стафф-комментарии',
+    'User Comments' => 'Комментарии пользователя',
     'Register Date' => 'Дата регистрации',
     'Hours' => 'ч.',
     'Minutes' => 'мин.',
