@@ -319,11 +319,20 @@ class ParseController extends Controller
                 if (!$flight->landing && $flight->dep_time > '0000-00-00 00:00:00'
                     && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40
                 ) {
+                    if ($this->slackFeed) {
+                        $slack = new Slack('#dev_reports', "Flight {$flight->callsign} - Landing in {$landing}");
+                        $slack->sent();
+                    }
                     $flight->landing = $landing;
                     $flight->landing_time = gmdate('Y-m-d H:i:s');
                 }
             } else {
                 if ($flight->landing) {
+                    if ($this->slackFeed) {
+                        $slack = new Slack('#dev_reports', "Flight {$flight->callsign} - Leaving {$flight->landing}");
+                        $slack->sent();
+                    }
+
                     $flight->landing = '';
                     $flight->landing_time = '0000-00-00 00:00:00';
                 }
