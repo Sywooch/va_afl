@@ -218,14 +218,13 @@ class ParseController extends Controller
         $booking->status = Booking::BOOKING_FLIGHT_END;
         $booking->save();
 
-        if ($landing = $this->validateFlight($flight)) {
-            $flight->last_seen = gmdate('Y-m-d H:i:s');
+        if ($flight->landing) {
+            $flight->finished = gmdate('Y-m-d H:i:s');
             $flight->status = Flights::FLIGHT_STATUS_OK;
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time)) / 60);
-            $flight->landing = $landing;
 
-            $this->transferPilot($flight, $landing);
-            $this->transferCraft($flight, $landing);
+            $this->transferPilot($flight, $flight->landing);
+            $this->transferCraft($flight, $flight->landing);
             //Биллинг
 
             $flight->vucs = Billing::calculatePriceForFlight(
@@ -316,8 +315,18 @@ class ParseController extends Controller
                 $flight->dep_time = gmdate('Y-m-d H:i:s');
             }
 
-            if ($flight->dep_time > '0000-00-00 00:00:00' && $flight->landing_time == '0000-00-00 00:00:00' && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40) {
-                $flight->landing_time = gmdate('Y-m-d H:i:s');
+            if ($landing = $this->validateFlight($flight)) {
+                if (!$flight->landing && $flight->dep_time > '0000-00-00 00:00:00'
+                    && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40
+                ) {
+                    $flight->landing = $landing;
+                    $flight->landing_time = gmdate('Y-m-d H:i:s');
+                }
+            } else {
+                if ($flight->landing) {
+                    $flight->landing = '';
+                    $flight->landing_time = '0000-00-00 00:00:00';
+                }
             }
 
             $flight->fpl = $this->getFPL($data);
@@ -350,7 +359,11 @@ class ParseController extends Controller
             $data[self::WZ_EET_MINUTES]
         ) . ' ' . $data[self::WZ_ICAOALT1] . ' ' . $data[self::WZ_ICAOALT2] . "\n" .
         '-' . $data[self::WZ_RMK] . "\n" .
-        '-E/' . sprintf("%02d%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]) .' '. 'P/'.$data[self::WZ_POB].')';
+        '-E/' . sprintf(
+            "%02d%02d",
+            $data[self::WZ_FOB_HOURS],
+            $data[self::WZ_FOB_MINUTES]
+        ) . ' ' . 'P/' . $data[self::WZ_POB] . ')';
     }
 
     /**
