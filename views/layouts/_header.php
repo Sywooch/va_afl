@@ -116,7 +116,7 @@ use app\models\Users;
                         <li class="divider"></li>
                         <li><a href="/pilot/edit/<?= Yii::$app->user->identity->vid ?>"><?= Yii::t('app', 'Edit') ?></a>
                         </li>
-                        <li><a href="/pilot/setting/<?= Yii::$app->user->identity->vid ?>"><?=
+                        <li><a href="/pilot/settings/<?= Yii::$app->user->identity->vid ?>"><?=
                                 Yii::t(
                                     'app',
                                     'Setting'

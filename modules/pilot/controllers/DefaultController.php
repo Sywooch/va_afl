@@ -166,7 +166,39 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionEdit($id=null)
+    public function actionEdit($id = null)
+    {
+        if(!$id) $id=Users::getAuthUser()->vid;
+        $pilot = UserPilot::find()->andWhere(['user_id' => $id])->one();
+
+        if (!$pilot) {
+            throw new \yii\web\HttpException(404, 'User not found');
+        }
+
+        if ($pilot->load(Yii::$app->request->post())) {
+            if (UploadedFile::getInstance($pilot, 'avatar')) {
+                $pilot->avatar = UploadedFile::getInstance($pilot, 'avatar');
+                if (in_array($pilot->avatar->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/avatars/');
+                    $extension = $pilot->avatar->extension;
+                    $pilot->avatar->name = md5($pilot->avatar->baseName);
+                    $pilot->avatar->saveAs($dir . $pilot->avatar->name . "." . $extension);
+                    $pilot->avatar = $pilot->avatar->name . "." . $extension;
+                }
+            }
+
+            if (!$pilot->validate()) {
+                throw new \yii\web\HttpException(404, 'be');
+            }
+
+            $pilot->save();
+            return $this->redirect(['/pilot/center']);
+        } else {
+            return $this->render('edit', ['pilot' => $pilot]);
+        }
+    }
+
+    public function actionSettings($id = null)
     {
         if(!$id) $id=Users::getAuthUser()->vid;
         $user = Users::find()->andWhere(['vid' => $id])->one();
@@ -177,20 +209,6 @@ class DefaultController extends Controller
         $old_mail = $user->email;
 
         if ($user->load(Yii::$app->request->post())) {
-            Yii::trace(var_export($user, 1));
-            Yii::trace(var_export($user->stream, 1));
-            Yii::trace(var_export(Yii::$app->request->post(), 1));
-
-            if (UploadedFile::getInstance($user, 'avatar')) {
-                $user->avatar = UploadedFile::getInstance($user, 'avatar');
-                if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/avatars/');
-                    $extension = $user->avatar->extension;
-                    $user->avatar->name = md5($user->avatar->baseName);
-                    $user->avatar->saveAs($dir . $user->avatar->name . "." . $extension);
-                    $user->avatar = $user->avatar->name . "." . $extension;
-                }
-            }
             if ($user->email != $old_mail)
             {
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
@@ -209,12 +227,12 @@ class DefaultController extends Controller
                 throw new \yii\web\HttpException(404, 'be');
             }
             $user->save();
-            Yii::trace($user->stream);
             return $this->redirect(['/pilot/center']);
         } else {
-            return $this->render('edit', ['user' => $user]);
+            return $this->render('settings', ['user' => $user]);
         }
     }
+
 
     public function actionConfirmtoken($id)
     {

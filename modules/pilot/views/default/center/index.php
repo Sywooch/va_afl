@@ -30,6 +30,3 @@ $this->params['breadcrumbs'] = [
         ) ?>
     </div>
 </div>
-
-
-<?= $this->render('../edit_modal', ['user' => $user]) ?>
