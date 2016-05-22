@@ -55,7 +55,7 @@ $this->params['breadcrumbs'] = [
             <div class="profile-info">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2><img title="<?= $user->countryInfo->country ?>" src="<?= $user->flaglink ?>"> <img title="<?= $user->pilot->rank->name ?>" style="height: 15px;"src="<?= $user->pilot->rank->img ?>"> <?= $user->full_name ?>
+                        <h2><img title="<?= $user->countryInfo->country ?>" src="<?= $user->flaglink ?>"> <span class="label label-primary"><i class="fa fa-star" aria-hidden="true"></i> <?= $user->pilot->level ?></span> <?= $user->full_name ?>
                         </h2><?php echo $user->online ? Html::tag(
                             'span',
                             'Online',
@@ -103,11 +103,6 @@ $this->params['breadcrumbs'] = [
                                                         'title' => Html::encode("{$user->pilot->airport->city}, {$user->pilot->airport->iso}")
                                                     ]
                                                 ),
-                                        ],
-                                        [
-                                            'attribute' => 'Rank',
-                                            'label' => Yii::t('user', 'Rank'),
-                                            'value' => $user->pilot->rank->name
                                         ],
                                         [
                                             'attribute' => 'flights_num',

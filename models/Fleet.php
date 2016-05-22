@@ -74,7 +74,7 @@ class Fleet extends \yii\db\ActiveRecord
     {
         return [
             [['regnum'], 'required'],
-            [['status', 'user_id', 'squadron_id', 'max_pax', 'max_hrs', 'profile'], 'integer'],
+            [['status', 'user_id', 'squadron_id', 'max_pax', 'max_hrs', 'profile', 'hrs', 'need_srv'], 'integer'],
             [['image_path'], 'string'],
             [['regnum', 'type_code'], 'string', 'max' => 10],
             [['full_type'], 'string', 'max' => 100],

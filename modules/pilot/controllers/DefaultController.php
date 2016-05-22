@@ -34,7 +34,7 @@ class DefaultController extends Controller
     public function actionRoster()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(
+            'query' => Users::find()->joinWith('pilot')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
                 )
         ]);
@@ -42,14 +42,6 @@ class DefaultController extends Controller
         $dataProvider->sort->attributes['pilot.location'] = [
             'asc' => ['user_pilot.location' => SORT_ASC],
             'desc' => ['user_pilot.location' => SORT_DESC]
-        ];
-        $dataProvider->sort->attributes['pilot.rank.name_en'] = [
-            'asc' => ['ranks.name_en' => SORT_ASC],
-            'desc' => ['ranks.name_en' => SORT_DESC]
-        ];
-        $dataProvider->sort->attributes['pilot.rank.name_ru'] = [
-            'asc' => ['ranks.name_ru' => SORT_ASC],
-            'desc' => ['ranks.name_ru' => SORT_DESC]
         ];
         $dataProvider->sort->attributes['pilot.staff_comments'] = [
             'asc' => ['user_pilot.staff_comments' => SORT_ASC],
@@ -145,18 +137,10 @@ class DefaultController extends Controller
         ]);
 
         $topProvider = new ActiveDataProvider([
-            'query' => Users::find()->joinWith('pilot')->joinWith('pilot.rank')->andWhere(
+            'query' => Users::find()->joinWith('pilot')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
                 )
         ]);
-        $topProvider->sort->attributes['pilot.rank.name_en'] = [
-            'asc' => ['ranks.name_en' => SORT_ASC],
-            'desc' => ['ranks.name_en' => SORT_DESC]
-        ];
-        $topProvider->sort->attributes['pilot.rank.name_ru'] = [
-            'asc' => ['ranks.name_ru' => SORT_ASC],
-            'desc' => ['ranks.name_ru' => SORT_DESC]
-        ];
 
         return $this->render(
             'center/index',

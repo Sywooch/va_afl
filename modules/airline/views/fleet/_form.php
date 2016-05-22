@@ -34,6 +34,10 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'max_hrs')->textInput() ?>
 
+    <?= $form->field($model, 'hrs')->textInput() ?>
+
+    <?= $form->field($model, 'need_srv')->textInput() ?>
+
     <?= $form->field($model, 'selcal')->textInput() ?>
 
     <?= $form->field($model, 'profile')->widget(

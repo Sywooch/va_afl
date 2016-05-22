@@ -19,7 +19,6 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $result;
     public $id;
     public $email;
-    public $rank;
     public $last_visited;
     public $authKey;
     public $full_name;
@@ -82,7 +81,6 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $pilot = new UserPilot();
             $pilot->user_id = $model->vid;
             $pilot->status = 0;
-            $pilot->rank_id = 1;
             $pilot->location = 'UUEE';
             $pilot->save();
         }
