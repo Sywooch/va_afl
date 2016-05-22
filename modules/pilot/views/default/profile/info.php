@@ -72,6 +72,11 @@ use yii\widgets\DetailView;
                     'label' => Yii::t('user', 'User Comments'),
                     'value' => $user->pilot->user_comments,
                 ],
+                [
+                    'attribute' => 'user_comments',
+                    'label' => Yii::t('user', 'Staff Comments'),
+                    'value' => $user->pilot->staff_comments,
+                ],
             ]
         ]
     ) ?>

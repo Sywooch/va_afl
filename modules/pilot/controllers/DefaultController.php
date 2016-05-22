@@ -193,6 +193,7 @@ class DefaultController extends Controller
     {
         if(!$id) $id=Users::getAuthUser()->vid;
         $pilot = UserPilot::find()->andWhere(['user_id' => $id])->one();
+        $old_pilot = clone $pilot;
 
         if (!$pilot) {
             throw new \yii\web\HttpException(404, 'User not found');
@@ -208,6 +209,10 @@ class DefaultController extends Controller
                     $pilot->avatar->saveAs($dir . $pilot->avatar->name . "." . $extension);
                     $pilot->avatar = $pilot->avatar->name . "." . $extension;
                 }
+            }
+
+            if(empty($pilot->avatar)){
+                $pilot->avatar = $old_pilot->avatar;
             }
 
             if (!$pilot->validate()) {
