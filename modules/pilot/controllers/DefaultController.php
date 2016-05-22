@@ -45,8 +45,8 @@ class DefaultController extends Controller
             'desc' => ['user_pilot.location' => SORT_DESC]
         ];
         $dataProvider->sort->attributes['pilot.level'] = [
-            'asc' => ['user_pilot.level' => SORT_ASC],
-            'desc' => ['user_pilot.level' => SORT_DESC]
+            'asc' => ['user_pilot.experience' => SORT_ASC],
+            'desc' => ['user_pilot.experience' => SORT_DESC]
         ];
 
         $dataProvider->sort->attributes['pilot.billingUserBalance'] = [
@@ -155,8 +155,8 @@ class DefaultController extends Controller
             'desc' => ['user_pilot.location' => SORT_DESC]
         ];
         $topProvider->sort->attributes['pilot.level'] = [
-            'asc' => ['user_pilot.level' => SORT_ASC],
-            'desc' => ['user_pilot.level' => SORT_DESC]
+            'asc' => ['user_pilot.experience' => SORT_ASC],
+            'desc' => ['user_pilot.experience' => SORT_DESC]
         ];
 
         $topProvider->sort->attributes['pilot.billingUserBalance'] = [
