@@ -32,7 +32,13 @@ use yii\grid\GridView;
                                 return "<img src=" . $data->flaglink . "> " .
                                 Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
                             }
-                    ]
+                    ],
+                    [
+                        'attribute' => 'pilot.level',
+                        'value' => function ($data) {
+                                return $data->pilot->level;
+                            }
+                    ],
                 ],
             ]
         ) ?>
