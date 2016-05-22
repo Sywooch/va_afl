@@ -33,4 +33,9 @@ class Levels {
         $_level = self::getNextLevel($level);
         return round($exp / $_level * 100);
     }
+
+    public static function flight($user_id, $nm)
+    {
+        self::addExp(round($nm / 50) + 1, $user_id);
+    }
 } 

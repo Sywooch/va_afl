@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\components\Helper;
+use app\components\Levels;
 use app\components\Slack;
 use app\models\Actypes;
 use app\models\Airports;
@@ -233,6 +234,8 @@ class ParseController extends Controller
                 unserialize($flight->paxtypes)
             );
             Billing::doFlightCosts($flight);
+
+            Levels::flight($flight->user_id, $flight->nm);
 
             if ($this->slackFeed) {
                 $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} finished in {$landing}.");
