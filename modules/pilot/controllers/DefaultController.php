@@ -176,9 +176,21 @@ class DefaultController extends Controller
         }
 
         if ($pilot->load(Yii::$app->request->post())) {
+            if (UploadedFile::getInstance($pilot, 'avatar')) {
+                $pilot->avatar = UploadedFile::getInstance($pilot, 'avatar');
+                if (in_array($pilot->avatar->extension, ['gif', 'png', 'jpg'])) {
+                    $dir = Yii::getAlias('@app/web/img/avatars/');
+                    $extension = $pilot->avatar->extension;
+                    $pilot->avatar->name = md5($pilot->avatar->baseName);
+                    $pilot->avatar->saveAs($dir . $pilot->avatar->name . "." . $extension);
+                    $pilot->avatar = $pilot->avatar->name . "." . $extension;
+                }
+            }
+
             if (!$pilot->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
             }
+
             $pilot->save();
             return $this->redirect(['/pilot/center']);
         } else {
@@ -197,16 +209,6 @@ class DefaultController extends Controller
         $old_mail = $user->email;
 
         if ($user->load(Yii::$app->request->post())) {
-            if (UploadedFile::getInstance($user, 'avatar')) {
-                $user->avatar = UploadedFile::getInstance($user, 'avatar');
-                if (in_array($user->avatar->extension, ['gif', 'png', 'jpg'])) {
-                    $dir = Yii::getAlias('@app/web/img/avatars/');
-                    $extension = $user->avatar->extension;
-                    $user->avatar->name = md5($user->avatar->baseName);
-                    $user->avatar->saveAs($dir . $user->avatar->name . "." . $extension);
-                    $user->avatar = $user->avatar->name . "." . $extension;
-                }
-            }
             if ($user->email != $old_mail)
             {
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();

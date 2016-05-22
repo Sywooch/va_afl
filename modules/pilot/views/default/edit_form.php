@@ -23,6 +23,9 @@ $form = ActiveForm::begin([
     ],
 ]); ?>
 
+<?= $form->field($pilot, 'avatar')->fileInput() ?>
+<?= $form->field($pilot, 'user_comments')->textArea(['rows' => '6']) ?>
+<?= $form->field($pilot, 'staff_comments')->textArea(['rows' => '6']) ?>
 <?= $form->field($pilot, 'stream_link')->textInput(['maxlength' => true]) ?>
 <?php ActiveForm::end(); ?>
 

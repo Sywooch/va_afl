@@ -53,7 +53,7 @@ class Users extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_DEFAULT] = ['vid'];
-        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language', 'stream'];
+        $scenarios[self::SCENARIO_EDIT] = ['vid', 'email', 'language'];
 
         return $scenarios;
     }
@@ -126,6 +126,10 @@ class Users extends \yii\db\ActiveRecord
     }
 
     public function getAvatarLink(){
-        return Helper::getAvatarLink((isset($this->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $this->avatar)) ? $this->avatar : 'default.png');
+        return Helper::getAvatarLink((isset($this->pilot->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') . $this->pilot->avatar)) ? $this->pilot->avatar : 'default.png');
+    }
+
+    public function getAvatar(){
+        return $this->pilot->avatar;
     }
 }
