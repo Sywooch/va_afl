@@ -36,7 +36,8 @@ class DefaultController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Users::find()->joinWith('pilot')->joinWith('pilot.billingUserBalance')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
-                )
+                ),
+            'pagination' => array('pageSize' => 100),
         ]);
 
         $dataProvider->sort->attributes['pilot.location'] = [
@@ -144,7 +145,9 @@ class DefaultController extends Controller
         $topProvider = new ActiveDataProvider([
             'query' => Users::find()->joinWith('pilot')->joinWith('pilot.billingUserBalance')->andWhere(
                     ['status' => UserPilot::STATUS_ACTIVE]
-                )
+                ),
+            'pagination' => array('pageSize' => 10),
+            'sort'=> ['defaultOrder' => ['pilot.level'=>SORT_DESC]]
         ]);
 
         $topProvider->sort->attributes['pilot.location'] = [
