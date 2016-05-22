@@ -138,22 +138,22 @@ class ParseController extends Controller
         ];
 
         $tracker = Tracker::find()->where(['flight_id' => $flight->id])->orderBy('dtime desc')->one();
-
-        foreach ($airports as $name => $airport) {
-            if ($airport) {
-                if (Helper::calculateDistanceLatLng(
-                        $tracker->latitude,
-                        $airport->lat,
-                        $tracker->longitude,
-                        $airport->lon
-                    )
-                    < self::MAX_DISTANCE_TO_SAVE_FLIGHT
-                ) {
-                    return $name;
+        if ($tracker) {
+            foreach ($airports as $name => $airport) {
+                if ($airport) {
+                    if (Helper::calculateDistanceLatLng(
+                            $tracker->latitude,
+                            $airport->lat,
+                            $tracker->longitude,
+                            $airport->lon
+                        )
+                        < self::MAX_DISTANCE_TO_SAVE_FLIGHT
+                    ) {
+                        return $name;
+                    }
                 }
             }
         }
-
         return false;
 
     }
