@@ -237,7 +237,7 @@ class ParseController extends Controller
             Levels::flight($flight->user_id, $flight->nm);
 
             if ($this->slackFeed) {
-                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} finished in {$landing}.");
+                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} finished in {$flight->landing}.");
                 $slack->addText($flight->fpl);
                 $slack->sent();
             }
