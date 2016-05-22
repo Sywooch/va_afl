@@ -14,13 +14,13 @@ use app\models\Users;
                                                                                 style="height: 100%"></a></p>
         </div>
 
-        <div class="nav navbar-text progress progress-striped active" style="width: 500px; height: 20px">
-            <div class="progress-bar progress-bar-success" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><?=
+        <div class="nav navbar-text progress progress-striped active" style="width: 70%; height: 20px">
+            <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><?=
                 Html::tag(
                     'span',
-                    Yii::$app->user->identity->level,
+                    '<i class="fa fa-star" aria-hidden="true"></i> '.Yii::$app->user->identity->level,
                     [
-                        'title' => Yii::t('app', 'Experience'),
+                        'title' => Yii::t('app', 'Level'),
                         'data-toggle' => 'tooltip',
                         'data-placement' => "left"
                     ]

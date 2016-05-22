@@ -11,6 +11,7 @@ return [
     'My statistics' => 'Моя статистика',
     'Main' => 'Главная',
     'Edit' => 'Изменить',
+    'Level' => 'Уровень',
     'Experience' => 'Опыт',
     'Setting' => 'Настройки',
     'Help' => 'Помощь',
