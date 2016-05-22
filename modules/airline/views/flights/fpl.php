@@ -21,9 +21,7 @@ use app\components\Helper;
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('app', 'Pilot in Command') ?>:</td>
-            <td><b> <?= Html::img(Helper::getFlagLink($model->user->country)) ?>  <?= Html::a($model->user->full_name, Url::to(['/pilot/profile/'.$model->user->vid])) ?></b></td>
-            <td align="right"> <?= Yii::t('flights', 'Rating') ?>:</td>
-            <td><b> <?= $model->user->pilot->rank->name ?></b></td>
+            <td colspan="3"><b> <?= Html::img(Helper::getFlagLink($model->user->country)) ?>  <?= Html::a($model->user->full_name, Url::to(['/pilot/profile/'.$model->user->vid])) ?></b></td>
         </tr>
         <tr>
             <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
