@@ -111,6 +111,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->vid;
     }
 
+    public function getLevel(){
+        return UserPilot::find()->where(['user_id' => $this->vid])->one()->level;
+    }
+
+    public function getProgress(){
+        return UserPilot::find()->where(['user_id' => $this->vid])->one()->progress;
+    }
+
 
     /**
      * @inheritdoc

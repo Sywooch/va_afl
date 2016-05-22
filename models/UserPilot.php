@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Levels;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -13,7 +14,6 @@ use app\components\Helper;
  * @property integer $user_id
  * @property string $location
  * @property integer $status
- * @property integer $rank_id
  * @property integer $minutes
  * @property string $staff_comments
  */
@@ -41,7 +41,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'status', 'rank_id', 'minutes'], 'integer'],
+            [['user_id', 'status', 'minutes'], 'integer'],
             [['staff_comments', 'email_token'], 'string'],
             [['location'], 'string', 'max' => 4],
         ];
@@ -56,7 +56,6 @@ class UserPilot extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'location' => Yii::t('user', 'Location'),
             'status' => Yii::t('user', 'Status'),
-            'rank_id' => 'Rank ID',
             'staff_comments' => Yii::t('user', 'Staff Comments'),
         ];
     }
@@ -152,6 +151,10 @@ class UserPilot extends \yii\db\ActiveRecord
     public function getUserRoutes()
     {
         return Helper::userRoutes($this->user_id);
+    }
+
+    public function getProgress(){
+        return Levels::getProgress($this->experience, $this->level);
     }
 
     /**
