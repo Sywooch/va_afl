@@ -24,9 +24,5 @@ $this->params['breadcrumbs'] = [
         <?= $this->render('news', ['news' => $news]) ?>
         <?= $this->render('events', ['events' => $events]) ?>
         <?= $this->render('events_calendar', ['eventsCalendar' => $eventsCalendar]) ?>
-        <?= Html::button(
-            'Edit profile',
-            ['class' => 'btn btn-primary btn-lg', 'data-toggle' => 'modal', 'data-target' => '#modal-dialog']
-        ) ?>
     </div>
 </div>
