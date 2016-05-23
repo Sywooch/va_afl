@@ -25,6 +25,21 @@ class Booking extends \yii\db\ActiveRecord
     const BOOKING_FLIGHT_END = 3;
     const BOOKING_DELETED_BY_USER = 10;
 
+    const STATUS_BOOKED = 0;
+    const STATUS_CANCELED = 8;
+    const STATUS_CANCELED_BY_COMPANY = 9;
+    const STATUS_BOARDING = 10;
+    const STATUS_DEPARTING = 11;
+    const STATUS_ENROUTE = 15;
+    const STATUS_APPROACH = 20;
+    const STATUS_LANDED = 25;
+    const STATUS_ARRIVED = 30;
+    const STATUS_RETURNED = 31;
+    const STATUS_RETURNED_TO_TALT = 32;
+    const STATUS_RETURNED_TO_ALT = 33;
+    const STATUS_RETURNED_TO_RALT = 34;
+    const STATUS_FAILED = 50;
+
     /**
      * @inheritdoc
      */
@@ -40,7 +55,7 @@ class Booking extends \yii\db\ActiveRecord
     {
         return [
             [['user_id','to_icao','from_icao','callsign','fleet_regnum'],'required'],
-            [['user_id', 'schedule_id', 'status', 'fleet_regnum', 'stream'], 'integer'],
+            [['user_id', 'schedule_id', 'status', 'fleet_regnum', 'stream', 'g_status'], 'integer'],
             [['non_schedule_utc', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
             [['callsign'], 'string', 'max' => 10]

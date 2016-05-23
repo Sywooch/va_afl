@@ -155,7 +155,7 @@ use yii\grid\GridView;
                                                 $ret .= 'boarding">Boarding';
                                                 break;
                                         }
-                                        $ret .= '</span>';
+                                        $ret .= '|'.$data->g_status.'</span>';
                                         return $ret;
                                     }
                             ]
