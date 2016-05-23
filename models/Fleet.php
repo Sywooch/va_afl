@@ -59,6 +59,10 @@ class Fleet extends \yii\db\ActiveRecord
         return Flights::find()->where('fleet_regnum = ' . $this->id)->orderBy(['flights.id' => SORT_DESC])->one();
     }
 
+    public function getActypes(){
+        return $this->hasOne('app\models\Actypes', ['code' => 'type_code']);
+    }
+
     /**
      * @inheritdoc
      */

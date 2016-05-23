@@ -16,6 +16,7 @@ use app\models\Billing;
 use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
+use app\models\Flights\Status;
 use app\models\Pax;
 use app\models\Tracker;
 use app\models\UserPilot;
@@ -184,6 +185,8 @@ class ParseController extends Controller
             $booking->status = Booking::BOOKING_FLIGHT_START;
             $booking->save();
 
+            Status::get($booking, false);
+
             if ($this->slackFeed) {
                 $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} started with {$paxs['total']} pax on board.");
                 $slack->sent();
@@ -255,6 +258,8 @@ class ParseController extends Controller
         }
 
         $flight->save();
+
+        Status::get($booking, $flight->landing);
     }
 
     private function transferPilot($flight, $landing)
@@ -315,7 +320,8 @@ class ParseController extends Controller
                 $flight->dep_time = gmdate('Y-m-d H:i:s');
             }
 
-            if ($landing = $this->validateFlight($flight)) {
+            $landing = $this->validateFlight($flight);
+            if ($landing) {
                 if (!$flight->landing && $flight->dep_time > '0000-00-00 00:00:00'
                     && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40
                 ) {
@@ -337,6 +343,8 @@ class ParseController extends Controller
                     $flight->landing_time = '0000-00-00 00:00:00';
                 }
             }
+
+            Status::get($booking, $landing);
 
             $flight->fpl = $this->getFPL($data);
 
