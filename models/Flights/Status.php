@@ -8,6 +8,7 @@
 
 namespace app\models\Flights;
 
+use app\commands\ParseController;
 use app\components\Slack;
 use app\models\Booking;
 
@@ -73,6 +74,11 @@ class Status
 
                     if(self::$booking->flight->landing && self::$booking->flight->lastTrack->groundspeed <= 0 && self::$status == Booking::STATUS_LANDED){
                         self::$status = Booking::STATUS_ON_BLOCKS;
+                    }
+
+                    if((gmmktime() - strtotime(self::$booking->flight->last_seen)) > ParseController::HOLD_TIME / 2)
+                    {
+                        self::$status = Booking::STATUS_LOSS;
                     }
                 }
 

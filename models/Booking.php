@@ -31,6 +31,7 @@ class Booking extends \yii\db\ActiveRecord
     const STATUS_BOARDING = 10;
     const STATUS_DEPARTING = 11;
     const STATUS_ENROUTE = 15;
+    const STATUS_LOSS = 16;
     const STATUS_APPROACH = 20;
     const STATUS_LANDED = 25;
     const STATUS_ON_BLOCKS = 29;
