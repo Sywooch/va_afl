@@ -67,8 +67,12 @@ class Status
                         }
                     }
 
-                    if (self::$booking->flight->landing && self::$status = Booking::STATUS_APPROACH) {
+                    if (self::$booking->flight->landing && self::$status == Booking::STATUS_APPROACH) {
                         self::$status = Booking::STATUS_LANDED;
+                    }
+
+                    if(self::$booking->flight->landing && self::$booking->flight->lastTrack->groundspeed <= 0 && self::$status == Booking::STATUS_LANDED){
+                        self::$status = Booking::STATUS_ON_BLOCKS;
                     }
                 }
 
