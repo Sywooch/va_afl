@@ -57,7 +57,7 @@ class ParseController extends Controller
     const WZ_DEPTIME = 22;
 
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
-    const HOLD_TIME = 10;
+    const HOLD_TIME = 1800;
 
     /**
      * Whazzup
@@ -218,12 +218,11 @@ class ParseController extends Controller
     private function endFlight($flight)
     {
         $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
-        $booking->status = Booking::BOOKING_FLIGHT_END;
-        $booking->save();
 
         if ($flight->landing) {
             $flight->finished = gmdate('Y-m-d H:i:s');
             $flight->status = Flights::FLIGHT_STATUS_OK;
+            $booking->status = Booking::BOOKING_FLIGHT_END;
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time)) / 60);
 
             $this->transferPilot($flight, $flight->landing);
@@ -248,6 +247,7 @@ class ParseController extends Controller
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
                 $flight->status = Flights::FLIGHT_STATUS_BREAK;
+                $booking->status = Booking::BOOKING_FLIGHT_END;
 
                 if ($this->slackFeed) {
                     $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} failed.");
@@ -257,6 +257,7 @@ class ParseController extends Controller
             }
         }
 
+        $booking->save();
         $flight->save();
 
         Status::get($booking, $flight->landing);
