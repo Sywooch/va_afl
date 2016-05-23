@@ -26,6 +26,7 @@ class Status
             $slack = new Slack('#dev_reports', "Status of " . self::$booking->callsign . " has been changed to " . self::$status);
             $slack->sent();
         }
+        self::$booking->save();
     }
 
     private static function check()
