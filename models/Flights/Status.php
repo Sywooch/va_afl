@@ -88,7 +88,6 @@ class Status
                     default:
                         self::$status = Booking::STATUS_FAILED;
                 }
-
                 break;
 
             case Booking::BOOKING_DELETED_BY_USER:
@@ -97,7 +96,7 @@ class Status
         }
     }
 
-    public static function get($booking, $landing)
+    public static function get($booking, $landing = false)
     {
         try {
             self::$booking = $booking;

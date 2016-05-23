@@ -7,6 +7,7 @@ use app\components\Levels;
 use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
+use app\models\Flights\Status;
 use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
@@ -149,6 +150,7 @@ class SiteController extends Controller
             $booking = Booking::find()->andWhere(['user_id' => $user->id])->andWhere('status < '.Booking::BOOKING_FLIGHT_END)->one();
             $booking->status = Booking::BOOKING_DELETED_BY_USER;
             $booking->save();
+            Status::get($booking);
         }
 
         $this->goBack();
