@@ -49,8 +49,8 @@ class Status
                     }
 
                     if (self::$booking->flight->lastTrack->groundspeed <= 200 && in_array(
-                            self::$booking->fleet->actypes->weightclass,
-                            ['H', 'M']
+                            self::$booking->fleet->actypes->turbulence,
+                            ['H', 'M', 'J']
                         ) && self::$landing && self::$status == Booking::STATUS_ENROUTE
                     ) {
                         if (self::$landing != self::$booking->from_icao) {
@@ -59,7 +59,7 @@ class Status
                     }
 
                     if (self::$booking->flight->lastTrack->groundspeed <= 140 && in_array(
-                            self::$booking->fleet->actypes->weightclass,
+                            self::$booking->fleet->actypes->turbulence,
                             ['S', 'L']
                         ) && self::$landing && self::$status == Booking::STATUS_ENROUTE
                     ) {
