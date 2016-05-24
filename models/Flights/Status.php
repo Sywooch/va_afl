@@ -40,7 +40,7 @@ class Status
 
             case Booking::BOOKING_FLIGHT_START:
                 if (isset(self::$booking->flight->lastTrack)) {
-                    if (self::$booking->flight->lastTrack->groundspeed >= 8 && self::$status == Booking::STATUS_BOARDING) {
+                    if (self::$booking->flight->lastTrack->groundspeed >= 8) {
                         self::$status = Booking::STATUS_DEPARTING;
                     }
 
