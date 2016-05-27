@@ -332,7 +332,6 @@ class ParseController extends Controller
                     }
                     $flight->landing = $landing;
                     $flight->landing_time = gmdate('Y-m-d H:i:s');
-                    var_dump($flight);
                 }
             } else {
                 if ($flight->landing) {
