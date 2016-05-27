@@ -8,6 +8,7 @@
 namespace app\commands;
 
 use app\components\Helper;
+use app\components\IvaoWx;
 use app\components\Levels;
 use app\components\Slack;
 use app\models\Actypes;
@@ -319,6 +320,7 @@ class ParseController extends Controller
 
             if ($flight->dep_time == '0000-00-00 00:00:00' && $data[self::WZ_ONGROUND] == 0 && $data[self::WZ_GROUNDSPEED] > 40) {
                 $flight->dep_time = gmdate('Y-m-d H:i:s');
+                $flight->metar_dep = IvaoWx::metar($flight->from_icao);
             }
 
             $landing = $this->validateFlight($flight);
@@ -332,6 +334,7 @@ class ParseController extends Controller
                     }
                     $flight->landing = $landing;
                     $flight->landing_time = gmdate('Y-m-d H:i:s');
+                    $flight->metar_landing = IvaoWx::metar($landing);
                 }
             } else {
                 if ($flight->landing) {
