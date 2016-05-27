@@ -7,6 +7,7 @@
  */
 
 use app\components\Helper;
+use app\models\Booking;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -147,15 +148,32 @@ use yii\grid\GridView;
                                 'format' => 'raw',
                                 'value' => function ($data) {
                                         $ret = '<span class="';
-                                        switch ($data->status) {
-                                            case 1:
+
+                                        switch ($data->g_status) {
+                                            case Booking::STATUS_BOOKED:
                                                 $ret .= 'booked">Booked';
                                                 break;
-                                            case 2:
+                                            case Booking::STATUS_BOARDING:
                                                 $ret .= 'boarding">Boarding';
                                                 break;
+                                            case Booking::STATUS_DEPARTING:
+                                                $ret .= 'departing">Departing';
+                                                break;
+                                            case Booking::STATUS_ENROUTE:
+                                                $ret .= 'en-route">En-route';
+                                                break;
+                                            case Booking::STATUS_APPROACH:
+                                                $ret .= 'approach">Approach';
+                                                break;
+                                            case Booking::STATUS_LANDED:
+                                                $ret .= 'landing">Landed';
+                                                break;
+                                            case Booking::STATUS_ON_BLOCKS:
+                                                $ret .= 'on-blocks">On blocks';
+                                                break;
                                         }
-                                        $ret .= '|'.$data->g_status.'</span>';
+
+                                        $ret .= '</span>';
                                         return $ret;
                                     }
                             ]

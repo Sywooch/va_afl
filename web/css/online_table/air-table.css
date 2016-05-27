@@ -84,7 +84,7 @@
 .time-table .status .departing{
 	background: #f1c40f;
 }
-.time-table .status .approuch{
+.time-table .status .approach{
 	background: #2ecc71;
 }
 .time-table .status .boarding{
@@ -93,7 +93,7 @@
 .time-table .status .en-route{
 	background: #1abc9c;
 }
-.time-table .status .landing{
+.time-table .status .landed{
 	background: #f39c12;
 }
 .time-table .status .on-blocks{
