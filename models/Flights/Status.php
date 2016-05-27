@@ -21,7 +21,7 @@ class Status
 
     private static function save()
     {
-        if (self::$booking->g_status != self::$status) {
+        if (self::$booking->g_status != self::$status && self::$status != 0) {
             self::$booking->g_status = self::$status;
 
             $slack = new Slack('#dev_reports', "Status of " . self::$booking->callsign . " has been changed to " . self::$status);
