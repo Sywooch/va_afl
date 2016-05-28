@@ -138,7 +138,7 @@ class DefaultController extends Controller
         ]);
 
         $onlineProvider = new ActiveDataProvider([
-            'query' => Booking::find()->where('status > 0')->andWhere('status < 3'),
+            'query' => Booking::find()->where('status > 0')->andWhere('status < 3')->orderBy('g_status desc'),
             'sort' => false,
             'pagination' => false,
         ]);

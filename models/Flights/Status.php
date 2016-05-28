@@ -72,12 +72,11 @@ class Status
                         self::$status = Booking::STATUS_LANDED;
                     }
 
-                    if(self::$booking->flight->landing && self::$booking->flight->lastTrack->groundspeed <= 0 && self::$status == Booking::STATUS_LANDED){
+                    if (self::$booking->flight->landing && self::$booking->flight->lastTrack->groundspeed <= 0 && self::$status == Booking::STATUS_LANDED) {
                         self::$status = Booking::STATUS_ON_BLOCKS;
                     }
 
-                    if((gmmktime() - strtotime(self::$booking->flight->last_seen)) > ParseController::HOLD_TIME / 2)
-                    {
+                    if ((gmmktime() - strtotime(self::$booking->flight->last_seen)) > ParseController::HOLD_TIME / 2) {
                         self::$status = Booking::STATUS_LOSS;
                     }
                 }
@@ -85,19 +84,21 @@ class Status
                 break;
 
             case Booking::BOOKING_FLIGHT_END:
-                switch (self::$booking->flight->landing) {
-                    case self::$booking->flight->to_icao:
-                        self::$status = Booking::STATUS_ARRIVED;
-                        break;
-                    case self::$booking->flight->from_icao:
-                        self::$status = Booking::STATUS_RETURNED;
-                        break;
-                    case self::$booking->flight->alternate1:
-                    case self::$booking->flight->alternate2:
-                        self::$status = Booking::STATUS_RETURNED_TO_ALT;
-                        break;
-                    default:
-                        self::$status = Booking::STATUS_FAILED;
+                if (!empty(self::$booking->flight->landing)) {
+                    switch (self::$booking->flight->landing) {
+                        case self::$booking->flight->to_icao:
+                            self::$status = Booking::STATUS_ARRIVED;
+                            break;
+                        case self::$booking->flight->from_icao:
+                            self::$status = Booking::STATUS_RETURNED;
+                            break;
+                        case self::$booking->flight->alternate1:
+                        case self::$booking->flight->alternate2:
+                            self::$status = Booking::STATUS_RETURNED_TO_ALT;
+                            break;
+                        default:
+                            self::$status = Booking::STATUS_FAILED;
+                    }
                 }
                 break;
 
