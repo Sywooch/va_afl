@@ -77,11 +77,7 @@ use app\models\Users;
                             [
                                 'name' => Yii::t('app', 'Squadron HEAVY'),
                                 'url' => \yii\helpers\Url::to('/squadron/view/3')
-                            ],
-                            [
-                                'name' => Yii::t('app', 'Squadron SU95'),
-                                'url' => \yii\helpers\Url::to('/squadron/view/4')
-                            ],
+                            ]
                         ],
                         'icon' => 'fa-plane'
                     ],
@@ -101,18 +97,15 @@ use app\models\Users;
                         'icon' => 'fa-cutlery'
                     ],
                     [
-                        'name' => 'IVAO WebEye',
+                        'name' => 'WebEye',
                         'url' => 'http://webeye.ivao.aero',
                         'icon' => 'fa-eye',
                         'linkOptions' => ['target' => '_blank']
                     ],
                     [
-                        'name' => Yii::t('app', 'Services'),
-                        'icon' => 'fa-laptop',
-                        'items' => [
-                            ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'TeamSpeak 3'), 'url' => '/content/view/teamspeak']
-                        ]
+                        'name' => 'TeamSpeak 3',
+                        'url' => '/content/view/teamspeak',
+                        'icon' => 'fa-microphone',
                     ],
                     [
                         'name' => Yii::t('app', 'Screenshots'),
@@ -125,14 +118,22 @@ use app\models\Users;
                         ]
                     ],
                     [
+                        'name' => Yii::t('app', 'Services'),
+                        'icon' => 'fa-laptop',
+                        'items' => [
+                            ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
+                            ['name' => Yii::t('app', 'Content'), 'url' => \yii\helpers\Url::to('/content/index')],
+                        ]
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Documents'),
+                        'url' => \yii\helpers\Url::to('/content/documents'),
+                        'icon' => 'fa-folder'
+                    ],
+                    [
                         'name' => Yii::t('app', 'Forum'),
                         'url' => \yii\helpers\Url::to('/forum'),
                         'icon' => 'fa-rss'
-                    ],
-                    [
-                        'name' => Yii::t('app', 'Content'),
-                        'url' => \yii\helpers\Url::to('/content/index'),
-                        'icon' => 'fa-cloud-download'
                     ],
                     [
                         'name' => Yii::t('app', 'Shop'),
