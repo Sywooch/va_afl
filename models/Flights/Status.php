@@ -12,9 +12,15 @@ use app\commands\ParseController;
 use app\components\Slack;
 use app\models\Booking;
 
+/**
+ * Class Status
+ * 
+ * TODO: Рефактор check()
+ * @author Nikita Fedoseev
+ * @package app\models\Flights
+ */
 class Status
 {
-
     private static $status = 0;
     private static $booking;
     private static $landing;

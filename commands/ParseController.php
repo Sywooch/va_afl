@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: BTH
- * Date: 30.09.15
- * Time: 22:29
- */
 namespace app\commands;
 
 use app\components\Helper;
 use app\components\IvaoWx;
 use app\components\Levels;
 use app\components\Slack;
-use app\models\Actypes;
 use app\models\Airports;
 use app\models\Billing;
 use app\models\Booking;
@@ -20,11 +13,18 @@ use app\models\Flights;
 use app\models\Flights\Status;
 use app\models\Pax;
 use app\models\Tracker;
-use app\models\UserPilot;
 use app\models\Users;
-use yii\base\Exception;
 use yii\console\Controller;
 
+/**
+ * Class ParseController
+ * Замечательный трекер
+ * TODO: Рефактор и вынесение большой части функций для работы с данными в модели
+ * TODO: Отдельный класс для разбора whazzup'a
+ * @author Alexander Shakhmukhametov - написание первой версии трекера
+ * @author Nikita Fedoseev - изменение и доработка функционала
+ * @package app\commands
+ */
 class ParseController extends Controller
 {
     //Константы. В основном относятся к вазап файлу
@@ -189,7 +189,7 @@ class ParseController extends Controller
             Status::get($booking, false);
 
             if ($this->slackFeed) {
-                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} started with {$paxs['total']} pax on board.");
+                $slack = new Slack('#dev_reports', "Flight {$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) started with {$paxs['total']} pax on board.");
                 $slack->sent();
             }
         } else {
@@ -240,8 +240,7 @@ class ParseController extends Controller
             Levels::flight($flight->user_id, $flight->nm);
 
             if ($this->slackFeed) {
-                $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} finished in {$flight->landing}.");
-                $slack->addText($flight->fpl);
+                $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) finished in {$flight->landing}.");
                 $slack->sent();
             }
         } else {
@@ -251,8 +250,7 @@ class ParseController extends Controller
                 $booking->status = Booking::BOOKING_FLIGHT_END;
 
                 if ($this->slackFeed) {
-                    $slack = new Slack('#dev_reports', "Flight {$booking->callsign} - {$booking->from_icao} - {$booking->to_icao}, Pilot - {$booking->user_id} failed.");
-                    $slack->addText($flight->fpl);
+                    $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) failed.");
                     $slack->sent();
                 }
             }
@@ -326,10 +324,10 @@ class ParseController extends Controller
             $landing = $this->validateFlight($flight);
             if ($landing) {
                 if (!$flight->landing && $flight->dep_time > '0000-00-00 00:00:00'
-                    && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 40
+                    && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160
                 ) {
                     if ($this->slackFeed) {
-                        $slack = new Slack('#dev_reports', "Flight {$flight->callsign} - Landing in {$landing}");
+                        $slack = new Slack('#dev_reports', "{$flight->callsign} - landed in {$landing}");
                         $slack->sent();
                     }
                     $flight->landing = $landing;
@@ -339,7 +337,7 @@ class ParseController extends Controller
             } else {
                 if ($flight->landing) {
                     if ($this->slackFeed) {
-                        $slack = new Slack('#dev_reports', "Flight {$flight->callsign} - Leaving {$flight->landing}");
+                        $slack = new Slack('#dev_reports', "{$flight->callsign} - left from {$flight->landing}");
                         $slack->sent();
                     }
 
@@ -360,7 +358,7 @@ class ParseController extends Controller
 
     /**
      * Возвращает маршрутную часть ФПЛ.
-     * @param int $int user_id для поиска в массиве с пилотами
+     * @param $data
      * @return string
      */
     private function getFlightRoute($data)
