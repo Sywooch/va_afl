@@ -131,7 +131,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public static function getStatWeekdays($id)//TODO: перенести в UserPilot
     {
-        $stats_raw = Flights::find()->where(['user_id' => $id])->select(
+        $stats_raw = Flights::find()->where(['user_id' => $id])->andWhere('WEEKDAY(dep_time) IS NOT NULL')->select(
             'WEEKDAY(dep_time) AS `day`,COUNT(*) AS `count`'
         )
             ->groupBy(
