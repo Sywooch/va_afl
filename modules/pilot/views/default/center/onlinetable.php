@@ -162,6 +162,9 @@ use yii\grid\GridView;
                                             case Booking::STATUS_ENROUTE:
                                                 $ret .= 'en-route">En-route';
                                                 break;
+                                            case Booking::STATUS_LOSS:
+                                                $ret .= 'booked">Loss contact';
+                                                break;
                                             case Booking::STATUS_APPROACH:
                                                 $ret .= 'approach">Approach';
                                                 break;
@@ -170,6 +173,9 @@ use yii\grid\GridView;
                                                 break;
                                             case Booking::STATUS_ON_BLOCKS:
                                                 $ret .= 'on-blocks">On blocks';
+                                                break;
+                                            default:
+                                                $ret .= '">###';
                                                 break;
                                         }
 

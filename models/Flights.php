@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\Helper;
+use app\models\Flights\Simulator;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\i18n\Formatter;
@@ -175,6 +176,11 @@ class Flights extends \yii\db\ActiveRecord
         return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
     }
 
+    public function getLandingAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'landing']);
+    }
+
     public function getFleet()
     {
         return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
@@ -198,6 +204,10 @@ class Flights extends \yii\db\ActiveRecord
     public function getBooking()
     {
         return $this->hasOne(Booking::className(), ['id' => 'id']);
+    }
+
+    public function getSimulator(){
+        return Simulator::$ivao[$this->sim];
     }
 
     public static function prepareTrackerData($id)

@@ -42,6 +42,35 @@ class Booking extends \yii\db\ActiveRecord
     const STATUS_RETURNED_TO_RALT = 34;
     const STATUS_FAILED = 50;
 
+    public function getStatusName(){
+        if($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS){
+            return Yii::t('flights', 'In flight');
+        }
+
+        switch($this->g_status){
+            case self::STATUS_ARRIVED:
+                return Yii::t('flights', 'Arrived');
+                break;
+            case self::STATUS_RETURNED:
+                return Yii::t('flights', 'Returned');
+                break;
+            case self::STATUS_RETURNED_TO_TALT:
+                return Yii::t('flights', 'Returned to takeoff alternative airport');
+                break;
+            case self::STATUS_RETURNED_TO_ALT:
+                return Yii::t('flights', 'Returned to alternative airport');
+                break;
+            case self::STATUS_RETURNED_TO_RALT:
+                return Yii::t('flights', 'Landed in en-route alternative');
+                break;
+            case self::STATUS_FAILED:
+                return Yii::t('flights', 'Failed');
+                break;
+            default:
+                return Yii::t('flights', 'Unknown');
+        }
+    }
+
     /**
      * @inheritdoc
      */
