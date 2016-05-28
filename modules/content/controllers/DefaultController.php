@@ -2,6 +2,7 @@
 
 namespace app\modules\content\controllers;
 
+use app\models\Services\Notifications\News;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -120,7 +121,11 @@ class DefaultController extends Controller
             }
 
             if ($model->validate()) {
-                $model->save();
+                if($model->save()){
+                    if($model->categoryInfo->news == 1){
+                        News::add($model);
+                    }
+                }
             } else {
                 throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));
             }
