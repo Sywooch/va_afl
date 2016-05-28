@@ -108,6 +108,11 @@ class UserPilot extends \yii\db\ActiveRecord
         return $this->hasMany(Flights::className(), ['user_id' => 'user_id']);
     }
 
+    public function getStaff()
+    {
+        return Staff::roles($this->user_id);
+    }
+
     public function getTime()
     {
         /*$query = New Query();

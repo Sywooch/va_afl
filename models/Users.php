@@ -132,4 +132,8 @@ class Users extends \yii\db\ActiveRecord
     public function getAvatar(){
         return $this->pilot->avatar;
     }
+
+    public static function active(){
+        return self::find()->joinWith('pilot')->where(['user_pilot.status' => 1])->all();
+    }
 }

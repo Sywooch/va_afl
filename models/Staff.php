@@ -23,6 +23,18 @@ class Staff extends \yii\db\ActiveRecord
         return self::find()->where(['vid' => $id])->all();
     }
 
+    public static function roles($id){
+        $text = '';
+        foreach(self::byUser($id) as $role){
+            if($text != ''){
+                $text .= ", \n";
+            }
+            $text .= $role->name_en;
+        }
+
+        return $text;
+    }
+
     /**
      * @inheritdoc
      */
