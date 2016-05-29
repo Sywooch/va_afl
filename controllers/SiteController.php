@@ -9,6 +9,7 @@ use app\models\BillingPayments;
 use app\models\BillingUserBalance;
 use app\models\Content;
 use app\models\Flights\Status;
+use app\models\Log;
 use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
@@ -208,6 +209,15 @@ class SiteController extends Controller
         if ($valid) {
             Users::transfer(Users::getAuthUser()->vid, $to);
             BillingPayments::registerTaxiPayment(Users::getAuthUser()->vid, $money);
+        }
+    }
+
+    public function actionExp()
+    {
+        if ($_GET['key'] == '23871b47a8a2e7c4808840ad047bc487') {
+            $exp = Levels::exp($_GET['user']);
+            Levels::addExp($_GET['exp'], $_GET['user']);
+            Log::action($_GET['user'], 'add', 'levels', 'achievement', Levels::exp($_GET['user']), $exp);
         }
     }
 }

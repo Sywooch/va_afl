@@ -177,10 +177,11 @@ class ParseController extends Controller
         $flight->user_id = $booking->user_id;
         $flight->status = Flights::FLIGHT_STATUS_STARTED;
         $flight->first_seen = gmdate('Y-m-d H:i:s');
-        $flight = $this->updateData($flight);
         $paxs = Pax::appendPax($booking->from_icao, $booking->to_icao, $flight->fleet, true);
         $flight->pob = $paxs['total'];
         $flight->paxtypes = serialize($paxs['paxtypes']);
+
+        $flight = $this->updateData($flight);
 
         if ($flight->save()) {
             $booking->status = Booking::BOOKING_FLIGHT_START;
@@ -280,8 +281,6 @@ class ParseController extends Controller
     {
         $flight = $this->updateData($flight);
         $flight->save();
-
-        Status::get($flight->booking, $this->validateFlight($flight));
     }
 
     private function updateData($flight)
@@ -349,6 +348,8 @@ class ParseController extends Controller
             }
             $flight->fpl = $this->getFPL($data);
             $this->insertTrackerData($flight);
+
+            Status::get($booking, $landing);
         }
 
         return $flight;

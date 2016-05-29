@@ -18,8 +18,7 @@ use app\models\Users;
  * @property string $created
  * @property string $banner
  *
- * @property Content $content
- * @property EventsConditions[] $eventsConditions
+ * @property Content $contentInfo
  */
 class Events extends \yii\db\ActiveRecord
 {
@@ -52,6 +51,7 @@ class Events extends \yii\db\ActiveRecord
             [['content', 'start', 'stop'], 'required'],
             [['content', 'author', 'type', 'free_join', 'center'], 'integer'],
             [['access'], 'string'],
+            [['from', 'to'], 'string', 'max' => 255],
             [['start', 'stop', 'created'], 'safe']
         ];
     }
@@ -108,13 +108,5 @@ class Events extends \yii\db\ActiveRecord
     public function getAuthorUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'author']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getEventsConditions()
-    {
-        return $this->hasMany(EventsConditions::className(), ['event_id' => 'id']);
     }
 }
