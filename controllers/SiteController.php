@@ -7,6 +7,7 @@ use app\components\Levels;
 use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
+use app\models\Content;
 use app\models\Flights\Status;
 use app\models\UserPilot;
 use Yii;
@@ -187,10 +188,6 @@ class SiteController extends Controller
     public function actionMybookingdetails()
     {
         echo Booking::jsonMapData();
-    }
-
-    public function actionTest(){
-        Levels::addExp(1000, 442121);
     }
 
     public function actionCalctaxiprice()
