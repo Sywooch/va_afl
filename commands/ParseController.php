@@ -280,6 +280,8 @@ class ParseController extends Controller
     {
         $flight = $this->updateData($flight);
         $flight->save();
+
+        Status::get($flight->booking, $this->validateFlight($flight));
     }
 
     private function updateData($flight)
@@ -347,7 +349,6 @@ class ParseController extends Controller
             }
             $flight->fpl = $this->getFPL($data);
             $this->insertTrackerData($flight);
-            Status::get($booking, $landing);
         }
 
         return $flight;
