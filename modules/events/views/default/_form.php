@@ -53,6 +53,10 @@ use kartik\select2\Select2;
     )
     ?>
 
+    <?= $form->field($model, 'from')->textInput() ?>
+
+    <?= $form->field($model, 'to')->textInput() ?>
+
     <?= $form->field($model, 'access')->textInput() ?>
 
     <div class="form-group">

@@ -24,6 +24,11 @@ class Levels {
         $user->save();
     }
 
+    public static function exp($user)
+    {
+        return UserPilot::find()->where(['user_id' => $user])->one()->experience;
+    }
+
     public static function getNextLevel($level)
     {
         return (($level + 1) * 50) - 50;
