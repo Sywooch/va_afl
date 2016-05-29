@@ -14,7 +14,7 @@ use app\models\Booking;
 
 /**
  * Class Status
- * 
+ *
  * TODO: Рефактор check()
  * @author Nikita Fedoseev
  * @package app\models\Flights
@@ -39,14 +39,17 @@ class Status
     private static function check()
     {
         switch (self::$booking->status) {
-
             case Booking::BOOKING_INIT:
                 self::$status = Booking::STATUS_BOOKED;
                 break;
 
             case Booking::BOOKING_FLIGHT_START:
                 if (isset(self::$booking->flight->lastTrack)) {
-                    if (self::$booking->flight->lastTrack->groundspeed >= 8) {
+                    if (self::$booking->flight->lastTrack->groundspeed < 8){
+                        self::$status = Booking::STATUS_BOARDING;
+                    }
+
+                    if (self::$booking->flight->lastTrack->groundspeed >= 8 && self::$status == Booking::STATUS_BOARDING) {
                         self::$status = Booking::STATUS_DEPARTING;
                     }
 
@@ -85,6 +88,8 @@ class Status
                     if ((gmmktime() - strtotime(self::$booking->flight->last_seen)) > ParseController::HOLD_TIME / 2) {
                         self::$status = Booking::STATUS_LOSS;
                     }
+                } else {
+                    self::$status = Booking::STATUS_BOARDING;
                 }
 
                 break;
@@ -121,7 +126,7 @@ class Status
             self::$landing = $landing;
             self::check();
             self::save();
-
+            self::$status = 0;
         } catch (\Exception $ex) {
             var_dump($ex);
         }
