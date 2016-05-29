@@ -345,12 +345,9 @@ class ParseController extends Controller
                     $flight->landing_time = '0000-00-00 00:00:00';
                 }
             }
-
-            Status::get($booking, $landing);
-
             $flight->fpl = $this->getFPL($data);
-
             $this->insertTrackerData($flight);
+            Status::get($booking, $landing);
         }
 
         return $flight;
