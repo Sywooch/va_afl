@@ -64,7 +64,7 @@ class Pax extends \yii\db\ActiveRecord
         end) as waiting_hours,
         sum(num_pax) as num_pax'
         )
-                     ->andWhere('from_icao="' . $icao . '"')
+                     ->where(['from_icao' => $icao])->orWhere(['to_icao' => $icao])
                      ->groupBy('
        (case
             when waiting_hours<4 then 0
@@ -107,6 +107,34 @@ class Pax extends \yii\db\ActiveRecord
     }
 
     public static function jsonMapData()
+    {
+        $data = [
+            'type' => 'FeatureCollection',
+            'features' => []
+        ];
+        $user = Users::getAuthUser();
+        foreach (self::getAirportsList() as $adata) {
+            $paxlist = self::getPaxListForAirport($adata['name']);
+            $data['features'][] = [
+                'type' => 'Feature',
+                'properties' => [
+                    'name'=>$adata['name'],
+                    'paxlist'=>$paxlist,
+                    'feeling'=>self::getFeeling($paxlist),
+                    'bookthis'=>$adata['name']==$user->pilot->location?
+                        '<em>'.Yii::t('booking','You are here').'</em>':
+                        '<button onclick=\'smartbooking("'.$adata['name'].'");\'>'.Yii::t('booking','Book this').'</button>',
+                ],
+                'geometry' => [
+                    'type' => 'Point',
+                    'coordinates' => [$adata['lon'], $adata['lat']],
+                ],
+            ];
+        }
+        return json_encode($data);
+    }
+
+    public static function jsonMapDataNew()
     {
         $data = [
             'type' => 'FeatureCollection',

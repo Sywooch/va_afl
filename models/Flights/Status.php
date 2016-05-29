@@ -124,6 +124,7 @@ class Status
         try {
             self::$booking = $booking;
             self::$landing = $landing;
+            self::$status = $booking->g_status;
             self::check();
             self::save();
             self::$status = 0;
