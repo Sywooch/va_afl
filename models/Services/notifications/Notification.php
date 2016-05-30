@@ -34,6 +34,15 @@ class Notification extends \yii\db\ActiveRecord
         return '{{%notification}}';
     }
 
+    public static function add($vid, $author, $id)
+    {
+        $notification = new Notification;
+        $notification->to = $vid;
+        $notification->from = $author;
+        $notification->content_id = $id;
+        $notification->save();
+    }
+
     public static function last()
     {
         return self::user()->orderBy('created desc')->limit(5)->all();
@@ -53,12 +62,11 @@ class Notification extends \yii\db\ActiveRecord
 
     public static function user()
     {
-        return self::find()
-            ->where(['to' => self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0])]);
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
     }
 
     public function getIconHTML(){
-        return $this->tag ? '<i class="fa '.$this->icon.' media-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object" alt=""/>';
+        return $this->icon ? '<i class="fa '.$this->icon.' media-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object" alt=""/>';
     }
 
 
