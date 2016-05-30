@@ -1,7 +1,19 @@
-html, body{
+html, body {
     height: 100%;
 }
 
-#page-container, #content{
+#page-container, #content {
     height: 100%;
+}
+
+.notification-object{
+    height: 36px;
+    width: 36px;
+    line-height: 36px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
 }

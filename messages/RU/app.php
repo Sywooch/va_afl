@@ -74,5 +74,7 @@ return [
     'Send' => 'Отправить',
     'Enter your message here' => 'Оставьте своё сообщение здесь',
     'of' => '',
-    'Status' => 'Статус'
+    'Status' => 'Статус',
+    'Notifications' => 'Уведомления',
+    'View more' => 'Посмотреть ещё'
 ];

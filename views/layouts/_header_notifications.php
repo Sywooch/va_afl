@@ -10,27 +10,29 @@ use app\models\Services\Notifications\Notification;
 ?>
 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
     <i class="fa fa-bell-o"></i>
-    <span class="label"><?= Notification::count() ?></span>
+    <?php if (Notification::count() > 0): ?>
+        <span class="label"><?= Notification::count() ?></span>
+    <?php endif; ?>
 </a>
 <ul class="dropdown-menu media-list pull-right animated fadeInDown">
-    <li class="dropdown-header">Notifications <?= Notification::count() ?></li>
-    <?php foreach(Notification::last() as $notification): ?>
-    <li class="media">
-        <a href="javascript:;">
-            <div class="media-left"><?= $notification->iconHTML ?></div>
-            <div class="media-body">
-                <h6 class="media-heading"><?= $notification->fromUser->full_name ?></h6>
+    <li class="dropdown-header"><?= Yii::t('app', 'Notifications') ?></li>
+    <?php foreach (Notification::last() as $notification): ?>
+        <li class="media">
+            <a href="javascript:;">
+                <div class="media-left"><?= $notification->iconHTML ?></div>
+                <div class="media-body">
+                    <h6 class="media-heading"><?= $notification->fromUser->full_name ?></h6>
 
-                <p><?= $notification->content->description ?></p>
+                    <p><?= $notification->content->description ?></p>
 
-                <div class="text-muted f-s-11">
-                    <?= (new \DateTime($notification->content->created))->format('g:ia \o\n l jS F') ?>
+                    <div class="text-muted f-s-11">
+                        <?= (new \DateTime($notification->created))->format('g:ia \o\n l jS F') ?>
+                    </div>
                 </div>
-            </div>
-        </a>
-    </li>
+            </a>
+        </li>
     <?php endforeach; ?>
     <li class="dropdown-footer text-center">
-        <a href="javascript:;">View more</a>
+        <a href="/pilot/notifications/index"><?= Yii::t('app', 'View more') ?></a>
     </li>
 </ul>
