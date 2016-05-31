@@ -27,7 +27,7 @@ class Status
 
     const SPEED_BOARDING = 8;
     const SPEED_ENROUTE = 100;
-    const SPEED_APP_HM = 200;
+    const SPEED_APP_MH = 200;
     const SPEED_APP_L = 140;
 
     public static function get($booking, $landing = false)
