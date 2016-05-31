@@ -169,7 +169,7 @@ use yii\grid\GridView;
                                                 $ret .= 'approach">Approach';
                                                 break;
                                             case Booking::STATUS_LANDED:
-                                                $ret .= 'Landed">Landed';
+                                                $ret .= 'landed">Landed';
                                                 break;
                                             case Booking::STATUS_ON_BLOCKS:
                                                 $ret .= 'on-blocks">On blocks';
