@@ -43,21 +43,9 @@ class Notification extends \yii\db\ActiveRecord
         $notification->save();
     }
 
-    public static function read($limit = 5){
-        foreach(self::last($limit) as $notification){
-            $notification->read = 1;
-            $notification->save();
-        }
-    }
-
-    public static function user()
+    public static function last()
     {
-        return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
-    }
-
-    public static function last($limit = 5)
-    {
-        return self::user()->orderBy('created desc')->limit($limit)->all();
+        return self::user()->orderBy('created desc')->limit(5)->all();
     }
 
     public static function all()
@@ -65,14 +53,22 @@ class Notification extends \yii\db\ActiveRecord
         return self::user()->orderBy('created desc')->all();
     }
 
+
     public static function count()
     {
-        return self::user()->count();
+        return self::user()
+            ->count();
+    }
+
+    public static function user()
+    {
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
     }
 
     public function getIconHTML(){
-        return $this->icon ? '<i class="fa '.$this->icon.' media-object notification-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object img-circle" alt=""/>';
+        return $this->icon ? '<i class="fa '.$this->icon.' media-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object" alt=""/>';
     }
+
 
     /**
      * @inheritdoc
