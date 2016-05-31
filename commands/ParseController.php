@@ -349,9 +349,10 @@ class ParseController extends Controller
             $flight->fpl = $this->getFPL($data);
             $this->insertTrackerData($flight);
 
-            Status::get($booking, $landing);
-        }
 
+        }
+        $flight->save();
+        Status::get($booking, $landing);
         return $flight;
     }
 
