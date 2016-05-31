@@ -74,7 +74,7 @@ class Notification extends \yii\db\ActiveRecord
 
     public static function userList($limit = 50)
     {
-        return self::find()->where(['to' => Yii::$app->user->identity->vid])->orderBy('created desc')->limit($limit)->all();
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->orderBy('id desc')->limit($limit)->all();
     }
 
     public function getIconHTML()
