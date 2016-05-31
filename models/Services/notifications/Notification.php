@@ -72,6 +72,11 @@ class Notification extends \yii\db\ActiveRecord
         return self::user()->count();
     }
 
+    public static function userList($limit = 50)
+    {
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->limit($limit)->all();
+    }
+
     public function getIconHTML()
     {
         return $this->icon ? '<i class="fa ' . $this->icon . ' media-object notification-object bg-' . $this->color . '"></i>' : '<img src="' . $this->fromUser->avatarLink . '" class="media-object img-circle" alt=""/>';
