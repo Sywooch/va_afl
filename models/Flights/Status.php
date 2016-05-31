@@ -129,8 +129,7 @@ class Status
         }
     }
 
-    private
-    static function checkFlightEnd()
+    private static function checkFlightEnd()
     {
         if (!empty(self::$booking->flight->landing)) {
             switch (self::$booking->flight->landing) {
