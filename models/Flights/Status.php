@@ -83,45 +83,41 @@ class Status
     private static function checkFlightStart()
     {
         if (isset(self::$booking->flight->lastTrack)) {
-            if (!self::$landing) {
-                if (self::$booking->flight->lastTrack->groundspeed < self::SPEED_BOARDING) {
-                    self::$status = Booking::STATUS_BOARDING;
-                }
+            if (self::$booking->flight->lastTrack->groundspeed < self::SPEED_BOARDING || self::$status == Booking::STATUS_BOOKED) {
+                self::$status = Booking::STATUS_BOARDING;
+            }
 
-                if (self::$booking->flight->lastTrack->groundspeed >= self::SPEED_BOARDING) {
-                    self::$status = Booking::STATUS_DEPARTING;
-                }
+            if (self::$booking->flight->lastTrack->groundspeed >= self::SPEED_BOARDING) {
+                self::$status = Booking::STATUS_DEPARTING;
+            }
 
-                if (self::$booking->flight->lastTrack->groundspeed >= self::SPEED_ENROUTE) {
-                    self::$status = Booking::STATUS_ENROUTE;
-                }
-            } else {
-                if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_MH
-                    && in_array(self::$booking->fleet->actypes->turbulence, ['H', 'M'])
-                    && self::$landing && self::$status == Booking::STATUS_ENROUTE
-                ) {
-                    if (self::$landing != self::$booking->from_icao) {
-                        self::$status = Booking::STATUS_APPROACH;
-                    }
-                }
+            if (self::$booking->flight->lastTrack->groundspeed >= self::SPEED_ENROUTE) {
+                self::$status = Booking::STATUS_ENROUTE;
+            }
 
-                if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_L
-                    && in_array(self::$booking->fleet->actypes->turbulence, ['L'])
-                    && self::$landing && self::$status == Booking::STATUS_ENROUTE
-                ) {
-                    if (self::$landing != self::$booking->from_icao) {
-                        self::$status = Booking::STATUS_APPROACH;
-                    }
+            if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_MH
+                && in_array(self::$booking->fleet->actypes->turbulence, ['H', 'M'])
+                && self::$landing && self::$status == Booking::STATUS_ENROUTE
+            ) {
+                if (self::$landing != self::$booking->from_icao) {
+                    self::$status = Booking::STATUS_APPROACH;
                 }
+            }
 
-                if (self::$booking->flight->landing) {
-                    if (self::$status == Booking::STATUS_APPROACH) {
-                        self::$status = Booking::STATUS_LANDED;
-                    }
+            if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_L
+                && in_array(self::$booking->fleet->actypes->turbulence, ['L'])
+                && self::$landing && self::$status == Booking::STATUS_ENROUTE
+            ) {
+                if (self::$landing != self::$booking->from_icao) {
+                    self::$status = Booking::STATUS_APPROACH;
+                }
+            }
 
-                    if (self::$booking->flight->lastTrack->groundspeed == 0 && self::$status == Booking::STATUS_LANDED) {
-                        self::$status = Booking::STATUS_ON_BLOCKS;
-                    }
+            if (self::$booking->flight->landing) {
+                self::$status = Booking::STATUS_LANDED;
+
+                if (self::$booking->flight->lastTrack->groundspeed == 0 && self::$status == Booking::STATUS_LANDED) {
+                    self::$status = Booking::STATUS_ON_BLOCKS;
                 }
             }
 
@@ -133,7 +129,8 @@ class Status
         }
     }
 
-    private static function checkFlightEnd()
+    private
+    static function checkFlightEnd()
     {
         if (!empty(self::$booking->flight->landing)) {
             switch (self::$booking->flight->landing) {
