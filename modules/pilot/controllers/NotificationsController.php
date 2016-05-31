@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
-use app\models\Services\Notifications\Notification;
+use app\models\Services\notifications\Notification;
 
 /**
  * Notification
