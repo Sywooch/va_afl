@@ -71,6 +71,29 @@ class Booking extends \yii\db\ActiveRecord
         }
     }
 
+    public function getStatusColor(){
+        if($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS){
+            return 'info';
+        }
+
+        switch($this->g_status){
+            case self::STATUS_ARRIVED:
+                return 'success';
+                break;
+            case self::STATUS_RETURNED:
+            case self::STATUS_RETURNED_TO_TALT:
+            case self::STATUS_RETURNED_TO_ALT:
+            case self::STATUS_RETURNED_TO_RALT:
+                case 'warning';
+                break;
+            case self::STATUS_FAILED:
+                return 'danger';
+                break;
+            default:
+                return 'default';
+        }
+    }
+
     /**
      * @inheritdoc
      */

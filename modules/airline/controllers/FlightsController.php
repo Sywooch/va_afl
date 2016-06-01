@@ -107,6 +107,24 @@ class FlightsController extends Controller
     }
 
     /**
+     * Displays a single Flights model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionInfo($id)
+    {
+        $model = $this->findModel($id);
+
+        return $this->render(
+            'info',
+            [
+                'model' => $model,
+                'user_id' => $model->user_id
+            ]
+        );
+    }
+
+    /**
      * Updates an existing Flights model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id

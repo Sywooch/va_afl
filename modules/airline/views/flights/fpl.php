@@ -17,8 +17,7 @@ use app\components\Helper;
     <tr>
         <td align="right"> <?= Yii::t('flights', 'Callsign') ?>:</td>
         <td><b><?= $model->callsign ?></b></td>
-        <td></td>
-        <td></td>
+        <td colspan="2"><a href="/airline/flights/info/<?= $model->id ?>" class="btn btn-primary btn-xs"><?= Yii::t('flights', 'More info') ?></a></td>
     </tr>
     <tr>
         <td align="right"> <?= Yii::t('app', 'Pilot in Command') ?>:</td>
@@ -26,8 +25,8 @@ use app\components\Helper;
                     $model->user->full_name,
                     Url::to(['/pilot/profile/' . $model->user->vid])
                 ) ?></b></td>
-        <td align="right"> <?= Yii::t('flights', 'Status') ?>:</td>
-        <td><b> <?= $model->booking->statusName ?></b>
+        <td align="right"> <?= Yii::t('app', 'Status') ?>:</td>
+        <td><span class="label label-<?= $model->booking->statusColor ?>"><b><?= $model->booking->statusName ?></b></span>
         </td>
     </tr>
     <tr>
@@ -52,10 +51,10 @@ use app\components\Helper;
                             'id' => $model->from_icao
                         ]
                     )
-                );?></b>  <?= Html::encode($model->depAirport->name) ?> (<?=
+                );?> <?= Html::encode($model->depAirport->name) ?> (<?=
             Html::encode(
                 $model->depAirport->city
-            ) ?>)
+            ) ?>)</b>
         </td>
     </tr>
     <tr>
@@ -69,10 +68,10 @@ use app\components\Helper;
                             'id' => $model->to_icao
                         ]
                     )
-                );?></b>  <?= Html::encode($model->arrAirport->name) ?> (<?=
+                );?> <?= Html::encode($model->arrAirport->name) ?> (<?=
             Html::encode(
                 $model->arrAirport->city
-            ) ?>)
+            ) ?>)</b>
         </td>
     </tr>
     <?php if($model->landingAirport && $model->landing != $model->to_icao) :?>
@@ -87,10 +86,10 @@ use app\components\Helper;
                                 'id' => $model->landing
                             ]
                         )
-                    );?></b>  <?= Html::encode($model->landingAirport->name) ?> (<?=
+                    );?>  <?= Html::encode($model->landingAirport->name) ?> (<?=
                 Html::encode(
                     $model->landingAirport->city
-                ) ?>)
+                ) ?>)</b>
             </td>
         </tr>
     <?php endif;?>
