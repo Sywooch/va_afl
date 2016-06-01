@@ -279,11 +279,10 @@ class ParseController extends Controller
      */
     private function updateFlightInformation($flight)
     {
-        $flight = $this->updateData($flight);
-        $flight->save();
+        $this->updateData($flight, true);
     }
 
-    private function updateData($flight)
+    private function updateData($flight, $save = false)
     {
         $data = $this->ourpilots[$flight->user_id];
 
@@ -351,7 +350,9 @@ class ParseController extends Controller
 
 
         }
-        $flight->save();
+        if($save){
+            $flight->save();
+        }
         Status::get($booking, $landing);
         return $flight;
     }

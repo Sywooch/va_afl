@@ -58,14 +58,13 @@ class Notification extends \yii\db\ActiveRecord
 
     public static function last($limit = 5)
     {
-        return self::user()->orderBy('created desc')->limit($limit)->all();
+        return self::user()->orderBy('id desc')->limit($limit)->all();
     }
 
     public static function all()
     {
-        return self::user()->orderBy('created desc')->all();
+        return self::user()->orderBy('id desc')->all();
     }
-
 
     public static function count()
     {

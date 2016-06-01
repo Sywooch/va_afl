@@ -5,7 +5,7 @@
  * Date: 28.05.16
  * Time: 19:09
  */
-use app\models\Services\Notifications\Notification;
+use app\models\Services\notifications\Notification;
 
 ?>
 <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle f-s-14">
