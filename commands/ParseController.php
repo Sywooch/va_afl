@@ -294,7 +294,7 @@ class ParseController extends Controller
             $flight->from_icao = $booking->from_icao;
             $flight->to_icao = $booking->to_icao;
             $flight->last_seen = gmdate('Y-m-d H:i:s');
-            $flight->flightplan = $this->getFlightRoute($data);
+            $flight->flightplan = $this->getFlightRoute($data, $flight);
             $flight->callsign = $data[self::WZ_CALLSIGN];
             $flight->remarks = $data[self::WZ_REMARKS];
             $flight->fob = sprintf("%02d:%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]);
@@ -346,7 +346,7 @@ class ParseController extends Controller
                     $flight->landing_time = '0000-00-00 00:00:00';
                 }
             }
-            $flight->fpl = $this->getFPL($data);
+            $flight->fpl = $this->getFPL($data, $flight);
             $this->insertTrackerData($flight);
 
 
@@ -368,7 +368,7 @@ class ParseController extends Controller
         return $data[self::WZ_FPL_SPD] . $data[self::WZ_FPL_ALT] . " " . $data[self::WZ_FLIGHTPLAN];
     }
 
-    private function getFPL($data)
+    private function getFPL($data, $flight)
     {
         return '(FPL-' . $data[self::WZ_CALLSIGN] . '-' . $data[self::WZ_FLIGHT_RULES] . $data[self::WZ_FLIGHT_TYPE] . "\n" .
         '-' . $data[self::WZ_AIRCRAFT] . "\n" .
@@ -380,11 +380,9 @@ class ParseController extends Controller
             $data[self::WZ_EET_MINUTES]
         ) . ' ' . $data[self::WZ_ICAOALT1] . ' ' . $data[self::WZ_ICAOALT2] . "\n" .
         '-' . $data[self::WZ_RMK] . "\n" .
-        '-E/' . sprintf(
-            "%02d%02d",
-            $data[self::WZ_FOB_HOURS],
-            $data[self::WZ_FOB_MINUTES]
-        ) . ' ' . 'P/' . $data[self::WZ_POB] . ')';
+        '-E/' . sprintf("%02d%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]) . ' ' .
+        'P/' . sprintf("%03d", $data[self::WZ_POB]) . ')' . "\n" .
+        'C/' . $flight->user->full_name . ')';
     }
 
     /**
