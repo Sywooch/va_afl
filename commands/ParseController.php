@@ -382,7 +382,7 @@ class ParseController extends Controller
         '-' . $data[self::WZ_RMK] . "\n" .
         '-E/' . sprintf("%02d%02d", $data[self::WZ_FOB_HOURS], $data[self::WZ_FOB_MINUTES]) . ' ' .
         'P/' . sprintf("%03d", $data[self::WZ_POB]) . ')' . "\n" .
-        'C/' . $flight->user->full_name . ')';
+        'C/' . strtoupper($flight->user->full_name) . ')';
     }
 
     /**
