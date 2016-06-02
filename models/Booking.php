@@ -42,12 +42,13 @@ class Booking extends \yii\db\ActiveRecord
     const STATUS_RETURNED_TO_RALT = 34;
     const STATUS_FAILED = 50;
 
-    public function getStatusName(){
-        if($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS){
+    public function getStatusName()
+    {
+        if ($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS) {
             return Yii::t('flights', 'In flight');
         }
 
-        switch($this->g_status){
+        switch ($this->g_status) {
             case self::STATUS_ARRIVED:
                 return Yii::t('flights', 'Arrived');
                 break;
@@ -71,12 +72,13 @@ class Booking extends \yii\db\ActiveRecord
         }
     }
 
-    public function getStatusColor(){
-        if($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS){
+    public function getStatusColor()
+    {
+        if ($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS) {
             return 'info';
         }
 
-        switch($this->g_status){
+        switch ($this->g_status) {
             case self::STATUS_ARRIVED:
                 return 'success';
                 break;
@@ -84,13 +86,12 @@ class Booking extends \yii\db\ActiveRecord
             case self::STATUS_RETURNED_TO_TALT:
             case self::STATUS_RETURNED_TO_ALT:
             case self::STATUS_RETURNED_TO_RALT:
-                case 'warning';
+                return 'warning';
                 break;
             case self::STATUS_FAILED:
+            default:
                 return 'danger';
                 break;
-            default:
-                return 'default';
         }
     }
 
@@ -108,7 +109,7 @@ class Booking extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id','to_icao','from_icao','callsign','fleet_regnum'],'required'],
+            [['user_id', 'to_icao', 'from_icao', 'callsign', 'fleet_regnum'], 'required'],
             [['user_id', 'schedule_id', 'status', 'fleet_regnum', 'stream', 'g_status'], 'integer'],
             [['non_schedule_utc', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
@@ -142,7 +143,7 @@ class Booking extends \yii\db\ActiveRecord
 
     public function getFleet()
     {
-        return $this->hasOne(Fleet::className(),['id'=>'fleet_regnum']);
+        return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
     }
 
     public function getFlight()
@@ -169,7 +170,8 @@ class Booking extends \yii\db\ActiveRecord
     {
         if ($sched = Schedule::find()->andWhere(['arr' => $from])
             ->andWhere(['dep' => $to])
-            ->andWhere('SUBSTRING(day_of_weeks,' . (date('N') - 1) . ',1) = 1')->one()) {
+            ->andWhere('SUBSTRING(day_of_weeks,' . (date('N') - 1) . ',1) = 1')->one()
+        ) {
             return $sched->flight;
         } else {
             //$namelist=['AFL','TSO'];
@@ -254,42 +256,47 @@ class Booking extends \yii\db\ActiveRecord
 
     public static function jsonMapData()
     {
-        $booking = self::find()->andWhere(['user_id'=>Users::getAuthUser()->vid])->andWhere('status < '.self::BOOKING_FLIGHT_END)->one();
+        $booking = self::find()->andWhere(['user_id' => Users::getAuthUser()->vid])->andWhere(
+            'status < ' . self::BOOKING_FLIGHT_END
+        )->one();
         $data = [
             'type' => 'FeatureCollection',
             'features' => [
                 [
-                    'type'=>'Feature',
-                    'properties'=>[
-                        'type'=>'start',
-                        'name'=> $booking->from_icao,
+                    'type' => 'Feature',
+                    'properties' => [
+                        'type' => 'start',
+                        'name' => $booking->from_icao,
                         'title' => $booking->from_icao
                     ],
-                    'geometry'=>[
-                        'type'=>'point',
+                    'geometry' => [
+                        'type' => 'point',
                         'coordinates' => [$booking->departure->lon, $booking->departure->lat],
                     ]
                 ],
                 [
-                    'type'=>'Feature',
-                    'properties'=>[
-                        'type'=>'stop',
-                        'name'=>$booking->to_icao,
+                    'type' => 'Feature',
+                    'properties' => [
+                        'type' => 'stop',
+                        'name' => $booking->to_icao,
                         'title' => $booking->to_icao
                     ],
-                    'geometry'=>[
-                        'type'=>'Point',
+                    'geometry' => [
+                        'type' => 'Point',
                         'coordinates' => [$booking->arrival->lon, $booking->arrival->lat],
                     ]
                 ],
                 [
-                    'type'=>'Feature',
-                    'properties'=>[
+                    'type' => 'Feature',
+                    'properties' => [
 
                     ],
-                    'geometry'=>[
-                        'type'=>'LineString',
-                        'coordinates' => [[$booking->departure->lon, $booking->departure->lat],[$booking->arrival->lon, $booking->arrival->lat]],
+                    'geometry' => [
+                        'type' => 'LineString',
+                        'coordinates' => [
+                            [$booking->departure->lon, $booking->departure->lat],
+                            [$booking->arrival->lon, $booking->arrival->lat]
+                        ],
                     ]
                 ],
             ]
