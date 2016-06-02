@@ -54,10 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         'model' => $model,
                         'attributes' => [
                             'link',
+                            'link_to',
                             'name_ru',
                             'name_en',
                             'access_read',
-                            'access_edit'
+                            'access_edit',
+                            'access_feed',
+                            'news',
+                            'notifications',
                         ],
                     ]
                 ) ?>

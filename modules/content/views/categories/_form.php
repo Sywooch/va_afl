@@ -28,6 +28,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'news')->dropDownList(['1' => 'News','0' => 'Content']) ?>
 
+    <?= $form->field($model, 'notifications')->dropDownList(['1' => 'On','0' => 'Off']) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
