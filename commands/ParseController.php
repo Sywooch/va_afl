@@ -354,7 +354,7 @@ class ParseController extends Controller
         if($save){
             $flight->save();
         }
-        Status::get($booking, $landing);
+        Status::get($booking, isset($landing) ? $landing : false);
         return $flight;
     }
 
