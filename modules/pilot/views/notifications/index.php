@@ -13,6 +13,7 @@
     <div class="panel-body">
         <ul class="timeline">
             <?php foreach ($notifications as $notification): ?>
+                <a name="<?= $notification->id ?>"></a>
                 <li>
                     <!-- begin timeline-time -->
                     <div class="timeline-time">
@@ -26,9 +27,9 @@
                                 ) ?></span>
                     </div>
                     <div class="timeline-icon">
-                        <a href="javascript:;"><i class="fa fa-rss" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a>
                     </div>
-                    <div class="timeline-body">
+                    <div class="timeline-body" id="#<?= $notification->id ?>">
                         <div class="timeline-header">
                             <span class="userimage"><?= $notification->iconHTML ?></span>
                             <span class="username"><a
@@ -49,3 +50,9 @@
             <?php endforeach; ?>
     </div>
 </div>
+<script>
+    if(window.location.hash.toString()) {
+        var div = document.getElementById(window.location.hash.toString());
+        div.style.background = "rgba(45, 53, 60, 0.07)";
+    }
+</script>

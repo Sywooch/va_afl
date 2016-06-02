@@ -16,22 +16,33 @@ use app\models\Services\notifications\Notification;
 </a>
 <ul class="dropdown-menu media-list pull-right animated fadeInDown">
     <li class="dropdown-header"><?= Yii::t('app', 'Notifications') ?></li>
-    <?php foreach (Notification::last() as $notification): ?>
-        <li class="media">
-            <a href="javascript:;">
-                <div class="media-left"><?= $notification->iconHTML ?></div>
-                <div class="media-body">
-                    <h6 class="media-heading"><?= $notification->fromUser->full_name ?></h6>
+    <?php if (!empty(Notification::last())): ?>
+        <?php foreach (Notification::last() as $notification): ?>
+            <li class="media">
+                <a href="/pilot/notifications/index#<?= $notification->id ?>">
+                    <div class="media-left"><?= $notification->iconHTML ?></div>
+                    <div class="media-body">
+                        <h6 class="media-heading"><?= $notification->fromUser->full_name ?></h6>
 
-                    <p><?= $notification->content->description ?></p>
+                        <p><?= $notification->content->description ?></p>
 
-                    <div class="text-muted f-s-11">
-                        <?= (new \DateTime($notification->created))->format('g:ia \o\n l jS F') ?>
+                        <div class="text-muted f-s-11">
+                            <?= (new \DateTime($notification->created))->format('g:ia \o\n l jS F') ?>
+                        </div>
                     </div>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <li class="media">
+                <div class="media-left"></div>
+                <div class="media-body">
+                    <h6 class="media-heading">&#9785</h6>
+
+                    <p><?= Yii::t('app', 'No notifications') ?></p>
                 </div>
-            </a>
         </li>
-    <?php endforeach; ?>
+    <?php endif; ?>
     <li class="dropdown-footer text-center">
         <a href="/pilot/notifications/index"><?= Yii::t('app', 'View more') ?></a>
     </li>
