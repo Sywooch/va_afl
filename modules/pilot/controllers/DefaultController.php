@@ -174,7 +174,8 @@ class DefaultController extends Controller
                 'eventsCalendar' => Calendar::center(),
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider,
-                'topProvider' => $topProvider
+                'topProvider' => $topProvider,
+                'flight' => Booking::current()
             ]
         );
     }

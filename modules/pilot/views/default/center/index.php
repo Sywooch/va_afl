@@ -13,7 +13,7 @@ $this->params['breadcrumbs'] = [
 ?>
 <div class="row">
     <div class="col-md-12">
-    <?= $this->render('header', ['user' => $user]) ?>
+    <?= $this->render('header', ['user' => $user, 'flight' => $flight]) ?>
     </div>
     <div class="col-md-8">
         <?= $this->render('onlinetable', ['onlineProvider' => $onlineProvider]) ?>

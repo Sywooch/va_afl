@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Helper;
 use Yii;
 use yii\db\Expression;
 
@@ -41,6 +42,11 @@ class Booking extends \yii\db\ActiveRecord
     const STATUS_RETURNED_TO_ALT = 33;
     const STATUS_RETURNED_TO_RALT = 34;
     const STATUS_FAILED = 50;
+
+    public static function current()
+    {
+        return self::find()->where(['user_id' => Yii::$app->user->identity->vid])->andWhere('status != '.self::BOOKING_FLIGHT_END)->andWhere('status < '.self::BOOKING_DELETED_BY_USER)->one();
+    }
 
     public function getStatusName()
     {
@@ -164,6 +170,20 @@ class Booking extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getPercent(){
+        if($this->flight){
+            $dep = $this->departure;
+            $arr = $this->arrival;
+            $current = $this->flight->lastTrack;
+
+            $total = Helper::calculateDistanceLatLng($dep->lat, $arr->lat, $dep->lon, $arr->lon);
+            $to = Helper::calculateDistanceLatLng($current->latitude, $arr->lat, $current->longitude, $arr->lon);
+            return round($to / $total * 100);
+        }else{
+            return 0;
+        }
     }
 
     private static function generateCallsign($from, $to)
