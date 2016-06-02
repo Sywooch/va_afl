@@ -6,7 +6,7 @@
  * Time: 19:30
  */
 
-namespace app\models\Services\Notifications;
+namespace app\models\Services\notifications;
 
 use Yii;
 
@@ -20,14 +20,15 @@ class News
     public static function add($content)
     {
         foreach(Users::active() as $user){
-            if(Yii::$app->authManager->checkAccess($user->vid, $content->categoryInfo->access_feed)){
+            Yii::trace($content->categoryInfo->access_feed);
+            if(empty($content->categoryInfo->access_feed) || Yii::$app->authManager->checkAccess($user->vid, $content->categoryInfo->access_feed)){
                 Notification::add($user->vid, $content->author, $content->id);
 
-               /* Yii::$app->mailer->compose('notification_news.php', ['user' => $user, 'content' => $content])
+                Yii::$app->mailer->compose('notification_news.php', ['user' => $user, 'content' => $content])
                     ->setFrom('noreply@va-transaero.ru')
                     ->setTo($user->email)
                     ->setSubject('AFL Group News '.$content->name_en)
-                    ->send();*/
+                    ->send();
             }
         }
     }

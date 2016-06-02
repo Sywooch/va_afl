@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\Services\notifications;
+namespace app\models\Services\Notifications;
 
 use Yii;
 
@@ -34,23 +34,30 @@ class Notification extends \yii\db\ActiveRecord
         return '{{%notification}}';
     }
 
-    public static function add($vid, $author, $id, $icon = null, $color = null)
+    public static function add($vid, $author, $id)
     {
         $notification = new Notification;
         $notification->to = $vid;
         $notification->from = $author;
         $notification->content_id = $id;
-        $notification->icon = $icon;
-        $notification->color = $color;
         $notification->save();
     }
 
-    public static function read($limit = 5)
+    public static function last()
     {
-        foreach (self::last($limit) as $notification) {
-            $notification->read = 1;
-            $notification->save();
-        }
+        return self::user()->orderBy('created desc')->limit(5)->all();
+    }
+
+    public static function all()
+    {
+        return self::user()->orderBy('created desc')->all();
+    }
+
+
+    public static function count()
+    {
+        return self::user()
+            ->count();
     }
 
     public static function user()
@@ -58,30 +65,10 @@ class Notification extends \yii\db\ActiveRecord
         return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
     }
 
-    public static function last($limit = 5)
-    {
-        return self::user()->orderBy('id desc')->limit($limit)->all();
+    public function getIconHTML(){
+        return $this->icon ? '<i class="fa '.$this->icon.' media-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object" alt=""/>';
     }
 
-    public static function all()
-    {
-        return self::user()->orderBy('id desc')->all();
-    }
-
-    public static function count()
-    {
-        return self::user()->count();
-    }
-
-    public static function userList($limit = 50)
-    {
-        return self::find()->where(['to' => Yii::$app->user->identity->vid])->orderBy('id desc')->limit($limit)->all();
-    }
-
-    public function getIconHTML()
-    {
-        return $this->icon ? '<i class="fa ' . $this->icon . ' media-object notification-object bg-' . $this->color . '"></i>' : '<img src="' . $this->fromUser->avatarLink . '" class="media-object img-circle" alt=""/>';
-    }
 
     /**
      * @inheritdoc

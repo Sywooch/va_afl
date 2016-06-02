@@ -5,9 +5,6 @@ namespace app\models;
 use Yii;
 use yii\web\UploadedFile;
 
-use app\models\Services\notifications\Like;
-
-
 /**
  * This is the model class for table "content".
  *
@@ -171,7 +168,7 @@ class Content extends \yii\db\ActiveRecord
         $like->submit = gmdate("Y-m-d H:i:s");
         $like->save();
 
-        Like::add($user, Content::findOne($this->id), 601);
+        \app\models\Services\notifications\Content::like($user, Content::findOne($this->id), 601);
     }
 
     public function comment($user, $text){
