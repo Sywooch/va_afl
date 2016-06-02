@@ -34,12 +34,14 @@ class Notification extends \yii\db\ActiveRecord
         return '{{%notification}}';
     }
 
-    public static function add($vid, $author, $id)
+    public static function add($vid, $author, $id, $icon = null, $color = null)
     {
         $notification = new Notification;
         $notification->to = $vid;
         $notification->from = $author;
         $notification->content_id = $id;
+        $notification->icon = $icon;
+        $notification->color = $color;
         $notification->save();
     }
 

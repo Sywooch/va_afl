@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\web\UploadedFile;
 
+use app\models\Services\notifications\Like;
+
 
 /**
  * This is the model class for table "content".
@@ -21,6 +23,7 @@ use yii\web\UploadedFile;
  */
 class Content extends \yii\db\ActiveRecord
 {
+    public static $fields = ['name_en', 'name_ru', 'text_ru', 'text_en', 'description_ru', 'description_en'];
     /**
      * @inheritdoc
      */
@@ -167,6 +170,8 @@ class Content extends \yii\db\ActiveRecord
         $like->user_id = $user;
         $like->submit = gmdate("Y-m-d H:i:s");
         $like->save();
+
+        Like::add($user, Content::findOne($this->id), 601);
     }
 
     public function comment($user, $text){
@@ -176,5 +181,26 @@ class Content extends \yii\db\ActiveRecord
         $comment->write = gmdate("Y-m-d H:i:s");
         $comment->text = $text;
         $comment->save();
+    }
+
+    public static function template($template, $array)
+    {
+        $temp = self::findOne($template);
+
+        $content = new Content();
+        $content->category = 22;
+        Yii::trace($array);
+        foreach (self::$fields as $field) {
+            $tempField = $temp->$field;
+            foreach ($array as $from => $to) {
+                Yii::trace($field.' - '.$from.'/'.$to);
+                $content->$field = str_replace($from, $to, $tempField);
+                $tempField = $content->$field;
+            }
+        }
+
+        $content->save();
+        var_dump($content);
+        return $content->id;
     }
 }
