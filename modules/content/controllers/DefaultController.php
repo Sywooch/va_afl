@@ -2,7 +2,7 @@
 
 namespace app\modules\content\controllers;
 
-use app\models\Services\Notifications\News;
+use app\models\Services\notifications\News;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
