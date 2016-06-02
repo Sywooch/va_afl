@@ -84,7 +84,7 @@ class Status
     {
         if (isset(self::$booking->flight->lastTrack)) {
             if (!self::$booking->flight->landing) {
-                if (self::$booking->flight->lastTrack->groundspeed < self::SPEED_BOARDING || self::$status == Booking::STATUS_BOOKED) {
+                if ((self::$booking->flight->lastTrack->groundspeed < self::SPEED_BOARDING || self::$status == Booking::STATUS_BOOKED) && self::$status != Booking::STATUS_DEPARTING) {
                     self::$status = Booking::STATUS_BOARDING;
                 }
 
