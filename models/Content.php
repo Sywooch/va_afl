@@ -168,7 +168,7 @@ class Content extends \yii\db\ActiveRecord
         $like->submit = gmdate("Y-m-d H:i:s");
         $like->save();
 
-        \app\models\Services\notifications\Content::like($user, Content::findOne($this->id), 601);
+        \app\models\Services\notifications\Content::like($user, Content::findOne($this->id));
     }
 
     public function comment($user, $text){
@@ -178,6 +178,9 @@ class Content extends \yii\db\ActiveRecord
         $comment->write = gmdate("Y-m-d H:i:s");
         $comment->text = $text;
         $comment->save();
+
+        \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text);
+
     }
 
     public static function template($template, $array)
