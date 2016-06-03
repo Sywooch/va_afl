@@ -81,7 +81,36 @@ use yii\helpers\Url;
         </div>
         <div class="stats-desc">
             <?php if ($flight) : ?>
-                <?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>)
+                <?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>), <?php
+                switch ($flight->g_status) {
+                    case Booking::STATUS_BOOKED:
+                        echo 'Booked';
+                        break;
+                    case Booking::STATUS_BOARDING:
+                        echo 'Boarding';
+                        break;
+                    case Booking::STATUS_DEPARTING:
+                        echo 'Departing';
+                        break;
+                    case Booking::STATUS_ENROUTE:
+                        echo 'En-route';
+                        break;
+                    case Booking::STATUS_LOSS:
+                        echo 'Loss contact';
+                        break;
+                    case Booking::STATUS_APPROACH:
+                        echo 'Approach';
+                        break;
+                    case Booking::STATUS_LANDED:
+                        echo 'Landed';
+                        break;
+                    case Booking::STATUS_ON_BLOCKS:
+                        echo 'On blocks';
+                        break;
+                    default:
+                        echo '">###';
+                        break;
+                }?>
             <?php endif; ?>
         </div>
     </div>
