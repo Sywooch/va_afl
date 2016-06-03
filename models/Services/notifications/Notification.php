@@ -5,7 +5,6 @@ namespace app\models\Services\Notifications;
 use Yii;
 
 use app\models\Users;
-use app\models\Content;
 
 /**
  * This is the model class for table "{{%notification}}".
@@ -43,14 +42,27 @@ class Notification extends \yii\db\ActiveRecord
         $notification->save();
     }
 
-    public static function last()
+    public static function read($limit = 5)
     {
-        return self::user()->orderBy('created desc')->limit(5)->all();
+        foreach (self::last($limit) as $notification) {
+            $notification->read = 1;
+            $notification->save();
+    }
+    }
+
+    public static function user()
+    {
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
+    }
+
+    public static function last($limit = 5)
+    {
+        return self::user()->orderBy('id desc')->limit($limit)->all();
     }
 
     public static function all()
     {
-        return self::user()->orderBy('created desc')->all();
+        return self::user()->orderBy('id desc')->all();
     }
 
 
@@ -60,13 +72,14 @@ class Notification extends \yii\db\ActiveRecord
             ->count();
     }
 
-    public static function user()
+    public static function userList($limit = 50)
     {
-        return self::find()->where(['to' => Yii::$app->user->identity->vid])->andWhere(['read' => 0]);
+        return self::find()->where(['to' => Yii::$app->user->identity->vid])->orderBy('id desc')->limit($limit)->all();
     }
 
-    public function getIconHTML(){
-        return $this->icon ? '<i class="fa '.$this->icon.' media-object bg-'.$this->color.'"></i>': '<img src="'.$this->fromUser->avatarLink.'" class="media-object" alt=""/>';
+    public function getIconHTML()
+    {
+        return $this->icon ? '<i class="fa ' . $this->icon . ' media-object notification-object bg-' . $this->color . '"></i>' : '<img src="' . $this->fromUser->avatarLink . '" class="media-object img-circle" alt=""/>';
     }
 
 
@@ -122,6 +135,6 @@ class Notification extends \yii\db\ActiveRecord
      */
     public function getContent()
     {
-        return $this->hasOne(Content::className(), ['id' => 'content_id']);
+        return $this->hasOne(\app\models\Content::className(), ['id' => 'content_id']);
     }
 }

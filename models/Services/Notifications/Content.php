@@ -8,19 +8,18 @@
 
 namespace app\models\Services\notifications;
 
-use app\models\Content;
 use Yii;
 
 use app\models\Users;
 
-class Like
+class Content
 {
     /**
      * @param $user
      * @param $content
      * @param $template
      */
-    public static function add($user, $content, $template)
+    public static function like($user, $content, $template)
     {
         $array = [
             '[user]' => Users::findOne($user)->full_name,
@@ -31,6 +30,6 @@ class Like
 
         Yii::trace(var_export($array, 1));
 
-        Notification::add($content->author,$user, Content::template($template, $array));
+        Notification::add($content->author,$user, \app\models\Content::template($template, $array));
     }
 } 
