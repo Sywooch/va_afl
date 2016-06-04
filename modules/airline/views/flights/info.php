@@ -128,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Url::to(
                         [
                             '/airline/airports/view/',
-                            'id' => $model->from_icao
+                            'id' => $model->to_icao
                         ]
                     )
                 );?> <?= Html::encode($model->arrAirport->name) ?> (<?=
