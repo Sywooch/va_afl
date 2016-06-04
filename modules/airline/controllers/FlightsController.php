@@ -114,12 +114,15 @@ class FlightsController extends Controller
     public function actionInfo($id)
     {
         $model = $this->findModel($id);
-
+        $suspensions = new ActiveDataProvider([
+            'query' => $model->getSuspensions()
+        ]);
         return $this->render(
             'info',
             [
                 'model' => $model,
-                'user_id' => $model->user_id
+                'user_id' => $model->user_id,
+                'suspensions' => $suspensions
             ]
         );
     }

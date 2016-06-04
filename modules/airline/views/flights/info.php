@@ -5,6 +5,7 @@
  * Date: 01.06.16
  * Time: 20:35
  */
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -214,6 +215,18 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="panel-body">
-
+        <?=
+        GridView::widget(
+            [
+                'options' => ['class' => 'grid-view striped condensed bordered'],
+                'dataProvider' => $suspensions,
+                'columns' => [
+                    'content.name_ru',
+                    'content.name_en',
+                    'issue_user',
+                    'issue_datetime',
+                ],
+            ]
+        ); ?>
     </div>
 </div>

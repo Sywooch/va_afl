@@ -206,6 +206,11 @@ class Flights extends \yii\db\ActiveRecord
         return $this->hasOne(Booking::className(), ['id' => 'id']);
     }
 
+    public function getSuspensions()
+    {
+        return $this->hasOne(Suspensions::className(), ['flight_id' => 'id']);
+    }
+
     public function getSimulator(){
         return Simulator::$ivao[$this->sim];
     }
