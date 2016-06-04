@@ -53,6 +53,11 @@ class Pax extends \yii\db\ActiveRecord
         return $this->hasOne(Airports::className(), ['icao' => 'from_icao']);
     }
 
+    public function getToport()
+    {
+        return $this->hasOne(Airports::className(), ['icao' => 'to_icao']);
+    }
+
     public static function getPaxListForAirport($icao)
     {
         $data = [];
@@ -64,7 +69,7 @@ class Pax extends \yii\db\ActiveRecord
         end) as waiting_hours,
         sum(num_pax) as num_pax'
         )
-                     ->where(['from_icao' => $icao])->orWhere(['to_icao' => $icao])
+                     ->where(['from_icao' => Users::getAuthUser()->pilot->location])->andWhere(['to_icao' => $icao])
                      ->groupBy('
        (case
             when waiting_hours<4 then 0
@@ -80,12 +85,12 @@ class Pax extends \yii\db\ActiveRecord
     public static function getAirportsList()
     {
         $data = [];
-        foreach (self::find()->select('from_icao')->distinct(true)->all() as $apt) {
+        foreach (self::find()->select('to_icao')->distinct(true)->where(['from_icao' => Users::getAuthUser()->pilot->location])->all() as $apt) {
             $data[] = [
-                'lat' => $apt->fromport->lat,
-                'lon' => $apt->fromport->lon,
-                'name' => $apt->from_icao,
-                'paxlist' => self::getPaxListForAirport($apt->from_icao)
+                'lat' => $apt->toport->lat,
+                'lon' => $apt->toport->lon,
+                'name' => $apt->to_icao,
+                'paxlist' => self::getPaxListForAirport($apt->to_icao)
             ];
         }
         return $data;
@@ -184,7 +189,8 @@ class Pax extends \yii\db\ActiveRecord
         $html.="<div style='overflow-y: scroll; max-height: 200px;'>";
         foreach(self::find()->select('to_icao,sum(num_pax) as num_pax')
                     ->andWhere($pt)
-                    ->andWhere('from_icao = "'.$airport.'"')
+                    ->andWhere('from_icao = "'.Users::getAuthUser()->pilot->location.'"')
+                    ->andWhere('to_icao = "'.$airport.'"')
                     ->groupBy('to_icao')
                     ->all() as $data) {
             $smartbooking = ($user->pilot->location == $airport) ?
