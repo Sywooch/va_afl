@@ -2,6 +2,7 @@
 
 namespace app\modules\content\controllers;
 
+use app\components\Levels;
 use app\models\Services\notifications\News;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -125,6 +126,8 @@ class DefaultController extends Controller
                     if($model->categoryInfo->notifications == 1){
                         News::add($model);
                     }
+
+                    Levels::addExp(10, \Yii::$app->user->identity->vid);
                 }
             } else {
                 throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));

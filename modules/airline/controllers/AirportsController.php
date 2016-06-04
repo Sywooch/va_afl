@@ -2,6 +2,7 @@
 
 namespace app\modules\airline\controllers;
 
+use app\components\Levels;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -84,6 +85,7 @@ class AirportsController extends Controller
         $model = new Airports();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Levels::addExp(10, \Yii::$app->user->identity->vid);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render(
@@ -106,6 +108,7 @@ class AirportsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Levels::addExp(5, \Yii::$app->user->identity->vid);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render(

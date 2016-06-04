@@ -2,6 +2,7 @@
 
 namespace app\modules\pilot\controllers;
 
+use app\components\Levels;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -71,6 +72,7 @@ class DefaultController extends Controller
             $model->attributes = $_POST['Booking'];
             $model->status = Booking::BOOKING_INIT;
             $model->save();
+            Levels::addExp(1, \Yii::$app->user->identity->vid);
             $this->refresh();
         }
 

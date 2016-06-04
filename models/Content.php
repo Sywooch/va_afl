@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Levels;
 use Yii;
 use yii\web\UploadedFile;
 
@@ -168,6 +169,7 @@ class Content extends \yii\db\ActiveRecord
         $like->submit = gmdate("Y-m-d H:i:s");
         $like->save();
 
+        Levels::addExp(1, $user);
         \app\models\Services\notifications\Content::like($user, Content::findOne($this->id));
     }
 
@@ -179,6 +181,7 @@ class Content extends \yii\db\ActiveRecord
         $comment->text = $text;
         $comment->save();
 
+        Levels::addExp(2, $user);
         \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text);
 
     }

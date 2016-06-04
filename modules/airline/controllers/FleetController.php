@@ -2,6 +2,7 @@
 
 namespace app\modules\airline\controllers;
 
+use app\components\Levels;
 use Yii;
 use app\models\Fleet;
 use app\modules\airline\models\FleetSearch;
@@ -63,6 +64,7 @@ class FleetController extends Controller
         $model = new Fleet();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Levels::addExp(10, \Yii::$app->user->identity->vid);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

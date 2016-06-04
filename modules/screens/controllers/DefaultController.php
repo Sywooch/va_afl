@@ -2,6 +2,7 @@
 
 namespace app\modules\screens\controllers;
 
+use app\components\Levels;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -58,6 +59,7 @@ class DefaultController extends Controller
 
             if ($model->validate()) {
                 $model->save();
+                Levels::addExp(5, \Yii::$app->user->identity->vid);
             } else {
                 throw new \yii\web\HttpException(500, \Yii::t('app', 'Error'));
             }
