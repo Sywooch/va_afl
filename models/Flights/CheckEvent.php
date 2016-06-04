@@ -10,6 +10,7 @@ namespace app\models\Flights;
 
 use Yii;
 
+use app\components\Slack;
 use app\models\Events\Events;
 use app\models\Events\EventsMembers;
 
@@ -28,24 +29,37 @@ class CheckEvent
     public static function end($flight)
     {
         if ($member = EventsMembers::flight($flight)) {
-            if ($member->status == EventsMembers::STATUS_ACTIVE_FLIGHT) {
-                $member->status = EventsMembers::STATUS_FINISHED_FLIGHT;
+            foreach ($member as $_flight) {
+                if ($_flight->status == EventsMembers::STATUS_ACTIVE_FLIGHT) {
+                    $_flight->status = EventsMembers::STATUS_FINISHED_FLIGHT;
+                }
+
+                $_flight->save();
             }
-            $member->save();
         }
     }
 
 
     private static function check($event, $flight)
     {
-        $conditions = ['dep_time' => ['from_icao', 'fromArray'], 'landing_time' => ['to_icao', 'toArray']];
+        $conditions = [
+            'dep_time' => [['from_icao', 'fromArray']],
+            'landing_time' => [['to_icao', 'toArray']]
+        ];
 
-        foreach ($conditions as $key => $cond) {
-            if (strtotime($flight->$key) >= strtotime($event->start) &&
-                strtotime($flight->$key) <= strtotime($event->stop) &&
-                in_array($flight->$cond[0], $event->$cond[1])
-            ) {
-                self::makeActive($flight, $event);
+        if ($event->airbridge) {
+            $conditions['dep_time'][] = ['to_icao', 'fromArray'];
+            $conditions['landing_time'][] = ['from_icao', 'toArray'];
+        }
+
+        foreach ($conditions as $key => $_cond) {
+            foreach ($_cond as $cond) {
+                if (strtotime($flight->$key) >= strtotime($event->start) &&
+                    strtotime($flight->$key) <= strtotime($event->stop) &&
+                    in_array($flight->$cond[0], $event->$cond[1])
+                ) {
+                    self::makeActive($flight, $event);
+                }
             }
         }
     }
@@ -56,6 +70,8 @@ class CheckEvent
             if ($member->status < EventsMembers::STATUS_ACTIVE_FLIGHT) {
                 $member->status = EventsMembers::STATUS_ACTIVE_FLIGHT;
                 $member->save();
+
+                self::slack($event, $flight);
             }
         } else {
             $_member = new EventsMembers();
@@ -64,6 +80,13 @@ class CheckEvent
             $_member->status = EventsMembers::STATUS_ACTIVE_FLIGHT;
             $_member->fligth_id = $flight->id;
             $_member->save();
+
+            self::slack($event, $flight);
         }
+    }
+
+    private static function slack($event, $flight){
+        $slack = new Slack('#events', $flight->callsign . "  seen on the  " . $event->contentInfo->name_en);
+        $slack->sent();
     }
 } 

@@ -39,7 +39,7 @@ class EventsMembers extends \yii\db\ActiveRecord
 
     public static function flight($flight)
     {
-        return EventsMembers::find()->andWhere(['flight_id' => $flight->id])->one();
+        return EventsMembers::find()->andWhere(['flight_id' => $flight->id])->all();
     }
 
     /**
