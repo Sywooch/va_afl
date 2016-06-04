@@ -42,9 +42,9 @@ class CheckEvent
         $conditions = ['dep_time' => ['from_icao', 'fromArray'], 'landing_time' => ['to_icao', 'toArray']];
 
         foreach ($conditions as $key => $cond) {
-            if ($flight->$key >= $event->start &&
-                $flight->$key <= $event->stop &&
-                array_key_exists($flight->$cond[0], $event->$cond[1])
+            if (strtotime($flight->$key) >= strtotime($event->start) &&
+                strtotime($flight->$key) <= strtotime($event->stop) &&
+                in_array($flight->$cond[0], $event->$cond[1])
             ) {
                 self::makeActive($flight, $event);
             }
