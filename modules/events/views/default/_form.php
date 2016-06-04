@@ -53,6 +53,12 @@ use kartik\select2\Select2;
     )
     ?>
 
+    <?= $form->field($model, 'airbridge')->widget(
+        Select2::classname(),
+        ['data' => [1 => Yii::t('app', 'On'), 0 => Yii::t('app', 'Off')]]
+    )
+    ?>
+
     <?= $form->field($model, 'from')->textInput() ?>
 
     <?= $form->field($model, 'to')->textInput() ?>
