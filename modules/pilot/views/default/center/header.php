@@ -51,10 +51,9 @@ use yii\helpers\Url;
                             $flight->departure->icao,
                             [
                                 'title' => Html::encode(
-                                        "{$flight->departure->name} ({$flight->departure->city}, {$flight->departure->iso})"
+                                        "{$flight->departure->name} ({$flight->departure->city}, {$flight->arrival->iso})"
                                     ),
-                                'data-toggle' => 'tooltip',
-                                'data-placement' => "top",
+                                'data-toggle' => 'tooltip1',
                                 'style' => 'cursor:pointer;'
                             ]
                         ) .
@@ -67,8 +66,7 @@ use yii\helpers\Url;
                                 'title' => Html::encode(
                                         "{$flight->arrival->name} ({$flight->arrival->city}, {$flight->arrival->iso})"
                                     ),
-                                'data-toggle' => 'tooltip',
-                                'data-placement' => "left",
+                                'data-toggle' => 'tooltip1',
                                 'style' => 'cursor:pointer;'
                             ]
                         );?>
@@ -143,3 +141,12 @@ use yii\helpers\Url;
     </div>
 </div>
 <!-- end col-3 -->
+<script>
+    setTimeout(function () {
+        $('span[data-toggle="tooltip1"]').tooltip({
+            animated: 'fade',
+            placement: 'top',
+            container: 'body'
+        });
+    }, 400);
+</script>
