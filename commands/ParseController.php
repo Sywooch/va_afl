@@ -14,6 +14,7 @@ use app\models\Flights\Status;
 use app\models\Pax;
 use app\models\Tracker;
 use app\models\Users;
+use yii\base\Exception;
 use yii\console\Controller;
 
 /**
@@ -262,6 +263,11 @@ class ParseController extends Controller
         $flight->save();
 
         Status::get($booking, $flight->landing);
+        try{
+        Flights\CheckEvent::end($flight);
+        }catch (\Exception $ex){
+            var_dump($ex);
+        }
     }
 
     private function transferPilot($flight, $landing)
@@ -355,6 +361,13 @@ class ParseController extends Controller
             $flight->save();
         }
         Status::get($booking, isset($landing) ? $landing : false);
+
+        try{
+            Flights\CheckEvent::flight($flight);
+        }catch (\Exception $ex){
+            var_dump($ex);
+        }
+
         return $flight;
     }
 

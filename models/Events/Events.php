@@ -43,6 +43,11 @@ class Events extends \yii\db\ActiveRecord
         return $events;
     }
 
+    public static function active()
+    {
+        return self::find()->where('DATE(start) > DATE_SUB(NOW(), INTERVAL 1 DAY) AND DATE(stop) < DATE_ADD(NOW(), INTERVAL 1 DAY)')->all();
+    }
+
     /**
      * @inheritdoc
      */

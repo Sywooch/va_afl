@@ -40,7 +40,7 @@ class ExternalEvent
         //если контента нет
         if (!$this->old) {
             //добавляем в лог
-            Log::action($evt->eevent, 'create', 'events', $type, '', serialize($evt), 0);
+            //Log::action($evt->eevent, 'create', 'events', $type, '', serialize($evt), 0);
 
             //сохраняем контент
             $content = $this->saveContent($evt);
