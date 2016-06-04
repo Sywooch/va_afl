@@ -37,7 +37,17 @@ class Fleet extends \yii\db\ActiveRecord
     {
         $out = [];
         $d=Fleet::find()->andWhere(['location' => Users::getAuthUser()->pilot->location]);
-        if($q) $d->andWhere('regnum like "%'.$q.'%"');
+        if($q) {
+            $d->andFilterWhere(
+                [
+                    'or',
+                    ['like', 'regnum', $q ],
+                    ['like', 'type_code', $q],
+                    ['like', 'full_type', $q]
+                ]
+            );
+        }
+
         foreach ($d->all() as $data) {
             $out['results'][] = ['id' => $data->id, 'text' => $data->regnum." (".$data->type_code.")"];
         }
