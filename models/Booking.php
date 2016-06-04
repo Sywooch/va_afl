@@ -178,9 +178,9 @@ class Booking extends \yii\db\ActiveRecord
             $arr = $this->arrival;
             $current = $this->flight->lastTrack;
 
-            $total = Helper::calculateDistanceLatLng($dep->lat, $arr->lat, $dep->lon, $arr->lon);
+            $from = Helper::calculateDistanceLatLng($dep->lat, $current->lat, $dep->lon, $current->lon);
             $to = Helper::calculateDistanceLatLng($current->latitude, $arr->lat, $current->longitude, $arr->lon);
-            return round($to / $total * 100);
+            return round($from / ($from + $to) * 100);
         }else{
             return 0;
         }
