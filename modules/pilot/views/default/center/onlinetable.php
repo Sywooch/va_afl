@@ -6,11 +6,13 @@
  * Time: 21:00
  */
 
-use app\components\Helper;
-use app\models\Booking;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
+
+use app\components\Helper;
+use app\models\Booking;
+use app\models\Flights;
 
 \app\assets\OnlineTableAsset::register($this);
 ?>
@@ -18,7 +20,7 @@ use yii\grid\GridView;
 <div class="panel panel-inverse">
     <div class="panel-heading">
         <h4 class="panel-title"><?= Yii::t('app', 'Online Timetable') ?> <span
-                class="label label-success pull-right"><?= $onlineProvider->getTotalCount() ?> Online</span>
+                class="label label-success pull-right"><?= Flights::countOnline() ?> Online</span>
         </h4>
     </div>
     <div class="panel-body bg-silver">

@@ -45,6 +45,11 @@ class Flights extends \yii\db\ActiveRecord
         return 'flights';
     }
 
+    public static function countOnline()
+    {
+        return self::find()->where(['status' => self::FLIGHT_STATUS_STARTED])->count();
+    }
+
     /**
      * @inheritdoc
      */
