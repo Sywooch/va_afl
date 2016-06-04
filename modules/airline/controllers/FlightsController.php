@@ -2,6 +2,7 @@
 
 namespace app\modules\airline\controllers;
 
+use app\models\Booking;
 use Yii;
 use yii\base\View;
 use yii\data\ActiveDataProvider;
@@ -123,6 +124,21 @@ class FlightsController extends Controller
                 'model' => $model,
                 'user_id' => $model->user_id,
                 'suspensions' => $suspensions
+            ]
+        );
+    }
+
+    public function actionBriefing()
+    {
+        $model = Booking::find()->where(['status' => Booking::BOOKING_INIT, 'user_id' => Yii::$app->user->identity->vid])->one();
+        $brif = new \app\components\Briefing($model->fleet->id);
+
+        return $this->render(
+            'briefing',
+            [
+                'model' => $model,
+                'user_id' => $model->user_id,
+                'brif' => $brif
             ]
         );
     }
