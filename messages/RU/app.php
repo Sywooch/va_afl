@@ -13,6 +13,7 @@ return [
     'Edit' => 'Изменить',
     'Level' => 'Уровень',
     'Experience' => 'Опыт',
+    'Airports' => 'Аэропорты',
     'Setting' => 'Настройки',
     'Help' => 'Помощь',
     'Log out' => 'Выйти',

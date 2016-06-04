@@ -25,5 +25,6 @@ return [
     'International' => 'Международные',
     'Available' => 'Доступен',
     'Booked' => 'Забронирован',
-    'In flight' => 'В полёте'
+    'In flight' => 'В полёте',
+    'Airbridge' => "Авиамост"
 ];

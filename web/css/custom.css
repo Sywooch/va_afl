@@ -6,7 +6,7 @@ html, body {
     height: 100%;
 }
 
-.notification-object{
+.notification-object {
     height: 36px;
     width: 36px;
     line-height: 36px;
@@ -16,4 +16,12 @@ html, body {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+}
+
+.tablecat {
+    background-color: #ff5b57 !important;
+    font-size: 1.1em;
+    padding: 10px;
+    text-align: center;
+    color: white;
 }

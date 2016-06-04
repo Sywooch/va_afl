@@ -2,6 +2,7 @@
 
 namespace app\models\Events;
 
+use app\models\Airports;
 use Yii;
 
 use app\models\Content;
@@ -49,7 +50,7 @@ class Events extends \yii\db\ActiveRecord
     {
         return [
             [['content', 'start', 'stop'], 'required'],
-            [['content', 'author', 'type', 'free_join', 'center'], 'integer'],
+            [['content', 'author', 'type', 'free_join', 'center', 'airbridge'], 'integer'],
             [['access'], 'string'],
             [['from', 'to'], 'string', 'max' => 255],
             [['start', 'stop', 'created'], 'safe']
@@ -108,5 +109,26 @@ class Events extends \yii\db\ActiveRecord
     public function getAuthorUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'author']);
+    }
+
+    public function getFromArray(){
+        return $this->airports($this->from);
+    }
+
+    public function getToArray(){
+        return $this->airports($this->to);
+    }
+
+    private function airports($string){
+        $models = [];
+        $airports = explode(',', str_replace(' ', '', $string));
+
+        foreach($airports as $airport){
+            if($model = Airports::find()->where(['icao' => $airport])->one()){
+                $models[$airport] = $model;
+            }
+        }
+
+        return $models;
     }
 }
