@@ -27,13 +27,12 @@ class CheckEvent
 
     public static function end($flight)
     {
-        $member = EventsMembers::flight($flight);
-
-        if ($member->status == EventsMembers::STATUS_ACTIVE_FLIGHT) {
-            $member->status = EventsMembers::STATUS_FINISHED_FLIGHT;
+        if ($member = EventsMembers::flight($flight)) {
+            if ($member->status == EventsMembers::STATUS_ACTIVE_FLIGHT) {
+                $member->status = EventsMembers::STATUS_FINISHED_FLIGHT;
+            }
+            $member->save();
         }
-
-        $member->save();
     }
 
 
