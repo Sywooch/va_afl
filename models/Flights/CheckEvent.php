@@ -11,7 +11,7 @@ namespace app\models\Flights;
 use Yii;
 
 use app\models\Events\Events;
-use app\models\Event\EventsMembers;
+use app\models\Events\EventsMembers;
 
 class CheckEvent
 {
