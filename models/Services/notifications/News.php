@@ -6,7 +6,7 @@
  * Time: 19:30
  */
 
-namespace app\models\Services\Notifications;
+namespace app\models\Services\notifications;
 
 use Yii;
 
