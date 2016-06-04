@@ -11,7 +11,7 @@ use Yii;
  * @property integer $event_id
  * @property integer $user_id
  * @property integer $status
- * @property integer $fligth_id
+ * @property integer $flight_id
  * @property string $request
  * @property string $accepted
  * @property integer $accepted_by
@@ -48,8 +48,8 @@ class EventsMembers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['event_id', 'user_id', 'request'], 'required'],
-            [['event_id', 'user_id', 'status', 'fligth_id', 'accepted_by'], 'integer'],
+            [['event_id', 'user_id'], 'required'],
+            [['event_id', 'user_id', 'status', 'flight_id', 'accepted_by'], 'integer'],
             [['request', 'accepted'], 'safe']
         ];
     }
@@ -64,7 +64,7 @@ class EventsMembers extends \yii\db\ActiveRecord
             'event_id' => Yii::t('app', 'Event ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'status' => Yii::t('app', 'Status'),
-            'fligth_id' => Yii::t('app', 'Fligth ID'),
+            'flight_id' => Yii::t('app', 'Flight ID'),
             'request' => Yii::t('app', 'Request'),
             'accepted' => Yii::t('app', 'Accepted'),
             'accepted_by' => Yii::t('app', 'Accepted By'),

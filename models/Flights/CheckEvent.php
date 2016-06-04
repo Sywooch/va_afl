@@ -56,9 +56,9 @@ class CheckEvent
             foreach ($_cond as $cond) {
                 if (strtotime($flight->$key) >= strtotime($event->start) &&
                     strtotime($flight->$key) <= strtotime($event->stop) &&
-                    in_array($flight->$cond[0], $event->$cond[1])
+                    array_key_exists($flight->$cond[0], $event->$cond[1])
                 ) {
-                    self::makeActive($flight, $event);
+                    self::makeActive($event, $flight);
                 }
             }
         }
@@ -78,15 +78,14 @@ class CheckEvent
             $_member->event_id = $event->id;
             $_member->user_id = $flight->user_id;
             $_member->status = EventsMembers::STATUS_ACTIVE_FLIGHT;
-            $_member->fligth_id = $flight->id;
+            $_member->flight_id = $flight->id;
             $_member->save();
-
             self::slack($event, $flight);
         }
     }
 
     private static function slack($event, $flight){
-        $slack = new Slack('#events', $flight->callsign . "  seen on the  " . $event->contentInfo->name_en);
+        $slack = new Slack('#events', $flight->callsign . " seen on the " . $event->contentInfo->name_en);
         $slack->sent();
     }
 } 
