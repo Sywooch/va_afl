@@ -146,6 +146,8 @@ class Status
                 default:
                     self::$status = Booking::STATUS_FAILED;
             }
+        } else {
+            self::$status = Booking::STATUS_FAILED;
         }
     }
 } 
