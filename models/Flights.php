@@ -220,6 +220,11 @@ class Flights extends \yii\db\ActiveRecord
         return Simulator::$ivao[$this->sim];
     }
 
+    public function getFlightName(){
+        return "{$this->callsign} {$this->from_icao}-{$this->to_icao} " .
+        (new \DateTime($this->first_seen))->format('d.m.Y');
+    }
+
     public static function prepareTrackerData($id)
     {
         $flightpath = [];

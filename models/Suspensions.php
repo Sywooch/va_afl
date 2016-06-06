@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\Content;
+use app\models\Services\notifications\Notification;
 use Yii;
 
 /**
@@ -19,12 +21,58 @@ use Yii;
  */
 class Suspensions extends \yii\db\ActiveRecord
 {
+    const TEMPLATE = 724;
+    public static $types = [
+        'mvzType',
+        'oprType'
+    ];
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return '{{%suspensions}}';
+    }
+
+    public static function check($flight)
+    {
+        $suspensions = [];
+        $errors_en = '';
+        $errors_ru = '';
+        foreach (self::$types as $type) {
+                $class_name = "app\\models\\Flights\\Suspensions\\" . str_replace('.php', '', $type);
+                $class = new $class_name;
+                if (!empty($_susp = call_user_func_array([$class, "startCheck"], ['flight' => $flight]))) {
+                    Yii::trace($_susp);
+                    $suspensions = array_merge($suspensions, $_susp);
+                }
+        }
+
+        foreach ($suspensions as $suspension) {
+            $errors_ru .= '<li><b>' . $suspension[0] . '</b> - ' . $suspension[2] . '</li>';
+            $errors_en .= '<li><b>' . $suspension[1] . '</b> - ' . $suspension[2] . '</li>';
+
+            $_suspension = new Suspensions();
+            $_suspension->user_id = $flight->user_id;
+            $_suspension->issue_user = 0;
+            $_suspension->issue_datetime = gmdate('Y-m-d H:i:s');
+            $_suspension->flight_id = $flight->id;
+            $_suspension->content_id = $suspension[3];
+            $_suspension->description = $suspension[2];
+            $_suspension->save();
+            Yii::trace($_suspension->errors);
+        }
+
+        if (!empty($suspensions)) {
+            $array = [
+                '[flight_name]' => $flight->flightName,
+                '[flight_id]' => $flight->id,
+                '[errors_en]' => $errors_en,
+                '[errors_ru]' => $errors_ru,
+            ];
+
+            Notification::add($flight->user_id, 0, Content::template(self::TEMPLATE, $array), 'fa-times-circle-o', 'red');
+        }
     }
 
     /**
@@ -34,7 +82,8 @@ class Suspensions extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'issue_datetime', 'content_id'], 'required'],
-            [['user_id', 'issue_user', 'flight_id', 'content_id'], 'integer'],
+            [['description'], 'string'],
+            [['user_id', 'issue_user', 'flight_id', 'content_id', 'subject'], 'integer'],
             [['issue_datetime'], 'safe']
         ];
     }

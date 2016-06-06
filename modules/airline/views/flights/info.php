@@ -221,9 +221,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['class' => 'grid-view striped condensed bordered'],
                 'dataProvider' => $suspensions,
                 'columns' => [
-                    'content.name_ru',
-                    'content.name_en',
-                    'issue_user',
+                    'content.name',
+                    'description',
                     'issue_datetime',
                 ],
             ]

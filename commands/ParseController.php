@@ -263,11 +263,6 @@ class ParseController extends Controller
         $flight->save();
 
         Status::get($booking, $flight->landing);
-        try{
-        Flights\CheckEvent::end($flight);
-        }catch (\Exception $ex){
-            var_dump($ex);
-        }
     }
 
     private function transferPilot($flight, $landing)
@@ -360,13 +355,8 @@ class ParseController extends Controller
         if($save){
             $flight->save();
         }
-        Status::get($booking, isset($landing) ? $landing : false);
 
-        try{
-            Flights\CheckEvent::flight($flight);
-        }catch (\Exception $ex){
-            var_dump($ex);
-        }
+        Status::get($booking, isset($landing) ? $landing : false);
 
         return $flight;
     }
