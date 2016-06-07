@@ -6,9 +6,9 @@ namespace app\models\Flights\Suspensions;
  * AFL Group
  *
  * Suspensions Processing
- * Type: mvz routes
+ * Type: operator remarks
  *
- * Search incorrect transitions
+ * Search incorrect operator remarks
  *
  * Automatic Template
  *
