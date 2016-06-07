@@ -83,6 +83,9 @@ AppAsset::register($this);
     $(document).ready(function () {
         App.init();
     });
+    $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+    });
 </script>
 </body>
 </html>

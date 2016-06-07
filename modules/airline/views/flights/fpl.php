@@ -133,6 +133,3 @@ use app\components\Helper;
     </tr>
     </tbody>
 </table>
-<script>
-    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
-</script>
