@@ -97,4 +97,14 @@ class Squadrons extends \yii\db\ActiveRecord
     public function getStaff(){
         return Staff::getSquad($this->abbr);
     }
+
+    public function getName()
+    {
+        return $this->getLocale('name_ru', 'name_en');
+    }
+
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+    }
 }

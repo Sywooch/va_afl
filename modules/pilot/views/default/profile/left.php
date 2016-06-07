@@ -7,6 +7,7 @@
  */
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 ?>
 <?= Html::beginTag('div', ['class' => 'profile-image']) ?>
 
@@ -19,27 +20,49 @@ if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') .
 
 <?= Html::tag('i', '', ['class' => 'fa fa-user hide']) ?>
 <?= Html::endTag('div') ?>
-<div class="">
-    <ul class="list-group nopoints">
-        <li class="list-group-item list-group-item-<?= $user->pilot->statusType; ?>">
-            <?= $user->pilot->statusName; ?>
-        </li>
-        <!--<li class="list-group-item list-group-item-warning" style="background-color: #FDEBD1;">
-            Supervisor
-        </li>
-        <li class="list-group-item list-group-item">
-            Examiner
-        </li>
-        <li class="list-group-item list-group-item">
-            Trainer
-        </li>-->
-        <?php foreach($staff as $pos):?>
-            <li class="list-group-item list-group-item">
-                <a href="/airline/staff/view/<?= $pos->id?>"><?= $pos->name ?></a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+    <div class="">
+        <table class="table table-condensed">
+            <tbody>
+            <tr>
+            <tr class="<?= $user->pilot->statusType; ?>">
+                <td><?= $user->pilot->statusName; ?> User</td>
+            </tr>
+            <?php if (Yii::$app->authManager->checkAccess($user->vid, 'supervisor')): ?>
+                <tr class="warning">
+                    <td>AFL Group Supervisor</td>
+                </tr>
+            <?php endif; ?>
+            <?php /*?>
+            <?php if (Yii::$app->authManager->checkAccess($user->vid, 'training/examiner')): ?>
+                <tr>
+                    <td>AFL Group Examiner</td>
+                </tr>
+            <?php endif; ?>
+            <?php if (Yii::$app->authManager->checkAccess($user->vid, 'training/trainer')): ?>
+                <tr>
+                    <td>AFL Group Trainer</td>
+                </tr>
+            <?php endif; ?>
+            <?php */ ?>
+            <?php foreach ($staff as $pos): ?>
+                <tr>
+                    <td>
+                        <?php // <a href="/airline/staff/view/<?= $pos->id ?>
+                        <?= $pos->name ?>
+                        <?php // </a> ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php foreach ($squadrons as $pos): ?>
+                <tr>
+                    <td>
+                        <a href="/squadron/view/<?= $pos->squadron_id ?>"><?= $pos->squadron->name_en ?> Member</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 <?php echo $user->online ? Html::tag(
     'span',
     'Online',

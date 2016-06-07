@@ -28,6 +28,11 @@ class SquadronUsers extends \yii\db\ActiveRecord
         return 'squadron_users';
     }
 
+    public static function byUser($id)
+    {
+        return self::find()->where(['user_id' => $id, 'status' => self::STATUS_ACTIVE])->all();
+    }
+
     /**
      * @inheritdoc
      */
@@ -79,5 +84,10 @@ class SquadronUsers extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getSquadron()
+    {
+        return $this->hasOne(Squadrons::className(), ['id' => 'squadron_id']);
     }
 }

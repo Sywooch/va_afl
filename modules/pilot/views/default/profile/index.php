@@ -17,7 +17,7 @@ $this->params['breadcrumbs'] = [
 <div class="profile-container">
     <div class="profile-section row">
         <div class="col-md-2">
-            <?= $this->render('left', ['user' => $user, 'staff' => $staff]) ?>
+            <?= $this->render('left', ['user' => $user, 'staff' => $staff, 'squadrons' => $squadrons]) ?>
         </div>
         <div class="col-md-4">
             <?php //\yii\helpers\BaseVarDumper::dump($user->online, 10, true) ?>
