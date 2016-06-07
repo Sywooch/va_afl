@@ -24,7 +24,8 @@ class Suspensions extends \yii\db\ActiveRecord
     const TEMPLATE = 724;
     public static $types = [
         'mvzType',
-        'oprType'
+        'oprType',
+        'eetType',
     ];
     /**
      * @inheritdoc
