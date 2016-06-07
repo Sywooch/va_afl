@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 
 //appear time-table scroll-effect
 	var wow = new WOW({
@@ -8,4 +8,4 @@ $(document).ready(function(){
 		})
 	wow.init();
 
-})
+})*/
