@@ -48,7 +48,7 @@ if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') .
                 <tr>
                     <td>
                         <?php // <a href="/airline/staff/view/<?= $pos->id ?>
-                        <?= $pos->name ?>
+                        <?= $pos->name_en ?>
                         <?php // </a> ?>
                     </td>
                 </tr>
@@ -56,7 +56,7 @@ if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') .
             <?php foreach ($squadrons as $pos): ?>
                 <tr>
                     <td>
-                        <a href="/squadron/view/<?= $pos->squadron_id ?>"><?= $pos->squadron->name_en ?> Member</a>
+                        <a href="/squadron/view/<?= $pos->squadron_id ?>">Member of <?= $pos->squadron->name_en ?></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
