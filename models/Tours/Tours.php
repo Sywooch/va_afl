@@ -61,14 +61,18 @@ class Tours extends \yii\db\ActiveRecord
 
     public function getUserNo()
     {
-        $user = ToursUsers::findOne(['user_id' => Yii::$app->user->id, 'tour_id' => $this->id]);
+        $user = $this->tourUser;
         return !$user || $user->status == ToursUsers::STATUS_UNASSIGNED ? false : true;
     }
 
     public function getUserAssign()
     {
-        return ToursUsers::findOne(['user_id' => Yii::$app->user->id, 'tour_id' => $this->id])->status
-        == ToursUsers::STATUS_ASSIGNED ? true : false;
+        return $this->tourUser ? $this->tourUser->status == ToursUsers::STATUS_ASSIGNED ? true : false : false;
+    }
+
+    public function getTourUser(){
+        $user = ToursUsers::findOne(['user_id' => Yii::$app->user->id, 'tour_id' => $this->id]);
+        return $user ? $user : false;
     }
 
     /**
