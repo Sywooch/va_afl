@@ -18,10 +18,11 @@ use yii\helpers\Url;
         <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
         <div class="stats-title"><?= Yii::t('app', 'Location') ?></div>
         <div class="stats-number">
-            <img alt="<?= $user->pilot->airport->iso ?>" src="<?= $user->pilot->airport->flaglink ?>"> <?=
-            Html::encode(
-                $user->pilot->airport->name . ' (' . $user->pilot->location . ')'
-            ) ?>
+            <img alt="<?= $user->pilot->airport->iso ?>" src="<?= $user->pilot->airport->flaglink ?>"> <a
+                href="/airline/airports/view/<?= $user->pilot->location ?>" style="color: white;"><?=
+                Html::encode(
+                    $user->pilot->airport->name . ' (' . $user->pilot->location . ')'
+                ) ?></a>
         </div>
         <div class="stats-progress progress">
             <div class="progress-bar" style="width: 70.1%;"></div>
@@ -41,7 +42,7 @@ use yii\helpers\Url;
             <?php else: ?>
                 <div class="row">
                     <div class="col-md-4">
-                        <?= $flight->callsign ?>
+                        <a href="/pilot/booking" style="color: white;"><?= $flight->callsign ?></a>
                     </div>
                     <div class="col-md-8">
                         <?=
