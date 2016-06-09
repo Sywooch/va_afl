@@ -2,6 +2,7 @@
 
 namespace app\models\Tours;
 
+use app\models\Users;
 use Yii;
 
 /**
@@ -18,6 +19,10 @@ use Yii;
  */
 class ToursUsers extends \yii\db\ActiveRecord
 {
+    const STATUS_ASSIGNED = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_COMPLETED = 2;
+
     /**
      * @inheritdoc
      */

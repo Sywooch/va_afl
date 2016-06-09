@@ -88,7 +88,7 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Tours'),
-                        'url' => \yii\helpers\Url::to('/airline/tours'),
+                        'url' => \yii\helpers\Url::to('/tours'),
                         'icon' => 'fa-location-arrow'
                     ],
                     [
