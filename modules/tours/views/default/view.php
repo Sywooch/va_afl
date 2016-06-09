@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </ul>
                 </div>
                 <?php if (!$tour->userNo): ?>
-                    <div class="well" style="background-color: transparent">
+                    <div class="well col-md-12" style="background-color: transparent">
                         <?=
                         \yii\helpers\Html::button(
                             Yii::t('app', 'Assign to me'),
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 <?php endif ?>
                 <?php if ($tour->userAssign): ?>
-                    <div class="well" style="background-color: transparent">
+                    <div class="well col-md-12" style="background-color: transparent">
                         <?=
                         \yii\helpers\Html::button(
                             Yii::t('app', 'Unassign from me'),
