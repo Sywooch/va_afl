@@ -30,12 +30,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-3">
                         <ul class="list-group">
-                            <li class="list-group-item list-group-item-success">
-                                <span class="badge"><?= $tour->getToursUsers()->andWhere(['status' => \app\models\Tours\ToursUsers::STATUS_COMPLETED])->count() ?></span>
+                            <li class="list-group-item list-group-item-info">
+                                <span class="badge"><?=
+                                    $tour->getToursUsers()->andWhere(
+                                        ['status' => \app\models\Tours\ToursUsers::STATUS_COMPLETED]
+                                    )->count() ?></span>
                                 <?= Yii::t('app', 'Completed') ?>
                             </li>
                             <li class="list-group-item list-group-item-warning">
-                                <span class="badge"><?= $tour->getToursUsers()->andWhere(['status' => \app\models\Tours\ToursUsers::STATUS_ACTIVE])->count() ?></span>
+                                <span class="badge"><?=
+                                    $tour->getToursUsers()->andFilterWhere(
+                                        [
+                                            'or',
+                                            [
+                                                'status' => [
+                                                    \app\models\Tours\ToursUsers::STATUS_ACTIVE,
+                                                    \app\models\Tours\ToursUsers::STATUS_ASSIGNED
+                                                ]
+                                            ]
+                                        ]
+                                    )->count()  ?></span>
                                 <?= Yii::t('app', 'In progress') ?>
                             </li>
                             <li class="list-group-item">

@@ -41,10 +41,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= Yii::t('app', 'Completed') ?>
                     </li>
                     <li class="list-group-item list-group-item-warning">
-                            <span class="badge"><?=
-                                $model->getToursUsers()->andWhere(
-                                    ['status' => \app\models\Tours\ToursUsers::STATUS_ACTIVE]
-                                )->count() ?></span>
+                                <span class="badge"><?=
+                                    $model->getToursUsers()->andFilterWhere(
+                                        [
+                                            'or',
+                                            [
+                                                'status' => [
+                                                    \app\models\Tours\ToursUsers::STATUS_ACTIVE,
+                                                    \app\models\Tours\ToursUsers::STATUS_ASSIGNED
+                                                ]
+                                            ]
+                                        ]
+                                    )->count()  ?></span>
                         <?= Yii::t('app', 'In progress') ?>
                     </li>
                     <li class="list-group-item">
