@@ -11,6 +11,8 @@ use app\models\Tours\ToursUsers;
 
 class DefaultController extends Controller
 {
+    public static $tour;
+
     public function actionIndex()
     {
         return $this->render(
@@ -23,10 +25,11 @@ class DefaultController extends Controller
 
     public function actionView($id)
     {
+        self::$tour = Tours::findOne($id);
         return $this->render(
             'view',
             [
-                'model' => Tours::findOne($id),
+                'tour' => self::$tour,
             ]
         );
     }
