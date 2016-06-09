@@ -2,8 +2,12 @@
 
 namespace app\modules\tours\controllers;
 
-use app\models\Tours\Tours;
+use Yii;
 use yii\web\Controller;
+
+use app\models\Tours\Tours;
+use app\models\Tours\ToursUsers;
+
 
 class DefaultController extends Controller
 {
@@ -22,8 +26,31 @@ class DefaultController extends Controller
         return $this->render(
             'view',
             [
-                'tour' => Tours::findOne($id)
+                'model' => Tours::findOne($id),
             ]
         );
+    }
+
+    public function actionAssign()
+    {
+        $act = \Yii::$app->request->post('act');
+        $tour_id = \Yii::$app->request->post('tour_id');
+
+
+        $tourUsers = ToursUsers::findOne(['user_id' => \Yii::$app->user->id, 'tour_id' => $tour_id]);
+
+        if ($act == 0) {
+            if (!$tourUsers) {
+                $tourUsers = new ToursUsers();
+                $tourUsers->tour_id = $tour_id;
+                $tourUsers->user_id = Yii::$app->user->id;
+            }
+
+            $tourUsers->status = ToursUsers::STATUS_ASSIGNED;
+        } else {
+            $tourUsers->status = ToursUsers::STATUS_UNASSIGNED;
+        }
+
+        $tourUsers->save();
     }
 }

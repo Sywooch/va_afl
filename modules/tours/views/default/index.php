@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel-body">
         <?php foreach ($tours as $tour): ?>
             <div class="container well" style="background-color: transparent">
-                <h2><a href='/tours/<?= $tour->id ?>'><?= $tour->content->name ?></a></h2>
+                <h2><a href='/tours/view/<?= $tour->id ?>'><?= $tour->content->name ?></a></h2>
                 <hr>
                 <div class="row">
                     <div class="col-md-3">

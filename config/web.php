@@ -79,9 +79,9 @@ $config = [
                 '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>' => '<module>/<controller>/index',
                 '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
-                '<module:tours>/<id:\d+>' => '<module>/default/view',
+                '<module:tours>/<action:\w+>' => '<module>/default/<action>',
+                '<module:tours>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
                 '<module:tours>' => '<module>/default/index',
-                '<module:tours>/<action:\.*>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 

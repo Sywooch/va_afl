@@ -19,6 +19,7 @@ use Yii;
  */
 class ToursUsers extends \yii\db\ActiveRecord
 {
+    const STATUS_UNASSIGNED = -1;
     const STATUS_ASSIGNED = 0;
     const STATUS_ACTIVE = 1;
     const STATUS_COMPLETED = 2;
