@@ -22,6 +22,10 @@ use app\models\Users;
  */
 class ToursUsersLegs extends \yii\db\ActiveRecord
 {
+    const STATUS_FLIGHT_STARTED = 0;
+    const STATUS_FLIGHT_FINISHED = 1;
+    const STATUS_FLIGHT_FAILED = 2;
+
     /**
      * @inheritdoc
      */
@@ -54,6 +58,16 @@ class ToursUsersLegs extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
         ];
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTourUser()
+    {
+        return ToursUsers::findOne(['tour_id' => $this->tour_id, 'user_id' => $this->tour_id]);
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
