@@ -58,6 +58,14 @@ class ToursUsers extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getPercent(){
+        return round($this->legs_finished / $this->tour->getToursLegs()->count() * 100);
+    }
+
+    public function getNextLeg(){
+        return ToursLegs::findOne(['tour_id' => $this->tour_id, 'leg_id' => $this->legs_finished + 1]);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

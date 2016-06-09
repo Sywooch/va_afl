@@ -70,6 +70,11 @@ class Tours extends \yii\db\ActiveRecord
         return $this->tourUser ? $this->tourUser->status == ToursUsers::STATUS_ASSIGNED ? true : false : false;
     }
 
+    public function getUserActive()
+    {
+        return $this->tourUser ? $this->tourUser->status == ToursUsers::STATUS_ACTIVE ? true : false : false;
+    }
+
     public function getTourUser(){
         $user = ToursUsers::findOne(['user_id' => Yii::$app->user->id, 'tour_id' => $this->id]);
         return $user ? $user : false;

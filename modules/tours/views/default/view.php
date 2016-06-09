@@ -33,15 +33,69 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="well">
                     <?= $tour->content->text ?>
                 </div>
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-success">
+                <?php if ($tour->userAssign || $tour->userActive): ?>
+                    <div class="col-md-9">
+                        <div class="widget widget-stats bg-blue">
+                            <div class="stats-icon stats-icon-lg"><i class="fa fa-tags fa-fw"></i></div>
+                            <div class="stats-title"><?= Yii::t('app', 'Next Flight') ?></div>
+                            <div class="stats-number">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a href="/pilot/booking" style="color: white;">Go to booking</a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <?=
+                                        Html::img(
+                                            Helper::getFlagLink($tour->tourUser->nextLeg->depAirport->iso)
+                                        ) . ' ' .
+                                        Html::tag(
+                                            'span',
+                                            $tour->tourUser->nextLeg->depAirport->icao,
+                                            [
+                                                'title' => Html::encode(
+                                                        "{$tour->tourUser->nextLeg->depAirport->name} ({$tour->tourUser->nextLeg->depAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
+                                                    ),
+                                                'data-toggle' => 'tooltip1',
+                                                'style' => 'cursor:pointer;'
+                                            ]
+                                        ) .
+                                        ' — ' .
+                                        Html::img(
+                                            Helper::getFlagLink($tour->tourUser->nextLeg->arrAirport->iso)
+                                        ) . ' ' .
+                                        Html::tag(
+                                            'span',
+                                            $tour->tourUser->nextLeg->arrAirport->icao,
+                                            [
+                                                'title' => Html::encode(
+                                                        "{$tour->tourUser->nextLeg->arrAirport->name} ({$tour->tourUser->nextLeg->arrAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
+                                                    ),
+                                                'data-toggle' => 'tooltip1',
+                                                'style' => 'cursor:pointer;'
+                                            ]
+                                        );?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stats-progress progress">
+                                <div class="progress-bar" style="width: <?= $tour->tourUser->percent ?>%;"></div>
+                            </div>
+                            <div class="stats-desc">
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success">
                             <span class="badge"><?=
                                 $tour->getToursUsers()->andWhere(
                                     ['status' => \app\models\Tours\ToursUsers::STATUS_COMPLETED]
                                 )->count() ?></span>
-                        <?= Yii::t('app', 'Completed') ?>
-                    </li>
-                    <li class="list-group-item list-group-item-warning">
+                            <?= Yii::t('app', 'Completed') ?>
+                        </li>
+                        <li class="list-group-item list-group-item-warning">
                                 <span class="badge"><?=
                                     $tour->getToursUsers()->andFilterWhere(
                                         [
@@ -54,13 +108,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ]
                                         ]
                                     )->count()  ?></span>
-                        <?= Yii::t('app', 'In progress') ?>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="badge"><?= $tour->getToursLegs()->count() ?></span>
-                        <?= Yii::t('app', 'Total Legs') ?>
-                    </li>
-                </ul>
+                            <?= Yii::t('app', 'In progress') ?>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><?= $tour->getToursLegs()->count() ?></span>
+                            <?= Yii::t('app', 'Total Legs') ?>
+                        </li>
+                    </ul>
+                </div>
                 <?php if (!$tour->userNo): ?>
                     <div class="well" style="background-color: transparent">
                         <?=
@@ -244,4 +299,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 location.reload();
             });
         }
+        setTimeout(function () {
+            $('span[data-toggle="tooltip1"]').tooltip({
+                animated: 'fade',
+                placement: 'top',
+                container: 'body'
+            });
+        }, 400);
     </script>
