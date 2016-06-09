@@ -130,6 +130,12 @@ class Status
         }
 
         CheckEvent::flight(self::$booking->flight);
+
+        try {
+            CheckTour::flight(self::$booking->flight);
+        } catch (\Exception $ex) {
+            var_dump($ex);
+        }
     }
 
     private static function checkFlightEnd()
@@ -151,6 +157,12 @@ class Status
             }
         } else {
             self::$status = Booking::STATUS_FAILED;
+        }
+
+        try {
+            CheckTour::end(self::$booking->flight);
+        } catch (\Exception $ex) {
+            var_dump($ex);
         }
 
         CheckEvent::end(self::$booking->flight);

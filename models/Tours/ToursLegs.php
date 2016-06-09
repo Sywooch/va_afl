@@ -58,4 +58,14 @@ class ToursLegs extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Tours::className(), ['id' => 'tour_id']);
     }
+
+    public function getDepAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'from']);
+    }
+
+    public function getArrAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'to']);
+    }
 }

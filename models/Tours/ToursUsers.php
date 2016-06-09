@@ -2,6 +2,7 @@
 
 namespace app\models\Tours;
 
+use app\models\Users;
 use Yii;
 
 /**
@@ -18,6 +19,11 @@ use Yii;
  */
 class ToursUsers extends \yii\db\ActiveRecord
 {
+    const STATUS_UNASSIGNED = -1;
+    const STATUS_ASSIGNED = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_COMPLETED = 2;
+
     /**
      * @inheritdoc
      */
@@ -50,6 +56,14 @@ class ToursUsers extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'legs_finished' => Yii::t('app', 'Legs Finished'),
         ];
+    }
+
+    public function getPercent(){
+        return round($this->legs_finished / $this->tour->getToursLegs()->count() * 100);
+    }
+
+    public function getNextLeg(){
+        return ToursLegs::findOne(['tour_id' => $this->tour_id, 'leg_id' => $this->legs_finished + 1]);
     }
 
     /**

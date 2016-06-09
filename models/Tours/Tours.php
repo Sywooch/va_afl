@@ -21,6 +21,9 @@ use app\models\Content;
  */
 class Tours extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+
     /**
      * @inheritdoc
      */
@@ -37,7 +40,8 @@ class Tours extends \yii\db\ActiveRecord
         return [
             [['content_id'], 'required'],
             [['content_id', 'users', 'status'], 'integer'],
-            [['access'], 'string', 'max' => 100]
+            [['access'], 'string', 'max' => 100],
+            [['start', 'stop'], 'safe']
         ];
     }
 
@@ -55,6 +59,27 @@ class Tours extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getUserNo()
+    {
+        $user = $this->tourUser;
+        return !$user || $user->status == ToursUsers::STATUS_UNASSIGNED ? false : true;
+    }
+
+    public function getUserAssign()
+    {
+        return $this->tourUser ? $this->tourUser->status == ToursUsers::STATUS_ASSIGNED ? true : false : false;
+    }
+
+    public function getUserActive()
+    {
+        return $this->tourUser ? $this->tourUser->status == ToursUsers::STATUS_ACTIVE ? true : false : false;
+    }
+
+    public function getTourUser(){
+        $user = ToursUsers::findOne(['user_id' => Yii::$app->user->id, 'tour_id' => $this->id]);
+        return $user ? $user : false;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -69,6 +94,14 @@ class Tours extends \yii\db\ActiveRecord
     public function getToursLegs()
     {
         return $this->hasMany(ToursLegs::className(), ['tour_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getToursUsersLegs()
+    {
+        return $this->hasMany(ToursUsersLegs::className(), ['tour_id' => 'id']);
     }
 
     /**
