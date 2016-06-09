@@ -22,7 +22,7 @@ class DefaultController extends Controller
         return $this->render(
             'view',
             [
-                'tour' => Tours::find()->where(['id' => Tours::findOne($id)])
+                'tour' => Tours::findOne($id)
             ]
         );
     }
