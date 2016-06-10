@@ -129,18 +129,14 @@ use app\models\Flights;
                                     }
                             ],
                             [
-                                'attribute' => 'flight.landing_time',
+                                'attribute' => 'flight.eta_time',
                                 'label' => Yii::t('flights', 'Landing Time'),
                                 'format' => ['date', 'php:H:i'],
                                 'value' => function ($data) {
                                         if (isset($data->flight)) {
-                                            $eet = explode(':', $data->flight->eet);
-                                            $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
-                                            $dep_time = strtotime($data->flight->dep_time);
-                                            $landing_time = $dep_time + $eet_seconds;
-                                            return date('H:i', $landing_time);
+                                            return $data->flight->eta_time;
                                         } else {
-                                            return "0:0";
+                                            return "00:00";
                                         }
                                     }
                             ],

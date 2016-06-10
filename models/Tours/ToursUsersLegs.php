@@ -40,8 +40,8 @@ class ToursUsersLegs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'tour_id', 'flight_id'], 'required'],
-            [['user_id', 'tour_id', 'flight_id', 'status'], 'integer']
+            [['user_id', 'tour_id', 'leg_id', 'flight_id'], 'required'],
+            [['user_id', 'tour_id', 'leg_id', 'flight_id', 'status'], 'integer']
         ];
     }
 

@@ -95,6 +95,13 @@ class Flights extends \yii\db\ActiveRecord
     public $day;
     public $count;
 
+    public function getEta_time(){
+        $eet = explode(':', $this->eet);
+        $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
+        $dep_time = strtotime($this->dep_time);
+        return date('H:i', $dep_time + $eet_seconds);
+    }
+
     public static function getFlightsCount($id)//TODO: перенести в UserPilot
     {
         return Flights::find()->where(['user_id' => $id])->count();
