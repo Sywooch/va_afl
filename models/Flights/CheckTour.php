@@ -66,7 +66,7 @@ class CheckTour
         foreach (ToursUsersLegs::find()->where(['flight_id' => $flight->id])->all() as $_tour){
             if($flight->to_icao == $flight->landing){
                 $_tour->status = ToursUsersLegs::STATUS_FLIGHT_FINISHED;
-                $_tour->tourUser->legs_finished++;
+                $_tour->tourUser->legs_finished = $_tour->tourUser->legs_finished + 1;
 
                 if($_tour->tourUser->legs_finished == $_tour->tour->getToursLegs()->count())
                 {
@@ -80,6 +80,7 @@ class CheckTour
             }
 
             $_tour->save();
+            $_tour->tourUser->save();
         }
     }
 
