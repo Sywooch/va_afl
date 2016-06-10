@@ -44,12 +44,14 @@ class CheckEvent
     {
         $conditions = [
             'dep_time' => [['from_icao', 'fromArray']],
-            'landing_time' => [['landing', 'toArray']]
+            'landing_time' => [['landing', 'toArray']],
+            'eta_time' => [['to_icao', 'toArray']]
         ];
 
         if ($event->airbridge) {
             $conditions['dep_time'][] = ['from_icao', 'toArray'];
             $conditions['landing_time'][] = ['landing', 'fromArray'];
+            $conditions['eta_time'][] = ['landing', 'fromArray'];
         }
 
         foreach ($conditions as $key => $_cond) {

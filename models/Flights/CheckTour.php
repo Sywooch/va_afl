@@ -53,10 +53,10 @@ class CheckTour
                     $leg->tour_id = $_tour->tour_id;
                     $leg->leg_id = $_tour->nextLeg->leg_id;
                     $leg->flight_id = $flight->id;
+                    $leg->user_id = $flight->user_id;
                     $leg->status = ToursUsersLegs::STATUS_FLIGHT_STARTED;
                     $leg->save();
                 }
-
             }
         }
     }
@@ -70,7 +70,7 @@ class CheckTour
 
                 if($_tour->tourUser->legs_finished == $_tour->tour->getToursLegs()->count())
                 {
-                    $_tour->tourUser = ToursUsers::STATUS_COMPLETED;
+                    $_tour->tourUser->status = ToursUsers::STATUS_COMPLETED;
                     self::notification($flight, $_tour, self::TEMPLATE_TOUR);
                 }else{
                     self::notification($flight, $_tour, self::TEMPLATE_LEG);
@@ -78,6 +78,8 @@ class CheckTour
             }else{
                 $_tour->status = ToursUsersLegs::STATUS_FLIGHT_FAILED;
             }
+
+            $_tour->save();
         }
     }
 
@@ -87,9 +89,13 @@ class CheckTour
             '[tour_id]' => $_tour->tour->id,
             '[tour_ru]' => $_tour->tour->content->name_ru,
             '[tour_en]' => $_tour->tour->content->name_en,
-            '[leg]' => $_tour->tourUser->legs_finished,
             '[leg_total]' => $_tour->tour->getToursLegs()->count()
         ];
-        Notification::add($flight->id, 0, Content::template($TEMPLATE, $array));
+
+        if(isset($_tour->tourUser)){
+            $array['[leg]'] = $_tour->tourUser->legs_finished;
+        }
+
+        Notification::add($flight->user_id, 0, Content::template($TEMPLATE, $array));
     }
 } 
