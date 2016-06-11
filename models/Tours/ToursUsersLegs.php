@@ -65,9 +65,8 @@ class ToursUsersLegs extends \yii\db\ActiveRecord
      */
     public function getTourUser()
     {
-        return ToursUsers::findOne(['tour_id' => $this->tour_id, 'user_id' => $this->tour_id]);
+        return $this->hasOne(ToursUsers::className(), ['tour_id' => 'tour_id', 'user_id' => 'user_id']);
     }
-
 
     /**
      * @return \yii\db\ActiveQuery
