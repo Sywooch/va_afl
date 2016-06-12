@@ -78,7 +78,7 @@ AppAsset::register($this);
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="/js/apps.js"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
-
+<script src="http://userapi.com/js/api/openapi.js" type="text/javascript" charset="windows-1251"></script>
 <script>
     $(document).ready(function () {
         App.init();
