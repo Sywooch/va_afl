@@ -55,7 +55,7 @@ use app\models\Users;
                         <li><a href="/pilot/settings/<?= Yii::$app->user->identity->vid ?>"><?=
                                 Yii::t(
                                     'app',
-                                    'Setting'
+                                    'Settings'
                                 ) ?></a></li>
                         <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
                         <li class="divider"></li>
