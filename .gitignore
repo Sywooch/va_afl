@@ -28,6 +28,3 @@ phpunit.phar
 
 #dbconfig
 /config/db.php
-
-#support
-/support
