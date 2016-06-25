@@ -34,7 +34,7 @@ class Tracker extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'heading', 'altitude', 'groundspeed', 'flight_id'], 'integer'],
+            [['user_id', 'heading', 'altitude', 'groundspeed', 'flight_id', 'status'], 'integer'],
             [['latitude', 'longitude'], 'number'],
             [['dtime'], 'safe']
         ];
@@ -55,6 +55,7 @@ class Tracker extends \yii\db\ActiveRecord
             'altitude' => 'Altitude',
             'groundspeed' => 'Groundspeed',
             'flight_id' => 'Flight ID',
+            'status' => 'Status',
         ];
     }
 }

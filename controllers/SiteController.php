@@ -10,6 +10,7 @@ use app\models\BillingUserBalance;
 use app\models\Content;
 use app\models\Flights\Status;
 use app\models\Log;
+use app\models\Suspensions;
 use app\models\UserPilot;
 use Yii;
 use yii\db\Query;

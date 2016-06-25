@@ -11,7 +11,7 @@ use yii\helpers\Url;
                     <div class="panel-heading">
                         <h4 class="panel-title"><?= Yii::t('app', 'Join sqaudron') ?></h4>
                     </div>
-                    <div class="panel-body panel-form" style="padding:10px !important;">
+                    <div class="panel-body panel-form" style="color: #707478 !important; padding:10px !important;">
                         <?= $squadron->squadronRules->text ?>
                     </div>
                     <div class="panel-footer">

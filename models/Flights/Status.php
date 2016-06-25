@@ -11,6 +11,7 @@ namespace app\models\Flights;
 use app\commands\ParseController;
 use app\components\Slack;
 use app\models\Booking;
+use app\models\Suspensions;
 
 /**
  * Class Status
@@ -127,6 +128,14 @@ class Status
         } else {
             self::$status = Booking::STATUS_BOARDING;
         }
+
+        CheckEvent::flight(self::$booking->flight);
+
+        try {
+            CheckTour::flight(self::$booking->flight);
+        } catch (\Exception $ex) {
+            var_dump($ex);
+        }
     }
 
     private static function checkFlightEnd()
@@ -146,6 +155,17 @@ class Status
                 default:
                     self::$status = Booking::STATUS_FAILED;
             }
+        } else {
+            self::$status = Booking::STATUS_FAILED;
         }
+
+        try {
+            CheckTour::end(self::$booking->flight);
+        } catch (\Exception $ex) {
+            var_dump($ex);
+        }
+
+        CheckEvent::end(self::$booking->flight);
+        Suspensions::check(self::$booking->flight);
     }
 } 

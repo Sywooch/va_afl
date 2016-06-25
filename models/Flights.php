@@ -45,6 +45,11 @@ class Flights extends \yii\db\ActiveRecord
         return 'flights';
     }
 
+    public static function countOnline()
+    {
+        return self::find()->where(['status' => self::FLIGHT_STATUS_STARTED])->count();
+    }
+
     /**
      * @inheritdoc
      */
@@ -89,6 +94,13 @@ class Flights extends \yii\db\ActiveRecord
 
     public $day;
     public $count;
+
+    public function getEta_time(){
+        $eet = explode(':', $this->eet);
+        $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
+        $dep_time = strtotime($this->dep_time);
+        return date('H:i', $dep_time + $eet_seconds);
+    }
 
     public static function getFlightsCount($id)//TODO: перенести в UserPilot
     {
@@ -213,6 +225,11 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getSimulator(){
         return Simulator::$ivao[$this->sim];
+    }
+
+    public function getFlightName(){
+        return "{$this->callsign} {$this->from_icao}-{$this->to_icao} " .
+        (new \DateTime($this->first_seen))->format('d.m.Y');
     }
 
     public static function prepareTrackerData($id)

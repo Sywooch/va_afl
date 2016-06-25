@@ -20,8 +20,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="well">
         <?php endif; ?>
         <?php if (Yii::$app->user->can($model->access_edit) || Yii::$app->user->can('content/edit')): ?>
-            <?= Html::a(Yii::t('app', 'Create Content'), Url::to('/content/create'), ['class' => 'btn btn-success']) ?>
-        <?php endif; ?>
+            <?=
+            Html::a(
+                Yii::t('app', 'Create'),
+                ['/content/create'],
+                [
+                    'class' => 'btn btn-success',
+                    'data' => [
+                        'method' => 'post',
+                        'params' => [
+                            'category_id' => $model->id,
+                        ]
+                    ]
+                ]
+            ) ?>        <?php endif; ?>
         <?php if (Yii::$app->user->can('content/edit')): ?>
             <?= Html::a(Yii::t('app', 'Update'), ['/content/categories/update/' . $model->id], ['class' => 'btn btn-primary']) ?>
             <?=

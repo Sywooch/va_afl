@@ -3,6 +3,8 @@
 namespace app\modules\pilot\controllers;
 
 use app\components\Levels;
+use app\models\Squadrons;
+use app\models\SquadronUsers;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -112,7 +114,8 @@ class DefaultController extends Controller
             [
                 'user' => $user,
                 'flightsProvider' => $flightsProvider,
-                'staff' => Staff::byUser($id)
+                'staff' => Staff::byUser($id),
+                'squadrons' => SquadronUsers::byUser($id)
             ]
         );
     }

@@ -17,12 +17,12 @@ $this->params['breadcrumbs'] = [
     </div>
     <div class="col-md-8">
         <?= $this->render('onlinetable', ['onlineProvider' => $onlineProvider]) ?>
-        <?= $this->render('top', ['top' => $topProvider]) ?>
+        <?= $this->render('events_calendar', ['eventsCalendar' => $eventsCalendar]) ?>
     </div>
     <div class="col-md-4">
         <!-- begin panel -->
         <?= $this->render('news', ['news' => $news]) ?>
         <?= $this->render('events', ['events' => $events]) ?>
-        <?= $this->render('events_calendar', ['eventsCalendar' => $eventsCalendar]) ?>
+        <?= $this->render('top', ['top' => $topProvider]) ?>
     </div>
 </div>

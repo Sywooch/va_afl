@@ -203,7 +203,6 @@ class Content extends \yii\db\ActiveRecord
         }
 
         $content->save();
-        var_dump($content);
         return $content->id;
     }
 }

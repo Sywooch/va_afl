@@ -28,7 +28,10 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'image_path')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'squadron_id')->textInput() ?>
+    <?= $form->field($model, 'squadron_id')->widget(
+        Select2::classname(),
+        ['data' => \yii\helpers\ArrayHelper::map(\app\models\Squadrons::find()->all(), 'id', 'abbr')]
+    ) ?>
 
     <?= $form->field($model, 'max_pax')->textInput() ?>
 

@@ -58,9 +58,11 @@ class ExternalEvent
     public function slack($channel)
     {
         if (!$this->old) {
-            $slack = new Slack($channel, 'New Event - ');
-            $slack->addLink('http://dev.va-aeroflot.su/events/' . $this->event, $this->name);
-            $slack->sent();
+            if (!empty($this->event && $this->name)) {
+                $slack = new Slack($channel, 'New Event - ');
+                $slack->addLink('http://dev.va-aeroflot.su/events/' . $this->event, $this->name);
+                $slack->sent();
+            }
         }
     }
 
@@ -77,21 +79,6 @@ class ExternalEvent
     }
 
     /**
-     * Сохранение условий эвента
-     * @param $evt Класс с данными
-     * @param int $event_id ID Эвента
-     */
-    private function saveEventConditions($evt, $event_id)
-    {
-        $eventCondition1 = new EventsConditions();
-        $eventCondition1->event_id = $event_id;
-        $eventCondition1->variable = 'from_icao';
-        $eventCondition1->value = $evt->airport;
-
-        $eventCondition1->save;
-    }
-
-    /**
      * Сохранение эвента
      * @param $evt Класс с данными
      * @param int $content ID Контента
@@ -105,6 +92,12 @@ class ExternalEvent
         $event->stop = date('Y-m-d H:i:s', strtotime($evt->date . " " . $evt->toUTC));
         $event->content = $content;
         $event->author = 0;
+
+        if (isset($evt->airport)) {
+            $event->to = $evt->airport;
+            $event->airbridge = 1;
+        }
+
         $event->save();
 
         return $event->id;
@@ -120,12 +113,24 @@ class ExternalEvent
         $content = new Content();
 
         $content->name_ru = $evt->event;
-        $content->name_en = $evt->eevent;
+
+        if(!empty($evt->eevent)){
+            $content->name_en = $evt->eevent;
+        }else{
+            $content->name_en = $evt->event;
+        }
+
         $content->text_ru = $evt->description;
-        $content->text_en = $evt->edescription;
-        $content->img = $evt->engbanner;
+        if(!empty($evt->edescription)){
+            $content->text_en = $evt->edescription;
+        }else{
+            $content->text_en = $evt->description;
+        }
+
+        $content->img = $evt->banner;
         $content->category = Events::CONTENT_CATEGORY;
         $content->created = date('Y-m-d H:i:s');
+
         $content->save();
 
         $this->name = $content->name_en;

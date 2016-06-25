@@ -48,8 +48,14 @@ echo \yii\widgets\DetailView::widget(
     ]
 
 ) ;
+echo '<p>';
+echo \yii\helpers\Html::a(
+    \yii\bootstrap\Html::button(Yii::t('booking', 'Briefing'), ['class' => 'btn btn-success']),
+    \yii\helpers\Url::to('/airline/flights/briefing'));
+echo '</p><p>';
 echo \yii\helpers\Html::a(
     \yii\bootstrap\Html::button(Yii::t('booking', 'Delete'), ['class' => 'btn btn-danger']),
     \yii\helpers\Url::to('/site/deletemybooking')
 );
+echo '</p>';
 ?>

@@ -9,13 +9,24 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'layout' => 'landing',
+    'language' => 'en',
     'components' => [
+        'errorstream' => [
+            'class'             => 'ErrorStream\ErrorStreamClient\ErrorStreamClient',
+            'api_token'         => 'zP0FBGzU6lOMeJHE5GKC', //Put your api token here
+            'project_token'     => 'GjexfOukNiNUS7GzckLU', //Put your project token here
+            'active'            => true, //You might want to only activate this in production mode
+        ],
         'i18n' => [
             'translations' => [
                 '*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en',
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'db' => 'db',
+                    'sourceLanguage' => 'en-US', // Developer language
+                    'sourceMessageTable' => '{{%language_source}}',
+                    'messageTable' => '{{%language_translate}}',
+                    'cachingDuration' => 86400,
+                    'enableCaching' => true,
                 ],
             ],
         ],
@@ -32,6 +43,7 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+            'class' => 'ErrorStream\ErrorStream\ErrorStreamErrorHandler',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -44,8 +56,9 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'class' => 'ErrorStream\ErrorStream\ErrorStreamLogger',
+                    'levels' => ['error', 'warning'], //Only send errors and warnings.
+                    'logVars' => [], //Necessary so you don't submit every request to our server.
                 ],
             ],
         ],
@@ -75,10 +88,13 @@ $config = [
                 '<module:content>/<action:\.*>' => '<module>/default/index',
                 '<module:pilot|fleet|events|squadron>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
                 '<module:pilot|fleet|events|squadron>/<action:\w+>' => '<module>/default/<action>',
-                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:pilot|airline|fleet|events|admin|squadron>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
+                '<module:tours>/<action:\w+>' => '<module>/default/<action>',
+                '<module:tours>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
+                '<module:tours>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -121,6 +137,37 @@ $config = [
         ],
         'screens' => [
             'class' => 'app\modules\screens\Module',
+        ],
+        'tours' => [
+            'class' => 'app\modules\tours\Module',
+        ],
+        'translatemanager' => [
+            'class' => 'lajax\translatemanager\Module',
+            'root' => '@app',               // The root directory of the project scan.
+            'scanRootParentDirectory' => false, // Whether scan the defined `root` parent directory, or the folder itself.
+            // IMPORTANT: for detailed instructions read the chapter about root configuration.
+            'layout' => 'language',         // Name of the used layout. If using own layout use 'null'.
+            'allowedIPs' => ['*'],  // IP addresses from which the translation interface is accessible.
+            'roles' => ['@'],               // For setting access levels to the translating interface.
+            'tmpDir' => '@runtime',         // Writable directory for the client-side temporary language files.
+            // IMPORTANT: must be identical for all applications (the AssetsManager serves the JavaScript files containing language elements from this directory).
+            'phpTranslators' => ['::t'],    // list of the php function for translating messages.
+            'jsTranslators' => ['lajax.t'], // list of the js function for translating messages.
+            'patterns' => ['*.js', '*.php'],// list of file extensions that contain language elements.
+            'ignoredCategories' => ['yii'], // these categories won't be included in the language database.
+            'ignoredItems' => ['config'],   // these files will not be processed.
+            'scanTimeLimit' => null,        // increase to prevent "Maximum execution time" errors, if null the default max_execution_time will be used
+            'searchEmptyCommand' => '!',    // the search string to enter in the 'Translation' search field to find not yet translated items, set to null to disable this feature
+            'defaultExportStatus' => 1,     // the default selection of languages to export, set to 0 to select all languages by default
+            'defaultExportFormat' => 'json',// the default format for export, can be 'json' or 'xml'
+            'tables' => [                   // Properties of individual tables
+                [
+                    'connection' => 'db',   // connection identifier
+                    'table' => '{{%language}}',         // table name
+                    'columns' => ['name', 'name_ascii'],// names of multilingual fields
+                    'category' => 'database-table-name',// the category is the database table name
+                ]
+            ]
         ],
     ],
     'params' => $params,
