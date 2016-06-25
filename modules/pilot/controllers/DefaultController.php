@@ -282,4 +282,8 @@ class DefaultController extends Controller
             throw new HttpException('500');
         }
     }
+
+    public function actionLocation(){
+        return Yii::$app->runAction('airline/airports/info', ['id' => Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one()->pilot->location]);
+    }
 }
