@@ -34,7 +34,7 @@
             ],
             [
                 'attribute' => 'arr_utc_time',
-                'label' => 'EAT',
+                'label' => 'ETA',
             ],
             [
                 'attribute' => 'eet',
