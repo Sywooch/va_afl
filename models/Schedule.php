@@ -36,6 +36,7 @@ class Schedule extends \yii\db\ActiveRecord
     {
         return self::find()->andWhere(['arr' => $to, 'dep' => $from])
             ->andWhere('SUBSTRING(day_of_weeks,' . (date('N') - 1) . ',1) = 1')
+            ->andWhere('dep_utc_time >= \''.date('H').':00:00\'')
             ->andWhere('start <= \''.date('Y-m-d').'\'')
             ->andWhere('stop >= \''.date('Y-m-d').'\'')->limit(9);
     }

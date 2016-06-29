@@ -9,7 +9,11 @@
 
 <?php echo \yii\grid\GridView::widget(
     [
-        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $schedule, 'sort' => false]),
+        'dataProvider' => new \yii\data\ActiveDataProvider([
+                'query' => $schedule,
+                'sort' => false,
+                'pagination' => false,
+            ]),
         'tableOptions' => [
             'class' => ''
         ],
