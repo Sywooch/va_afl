@@ -58,33 +58,50 @@ setTimeout(function () {
             }
         };
     });
+
     var infowindow = new google.maps.InfoWindow();
-    var to_select = '';
+
     var from_airport = '';
+    $.get('/pilot/location', function (response) {
+        from_airport = JSON.parse(response);
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+            map: map,
+            title: from_airport.name,
+            icon: 'https://maps.google.com/mapfiles/marker.png'
+        });
+    });
+
+
+    var to_select = '';
     var to_line;
+    var to_marker;
 
     map.data.addListener('click', function(event) {
         var paxlist=event.feature.getProperty('paxlist');
         var aptname=event.feature.getProperty('name');
 
-        if (from_airport == '') {
-            $.get('/pilot/location', function (response) {
-                from_airport = JSON.parse(response);
-            });
-        }
-
         if (to_select == '') {
             $.get('/airline/airports/info/' + aptname, function (response) {
                 var res = JSON.parse(response);
+
                 to_line = new google.maps.Polyline({
                     path: [
                         new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
                         new google.maps.LatLng(res.latitude, res.longitude)
                     ],
-                    strokeWeight: 1.7,
-                    strokeColor: 'green',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    strokeColor: '#00acac',
                     geodesic: true,
                     map: map
+                });
+
+                to_marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(res.latitude, res.longitude),
+                    map: map,
+                    title: res.name,
+                    icon: 'https://maps.google.com/mapfiles/marker_green.png'
                 });
             });
         }
@@ -93,13 +110,19 @@ setTimeout(function () {
             to_select = aptname;
             $.get('/airline/airports/info/' + aptname, function (response) {
                 var res = JSON.parse(response);
+
                 $('#booking-details').show();
                 $('#booking-to_icao').append('<option value="' + aptname + '">' + aptname + ' - ' + res.name + '</option>').val(aptname).trigger('change');
+
                 to_line.setPath([
                     new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
                     new google.maps.LatLng(res.latitude, res.longitude)
                 ]);
                 to_line.setMap(map);
+                to_line.setMap(map);
+
+                to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
+                to_marker.setMap(map);
             });
         }
 
@@ -118,6 +141,58 @@ setTimeout(function () {
         infowindow.setPosition(event.feature.getGeometry().get());
         infowindow.open(map);
     });
+
+    var $eventSelect = $("#booking-to_icao");
+    $eventSelect.on("select2:select", function (e) {
+        var aptname = e.params.data.id;
+        if (to_select == '') {
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+
+                to_line = new google.maps.Polyline({
+                    path: [
+                        new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                        new google.maps.LatLng(res.latitude, res.longitude)
+                    ],
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    strokeColor: '#00acac',
+                    geodesic: true,
+                    map: map
+                });
+
+                to_marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(res.latitude, res.longitude),
+                    map: map,
+                    title: res.name,
+                    icon: 'https://maps.google.com/mapfiles/marker_green.png'
+                });
+            });
+        }
+
+        if (aptname != to_select) {
+            to_select = aptname;
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+
+                $('#booking-details').show();
+                $('#booking-to_icao').append('<option value="' + aptname + '">' + aptname + ' - ' + res.name + '</option>').val(aptname).trigger('change');
+
+                to_line.setPath([
+                    new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                    new google.maps.LatLng(res.latitude, res.longitude)
+                ]);
+                to_line.setMap(map);
+                to_line.setMap(map);
+
+                to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
+                to_marker.setMap(map);
+            });
+        }
+    });
+
+
+
     $('.sidebar-minify-btn').remove();
     $('#taxibtn').bind('click',function(){
         $('#taxiModal').modal('show');
