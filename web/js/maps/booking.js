@@ -5,7 +5,8 @@
  * Routes map
  * Created by Nikita Fedoseev <agent.daitel@gmail.com>
  */
-
+var to_select = '';
+var to_airport = '';
 
 function closedrilldown()
 {
@@ -24,8 +25,9 @@ function showhidebookingform(){
     $('#booking-details').toggle();
 }
 
-function scheduleBook(callsign){
+function scheduleBook(callsign, aircraft){
     $('#booking-callsign').val(callsign);
+    $('#booking-to_icao').append('<option value="' + to_airport.icao + '">' + to_airport.icao + ' - ' + to_airport.icao.name + '</option>').val(to_airport.icao).trigger('change');
 }
 
 function smartbooking(icao)
@@ -77,8 +79,6 @@ setTimeout(function () {
         });
     });
 
-
-    var to_select = '';
     var to_line;
     var to_marker;
 
@@ -89,6 +89,7 @@ setTimeout(function () {
         if (to_select == '') {
             $.get('/airline/airports/info/' + aptname, function (response) {
                 var res = JSON.parse(response);
+                to_airport = res;
 
                 to_line = new google.maps.Polyline({
                     path: [
@@ -115,6 +116,7 @@ setTimeout(function () {
             to_select = aptname;
             $.get('/airline/airports/info/' + aptname, function (response) {
                 var res = JSON.parse(response);
+                to_airport = res;
 
                 $('#booking-details').show();
                 $('#booking-to_icao').append('<option value="' + aptname + '">' + aptname + ' - ' + res.name + '</option>').val(aptname).trigger('change');

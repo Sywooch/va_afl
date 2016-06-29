@@ -23,7 +23,7 @@
                 'attribute' => 'flight',
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return '<a href="#" onclick="scheduleBook(\'' . $data->flight . '\')">' . $data->flight . '</a>';
+                        return '<a href="#" onclick="scheduleBook(\'' . $data->flight . '\', \''.$data->aircraft.'\')">' . $data->flight . '</a>';
                     }
             ],
             'dep',
