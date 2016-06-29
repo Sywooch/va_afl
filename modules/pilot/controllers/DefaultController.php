@@ -286,4 +286,8 @@ class DefaultController extends Controller
     public function actionLocation(){
         return Yii::$app->runAction('airline/airports/info', ['id' => Users::find()->andWhere(['vid' => Yii::$app->user->identity->vid])->one()->pilot->location]);
     }
+
+    public function actionSchedule($from, $to){
+        return $this->renderAjax('schedule', ['schedule' => Schedule::next($from, $to)]);
+    }
 }

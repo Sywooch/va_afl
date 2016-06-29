@@ -11,11 +11,11 @@ function closedrilldown()
 {
     $('#drilldownwindow').css('display','none');
 }
-function showDrillDownContent(airport,paxtype)
+function showDrillDownContent(to, from)
 {
     closedrilldown();
-    var url='/site/getairportpaxdetail';
-    $.get(url, {airport: airport, paxtype: paxtype}, function (response) {
+    var url='/pilot/schedule';
+    $.get(url, {to: to, from: from}, function (response) {
         $('#drilldownwindow').html(response).toggle();
     });
 }
@@ -132,9 +132,9 @@ setTimeout(function () {
             '<h4 id="firstHeading" class="firstHeading">'+aptname+'</h4>'+
             event.feature.getProperty('bookthis')+
             '<div id="bodyContent">' +
-            '<i class="fa fa-user" style="color: green"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',0);">'+ ((paxlist[0])?paxlist[0]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: orange"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',1);">'+ ((paxlist[1])?paxlist[1]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: red"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',2);">'+ ((paxlist[2])?paxlist[2]:0) + '</b><br>' +
+            '<i class="fa fa-user" style="color: green"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\'' + aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[0])?paxlist[0]:0) + '</b><br>' +
+            '<i class="fa fa-user" style="color: orange"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[1])?paxlist[1]:0) + '</b><br>' +
+            '<i class="fa fa-user" style="color: red"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[2])?paxlist[2]:0) + '</b><br>' +
             '</div>'+
             '</div>';
         infowindow.setContent(contentString);

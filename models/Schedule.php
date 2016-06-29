@@ -32,6 +32,14 @@ class Schedule extends \yii\db\ActiveRecord
         return 'schedule';
     }
 
+    public static function next($from, $to)
+    {
+        return self::find()->andWhere(['arr' => $to, 'dep' => $from])
+            ->andWhere('SUBSTRING(day_of_weeks,' . (date('N') - 1) . ',1) = 1')
+            ->andWhere('start <= \''.date('Y-m-d').'\'')
+            ->andWhere('stop >= \''.date('Y-m-d').'\'')->limit(9);
+    }
+
     /**
      * @inheritdoc
      */
