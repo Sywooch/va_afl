@@ -23,6 +23,11 @@ function showDrillDownContent(to, from)
 function showhidebookingform(){
     $('#booking-details').toggle();
 }
+
+function scheduleBook(callsign){
+    $('#booking-callsign').val(callsign);
+}
+
 function smartbooking(icao)
 {
     $.get('/site/smartbooking',{icao:icao},function(response){

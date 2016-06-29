@@ -9,15 +9,37 @@
 
 <?php echo \yii\grid\GridView::widget(
     [
-        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $schedule]),
+        'dataProvider' => new \yii\data\ActiveDataProvider(['query' => $schedule, 'sort' => false]),
         'tableOptions' => [
             'class' => ''
         ],
         'layout' => '{items}{pager}',
         'columns' => [
-            'flight',
+            [
+                'attribute' => 'flight',
+                'format' => 'raw',
+                'value' => function ($data) {
+                        return '<a href="#" onclick="scheduleBook(\'' . $data->flight . '\')">' . $data->flight . '</a>';
+                    }
+            ],
             'dep',
-            'arr'
+            'arr',
+            [
+                'attribute' => 'dep_utc_time',
+                'label' => 'EDT',
+            ],
+            [
+                'attribute' => 'arr_utc_time',
+                'label' => 'EAT',
+            ],
+            [
+                'attribute' => 'eet',
+                'label' => 'EET',
+            ],
+            [
+                'attribute' => 'aircraft',
+                'label' => 'ACF',
+            ],
         ]
     ]
 ); ?>
