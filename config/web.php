@@ -111,7 +111,7 @@ $config = [
         ],
         'events' => [
             'class' => 'app\modules\events\Module',
-	    ],
+        ],
         'squadron' => [
             'class' => 'app\modules\squadron\Module',
         ],
@@ -141,23 +141,38 @@ $config = [
         ],
         'translatemanager' => [
             'class' => 'lajax\translatemanager\Module',
-            'root' => '@app',               // The root directory of the project scan.
-            'scanRootParentDirectory' => false, // Whether scan the defined `root` parent directory, or the folder itself.
+            'root' => '@app',
+            // The root directory of the project scan.
+            'scanRootParentDirectory' => false,
+            // Whether scan the defined `root` parent directory, or the folder itself.
             // IMPORTANT: for detailed instructions read the chapter about root configuration.
-            'layout' => 'language',         // Name of the used layout. If using own layout use 'null'.
-            'allowedIPs' => ['*'],  // IP addresses from which the translation interface is accessible.
-            'roles' => ['@'],               // For setting access levels to the translating interface.
-            'tmpDir' => '@runtime',         // Writable directory for the client-side temporary language files.
+            'layout' => 'language',
+            // Name of the used layout. If using own layout use 'null'.
+            'allowedIPs' => ['*'],
+            // IP addresses from which the translation interface is accessible.
+            'roles' => ['@'],
+            // For setting access levels to the translating interface.
+            'tmpDir' => '@runtime',
+            // Writable directory for the client-side temporary language files.
             // IMPORTANT: must be identical for all applications (the AssetsManager serves the JavaScript files containing language elements from this directory).
-            'phpTranslators' => ['::t'],    // list of the php function for translating messages.
-            'jsTranslators' => ['lajax.t'], // list of the js function for translating messages.
-            'patterns' => ['*.js', '*.php'],// list of file extensions that contain language elements.
-            'ignoredCategories' => ['yii'], // these categories won't be included in the language database.
-            'ignoredItems' => ['config'],   // these files will not be processed.
-            'scanTimeLimit' => null,        // increase to prevent "Maximum execution time" errors, if null the default max_execution_time will be used
-            'searchEmptyCommand' => '!',    // the search string to enter in the 'Translation' search field to find not yet translated items, set to null to disable this feature
-            'defaultExportStatus' => 1,     // the default selection of languages to export, set to 0 to select all languages by default
-            'defaultExportFormat' => 'json',// the default format for export, can be 'json' or 'xml'
+            'phpTranslators' => ['::t'],
+            // list of the php function for translating messages.
+            'jsTranslators' => ['lajax.t'],
+            // list of the js function for translating messages.
+            'patterns' => ['*.js', '*.php'],
+            // list of file extensions that contain language elements.
+            'ignoredCategories' => ['yii'],
+            // these categories won't be included in the language database.
+            'ignoredItems' => ['config'],
+            // these files will not be processed.
+            'scanTimeLimit' => null,
+            // increase to prevent "Maximum execution time" errors, if null the default max_execution_time will be used
+            'searchEmptyCommand' => '!',
+            // the search string to enter in the 'Translation' search field to find not yet translated items, set to null to disable this feature
+            'defaultExportStatus' => 1,
+            // the default selection of languages to export, set to 0 to select all languages by default
+            'defaultExportFormat' => 'json',
+            // the default format for export, can be 'json' or 'xml'
             'tables' => [                   // Properties of individual tables
                 [
                     'connection' => 'db',   // connection identifier
@@ -177,9 +192,11 @@ $config = [
             Yii::$app->layout = 'main';
         }
         if (Yii::$app->user->isGuest) {
-            if ((Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site') || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index') && (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'login')) {
+            /*if ((Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site')
+                || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index')
+                && (Yii::$app->controller->id != 'auth')) {
                 Yii::$app->getResponse()->redirect('/site/index');
-            }
+            }*/
         }
         if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
             \app\models\User::checkEmail();

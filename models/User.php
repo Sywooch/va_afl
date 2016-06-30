@@ -63,7 +63,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $user->full_name = $model->username;
             $user->created_date = date('Y-m-d H:i:s');
             $user->country = $model->country;
-            $user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
+            $user->language = (in_array($model->country, ['RU'])) ? 'RU' : 'EN';
             $needrelation = true;
         }
         $user->full_name = $model->username;

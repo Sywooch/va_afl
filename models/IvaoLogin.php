@@ -46,11 +46,17 @@ class IvaoLogin extends Model
     {
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
-        return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        if(!$this->getUser())
+        {
+            return false;
+        }
+
+        //return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 
     public function getUser()
     {
-        return User::findByUsername($this);
+        //return User::findByUsername($this);
+        return User::findIdentity($this->vid);
     }
 }
