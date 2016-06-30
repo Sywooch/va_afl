@@ -25,11 +25,25 @@ class IvaoLogin extends Model
     public $result;
     public $rememberMe = true;
 
-	public function rules()
-	{
-		return [
-			[['vid', 'firstname', 'lastname', 'rating', 'skype', 'ratingatc', 'ratingpilot', 'division', 'result', 'country'], 'required'],
-			['rememberMe', 'boolean'],
+    public function rules()
+    {
+        return [
+            [
+                [
+                    'vid',
+                    'firstname',
+                    'lastname',
+                    'rating',
+                    'skype',
+                    'ratingatc',
+                    'ratingpilot',
+                    'division',
+                    'result',
+                    'country'
+                ],
+                'required'
+            ],
+            ['rememberMe', 'boolean'],
 
         ];
     }
@@ -46,12 +60,11 @@ class IvaoLogin extends Model
     {
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
-        if(!$this->getUser())
-        {
+        if (!$this->getUser()) {
             return false;
         }
-
         return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+
     }
 
     public function getUser()

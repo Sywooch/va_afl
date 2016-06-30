@@ -24,13 +24,12 @@ class AuthController extends Controller
         }
 
         if (!$IVAOTOKEN) {
-            Yii::trace('1234');
             return $this->redirect(Yii::$app->params['ivao_login_url']);
         }
         $model = new IvaoLogin();
         if (!$model->login($IVAOTOKEN)) {
             return $this->redirect('register/'.$IVAOTOKEN);
         }
-        return 1;
+        $this->goHome();
     }
 }
