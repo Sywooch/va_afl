@@ -133,6 +133,17 @@ class AirportsController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionInfo($id){
+        $model = $this->findModel($id);
+        return json_encode(
+            [
+                'icao' => $model->icao,
+                'name' => $model->name,
+                'latitude' => $model->lat,
+                'longitude' => $model->lon
+            ]);
+    }
+
     /**
      * Finds the Airports model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -5,17 +5,19 @@
  * Routes map
  * Created by Nikita Fedoseev <agent.daitel@gmail.com>
  */
-
+var to_select = '';
+var to_airport = '';
+var infowindow;
 
 function closedrilldown()
 {
     $('#drilldownwindow').css('display','none');
 }
-function showDrillDownContent(airport,paxtype)
+function showDrillDownContent(to, from)
 {
     closedrilldown();
-    var url='/site/getairportpaxdetail';
-    $.get(url, {airport: airport, paxtype: paxtype}, function (response) {
+    var url='/pilot/schedule';
+    $.get(url, {to: to, from: from}, function (response) {
         $('#drilldownwindow').html(response).toggle();
     });
 }
@@ -23,6 +25,13 @@ function showDrillDownContent(airport,paxtype)
 function showhidebookingform(){
     $('#booking-details').toggle();
 }
+
+function scheduleBook(callsign, aircraft){
+    $('#booking-callsign').val(callsign);
+    $('#booking-to_icao').append('<option value="' + to_airport.icao + '">' + to_airport.icao + ' - ' + to_airport.icao.name + '</option>').val(to_airport.icao).trigger('change');
+    infowindow.close();
+}
+
 function smartbooking(icao)
 {
     $.get('/site/smartbooking',{icao:icao},function(response){
@@ -58,25 +67,151 @@ setTimeout(function () {
             }
         };
     });
-    var infowindow = new google.maps.InfoWindow();
+
+    infowindow = new google.maps.InfoWindow();
+
+    var from_airport = '';
+    $.get('/pilot/location', function (response) {
+        from_airport = JSON.parse(response);
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+            map: map,
+            title: from_airport.name,
+            icon: 'https://maps.google.com/mapfiles/marker.png'
+        });
+    });
+
+    var to_line;
+    var to_marker;
+
     map.data.addListener('click', function(event) {
         var paxlist=event.feature.getProperty('paxlist');
         var aptname=event.feature.getProperty('name');
-        var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h4 id="firstHeading" class="firstHeading">'+aptname+'</h4>'+
-            event.feature.getProperty('bookthis')+
-            '<div id="bodyContent">' +
-            '<i class="fa fa-user" style="color: green"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',0);">'+ ((paxlist[0])?paxlist[0]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: orange"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',1);">'+ ((paxlist[1])?paxlist[1]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: red"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\',2);">'+ ((paxlist[2])?paxlist[2]:0) + '</b><br>' +
-            '</div>'+
-            '</div>';
-        infowindow.setContent(contentString);
+
+        function content(){
+            closedrilldown();
+
+            return '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h3 id="firstHeading" class="text-center firstHeading">'+to_airport.icao+'</h3>'+
+                '<h4 id="firstHeading" class="text-center firstHeading">' + to_airport.name + '</h4>' +
+                '<hr>' +
+                '<div id="bodyContent" style="cursor: pointer;" onclick="showDrillDownContent(\'' + aptname + '\', \'' + from_airport.icao + '\')">' +
+                '<b>' + from_airport.icao + ' ‒ 	' + to_airport.icao + '</b> ' +
+                '<i class="fa fa-user" style="color: green"></i> <b>' + ((paxlist[0]) ? paxlist[0] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: orange"></i> <b>' + ((paxlist[1]) ? paxlist[1] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: red"></i> <b>' + ((paxlist[2]) ? paxlist[2] : 0) + '</b> ' +
+                '</div>' +
+                '</div>';
+        }
+
+        if (to_select == '') {
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+                to_airport = res;
+
+                to_line = new google.maps.Polyline({
+                    path: [
+                        new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                        new google.maps.LatLng(res.latitude, res.longitude)
+                    ],
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    strokeColor: '#00acac',
+                    geodesic: true,
+                    map: map
+                });
+
+                to_marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(res.latitude, res.longitude),
+                    map: map,
+                    title: res.name,
+                    icon: 'https://maps.google.com/mapfiles/marker_green.png'
+                });
+                infowindow.setContent(content());
+            });
+        }
+
+        if (aptname != to_select) {
+            to_select = aptname;
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+                to_airport = res;
+
+                $('#booking-details').show();
+                $('#booking-to_icao').append('<option value="' + aptname + '">' + aptname + ' - ' + res.name + '</option>').val(aptname).trigger('change');
+
+                to_line.setPath([
+                    new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                    new google.maps.LatLng(res.latitude, res.longitude)
+                ]);
+                to_line.setMap(map);
+                to_line.setMap(map);
+
+                to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
+                to_marker.setMap(map);
+                infowindow.setContent(content());
+            });
+        }
+
+
+        infowindow.setContent(content());
         infowindow.setPosition(event.feature.getGeometry().get());
         infowindow.open(map);
     });
+
+    var $eventSelect = $("#booking-to_icao");
+    $eventSelect.on("select2:select", function (e) {
+        var aptname = e.params.data.id;
+        if (to_select == '') {
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+
+                to_line = new google.maps.Polyline({
+                    path: [
+                        new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                        new google.maps.LatLng(res.latitude, res.longitude)
+                    ],
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    strokeColor: '#00acac',
+                    geodesic: true,
+                    map: map
+                });
+
+                to_marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(res.latitude, res.longitude),
+                    map: map,
+                    title: res.name,
+                    icon: 'https://maps.google.com/mapfiles/marker_green.png'
+                });
+            });
+        }
+
+        if (aptname != to_select) {
+            to_select = aptname;
+            $.get('/airline/airports/info/' + aptname, function (response) {
+                var res = JSON.parse(response);
+
+                $('#booking-details').show();
+                $('#booking-to_icao').append('<option value="' + aptname + '">' + aptname + ' - ' + res.name + '</option>').val(aptname).trigger('change');
+
+                to_line.setPath([
+                    new google.maps.LatLng(from_airport.latitude, from_airport.longitude),
+                    new google.maps.LatLng(res.latitude, res.longitude)
+                ]);
+                to_line.setMap(map);
+                to_line.setMap(map);
+
+                to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
+                to_marker.setMap(map);
+            });
+        }
+    });
+
+
+
     $('.sidebar-minify-btn').remove();
     $('#taxibtn').bind('click',function(){
         $('#taxiModal').modal('show');
