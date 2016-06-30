@@ -149,7 +149,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => new \yii\data\ActiveDataProvider([
                         'query' => $tour->getToursLegs()->orderBy(
                                 'leg_id asc'
-                            )
+                            ),
+                        'pagination' => [
+                            'pageSize' => 100,
+                        ],
                     ]),
                 'layout' => '{items}',
                 'tableOptions' => ['class' => 'table table-bordered table-condensed'],
