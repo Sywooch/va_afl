@@ -16,6 +16,7 @@ class AuthController extends Controller
     {
         return $this->render('index');
     }
+
     public function actionLogin($IVAOTOKEN = null)
     {
         if (!Yii::$app->user->isGuest) {
@@ -26,9 +27,9 @@ class AuthController extends Controller
             Yii::trace('1234');
             return $this->redirect(Yii::$app->params['ivao_login_url']);
         }
-        $model = New IvaoLogin();
+        $model = new IvaoLogin();
         if (!$model->login($IVAOTOKEN)) {
-            return $this->redirect('register', ['IVAOTOKEN' => $IVAOTOKEN]);
+            return $this->redirect('register/'.$IVAOTOKEN);
         }
         return 1;
     }
