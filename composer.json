@@ -26,8 +26,7 @@
         "2amigos/yii2-ckeditor-widget": "~1.0",
         "kartik-v/yii2-widget-datetimepicker": "*",
         "thiagotalma/yii2-fullcalendar" : "*",
-        "lajax/yii2-translate-manager": "1.*",
-        "errorstream/errorstream-yii2": "^1.1"
+        "lajax/yii2-translate-manager": "1.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

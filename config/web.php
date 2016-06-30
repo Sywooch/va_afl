@@ -11,12 +11,6 @@ $config = [
     'layout' => 'landing',
     'language' => 'en',
     'components' => [
-        'errorstream' => [
-            'class'             => 'ErrorStream\ErrorStreamClient\ErrorStreamClient',
-            'api_token'         => 'zP0FBGzU6lOMeJHE5GKC', //Put your api token here
-            'project_token'     => 'GjexfOukNiNUS7GzckLU', //Put your project token here
-            'active'            => true, //You might want to only activate this in production mode
-        ],
         'i18n' => [
             'translations' => [
                 '*' => [
@@ -43,7 +37,6 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
-            'class' => 'ErrorStream\ErrorStream\ErrorStreamErrorHandler',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

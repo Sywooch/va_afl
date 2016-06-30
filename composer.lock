@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a3fca02b0b755e093e4cdafcb45ecf77",
-    "content-hash": "2f1915515e88c4d3f8161f1da5ece723",
+    "hash": "05436153cfe4cb777372c19e2b6b2ab2",
+    "content-hash": "0c111805af4ceaf11ca5e1adc2b0f299",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -435,84 +435,6 @@
                 "markdown-extra"
             ],
             "time": "2015-03-06 05:28:07"
-        },
-        {
-            "name": "errorstream/errorstream-yii2",
-            "version": "1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/errorstreamapi/errorstream-yii2.git",
-                "reference": "34ac0d450a96fb6bc8aad430f52c97f6ecc2bb82"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/errorstreamapi/errorstream-yii2/zipball/34ac0d450a96fb6bc8aad430f52c97f6ecc2bb82",
-                "reference": "34ac0d450a96fb6bc8aad430f52c97f6ecc2bb82",
-                "shasum": ""
-            },
-            "require": {
-                "errorstream/errorstreamclient": "1.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ErrorStream\\ErrorStream\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "Yii 2 Package for ErrorStream.com integration",
-            "homepage": "https://www.errorstream.com",
-            "keywords": [
-                "errors",
-                "errorstream",
-                "logging",
-                "yii",
-                "yii2"
-            ],
-            "time": "2016-06-16 02:44:56"
-        },
-        {
-            "name": "errorstream/errorstreamclient",
-            "version": "1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/errorstreamapi/errorstreamclient.git",
-                "reference": "01b4e10a511e144ff596a9703075a7c544b88479"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/errorstreamapi/errorstreamclient/zipball/01b4e10a511e144ff596a9703075a7c544b88479",
-                "reference": "01b4e10a511e144ff596a9703075a7c544b88479",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "ext-curl": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ErrorStream\\ErrorStreamClient\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "PHP Client for ErrorStream.com",
-            "homepage": "https://www.errorstream.com",
-            "keywords": [
-                "errors",
-                "errorstream",
-                "log",
-                "logging"
-            ],
-            "time": "2016-06-21 15:03:01"
         },
         {
             "name": "ezyang/htmlpurifier",
