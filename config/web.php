@@ -112,6 +112,9 @@ $config = [
         'squadron' => [
             'class' => 'app\modules\squadron\Module',
         ],
+        'users' => [
+            'class' => 'app\modules\users\Module',
+        ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',
