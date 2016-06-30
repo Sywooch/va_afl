@@ -7,6 +7,7 @@
  */
 var to_select = '';
 var to_airport = '';
+var infowindow;
 
 function closedrilldown()
 {
@@ -28,6 +29,7 @@ function showhidebookingform(){
 function scheduleBook(callsign, aircraft){
     $('#booking-callsign').val(callsign);
     $('#booking-to_icao').append('<option value="' + to_airport.icao + '">' + to_airport.icao + ' - ' + to_airport.icao.name + '</option>').val(to_airport.icao).trigger('change');
+    infowindow.close();
 }
 
 function smartbooking(icao)
@@ -66,7 +68,7 @@ setTimeout(function () {
         };
     });
 
-    var infowindow = new google.maps.InfoWindow();
+    infowindow = new google.maps.InfoWindow();
 
     var from_airport = '';
     $.get('/pilot/location', function (response) {
@@ -85,6 +87,24 @@ setTimeout(function () {
     map.data.addListener('click', function(event) {
         var paxlist=event.feature.getProperty('paxlist');
         var aptname=event.feature.getProperty('name');
+
+        function content(){
+            closedrilldown();
+
+            return '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h3 id="firstHeading" class="text-center firstHeading">'+to_airport.icao+'</h3>'+
+                '<h4 id="firstHeading" class="text-center firstHeading">' + to_airport.name + '</h4>' +
+                '<hr>' +
+                '<div id="bodyContent" style="cursor: pointer;" onclick="showDrillDownContent(\'' + aptname + '\', \'' + from_airport.icao + '\')">' +
+                '<b>' + from_airport.icao + ' ‒ 	' + to_airport.icao + '</b> ' +
+                '<i class="fa fa-user" style="color: green"></i> <b>' + ((paxlist[0]) ? paxlist[0] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: orange"></i> <b>' + ((paxlist[1]) ? paxlist[1] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: red"></i> <b>' + ((paxlist[2]) ? paxlist[2] : 0) + '</b> ' +
+                '</div>' +
+                '</div>';
+        }
 
         if (to_select == '') {
             $.get('/airline/airports/info/' + aptname, function (response) {
@@ -109,6 +129,7 @@ setTimeout(function () {
                     title: res.name,
                     icon: 'https://maps.google.com/mapfiles/marker_green.png'
                 });
+                infowindow.setContent(content());
             });
         }
 
@@ -130,21 +151,12 @@ setTimeout(function () {
 
                 to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
                 to_marker.setMap(map);
+                infowindow.setContent(content());
             });
         }
 
-        var contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h4 id="firstHeading" class="firstHeading">'+aptname+'</h4>'+
-            event.feature.getProperty('bookthis')+
-            '<div id="bodyContent">' +
-            '<i class="fa fa-user" style="color: green"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\'' + aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[0])?paxlist[0]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: orange"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[1])?paxlist[1]:0) + '</b><br>' +
-            '<i class="fa fa-user" style="color: red"></i> <b style="cursor: pointer;" onclick="showDrillDownContent(\''+aptname+'\', \'' + from_airport.icao + '\')">'+ ((paxlist[2])?paxlist[2]:0) + '</b><br>' +
-            '</div>'+
-            '</div>';
-        infowindow.setContent(contentString);
+
+        infowindow.setContent(content());
         infowindow.setPosition(event.feature.getGeometry().get());
         infowindow.open(map);
     });
