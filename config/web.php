@@ -49,11 +49,10 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'ErrorStream\ErrorStream\ErrorStreamLogger',
-                    'levels' => ['error', 'warning'], //Only send errors and warnings.
-                    'logVars' => [], //Necessary so you don't submit every request to our server.
-                ],
-            ],
+                    'class' => 'yii\log\FileTarget',
+                    'levels' => ['error', 'warning'],
+                ]
+            ]
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
