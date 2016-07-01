@@ -5,7 +5,7 @@ namespace app\modules\users\controllers;
 use app\models\IvaoLogin;
 use yii\web\Controller;
 use app\models\Users;
-use Yii;
+use yii;
 
 /**
  * Default controller for the `users` module
@@ -28,8 +28,8 @@ class AuthController extends Controller
         }
         $model = new IvaoLogin();
         if (!$model->login($IVAOTOKEN)) {
-            return $this->redirect('register/'.$IVAOTOKEN);
+            return $this->redirect('register/' . $IVAOTOKEN);
         }
-        $this->goHome();
+        return $this->goHome();
     }
 }
