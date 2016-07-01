@@ -73,11 +73,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $user->language = $data->language;
         self::setChangeableData($data, $user);
         
-        $pilot = new UserPilot();
+        /*$pilot = new UserPilot();
         $pilot->user_id = $data->vid;
         $pilot->status = 0;
         $pilot->location = 'UUEE';
-        $pilot->save();
+        $pilot->save();*/
     }
     
     /*public static function findByUsername($model)

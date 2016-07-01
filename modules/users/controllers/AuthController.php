@@ -27,8 +27,8 @@ class AuthController extends Controller
             return $this->redirect(Yii::$app->params['ivao_login_url']);
         }
         $model = new IvaoLogin();
-        if (!$model->login($IVAOTOKEN)) {
-            return $this->redirect('registration?IVAOTOKEN' . $IVAOTOKEN);
+        if ($model->login($IVAOTOKEN) == false) {
+            return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
         }
         return $this->goHome();
     }
@@ -38,7 +38,7 @@ class AuthController extends Controller
         if (Yii::$app->request->isPost) {
             $ivaologin = new IvaoLogin();
             $ivaologin->register(Yii::$app->request->post(), $IVAOTOKEN);
-            return $this->redirect('login?IVAOTOKEN' . $IVAOTOKEN);
+            return $this->redirect('login?IVAOTOKEN=' . $IVAOTOKEN);
         } else {
             return $this->render('registration',
                 [

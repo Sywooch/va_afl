@@ -63,13 +63,14 @@ class IvaoLogin extends Model
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
         $user = $this->getUser();
-        if ($user == NULL) {
+        if ($user->vid == null) {
+            Yii::trace('123');
             return false;
         }
-        User::setChangeableData($this, $user);
+        User::setChangeableData($this, Users::findOne(['vid' => $user->vid]));
         return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
-    
+
     public function register($post, $token)
     {
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
@@ -78,7 +79,7 @@ class IvaoLogin extends Model
         $this->load($data, '');
         User::setMainData($this);
     }
-    
+
 
     public function getUser()
     {
