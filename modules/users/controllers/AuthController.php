@@ -4,7 +4,7 @@ namespace app\modules\users\controllers;
 
 use app\models\IvaoLogin;
 use yii\web\Controller;
-use app\models\Users;
+use app\models\User;
 use yii;
 
 /**
@@ -28,8 +28,22 @@ class AuthController extends Controller
         }
         $model = new IvaoLogin();
         if (!$model->login($IVAOTOKEN)) {
-            return $this->redirect('register/' . $IVAOTOKEN);
+            return $this->redirect('registration?IVAOTOKEN' . $IVAOTOKEN);
         }
         return $this->goHome();
+    }
+
+    public function actionRegistration($IVAOTOKEN)
+    {
+        if (Yii::$app->request->isPost) {
+            $ivaologin = new IvaoLogin();
+            $ivaologin->register(Yii::$app->request->post(), $IVAOTOKEN);
+            return $this->redirect('login?IVAOTOKEN' . $IVAOTOKEN);
+        } else {
+            return $this->render('registration',
+                [
+                    'IVAOTOKEN' => $IVAOTOKEN
+                ]);
+        }
     }
 }

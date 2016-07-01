@@ -23,6 +23,8 @@ class IvaoLogin extends Model
     public $username;
     public $country;
     public $result;
+    public $email;
+    public $language;
     public $rememberMe = true;
 
     public function rules()
@@ -60,12 +62,23 @@ class IvaoLogin extends Model
     {
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
-        if ($this->getUser() == NULL) {
+        $user = $this->getUser();
+        if ($user == NULL) {
             return false;
         }
-        return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-
+        User::setChangeableData($this, $user);
+        return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
+    
+    public function register($post, $token)
+    {
+        $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
+        $data['email'] = $post['email'];
+        $data['language'] = $post['language'];
+        $this->load($data, '');
+        User::setMainData($this);
+    }
+    
 
     public function getUser()
     {
