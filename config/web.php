@@ -46,12 +46,16 @@ $config = [
             ],
         ],
         'log' => [
+            //'traceLevel' => 0,
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ]
+                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logVars' => [],
+                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
+                    'site' => 'dev',
+                ],
             ]
         ],
         'db' => require(__DIR__ . '/db.php'),
