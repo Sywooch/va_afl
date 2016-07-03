@@ -26,8 +26,8 @@ AppAsset::register($this);
     <link href="/css/animate.min.css" rel="stylesheet"/>
     <link href="/css/style.min.css" rel="stylesheet"/>
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
-    <link href="/css/theme/default.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet"/>
+    <link href="/css/theme/default.css" rel="stylesheet">
     <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->
 
@@ -37,7 +37,6 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
-<?= $this->render('//layouts/_preloader') ?>
 
 <div id="page-container" class="fade in">
     <!-- begin register -->
@@ -45,7 +44,7 @@ AppAsset::register($this);
         <!-- begin news-feed -->
         <div class="news-feed">
             <div class="news-image">
-                <img src="assets/img/login-bg/bg-8.jpg" alt="">
+                <img src="/img/login-bg/bg-8.jpg" alt="">
             </div>
             <div class="news-caption">
                 <h4 class="caption-title"><i class="fa fa-edit text-success"></i> Announcing the Color Admin app</h4>
