@@ -44,6 +44,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'constructArgs' => ['localhost', 25],
             ],
+            'enableSwiftMailerLogging' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -51,7 +52,11 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                ]
+                ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'categories' => ['yii\swiftmailer\Logger::add'],
+                ],
             ]
         ],
         'db' => require(__DIR__ . '/db.php'),

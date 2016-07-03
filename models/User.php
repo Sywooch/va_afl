@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Security;
 use yii\web\Controller;
+use yii;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
@@ -21,6 +22,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $email;
     public $last_visited;
     public $authKey;
+    public $email_token;
     public $full_name;
     public $country;
     public $blocked;
@@ -72,13 +74,21 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $user->country = $data->country;
         $user->email = $post['email'];
         $user->language = $post['language'];
+        $token = Yii::$app->security->generateRandomString();
+        $user->email_token = $token;
         self::setChangeableData($data, $user);
         
-        /*$pilot = new UserPilot();
+        Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
+            ->setFrom('noreply@va-transaero.ru')
+            ->setTo($user->email)
+            ->setSubject('Потверждение учетной записи')
+            ->send();
+        
+        $pilot = new UserPilot();
         $pilot->user_id = $data->vid;
         $pilot->status = 0;
         $pilot->location = 'UUEE';
-        $pilot->save();*/
+        $pilot->save();
     }
     
     /*public static function findByUsername($model)
