@@ -62,7 +62,6 @@ class IvaoLogin extends Model
         $this->load($data, '');
         $user = $this->getUser();
         if ($user->vid == null) {
-            Yii::trace('123');
             return false;
         }
         User::setChangeableData($this, Users::findOne(['vid' => $user->vid]));
