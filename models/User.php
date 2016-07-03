@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Security;
 use yii\web\Controller;
+use yii;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
@@ -21,6 +22,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $email;
     public $last_visited;
     public $authKey;
+    public $email_token;
     public $full_name;
     public $country;
     public $blocked;
@@ -48,12 +50,48 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     }
 
     /**
-     * Finds user by username
-     *
-     * @param  string $username
-     * @return static|null
+     * @param IvaoLogin $data из IVAO API
+     * @param Users $user из текущей модели
      */
-    public static function findByUsername($model)
+    public static function setChangeableData($data, $user)
+    {
+        $sec = new Security();
+        $user->full_name = $data->username;
+        $user->skype = $data->skype;
+        $user->ratingatc = $data->ratingatc;
+        $user->ratingpilot = $data->ratingpilot;
+        $user->division = $data->division;
+        $user->authKey = $sec->generateRandomString(32);
+        $user->last_visited = date('Y-m-d H:i:s');
+        $user->save();
+    }
+
+    public static function setMainData($data, $post)
+    {
+        $user = new Users();
+        $user->vid = $data->vid;
+        $user->created_date = date('Y-m-d H:i:s');
+        $user->country = $data->country;
+        $user->email = $post['email'];
+        $user->language = $post['language'];
+        $token = Yii::$app->security->generateRandomString();
+        $user->email_token = $token;
+        self::setChangeableData($data, $user);
+        
+        Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
+            ->setFrom('noreply@va-transaero.ru')
+            ->setTo($user->email)
+            ->setSubject('Потверждение учетной записи')
+            ->send();
+        
+        $pilot = new UserPilot();
+        $pilot->user_id = $data->vid;
+        $pilot->status = 0;
+        $pilot->location = 'UUEE';
+        $pilot->save();
+    }
+    
+    /*public static function findByUsername($model)
     {
         $needrelation = false;
         $sec = new Security();
@@ -63,17 +101,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             $user->full_name = $model->username;
             $user->created_date = date('Y-m-d H:i:s');
             $user->country = $model->country;
-            $user->language = (in_array($model->country, ['RU', 'UA'])) ? 'RU' : 'EN';
+            $user->language = (in_array($model->country, ['RU'])) ? 'RU' : 'EN';
             $needrelation = true;
         }
-        $user->full_name = $model->username;
-        $user->skype = $model->skype;
-        $user->ratingatc = $model->ratingatc;
-        $user->ratingpilot = $model->ratingpilot;
-        $user->division = $model->division;
-        $user->authKey = $sec->generateRandomString(32);
-        $user->last_visited = date('Y-m-d H:i:s');
-        $user->save();
+
         if($needrelation)
         {
             $pilot = new UserPilot();
@@ -96,10 +127,10 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             {
                 VarDumper::dump($forummember->errors,10,true);
             }
-        }*/
+        }
 
         return new static($user);
-    }
+    }*/
 
     /**
      * @inheritdoc

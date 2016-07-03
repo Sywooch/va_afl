@@ -70,7 +70,7 @@ class Users extends \yii\db\ActiveRecord
             [['authKey'], 'string'],
             [['created_date', 'last_visited', 'language'], 'safe'],
             [['full_name', 'email'], 'string', 'max' => 200],
-            [['stream'], 'string', 'max' => 255],
+            [['stream', 'email_token'], 'string', 'max' => 255],
             [['country', 'language'], 'string', 'max' => 2],
             [['avatar'], 'safe'],
         ];
