@@ -64,13 +64,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $user->save();
     }
 
-    public static function setMainData($data)
+    public static function setMainData($data, $post)
     {
         $user = new Users();
         $user->vid = $data->vid;
         $user->created_date = date('Y-m-d H:i:s');
         $user->country = $data->country;
-        $user->language = $data->language;
+        $user->email = $post['email'];
+        $user->language = $post['language'];
         self::setChangeableData($data, $user);
         
         /*$pilot = new UserPilot();

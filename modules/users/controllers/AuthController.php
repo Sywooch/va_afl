@@ -37,7 +37,7 @@ class AuthController extends Controller
     {
         if (Yii::$app->request->isPost) {
             $ivaologin = new IvaoLogin();
-            $ivaologin->register(Yii::$app->request->post(), $IVAOTOKEN);
+            $ivaologin->register($_POST, $IVAOTOKEN);
             return $this->redirect('login?IVAOTOKEN=' . $IVAOTOKEN);
         } else {
             return $this->render('registration',
