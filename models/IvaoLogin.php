@@ -7,7 +7,7 @@
  */
 namespace app\models;
 
-use Yii;
+use yii;
 use yii\base\Model;
 
 class IvaoLogin extends Model
@@ -25,11 +25,25 @@ class IvaoLogin extends Model
     public $result;
     public $rememberMe = true;
 
-	public function rules()
-	{
-		return [
-			[['vid', 'firstname', 'lastname', 'rating', 'skype', 'ratingatc', 'ratingpilot', 'division', 'result', 'country'], 'required'],
-			['rememberMe', 'boolean'],
+    public function rules()
+    {
+        return [
+            [
+                [
+                    'vid',
+                    'firstname',
+                    'lastname',
+                    'rating',
+                    'skype',
+                    'ratingatc',
+                    'ratingpilot',
+                    'division',
+                    'result',
+                    'country'
+                ],
+                'required'
+            ],
+            ['rememberMe', 'boolean'],
 
         ];
     }
@@ -46,11 +60,25 @@ class IvaoLogin extends Model
     {
         $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
-        return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        $user = $this->getUser();
+        if ($user->vid == null) {
+            return false;
+        }
+        User::setChangeableData($this, Users::findOne(['vid' => $user->vid]));
+        return Yii::$app->user->login($user, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
+
+    public function register($post, $token)
+    {
+        $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
+        $this->load($data, '');
+        User::setMainData($this, $post);
+    }
+
 
     public function getUser()
     {
-        return User::findByUsername($this);
+        //return User::findByUsername($this);
+        return User::findIdentity($this->vid);
     }
 }

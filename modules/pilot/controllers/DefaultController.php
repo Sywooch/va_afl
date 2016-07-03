@@ -247,7 +247,7 @@ class DefaultController extends Controller
             {
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
                 $token = Yii::$app->security->generateRandomString();
-                $pilot->email_token = $token;
+                $user->email_token = $token;
                 Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
                     ->setFrom('noreply@va-transaero.ru')
                     ->setTo($user->email)
