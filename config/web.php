@@ -55,6 +55,7 @@ $config = [
                     'logVars' => [],
                     'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
                     'site' => 'dev',
+                    'user_id' => 'vid'
                 ],
                 [
                     'class' => 'yii\log\FileTarget',

@@ -833,12 +833,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nfedoseev/yii2-external-target.git",
-                "reference": "b7e7116b2a38b4cf4f1d9a649a2dd74633d598b3"
+                "reference": "452a6bc8a2da01d01fe309b7b0ff5b4008d48629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nfedoseev/yii2-external-target/zipball/b7e7116b2a38b4cf4f1d9a649a2dd74633d598b3",
-                "reference": "b7e7116b2a38b4cf4f1d9a649a2dd74633d598b3",
+                "url": "https://api.github.com/repos/nfedoseev/yii2-external-target/zipball/452a6bc8a2da01d01fe309b7b0ff5b4008d48629",
+                "reference": "452a6bc8a2da01d01fe309b7b0ff5b4008d48629",
                 "shasum": ""
             },
             "require": {
@@ -848,7 +848,7 @@
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
-                    "nfedoseev\\yii2\\ExternalTarget\\": "src/"
+                    "nfedoseev\\yii2\\ExternalTarget\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -862,16 +862,17 @@
                     "homepage": "https://github.com/nfedoseev"
                 }
             ],
-            "description": "Yii 2 External Targets for logs",
+            "description": "External logs target for the Yii framework",
             "homepage": "https://github.com/nfedoseev/yii2-external-target",
             "keywords": [
                 "errors",
                 "log",
                 "log target",
+                "logger",
                 "yii",
                 "yii2"
             ],
-            "time": "2016-07-02 17:40:08"
+            "time": "2016-07-03 21:23:34"
         },
         {
             "name": "swiftmailer/swiftmailer",
