@@ -53,9 +53,10 @@ $config = [
                     'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
                     'levels' => ['error', 'warning', 'info'],
                     'logVars' => [],
-                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
+                    'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
                     'site' => 'dev',
-                    'user_id' => 'vid'
+                    'user_id' => 'vid',
+                    'ignore_statuses' => [200]
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
