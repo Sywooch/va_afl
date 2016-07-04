@@ -66,14 +66,6 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'categories' => ['yii\swiftmailer\Logger::add'],
                 ],
-                [
-
-                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
-                    'levels' => ['error', 'warning', 'info'],
-                    'logVars' => [],
-                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
-                    'site' => 'dev',
-                ],
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
