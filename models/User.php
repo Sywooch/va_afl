@@ -83,7 +83,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         
         $pilot = new UserPilot();
         $pilot->user_id = $data->vid;
-        $pilot->status = 0;
+        $pilot->status = UserPilot::STATUS_PENDING;
         $pilot->location = 'UUEE';
         $pilot->save();
 
