@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\EmailSender;
 use yii\base\Security;
 use yii\web\Controller;
 use yii;
@@ -78,17 +79,17 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $user->email_token = $token;
         self::setChangeableData($data, $user);
         
-        Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
-            ->setFrom('noreply@va-aeroflot.su')
-            ->setTo($user->email)
-            ->setSubject('Потверждение учетной записи')
-            ->send();
+        EmailSender::sendConfirmationMail($user, $token);
         
         $pilot = new UserPilot();
         $pilot->user_id = $data->vid;
         $pilot->status = 0;
         $pilot->location = 'UUEE';
         $pilot->save();
+
+        $billing_balance = new BillingUserBalance();
+        $billing_balance->vid = $data->vid;
+        $billing_balance->balance = 0; //TODO: поменять на старотовый баланс
     }
     
     /*public static function findByUsername($model)
