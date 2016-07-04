@@ -50,12 +50,25 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
+                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logVars' => [],
+                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
+                    'site' => 'dev',
+                ],
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
                 [
                     'class' => 'yii\log\FileTarget',
                     'categories' => ['yii\swiftmailer\Logger::add'],
+                ],
+                [
+                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
+                    'levels' => ['error', 'warning', 'info'],
+                    'logVars' => [],
+                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
+                    'site' => 'dev',
                 ],
             ]
         ],
@@ -66,9 +79,6 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
-                '<module:users>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:users>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                '<module:users>/<controller:\w+>' => '<module>/<controller>/index',
                 '<module:screens>/<action:(view|create|user|top|delete)>' => '<module>/default/<action>',
                 '<module:screens>/<action:(view|create|user|top|delete)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:screens>' => '<module>/default/index',
@@ -99,10 +109,9 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
             ]
-        ],
-        'authManager' => [
+     ],
+    'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
-        ]
     ],
     'modules' => [
         'pilot' => [
