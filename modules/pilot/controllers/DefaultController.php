@@ -2,6 +2,7 @@
 
 namespace app\modules\pilot\controllers;
 
+use app\components\EmailSender;
 use app\components\Levels;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
@@ -248,11 +249,7 @@ class DefaultController extends Controller
                 $pilot = UserPilot::find()->where(['user_id' => $user->vid])->one();
                 $token = Yii::$app->security->generateRandomString();
                 $user->email_token = $token;
-                Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
-                    ->setFrom('noreply@va-transaero.ru')
-                    ->setTo($user->email)
-                    ->setSubject('Потверждение учетной записи')
-                    ->send();
+                EmailSender::sendConfirmationMail($user, $token);
 
                 $pilot->status = UserPilot::STATUS_PENDING;
                 $pilot->save();
