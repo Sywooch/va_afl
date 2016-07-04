@@ -53,9 +53,12 @@ $config = [
                     'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
                     'levels' => ['error', 'warning', 'info'],
                     'logVars' => [],
-                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
+                    'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
                     'site' => 'dev',
+                    'user_id' => 'vid',
+                    'ignore_statuses' => [200]
                 ],
+                [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
@@ -63,14 +66,7 @@ $config = [
                     'class' => 'yii\log\FileTarget',
                     'categories' => ['yii\swiftmailer\Logger::add'],
                 ],
-                [
-                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
-                    'levels' => ['error', 'warning', 'info'],
-                    'logVars' => [],
-                    'baseUrl' => 'http://devops.va-aeroflot.su/index.php?r=log',
-                    'site' => 'dev',
-                ],
-            ]
+            ],
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => [
@@ -79,6 +75,9 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
+                '<module:users>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:users>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:users>/<controller:\w+>' => '<module>/<controller>/index',
                 '<module:screens>/<action:(view|create|user|top|delete)>' => '<module>/default/<action>',
                 '<module:screens>/<action:(view|create|user|top|delete)>/<id:\w+>' => '<module>/default/<action>',
                 '<module:screens>' => '<module>/default/index',
@@ -109,9 +108,10 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
             ]
-     ],
-    'authManager' => [
+        ],
+        'authManager' => [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ],
     ],
     'modules' => [
         'pilot' => [
@@ -143,7 +143,7 @@ $config = [
                     'usernameField' => 'full_name', // username field of your User model
                 ],
             ],
-        ],
+            ],
         'content' => [
             'class' => 'app\modules\content\Module',
         ],
@@ -187,39 +187,39 @@ $config = [
             // the default selection of languages to export, set to 0 to select all languages by default
             'defaultExportFormat' => 'json',
             // the default format for export, can be 'json' or 'xml'
-            'tables' => [                   // Properties of individual tables
+            'tables' => [ // Properties of individual tables
                 [
-                    'connection' => 'db',   // connection identifier
-                    'table' => '{{%language}}',         // table name
-                    'columns' => ['name', 'name_ascii'],// names of multilingual fields
-                    'category' => 'database-table-name',// the category is the database table name
+                    'connection' => 'db', // connection identifier
+                    'table' => '{{%language}}', // table name
+                    'columns' => ['name', 'name_ascii'], // names of multilingual fields
+                    'category' => 'database-table-name', // the category is the database table name
                 ]
             ]
         ],
     ],
     'params' => $params,
     'on beforeAction' => function ($event) {
-        if (!Yii::$app->user->isGuest) {
-            if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
-                throw new \yii\web\HttpException(401, 'Not allowed');
+            if (!Yii::$app->user->isGuest) {
+                if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
+                    throw new \yii\web\HttpException(401, 'Not allowed');
+                }
+                Yii::$app->layout = 'main';
             }
-            Yii::$app->layout = 'main';
-        }
-        if (Yii::$app->user->isGuest) {
-            /*if ((Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site')
-                || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index')
-                && (Yii::$app->controller->id != 'auth')) {
-                Yii::$app->getResponse()->redirect('/site/index');
-            }*/
-        }
-        if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
-            \app\models\User::checkEmail();
-            $user = \app\models\Users::getAuthUser();
-            $user->last_visited = date('Y-m-d H:i:s');
-            $user->save();
-        }
-        \app\models\User::setLanguage();
-    },
+            if (Yii::$app->user->isGuest) {
+                /*if ((Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site')
+                    || (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'index')
+                    && (Yii::$app->controller->id != 'auth')) {
+                    Yii::$app->getResponse()->redirect('/site/index');
+                }*/
+            }
+            if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
+                \app\models\User::checkEmail();
+                $user = \app\models\Users::getAuthUser();
+                $user->last_visited = date('Y-m-d H:i:s');
+                $user->save();
+            }
+            \app\models\User::setLanguage();
+        },
 ];
 
 if (YII_ENV_DEV) {
