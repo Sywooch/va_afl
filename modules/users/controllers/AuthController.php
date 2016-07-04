@@ -5,6 +5,8 @@ namespace app\modules\users\controllers;
 use app\models\IvaoLogin;
 use yii\web\Controller;
 use app\models\User;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii;
 
 /**
@@ -12,6 +14,29 @@ use yii;
  */
 class AuthController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['logout'],
+                'rules' => [
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -46,5 +71,11 @@ class AuthController extends Controller
                     'IVAOTOKEN' => $IVAOTOKEN
                 ]);
         }
+    }
+
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->goHome();
     }
 }
