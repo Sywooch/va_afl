@@ -4,9 +4,12 @@ namespace app\modules\users\controllers;
 
 use app\models\IvaoLogin;
 use yii\web\Controller;
-use app\models\User;
+use app\models\EmailConfirm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use yii\web\HttpException;
 use yii;
 
 /**
@@ -77,5 +80,20 @@ class AuthController extends Controller
     {
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionConfirmtoken($id)
+    {
+        try {
+            $model = new EmailConfirm($id);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if($model->confirmEmail()) {
+            $this->goHome();
+        } else {
+            throw new HttpException('500');
+        }
     }
 }

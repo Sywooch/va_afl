@@ -110,6 +110,15 @@ class Users extends \yii\db\ActiveRecord
         return \app\models\User::findIdentity($id);
     }
 
+    /**
+     * @param string $email_confirm_token
+     * @return static|null
+     */
+    public static function findByEmailToken($email_token)
+    {
+        return static::findOne(['email_token' => $email_token]);
+    }
+
     public static function getAuthUser()
     {
         return self::find()->andWhere(['vid' => Yii::$app->user->id])->one();
@@ -136,4 +145,6 @@ class Users extends \yii\db\ActiveRecord
     public static function active(){
         return self::find()->joinWith('pilot')->where(['user_pilot.status' => 1])->all();
     }
+
+
 }

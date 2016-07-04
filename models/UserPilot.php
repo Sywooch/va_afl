@@ -42,7 +42,7 @@ class UserPilot extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'status', 'minutes', 'vk_id'], 'integer'],
-            [['staff_comments', 'email_token', 'stream_link', 'user_comments', 'staff_comments'], 'string'],
+            [['staff_comments', 'stream_link', 'user_comments', 'staff_comments'], 'string'],
             [['location'], 'string', 'max' => 4],
             [['avatar'], 'safe'],
         ];
@@ -161,14 +161,5 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getProgress(){
         return Levels::getProgress($this->experience, $this->level);
-    }
-
-    /**
-     * @param string $email_confirm_token
-     * @return static|null
-     */
-    public static function findByEmailToken($email_confirm_token)
-    {
-        return static::findOne(['email_token' => $email_confirm_token, 'status' => self::STATUS_PENDING]);
     }
 }

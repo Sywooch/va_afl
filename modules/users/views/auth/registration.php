@@ -17,7 +17,7 @@ use yii\helpers\BaseHtml;?>
                 <input required type="text" name="email" class="form-control" placeholder="Email address">
             </div>
             <div class="col-md-6 m-b-15">
-                <input type="text" name="language" class="form-control" disabled="disabled" placeholder="Language">
+                <input type="text" name="language" class="form-control" placeholder="Language" value="EN">
             </div>
         </div>
         <div class="register-buttons">

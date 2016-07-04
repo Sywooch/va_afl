@@ -3,7 +3,7 @@ namespace app\models;
 
 use yii\base\InvalidParamException;
 use yii\base\Model;
-use Yii;
+use yii;
 
 class EmailConfirm extends Model
 {
@@ -24,7 +24,7 @@ class EmailConfirm extends Model
         if (empty($token) || !is_string($token)) {
             throw new InvalidParamException('No token given');
         }
-        $this->_user = UserPilot::findByEmailToken($token);
+        $this->_user = Users::findByEmailToken($token);
         if (!$this->_user) {
             throw new InvalidParamException('Invalid token');
         }
@@ -39,9 +39,8 @@ class EmailConfirm extends Model
     public function confirmEmail()
     {
         $user = $this->_user;
-        $user->status = UserPilot::STATUS_ACTIVE;
+        $user->pilot->status = UserPilot::STATUS_ACTIVE;
         $user->email_token = null;
-
         return $user->save();
     }
 }
