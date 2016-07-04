@@ -14,7 +14,7 @@ use yii\helpers\BaseHtml;?>
         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
         <div class="row row-space-10">
             <div class="col-md-6 m-b-15">
-                <input type="text" name="email" class="form-control" placeholder="Email address">
+                <input required type="text" name="email" class="form-control" placeholder="Email address">
             </div>
             <div class="col-md-6 m-b-15">
                 <input type="text" name="language" class="form-control" disabled="disabled" placeholder="Language">
