@@ -211,7 +211,7 @@ $config = [
                 }
             }
             if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
-                \app\models\User::checkEmail();
+                //\app\models\User::checkEmail();
                 $user = \app\models\Users::getAuthUser();
                 $user->last_visited = date('Y-m-d H:i:s');
                 $user->save();

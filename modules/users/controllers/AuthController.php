@@ -3,6 +3,8 @@
 namespace app\modules\users\controllers;
 
 use app\models\IvaoLogin;
+use app\models\UserPilot;
+use app\models\Users;
 use yii\web\Controller;
 use app\models\EmailConfirm;
 use yii\filters\AccessControl;
@@ -58,7 +60,11 @@ class AuthController extends Controller
         if ($model->login($IVAOTOKEN) == false) {
             return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
         }
-        return $this->goHome();
+        if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
+            return 1;
+        } else {
+            return $this->goHome();
+        }
     }
 
     public function actionRegistration($IVAOTOKEN)
@@ -90,7 +96,7 @@ class AuthController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if($model->confirmEmail()) {
+        if ($model->confirmEmail()) {
             $this->goHome();
         } else {
             throw new HttpException('500');

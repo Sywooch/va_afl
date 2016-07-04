@@ -153,6 +153,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return UserPilot::find()->where(['user_id' => $this->vid])->one()->avatar;
     }
 
+    public function getStatus(){
+        return UserPilot::find()->where(['user_id' => $this->vid])->one()->status;
+    }
+
+
     /**
      * @inheritdoc
      */
