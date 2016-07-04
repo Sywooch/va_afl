@@ -79,7 +79,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         self::setChangeableData($data, $user);
         
         Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
-            ->setFrom('noreply@va-transaero.ru')
+            ->setFrom('noreply@va-aeroflot.su')
             ->setTo($user->email)
             ->setSubject('Потверждение учетной записи')
             ->send();

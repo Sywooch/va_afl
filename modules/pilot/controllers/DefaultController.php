@@ -249,7 +249,7 @@ class DefaultController extends Controller
                 $token = Yii::$app->security->generateRandomString();
                 $user->email_token = $token;
                 Yii::$app->mailer->compose('emailConfirm.php', ['user' => $user, 'token' => $token])
-                    ->setFrom('noreply@va-transaero.ru')
+                    ->setFrom('noreply@va-aeroflot.su')
                     ->setTo($user->email)
                     ->setSubject('Потверждение учетной записи')
                     ->send();

@@ -40,6 +40,7 @@ class AuthController extends Controller
             $ivaologin->register($_POST, $IVAOTOKEN);
             return $this->redirect('login?IVAOTOKEN=' . $IVAOTOKEN);
         } else {
+            $this->layout = '/registration';
             return $this->render('registration',
                 [
                     'IVAOTOKEN' => $IVAOTOKEN
