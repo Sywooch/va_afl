@@ -3,7 +3,7 @@ namespace app\models;
 
 use yii\base\InvalidParamException;
 use yii\base\Model;
-use yii;
+use Yii;
 
 class EmailConfirm extends Model
 {
