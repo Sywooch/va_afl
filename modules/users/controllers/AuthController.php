@@ -7,6 +7,7 @@ use app\models\UserPilot;
 use app\models\Users;
 use yii\web\Controller;
 use app\models\EmailConfirm;
+use app\components\EmailSender;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\base\InvalidParamException;
@@ -61,7 +62,7 @@ class AuthController extends Controller
             return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
         }
         if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
-            return 1;
+            return $this->redirect('confirmemail');
         } else {
             return $this->goHome();
         }
@@ -101,5 +102,22 @@ class AuthController extends Controller
         } else {
             throw new HttpException('500');
         }
+    }
+
+    public function actionConfirmemail()
+    {
+        if (Yii::$app->request->isPost) {
+            $user = Users::getAuthUser();
+            if (isset($_POST['email']))
+            {
+                $user->email = $_POST['email'];
+                $user->save();
+            }
+            $token = Yii::$app->security->generateRandomString();
+            $user->email_token = $token;
+            EmailSender::sendConfirmationMail($user, $token);
+        }
+        $this->layout = '/registration';
+        return $this->render('confirm_email');
     }
 }

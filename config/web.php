@@ -210,8 +210,8 @@ $config = [
                     Yii::$app->getResponse()->redirect('/site/index');
                 }
             }
-            if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['edit', 'toolbar', 'getservertime'])) {
-                //\app\models\User::checkEmail();
+            if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['confirmemail', 'toolbar', 'getservertime'])) {
+                \app\models\User::checkStatus();
                 $user = \app\models\Users::getAuthUser();
                 $user->last_visited = date('Y-m-d H:i:s');
                 $user->save();

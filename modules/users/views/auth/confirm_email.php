@@ -10,14 +10,11 @@ use yii\helpers\BaseHtml;?>
 <div class="register-content">
 
     <form action="<?= Yii::$app->request->url ?>" method="POST" class="margin-bottom-0">
-        <label class="control-label">Email and lanuage</label>
+        <label class="control-label">Email</label>
         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
         <div class="row row-space-10">
             <div class="col-md-6 m-b-15">
                 <input required type="text" name="email" class="form-control" placeholder="Email address">
-            </div>
-            <div class="col-md-6 m-b-15">
-                <input type="text" name="language" class="form-control" placeholder="Language" value="EN">
             </div>
         </div>
         <div class="register-buttons">

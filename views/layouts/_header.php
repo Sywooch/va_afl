@@ -59,7 +59,7 @@ use app\models\Users;
                                 ) ?></a></li>
                         <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
                         <li class="divider"></li>
-                        <li><a data-method="post" href="/site/logout"><?= Yii::t('app', 'Log out') ?></a></li>
+                        <li><a data-method="post" href="/users/auth/logout"><?= Yii::t('app', 'Log out') ?></a></li>
                     </ul>
                 </li>
             <?php else: ?>
