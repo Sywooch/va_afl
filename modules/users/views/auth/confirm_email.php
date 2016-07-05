@@ -18,7 +18,7 @@ use yii\helpers\BaseHtml; ?>
             </div>
         </div>
         <div class="register-buttons">
-            <button type="submit" class="btn btn-primary btn-block btn-lg">Sign Up</button>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Update email or send a new message</button>
             <a class="btn btn-primary btn-block btn-lg" data-method="post" href="/users/auth/logout"><?= Yii::t('app',
                     'Go back') ?></a>
         </div>
