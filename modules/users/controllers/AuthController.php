@@ -96,6 +96,7 @@ class AuthController extends Controller
         } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
+        Yii::trace('12345');
 
         if ($model->confirmEmail()) {
             $this->goHome();
@@ -111,10 +112,10 @@ class AuthController extends Controller
             if (isset($_POST['email']))
             {
                 $user->email = $_POST['email'];
-                $user->save();
             }
             $token = Yii::$app->security->generateRandomString();
             $user->email_token = $token;
+            $user->save();
             EmailSender::sendConfirmationMail($user, $token);
         }
         $this->layout = '/registration';

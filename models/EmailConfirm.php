@@ -39,8 +39,10 @@ class EmailConfirm extends Model
     public function confirmEmail()
     {
         $user = $this->_user;
-        $user->pilot->status = UserPilot::STATUS_ACTIVE;
+        $pilot = UserPilot::findOne(['user_id' => $user->vid]);
+        $pilot->status = UserPilot::STATUS_ACTIVE;
         $user->email_token = null;
+        $pilot->save();
         return $user->save();
     }
 }
