@@ -37,6 +37,7 @@ $config = [
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+            'class' => 'nfedoseev\yii2\ExternalTarget\ErrorHandler',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -46,18 +47,21 @@ $config = [
             ],
             'enableSwiftMailerLogging' => true,
         ],
+        'logmanClient' => [
+            'class' => 'nfedoseev\yii2\ExternalTarget\LogmanClient',
+            'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
+            'site' => 'dev',
+            'user_id' => 'vid',
+            'ignore_statuses' => [200]
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
-                    'class' => 'nfedoseev\yii2\ExternalTarget\HttpTarget',
-                    'levels' => ['error', 'warning', 'info'],
-                    'logVars' => [],
-                    'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
-                    'site' => 'dev',
-                    'user_id' => 'vid',
-                    'ignore_statuses' => [200]
-                ],
+                /*[
+                    'class' => 'nfedoseev\yii2\ExternalTarget\LogTarget',
+                    'levels' => ['error'],
+                    'categories' => ['yii\db\*', 'app\*'],
+                ],*/
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
