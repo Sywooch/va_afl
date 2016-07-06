@@ -130,7 +130,7 @@ class FlightsController extends Controller
 
     public function actionBriefing()
     {
-        $model = Booking::find()->where(['status' => Booking::BOOKING_INIT, 'user_id' => Yii::$app->user->identity->vid])->one();
+        $model = Booking::find()->where('status < '.Booking::BOOKING_FLIGHT_END)->andWhere(['user_id' => Yii::$app->user->identity->vid])->one();
         $brif = new \app\components\Briefing($model->fleet->id);
 
         return $this->render(
