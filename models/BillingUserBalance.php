@@ -28,9 +28,9 @@ class BillingUserBalance extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'user_vid'], 'required'],
-            [['id', 'user_vid'], 'integer'],
-            [['balance'], 'number'],
+            [['user_vid'], 'required'],
+            [['user_vid'], 'integer'],
+            [['balance', 'to', 'out'], 'number'],
             [['lastupdate'], 'safe']
         ];
     }
