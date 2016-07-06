@@ -92,6 +92,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $billing_balance->user_vid = $data->vid;
         $billing_balance->balance = 1500;
         $billing_balance->save();
+        Yii::trace($billing_balance->errors);
     }
 
     /*public static function findByUsername($model)
