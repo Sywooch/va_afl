@@ -32,7 +32,7 @@ use app\models\Flights;
                         'dataProvider' => $onlineProvider,
                         'layout' => '{items}{pager}',
                         'options' => [
-                            'class' => 'time-table table table-striped table-bordered wow bounceInDown animated" data-wow-duration="3s"',
+                            'class' => 'time-table table table-striped table-bordered',
                             'style' => 'visibility: visible; animation-duration: 3s; animation-name: bounceInDown;'
                         ],
                         'columns' => [
