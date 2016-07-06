@@ -145,7 +145,7 @@ use app\models\Users;
                         ]
                     ],
                     [
-                        'name' => Yii::t('app', 'VAG AFL'),
+                        'name' => Yii::t('app', 'AFL Group'),
                         'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/view/about'],
