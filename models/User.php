@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\components\EmailSender;
 use yii\base\Security;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii;
 
@@ -78,20 +79,21 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $token = Yii::$app->security->generateRandomString();
         $user->email_token = $token;
         self::setChangeableData($data, $user);
-        
+
         EmailSender::sendConfirmationMail($user, $token);
-        
+
         $pilot = new UserPilot();
         $pilot->user_id = $data->vid;
-        $pilot->status = 0;
+        $pilot->status = UserPilot::STATUS_PENDING;
         $pilot->location = 'UUEE';
         $pilot->save();
 
         $billing_balance = new BillingUserBalance();
         $billing_balance->user_vid = $data->vid;
-        $billing_balance->balance = 0; //TODO: поменять на старотовый баланс
+        $billing_balance->balance = 1500;
+        $billing_balance->save();
     }
-    
+
     /*public static function findByUsername($model)
     {
         $needrelation = false;
@@ -141,17 +143,26 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->vid;
     }
 
-    public function getLevel(){
+    public function getLevel()
+    {
         return UserPilot::find()->where(['user_id' => $this->vid])->one()->level;
     }
 
-    public function getProgress(){
+    public function getProgress()
+    {
         return UserPilot::find()->where(['user_id' => $this->vid])->one()->progress;
     }
 
-    public function getAvatar(){
+    public function getAvatar()
+    {
         return UserPilot::find()->where(['user_id' => $this->vid])->one()->avatar;
     }
+
+    public function getStatus()
+    {
+        return UserPilot::find()->where(['user_id' => $this->vid])->one()->status;
+    }
+
 
     /**
      * @inheritdoc
@@ -180,11 +191,12 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->password === $password;
     }
 
-    public static function checkEmail()
+    public static function checkStatus()
     {
-        $ctrl = new Controller('site', 'app');
-        if (!\Yii::$app->user->identity->email) {
-            $ctrl->redirect('/pilot/edit');
+        //$ctrl = new Controller('auth', 'users');
+        if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
+            //$ctrl->redirect('/users/auth/confirmemail');
+            Yii::$app->getResponse()->redirect(Url::to('/users/auth/confirmemail'))->send();
         }
     }
 

@@ -3,10 +3,16 @@
 namespace app\modules\users\controllers;
 
 use app\models\IvaoLogin;
+use app\models\UserPilot;
+use app\models\Users;
 use yii\web\Controller;
-use app\models\User;
+use app\models\EmailConfirm;
+use app\components\EmailSender;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\base\InvalidParamException;
+use yii\web\BadRequestHttpException;
+use yii\web\HttpException;
 use yii;
 
 /**
@@ -55,7 +61,11 @@ class AuthController extends Controller
         if ($model->login($IVAOTOKEN) == false) {
             return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
         }
-        return $this->goHome();
+        if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
+            return $this->redirect('confirmemail');
+        } else {
+            return $this->goHome();
+        }
     }
 
     public function actionRegistration($IVAOTOKEN)
@@ -77,5 +87,38 @@ class AuthController extends Controller
     {
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    public function actionConfirmtoken($id)
+    {
+        try {
+            $model = new EmailConfirm($id);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+        Yii::trace('12345');
+
+        if ($model->confirmEmail()) {
+            $this->goHome();
+        } else {
+            throw new HttpException('500');
+        }
+    }
+
+    public function actionConfirmemail()
+    {
+        if (Yii::$app->request->isPost) {
+            $user = Users::getAuthUser();
+            if (isset($_POST['email']))
+            {
+                $user->email = $_POST['email'];
+            }
+            $token = Yii::$app->security->generateRandomString();
+            $user->email_token = $token;
+            $user->save();
+            EmailSender::sendConfirmationMail($user, $token);
+        }
+        $this->layout = '/registration';
+        return $this->render('confirm_email');
     }
 }

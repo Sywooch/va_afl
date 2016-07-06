@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $user app\models\User */
-$confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['pilot/default/confirmtoken', 'id' => $token]);
+$confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['users/auth/confirmtoken', 'id' => $token]);
 ?>
 <table class="body-wrap" bgcolor="#f6f6f6">
     <tr>
