@@ -211,7 +211,7 @@ $config = [
             }
             if (Yii::$app->user->isGuest) {
                 if (Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site' && Yii::$app->controller->id != 'auth') {
-                    Yii::$app->getResponse()->redirect('/site/index');
+                    Yii::$app->getResponse()->redirect('/site/index')->send();
                 }
             }
             if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['confirmtoken', 'confirmemail', 'toolbar', 'getservertime'])) {
