@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\components\Helper;
 use Yii;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "billing".
@@ -104,18 +105,24 @@ class Billing extends \yii\db\ActiveRecord
                 $ub->save();
             }
         }
+
         //Выплаты компании
-        $bc = new BillingPayments();
-        $bc->direction='inbound';
-        $bc->user_id=$flight->user_id;
-        $bc->flight_id=$flight->user_id;
-        $bc->bill_cost_id = 0;
-        $bc->payment=$cost-$results;
-        $bc->dtime = gmdate('Y-m-d H:i:s');
-        $bc->save();
-        $ub=BillingUserBalance::find()->andWhere(['user_vid'=>0])->one();
-        $ub->balance+=$bc->payment;
-        $ub->lastupdate=date('Y-m-d H:i:s');
-        $ub->save();
+        try {
+            $bc = new BillingPayments();
+            $bc->direction = 'inbound';
+            $bc->user_id = $flight->user_id;
+            $bc->flight_id = $flight->user_id;
+            $bc->bill_cost_id = 0;
+            $bc->payment = $cost - $results;
+            $bc->dtime = gmdate('Y-m-d H:i:s');
+            $bc->save();
+
+            $ub = BillingUserBalance::find()->andWhere(['user_vid' => 0])->one();
+            $ub->balance += $bc->payment;
+            $ub->lastupdate = date('Y-m-d H:i:s');
+            $ub->save();
+        } catch (Exception $ex) {
+            throw new Exception(sprintf('Unable to make payments to company from %d flight', $flight->flight_id), 0, $ex);
+        }
     }
 }
