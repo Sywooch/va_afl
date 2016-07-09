@@ -210,8 +210,10 @@ $config = [
                 Yii::$app->layout = 'main';
             }
             if (Yii::$app->user->isGuest) {
+                Yii::trace(Yii::$app->request->getUrl());
                 if (Yii::$app->controller->id != 'api' && Yii::$app->controller->id != 'site' && Yii::$app->controller->id != 'auth') {
-                    Yii::$app->getResponse()->redirect('/site/index')->send();
+                    Yii::$app->runAction('users/auth/login', ['IVAOTOKEN' == null,'redirect_url' => Yii::$app->request->getUrl()]);
+                    //Yii::$app->getResponse()->redirect('/site/index')->send();
                     $event->isValid = false;
                 }
             }
