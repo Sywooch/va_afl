@@ -26,7 +26,7 @@ use yii\widgets\Pjax;
             [
                 'dataProvider' => $top,
                 'layout' => '{items}{pager}',
-                'options' => ['class' => 'table table-condensed'],
+                'options' => ['class' => 'table table-condensed table-responsive'],
                 'columns' => [
                     [
                         'attribute' => 'full_name',
