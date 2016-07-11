@@ -74,9 +74,9 @@ class AuthController extends Controller
         if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
             return $this->redirect('confirmemail');
         } else {
-            if($redirect_url == null)
+            if($redirect_url == 'null')
             {
-                Yii::trace($redirect_url);
+                //Yii::trace($redirect_url);
                 return $this->goHome();
 
             } else {
