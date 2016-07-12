@@ -48,23 +48,40 @@ class AuthController extends Controller
         return $this->render('index');
     }
 
-    public function actionLogin($IVAOTOKEN = null)
+    public function actionLogin($redirect_url = null, $IVAOTOKEN = null)
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
         if (!$IVAOTOKEN) {
-            return $this->redirect(Yii::$app->params['ivao_login_url']);
+           if($redirect_url == null)
+            {
+                return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url=null');
+            } else {
+                return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url='.$redirect_url);
+            }
         }
         $model = new IvaoLogin();
         if ($model->login($IVAOTOKEN) == false) {
-            return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
+            if($redirect_url == null)
+            {
+                return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
+            } else {
+                return $this->redirect('/site/index'); //TODO: тут нужно показать страницу о том, что пользователю зарегистрироваться для продолжения
+            }
         }
         if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
             return $this->redirect('confirmemail');
         } else {
-            return $this->goHome();
+            if($redirect_url == 'null')
+            {
+                //Yii::trace($redirect_url);
+                return $this->goHome();
+
+            } else {
+                return $this->redirect($redirect_url);
+            }
         }
     }
 
