@@ -13,6 +13,4 @@ git reset —hard
 git pull origin $2
 
 echo "composers tasks"
-composer install
-composer global require "fxp/composer-asset-plugin:^1.2.0"
 composer update
