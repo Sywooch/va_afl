@@ -9,6 +9,6 @@ test:
     - echo "OK"
 deploy:
   script:
-    - rsync -av ./var/www/dev.va-aeroflot.su/public_html
+    - rsync -av ./ /var/www/dev.va-aeroflot.su/public_html
     - composer install --prefer-dist --no-interaction
     - composer update
