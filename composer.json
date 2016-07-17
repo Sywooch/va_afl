@@ -36,7 +36,11 @@
         "yiisoft/yii2-faker": "*"
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "preferred-install": "dist",
+        "github-oauth": {
+            "github.com": "f52cd5762bfc71e934293b64b879bcaf24090001"
+        }
     },
     "scripts": {
         "post-create-project-cmd": [
