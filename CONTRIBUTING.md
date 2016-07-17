@@ -13,7 +13,7 @@ into the core, consider using it. We aren't forcing you to use this code style f
 what suits you better.
 
 You can get a config for CodeSniffer here: https://github.com/yiisoft/yii2-coding-standards
-
+ 
 1. Overview
 -----------
 
