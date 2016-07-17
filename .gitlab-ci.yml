@@ -1,8 +1,15 @@
 before_script:
   - composer install
   - composer global require "fxp/composer-asset-plugin:^1.2.0"
+  - composer update
+stages:
+  - test
+  - deploy
+test:
+  script:
+    - echo "OK"
 deploy:
   script:
-    - mv -v /* /var/www/dev.va-aeroflot.su/public_html
-    - cd /var/www/dev.va-aeroflot.su/public_html
+    #- mv -v /* /var/www/dev.va-aeroflot.su/public_html
+    #- cd /var/www/dev.va-aeroflot.su/public_html
     - composer update
