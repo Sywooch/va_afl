@@ -9,8 +9,6 @@ test:
     - echo "OK"
 deploy:
   script:
-    - rsync -rltzuvO ./ /var/www/devops.va-aeroflot.su/public_html
-    - composer install --prefer-dist --no-interaction
-    - composer update
+    - rsync -rltzuvO ./ daitel@va-transaero.ru:/var/www/vag_afl
   only:
     - master
