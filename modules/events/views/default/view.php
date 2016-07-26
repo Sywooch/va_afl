@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+
 \app\assets\ContentAsset::register($this);
 
 /* @var $this yii\web\View */
@@ -68,19 +69,18 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
             <?= $model->contentInfo->getText() ?>
             <hr>
             <h4><?= Yii::t('app', 'Comments') ?></h4>
-            <div class="panel">
-                <div id="comments">
-
+            <div>
+                <div id="comments" style="min-height: 100px">
 
                 </div>
-                <div class="panel-footer">
+                <div style="padding-top: 10px">
                     <div class="input-group">
                         <input type="text" class="form-control input-sm" name="message" id="message"
                                placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
                         <span class="input-group-btn">
-                 <button onclick="content_comment(<?= $model->contentInfo->id ?>)" class="btn btn-primary btn-sm"
-                         type="button"><?= Yii::t('app', 'Send') ?></button>
-             </span>
+                        <button onclick="content_comment(<?= $model->contentInfo->id ?>)" class="btn btn-primary btn-sm"
+                                type="button"><?= Yii::t('app', 'Send') ?></button>
+                        </span>
                     </div>
                 </div>
             </div>
