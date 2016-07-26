@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
 
 <div class="col-md-12" style="padding-bottom: 10px;">
     <div class="well row" style="min-height: 50px;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <?php if (Yii::$app->user->can('events/edit')): ?>
                 <?=
                 Html::a(
@@ -44,23 +44,16 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                 ) ?>
             <?php endif; ?>
         </div>
-        <div class="col-md-6">
-            <?php if ($model->author != 0): ?>
-                <p class="text-right"> Author: <?=
-                    Html::a(
-                        $model->authorUser->full_name,
-                        Url::to('/pilot/profile/' . $model->authorUser->vid)
-                    ) ?></p>
-            <?php endif; ?>
-        </div>
     </div>
 </div>
 <div class="col-md-9">
     <div class="panel panel-inverse">
-        <div class="panel-heading"><h4 class="panel-title">About</h4></div>
+        <div class="panel-heading"><h4 class="panel-title">&nbsp;</h4></div>
 
         <div class="panel-body">
-            <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
+            <legend>
+                <h2><?= Html::encode($this->title) ?></h2>
+            </legend>
             <?= $model->contentInfo->getDescription() ?>
             <?php if ($model->contentInfo->img): ?>
                 <img class="center-block" height="450px" src="<?= $model->contentInfo->img ?>">
@@ -68,7 +61,20 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
             <?php endif; ?>
             <?= $model->contentInfo->getText() ?>
             <hr>
-            <h4><?= Yii::t('app', 'Comments') ?></h4>
+            <p class="text-right">
+                <?= Yii::t('app', 'Created') ?>: <?= (new \DateTime($model->contentInfo->created))->format('d.m.Y') ?>
+                <?php if ($model->author != 0): ?>
+                    <?= Yii::t('app', 'Author') ?>: <?=
+                    Html::a(
+                        $model->authorUser->full_name,
+                        Url::to('/pilot/profile/' . $model->authorUser->vid)
+                    ) ?>
+                <?php endif; ?>
+            </p>
+            <hr>
+            <legend>
+                <h3><?= Yii::t('app', 'Comments') ?></h3>
+            </legend>
             <div>
                 <div id="comments" style="min-height: 100px">
 
@@ -89,7 +95,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
 </div>
 <div class="col-md-3">
     <div class="panel panel-inverse">
-        <div class="panel-heading"><h4 class="panel-title">Additional Info</h4></div>
+        <div class="panel-heading"><h4 class="panel-title">&nbsp;</h4></div>
 
         <div class="panel-body">
             <table class="table table-striped table-bordered">
