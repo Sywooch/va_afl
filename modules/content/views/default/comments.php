@@ -22,4 +22,7 @@
             </div>
         </li>
     <?php endforeach; ?>
+    <?php if(empty($model->comments)):?>
+        No comments
+    <?php endif ?>
 </ul>
