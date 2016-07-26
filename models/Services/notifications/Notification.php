@@ -136,6 +136,6 @@ class Notification extends \yii\db\ActiveRecord
      */
     public function getContent()
     {
-        return $this->hasOne(app\models\Content::className(), ['id' => 'content_id']);
+        return $this->hasOne(\app\models\Content::className(), ['id' => 'content_id']);
     }
 }
