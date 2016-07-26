@@ -5,7 +5,6 @@ namespace app\models\Services\notifications;
 use Yii;
 
 use app\models\Users;
-use app\models\Content;
 
 /**
  * This is the model class for table "{{%notification}}".
@@ -137,6 +136,6 @@ class Notification extends \yii\db\ActiveRecord
      */
     public function getContent()
     {
-        return $this->hasOne(Content::className(), ['id' => 'content_id']);
+        return $this->hasOne(app\models\Content::className(), ['id' => 'content_id']);
     }
 }
