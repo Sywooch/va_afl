@@ -59,17 +59,45 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                 <img class="center-block" height="450px" src="<?= $model->contentInfo->img ?>">
                 <hr>
             <?php endif; ?>
+            <h3><?= Yii::t('app', 'Information') ?></h3>
             <?= $model->contentInfo->getText() ?>
             <hr>
+            <h3><?= Yii::t('app', 'Route') ?></h3>
+            <?php if (!empty($model->fromArray)): ?>
+                <?php $i = 0 ?>
+                <?php foreach ($model->fromArray as $airport): ?>
+                    <?= $i > 0 ? ',' : '' ?>
+                    <img src="<?= $airport->flagLink ?>"><a href="/airline/airports/view/<?= $airport->icao ?>"><b><?= $airport->icao ?></b></a>
+                    <?php $i++; endforeach; ?>
+            <?php else: ?>
+                XXXX
+            <?php endif; ?>
+            <?= $model->airbridge ? '↔' : '→'?>
+            <?php if (!empty($model->toArray)): ?>
+                <?php $i = 0 ?>
+                <?php foreach ($model->toArray as $airport): ?>
+                    <?= $i > 0 ? ', ' : '' ?>
+                    <img src="<?= $airport->flagLink ?>"><a href="/airline/airports/view/<?= $airport->icao ?>"><b><?= $airport->icao ?></b></a>
+                    <?php $i++; endforeach; ?>
+            <?php else: ?>
+                XXXX
+            <?php endif; ?>
+            <hr>
+            <h3><?= Yii::t('app', 'Date and Time') ?></h3>
+            <b>23 September 2016</b>
+            <br>
+            <b>14:00 → 19:00</b>
+            <hr>
             <p class="text-right">
-                <?= Yii::t('app', 'Created') ?>: <?= (new \DateTime($model->contentInfo->created))->format('d.m.Y') ?>
                 <?php if ($model->author != 0): ?>
                     <?= Yii::t('app', 'Author') ?>: <?=
                     Html::a(
                         $model->authorUser->full_name,
                         Url::to('/pilot/profile/' . $model->authorUser->vid)
                     ) ?>
+                    <br>
                 <?php endif; ?>
+                <?= Yii::t('app', 'Created') ?>: <?= (new \DateTime($model->contentInfo->created))->format('d.m.Y') ?>
             </p>
             <hr>
             <legend>
@@ -98,51 +126,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
         <div class="panel-heading"><h4 class="panel-title">&nbsp;</h4></div>
 
         <div class="panel-body">
-            <table class="table table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th><h4><?= $model->airbridge ? Yii::t('flights', 'Airbridge') : Yii::t('app',
-                                'Airports') ?> </h4>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="tablecat" style="padding:10px; text-align: center;" colspan="3">
-                        <strong>Departures</strong></td>
-                </tr>
-                <?php if (!empty($model->fromArray)): ?>
-                    <?php foreach ($model->fromArray as $airport): ?>
-                        <tr>
-                            <td><img src="<?= $airport->flagLink ?>"> <a
-                                    href="/airline/airports/view/<?= $airport->icao ?>"><?= $airport->fullname ?></a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td><?= Yii::t('app', 'No info') ?></td>
-                    </tr>
-                <?php endif; ?>
-                <tr>
-                    <td class="tablecat" style="padding:10px; text-align: center;" colspan="3">
-                        <strong>Arrivals</strong></td>
-                </tr>
-                <?php if (!empty($model->toArray)): ?>
-                    <?php foreach ($model->toArray as $airport): ?>
-                        <tr>
-                            <td><img src="<?= $airport->flagLink ?>"> <a
-                                    href="/airline/airports/view/<?= $airport->icao ?>"><?= $airport->fullname ?></a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td><?= Yii::t('app', 'No info') ?></td>
-                    </tr>
-                <?php endif; ?>
-                </tbody>
-            </table>
+
         </div>
     </div>
 </div>
