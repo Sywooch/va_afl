@@ -64,7 +64,7 @@ class AuthController extends Controller
         }
         $model = new IvaoLogin();
         if ($model->login($IVAOTOKEN) == false) {
-            if($redirect_url == null)
+            if($redirect_url == 'null' || empty($redirect_url))
             {
                 return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
             } else {
@@ -74,7 +74,7 @@ class AuthController extends Controller
         if (Yii::$app->user->identity->status == UserPilot::STATUS_PENDING) {
             return $this->redirect('confirmemail');
         } else {
-            if($redirect_url == 'null')
+            if($redirect_url == 'null' || empty($redirect_url))
             {
                 //Yii::trace($redirect_url);
                 return $this->goHome();
