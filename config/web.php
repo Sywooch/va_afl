@@ -48,7 +48,7 @@ $config = [
             'enableSwiftMailerLogging' => true,
         ],
         'logClient' => [
-            'class' => 'nfedoseev\yii2\ExternalTarget\LogmanClient',
+            'class' => 'nfedoseev\yii2\ExternalTarget\LogClient',
             'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
             'site' => 'dev',
             'user_id' => 'vid',
