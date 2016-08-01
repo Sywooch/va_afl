@@ -28,6 +28,8 @@ class oprType implements SuspensionProcess
         'VA AEROFLOT',
         'AEROFLOT',
         'RMK/OPR',
+        'HTTP//VAAEROFLOTSU/',
+        'VIRTUAL AIRLINES',
     ];
 
     /**
