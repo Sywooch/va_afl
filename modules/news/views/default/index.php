@@ -7,7 +7,10 @@
  */
 use app\models\Content;
 use app\models\ContentCategories;
+
+$this->title = Yii::t('app', 'News');
 ?>
+<h1><?= $this->title ?></h1>
 <div class="col-md-9">
     <div class="panel panel-news">
         <div class="panel-body">
@@ -40,8 +43,6 @@ use app\models\ContentCategories;
             </div>
             <hr>
             <?php endforeach; ?>
-            <a href="/" class="btn btn-primary pull-right btnNext">
-                More <i class="glyphicon glyphicon-chevron-right"></i></a>
         </div>
     </div>
 </div>

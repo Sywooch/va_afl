@@ -17,11 +17,11 @@ use yii\helpers\Url;
 use app\models\Content;
 use app\models\ContentCategories;
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contents'), 'url' => ['index']];
+$this->title = $model->name.' ('.$model->createdDT->format('d.m.Y').' )';
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'News'), 'url' => ['/news']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->categoryInfo->name,
-    'url' => ['/content/categories/view/' . $model->categoryInfo->link]
+    'url' => ['/news/' . $model->categoryInfo->link]
 ];
 $this->params['breadcrumbs'][] = $this->title;
 
