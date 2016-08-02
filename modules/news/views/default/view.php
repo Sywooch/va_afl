@@ -8,6 +8,7 @@
 /**
  * @var $model \app\models\Content
  */
+use app\models\Content;
 use app\models\ContentCategories;
 
 \app\assets\ContentAsset::register($this);
@@ -45,4 +46,4 @@ use app\models\ContentCategories;
 
     </div><!--/col-12-->
 
-<?= $this->render('sidebar', ['categories' => ContentCategories::news()]) ?>
+<?= $this->render('sidebar', ['categories' => ContentCategories::news(), 'all' => Content::news()]) ?>
