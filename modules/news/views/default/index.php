@@ -30,7 +30,7 @@ use app\models\ContentCategories;
                                 <li><?= $post->views ?> <?= Yii::t('app', 'Views') ?></li>
                                 <li><a href="/news/<?= $post->categoryInfo->link ?>"><?= $post->categoryInfo->name ?></a></li>
                                 <?php if (!empty($post->forum)) : ?>
-                                    <li><a href="<?= $post->forum ?>"><i class="fa fa-comments"></i> <?= Yii::t('app', 'Discuss in forum') ?></a></li>
+                                    <li><a target="_blank" href="<?= $post->forum ?>"><i class="fa fa-comments"></i> <?= Yii::t('app', 'Discuss in forum') ?></a></li>
                                 <?php endif; ?>
                             </ul>
                         </div>
