@@ -23,7 +23,7 @@ class Menu extends Widget
                 $active = false;
                 foreach ($item['items'] as $subitem) {
                     $linkOptions = isset($suitem['linkOptions']) ? $suitem['linkOptions'] : [];
-                    $subactive = \Yii::$app->request->url === $subitem['url'] ? 'active' : '';
+                    $subactive = stripos(\Yii::$app->request->url, $subitem['url']) === 0 ? 'active' : '';
                     if (!$active && strlen($subactive) > 0) {
                         $active = true;
                     }
@@ -61,7 +61,7 @@ class Menu extends Widget
                 ];
             } else {
                 $itemclass = ($item['icon']) ? 'fa ' . $item['icon'] : '';
-                $active = \Yii::$app->request->url === $item['url'] ? 'active' : '';
+                $active = stripos(\Yii::$app->request->url, $item['url']) === 0 ? 'active' : '';
                 $linkOptions = isset($item['linkOptions']) ? $item['linkOptions'] : [];
 
                 $menuitems[] = [

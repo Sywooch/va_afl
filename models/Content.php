@@ -35,7 +35,20 @@ class Content extends \yii\db\ActiveRecord
     }
 
     public static function news(){
-        return self::prepare(self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy('created desc')->all());
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy(
+                'created desc'
+            )->all()
+        );
+    }
+
+    public static function newsCategory($link)
+    {
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(
+            ['content_categories.news' => 1, 'content_categories.link' => $link]
+            )->all()
+        );
     }
 
     public static function prepare($mNews)
@@ -49,6 +62,33 @@ class Content extends \yii\db\ActiveRecord
         return $news;
     }
 
+    public static function view($id)
+    {
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'machine_name';
+
+        $model = self::findModel([$key => $id]);
+        $model->views++;
+        $model->save();
+
+        if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
+                    $model->categoryInfo->access_read
+                ) && !empty($model->categoryInfo->access_read))
+        ) {
+            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
+        }
+
+        return $model;
+    }
+
+    protected static function findModel($id)
+    {
+        if (($model = Content::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -60,7 +100,7 @@ class Content extends \yii\db\ActiveRecord
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
             [['name_ru', 'name_en'], 'string', 'max' => 50],
-            [['description_ru', 'description_en'], 'string', 'max' => 255],
+            [['description_ru', 'description_en', 'forum'], 'string', 'max' => 255],
             [['img', 'preview'], 'string', 'skipOnEmpty' => true, 'max' => 255],
             [['machine_name'], 'string', 'max' => 100],
             [['machine_name'], 'unique']
@@ -160,6 +200,11 @@ class Content extends \yii\db\ActiveRecord
     public function getLike()
     {
         return ContentLikes::check($this->id, Yii::$app->user->identity->vid);
+    }
+
+    public function getLink()
+    {
+        return empty($this->machine_name) ? $this->id : $this->machine_name;
     }
 
     public function like($user){

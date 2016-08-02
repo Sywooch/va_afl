@@ -16,12 +16,27 @@ use Yii;
  */
 class ContentCategories extends \yii\db\ActiveRecord
 {
-    public static function available(){
+
+    public static function news()
+    {
+        return self::available(self::find()->where(['news' => 1])-> all(), true);
+    }
+
+    public static function available($data = null, $object = false){
         $categories = [];
-        foreach(self::find()->all() as $cat){
+
+        if($data == null){
+            $data = self::find()->all();
+        }
+
+        foreach($data as $cat){
             if(empty($cat->access) || Yii::$app->user->can($cat->access))
             {
-                $categories[$cat->id] = $cat->name;
+                if($object == false){
+                    $categories[$cat->id] = $cat->name;
+                }else{
+                    $categories[] = $cat;
+                }
             }
         }
         return $categories;

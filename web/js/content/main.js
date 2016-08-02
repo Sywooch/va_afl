@@ -19,6 +19,7 @@ function content_comment(content_id) {
     var text = $('#message').val();
 
     $.post('/content/comment',{cid: content_id, text: text},function(){
+        $('#message').val('');
         $("#comments").load("/content/comments/" + content_id);
     });
 }

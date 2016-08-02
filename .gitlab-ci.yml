@@ -11,4 +11,4 @@ deploy:
   script:
     - rsync -rltzuvO ./ daitel@va-transaero.ru:/var/www/vag_afl
   only:
-    - master
+    - /^release-.*$/

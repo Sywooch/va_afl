@@ -55,7 +55,7 @@ use dosamigos\ckeditor\CKEditor;
 
     <?= $form->field($model, 'description_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description_en')->textInput(['maxlength' => true]) ?>
-
+    <?= $form->field($model, 'forum')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'category')->widget(
         Select2::classname(),
         ['data' => \app\models\ContentCategories::available()]

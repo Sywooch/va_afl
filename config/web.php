@@ -79,6 +79,7 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
+                'translatemanager' => 'translatemanager/language/list',
                 '<module:users>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>' => '<module>/<controller>/index',
@@ -105,9 +106,11 @@ $config = [
                 '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>' => '<module>/<controller>/index',
                 '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
-                '<module:tours>/<action:\w+>' => '<module>/default/<action>',
-                '<module:tours>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
-                '<module:tours>' => '<module>/default/index',
+                '<module:news>/<category:\w+>/<id:\w+>' => '<module>/default/view',
+                '<module:news>/<id:\w+>' => '<module>/default/index',
+                '<module:tours|news>/<action:\w+>' => '<module>/default/<action>',
+                '<module:tours|news>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+                '<module:tours|news>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -199,6 +202,9 @@ $config = [
                     'category' => 'database-table-name', // the category is the database table name
                 ]
             ]
+        ],
+        'news' => [
+            'class' => 'app\modules\news\Module',
         ],
     ],
     'params' => $params,

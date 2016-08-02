@@ -7,7 +7,7 @@
  */
 ?>
 <ul class="chats">
-    <?php foreach ($model->comments as $comment): ?>
+    <?php foreach ($model->getComments()->orderBy('write asc')->all() as $comment): ?>
         <li class="left">
                         <span class="date-time"><?=
                             (new \DateTime($comment->write))->format(
@@ -22,4 +22,7 @@
             </div>
         </li>
     <?php endforeach; ?>
+    <?php if(empty($model->comments)):?>
+        No comments
+    <?php endif ?>
 </ul>

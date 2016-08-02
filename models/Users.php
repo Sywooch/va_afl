@@ -142,9 +142,12 @@ class Users extends \yii\db\ActiveRecord
         return $this->pilot->avatar;
     }
 
+    public function getName()
+    {
+        return $this->full_name.' ('.$this->vid.')';
+    }
+
     public static function active(){
         return self::find()->joinWith('pilot')->where(['user_pilot.status' => 1])->all();
     }
-
-
 }
