@@ -79,6 +79,7 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
+                'translatemanager' => 'translatemanager/language/list',
                 '<module:users>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>' => '<module>/<controller>/index',
