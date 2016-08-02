@@ -24,6 +24,7 @@ use app\models\ContentCategories;
                     <?php if (!empty($model->forum)) : ?>
                         <li><a href="<?= $model->forum ?>"><i class="fa fa-comments"></i> <?= Yii::t('app', 'Discuss in forum') ?></a></li>
                     <?php endif; ?>
+                    <li>Views: <?= $model->views ?></li>
                 </ul>
                 <?= $model->text ?>
                 <hr>
@@ -31,7 +32,6 @@ use app\models\ContentCategories;
                 <div class="timeline-header">
                     <span class="userimage"><img src="<?= $model->authorUser->avatarLink ?>" alt=""/></span>
                     <span class="username"><a href="/pilot/profile/<?= $model->authorUser->vid ?>"><?= $model->authorUser->full_name ?></a></span>
-                    <span class="pull-right text-muted"><?= $model->views ?></span>
                 </div>
                 <hr>
                 <a href="javascript:content_like(<?= $model->id ?>);" id="btn_like_<?= $model->id ?>"

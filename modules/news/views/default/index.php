@@ -27,7 +27,7 @@ use app\models\ContentCategories;
 
                             <ul class="list-inline">
                                 <li><?= $post->createdDT->format('d F Y')?></li>
-                                <li><?= $post->likesCount ?> <?= Yii::t('app', 'Likes') ?></li>
+                                <li><?= $post->views ?> <?= Yii::t('app', 'Views') ?></li>
                                 <li><a href="/news/<?= $post->categoryInfo->link ?>"><?= $post->categoryInfo->name ?></a></li>
                                 <?php if (!empty($post->forum)) : ?>
                                     <li><a href="<?= $post->forum ?>"><i class="fa fa-comments"></i> <?= Yii::t('app', 'Discuss in forum') ?></a></li>
