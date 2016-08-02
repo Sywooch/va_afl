@@ -47,7 +47,7 @@ class Content extends \yii\db\ActiveRecord
         return self::prepare(
             self::find()->joinWith('categoryInfo')->where(
             ['content_categories.news' => 1, 'content_categories.link' => $link]
-            )->all()
+            )->orderBy('created desc')->all()
         );
     }
 
