@@ -101,10 +101,10 @@ $config = [
                 '<module:content>/<action:\.*>' => '<module>/default/index',
                 '<module:pilot|fleet|events|squadron>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
                 '<module:pilot|fleet|events|squadron>/<action:\w+>' => '<module>/default/<action>',
-                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
-                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager|news>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager|news>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:pilot|airline|fleet|events|admin|squadron|translatemanager|news>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:content|pilot|fleet|events|squadron|news>' => '<module>/default/index',
                 '<module:tours>/<action:\w+>' => '<module>/default/<action>',
                 '<module:tours>/<action:\w+>/<id:\d+>' => '<module>/default/<action>',
                 '<module:tours>' => '<module>/default/index',
@@ -199,6 +199,9 @@ $config = [
                     'category' => 'database-table-name', // the category is the database table name
                 ]
             ]
+        ],
+        'news' => [
+            'class' => 'app\modules\news\Module',
         ],
     ],
     'params' => $params,

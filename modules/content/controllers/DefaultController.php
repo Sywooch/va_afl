@@ -56,23 +56,10 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        $key = preg_match('/^\d+$/', $id) ? 'id' : 'machine_name';
-
-        $model = $this->findModel([$key => $id]);
-        $model->views++;
-        $model->save();
-
-        if (!Yii::$app->user->can('content/edit') && (!Yii::$app->user->can(
-                    $model->categoryInfo->access_read
-                ) && !empty($model->categoryInfo->access_read))
-        ) {
-            throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
-        }
-
         return $this->render(
             'view',
             [
-                'model' => $model,
+                'model' => Content::view($id),
             ]
         );
     }
