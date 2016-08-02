@@ -26,8 +26,9 @@ use yii\helpers\Html;
                         <a href="/pilot/profile/<?= $news_one->author ?>" class="image"><img alt="" src="<?= $news_one->authorUser->avatarLink ?>"/></a>
 
                         <div class="message">
-                            <a href="<?= (empty($news_one->categoryInfo->link_to) ? '/content/categories/view/'.$news_one->categoryInfo->id : $news_one->categoryInfo->link_to )?>">#<?= $news_one->categoryInfo->link ?></a>
-                            <p><?= $news_one->description ?></p>
+                            <a class="news-link" target="_blank" href="/news/<?= $news_one->categoryInfo->link?>/<?= $news_one->link?>">
+                                <p><?= $news_one->description ?></p>
+                            </a>
                         </div>
                     </li>
                 <?php endforeach; ?>

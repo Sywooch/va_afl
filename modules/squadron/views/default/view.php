@@ -103,7 +103,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <a class="image"><img alt="" src="/img/content/preview/<?= $news_one->preview ?>"/></a>
 
                                     <div class="message">
-                                        <?= $news_one->text ?>
+                                        <a class="news-link" target="_blank" href="/news/<?= $news_one->categoryInfo->link?>/<?= $news_one->link?>">
+                                            <?= $news_one->description ?>
+                                        </a>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
