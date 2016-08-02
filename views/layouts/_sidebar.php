@@ -82,6 +82,11 @@ use app\models\Users;
                         'icon' => 'fa-plane'
                     ],
                     [
+                      'name' => Yii::t('app', 'News'),
+                      'url' => \yii\helpers\Url::to('/news'),
+                      'icon' => 'fa-newspaper-o'
+                    ],
+                    [
                         'name' => Yii::t('app', 'Missions'),
                         'url' => \yii\helpers\Url::to('/airline/missions'),
                         'icon' => 'fa-trophy'
