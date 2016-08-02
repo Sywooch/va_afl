@@ -175,6 +175,10 @@ class Content extends \yii\db\ActiveRecord
     }
 
     public function getImgLink(){
+        if(empty($this->img)){
+            return "https://placeholdit.imgix.net/~text?txtsize=33&txt=no%20image&w=350&h=150";
+        }
+
         if(strpos($this->img, 'http://') !== false){
             return $this->img;
         }else{

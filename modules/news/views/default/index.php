@@ -19,7 +19,7 @@ $this->title = Yii::t('app', 'News');
                 <br>
 
                 <div class="col-md-2 col-sm-3 text-center">
-                    <a class="story-img" href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><img src="//placehold.it/100" style="width:127px;height:72px"></a>
+                    <a class="story-img" href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><img src="<?= $post->imgLink ?>" style="width:127px;height:72px"></a>
                 </div>
                 <div class="col-md-10 col-sm-9">
                     <h3 class="news-header"><a class="news-link" href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><?= $post->name ?></a></h3>
