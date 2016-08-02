@@ -15,10 +15,10 @@ use app\models\ContentCategories;
                 <br>
 
                 <div class="col-md-2 col-sm-3 text-center">
-                    <a class="story-img" href="/news/view/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><img src="//placehold.it/100" style="width:127px;height:72px"></a>
+                    <a class="story-img" href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><img src="//placehold.it/100" style="width:127px;height:72px"></a>
                 </div>
                 <div class="col-md-10 col-sm-9">
-                    <h3 class="news-header"><a class="news-link" href="/news/view/<?= $post->link ?>"><?= $post->name ?></a></h3>
+                    <h3 class="news-header"><a class="news-link" href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><?= $post->name ?></a></h3>
 
                     <div class="row">
                         <div class="col-xs-9">
@@ -27,7 +27,7 @@ use app\models\ContentCategories;
                             <ul class="list-inline">
                                 <li><?= $post->created ?></li>
                                 <li><a href="/news/<?= $post->categoryInfo->link ?>"><?= $post->categoryInfo->name ?></a></li>
-                                <!-- <li><a href="#"><i class="glyphicon glyphicon-share"></i> 34 Like</a></li> -->
+                                <li><a href="#"><i class="glyphicon glyphicon-share"></i> 34 Comments</a></li>
                                 <?php if (!empty($post->forum)) : ?>
                                     <li><a href="<?= $post->forum ?>"><i class="fa fa-comments"></i> <?= Yii::t('app', 'Discuss in forum') ?></a></li>
                                 <?php endif; ?>
