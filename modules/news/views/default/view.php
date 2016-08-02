@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h1><?= $model->name ?></h1>
 
                 <ul class="list-inline">
-                    <li><?= $model->createdDT->format('d F Y')?></li>
+                    <li><?= $model->createdDT->format('d F Y') ?></li>
                     <li><a href="/news/<?= $model->categoryInfo->link ?>"><?= $model->categoryInfo->name ?></a></li>
                     <?php if (!empty($model->forum)) : ?>
                         <li><a target="_blank" href="<?= $model->forum ?>"><i class="fa fa-comments"></i> <?=
@@ -45,12 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li>Views: <?= $model->views ?></li>
                 </ul>
                 <?= $model->text ?>
-                <hr>
-                <h4><?= Yii::t('app', 'Author') ?></h4>
-                <div class="timeline-header">
-                    <span class="userimage"><img src="<?= $model->authorUser->avatarLink ?>" alt=""/></span>
-                    <span class="username"><a href="/pilot/profile/<?= $model->authorUser->vid ?>"><?= $model->authorUser->full_name ?></a></span>
-                </div>
                 <hr>
                 <?php if (Yii::$app->user->can($model->categoryInfo->access_edit) || Yii::$app->user->can(
                         'content/edit'
@@ -68,11 +62,31 @@ $this->params['breadcrumbs'][] = $this->title;
                         class="fa fa-thumbs-up fa-fw"></i> Like</a>
                 <button class="btn btn-default" id="btn_like_<?= $model->id ?>_num"
                         disabled><?= $model->likesCount ?></button>
-                <hr>
+                <?php if (empty($model->forum)) : ?>
+                    <hr>
+                    <legend>
+                        <h3><?= Yii::t('app', 'Comments') ?></h3>
+                    </legend>
+                    <div id="comments" style="min-height: 100px">
+
+                    </div>
+                    <div style="padding-top: 10px">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-sm" name="message" id="message"
+                                   placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
+                    <span class="input-group-btn">
+                        <button onclick="content_comment(<?= $model->id ?>)" class="btn btn-primary btn-sm"
+                                type="button"><?= Yii::t('app', 'Send') ?></button>
+                    </span>
+                        </div>
+                    </div>
+                    <script>
+                        setTimeout(function () {
+                            $("#comments").load("/content/comments/<?= $model->id ?>");
+                        }, 400);
+                    </script>
+                <?php endif; ?>
             </div>
         </div>
-
-
-    </div><!--/col-12-->
-
+    </div>
 <?= $this->render('sidebar', ['categories' => ContentCategories::news(), 'all' => Content::news()]) ?>
