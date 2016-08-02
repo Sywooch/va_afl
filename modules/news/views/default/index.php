@@ -5,6 +5,7 @@
  * Date: 02.08.16
  * Time: 9:58
  */
+use app\models\Content;
 use app\models\ContentCategories;
 ?>
 <div class="col-md-9">
@@ -45,4 +46,4 @@ use app\models\ContentCategories;
     </div>
 </div>
 
-<?= $this->render('sidebar', ['categories' => ContentCategories::news()]) ?>
+<?= $this->render('sidebar', ['categories' => ContentCategories::news(), 'all' => Content::news()]) ?>

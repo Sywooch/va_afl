@@ -21,9 +21,11 @@
         <h4>Categories</h4>
 
         <div class="hline"></div>
+        <p><a href="/news"> <?= Yii::t('app', 'All') ?></a> <span
+                class="badge badge-theme pull-right"><?= count($all) ?></span></p>
         <?php foreach ($categories as $cat): ?>
 
-            <p><a href="/news/<?= $cat->link ?>"><i class="fa fa-angle-right"></i> <?= $cat->name ?></a> <span
+            <p><a href="/news/<?= $cat->link ?>"> <?= $cat->name ?></a> <span
                     class="badge badge-theme pull-right"><?= count($cat->content) ?></span></p>
         <?php endforeach; ?>
         <hr>
