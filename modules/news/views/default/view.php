@@ -62,11 +62,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         class="fa fa-thumbs-up fa-fw"></i> Like</a>
                 <button class="btn btn-default" id="btn_like_<?= $model->id ?>_num"
                         disabled><?= $model->likesCount ?></button>
+                <hr>
+                <legend>
+                    <h3><?= Yii::t('app', 'Comments') ?></h3>
+                </legend>
                 <?php if (empty($model->forum)) : ?>
-                    <hr>
-                    <legend>
-                        <h3><?= Yii::t('app', 'Comments') ?></h3>
-                    </legend>
                     <div id="comments" style="min-height: 100px">
 
                     </div>
@@ -85,6 +85,15 @@ $this->params['breadcrumbs'][] = $this->title;
                             $("#comments").load("/content/comments/<?= $model->id ?>");
                         }, 400);
                     </script>
+                    <hr>
+                    <?php else: ?>
+                    <div class="note note-info">
+                        <h4><a target="_blank" href="<?= $model->forum ?>"><i class="fa fa-comments"></i> <?=
+                                Yii::t(
+                                    'app',
+                                    'Discuss in forum'
+                                ) ?></a></h4>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
