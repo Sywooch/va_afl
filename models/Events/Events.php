@@ -124,6 +124,14 @@ class Events extends \yii\db\ActiveRecord
         return $this->airports($this->to);
     }
 
+    public function getStartDT(){
+        return new \DateTime($this->start);
+    }
+
+    public function getStopDT(){
+        return new \DateTime($this->stop);
+    }
+
     private function airports($string){
         $models = [];
         $airports = explode(',', str_replace(' ', '', $string));

@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Events */
 
-$this->title = $model->contentInfo->name;
+$this->title = $model->contentInfo->name.' ('.$model->startDT->format('d.m.Y').' )';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->contentInfo->name;
 ?>
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                     <img src="<?= $airport->flagLink ?>"><a href="/airline/airports/view/<?= $airport->icao ?>"><b><?= $airport->icao ?></b></a>
                     <?php $i++; endforeach; ?>
             <?php else: ?>
-                XXXX
+                <b>XXXX</b>
             <?php endif; ?>
             <?= $model->airbridge ? '↔' : '→'?>
             <?php if (!empty($model->toArray)): ?>
@@ -80,13 +80,13 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                     <img src="<?= $airport->flagLink ?>"><a href="/airline/airports/view/<?= $airport->icao ?>"><b><?= $airport->icao ?></b></a>
                     <?php $i++; endforeach; ?>
             <?php else: ?>
-                XXXX
+                <b>XXXX</b>
             <?php endif; ?>
             <hr>
             <h3><?= Yii::t('app', 'Date and Time') ?></h3>
-            <b>23 September 2016</b>
+            <b><?= $model->startDT->format('d F Y') ?></b>
             <br>
-            <b>14:00 → 19:00</b>
+            <b><?= $model->startDT->format('H:i') ?> → <?= $model->stopDT->format('H:i') ?></b>
             <hr>
             <p class="text-right">
                 <?php if ($model->author != 0): ?>
