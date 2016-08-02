@@ -35,21 +35,20 @@ class Content extends \yii\db\ActiveRecord
     }
 
     public static function news(){
-        return self::prepare(self::newsAll());
-    }
-
-    public static function newsAll()
-    {
-        return self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy(
-            'created desc'
-        )->all();
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy(
+                'created desc'
+            )->all()
+        );
     }
 
     public static function newsCategory($link)
     {
-        return self::find()->joinWith('categoryInfo')->where(
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(
             ['content_categories.news' => 1, 'content_categories.link' => $link]
-        )->all();
+            )->all()
+        );
     }
 
     public static function prepare($mNews)
