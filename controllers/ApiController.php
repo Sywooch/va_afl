@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Helper;
+use app\components\Slack;
 use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
@@ -77,5 +78,15 @@ class ApiController extends Controller
         }else{
             echo json_encode("REG/{$id} OPR/AFLGROUP");
         }
+    }
+
+    public function actionSlack($channel, $text, $link = ''){
+        $slack = new Slack('#'.$channel, $text);
+
+            if($link != ''){
+            $slack->addLink($link);
+        }
+
+        $slack->sent();
     }
 }
