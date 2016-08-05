@@ -37,7 +37,7 @@ class EventsController extends Controller
                     $name = (string)(strripos($title[0], "online") !== false ? $title[0]." ".$item->date : $title[0]);
 
                     $description = $item->description;
-                    $url = "<a href=\"{$item->link}\">More info</a><br>";
+                    $url = "<a target='_blank' href=\"{$item->link}\">More info</a><br>";
 
                     $date_start = $item->date;
                     $date_stop = $date_start;
