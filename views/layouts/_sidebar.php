@@ -144,9 +144,9 @@ use app\models\Users;
                         'name' => Yii::t('app', 'Shop'),
                         'icon' => 'fa-shopping-cart',
                         'items' => [
-                            ['name' => Yii::t('app', 'Shop'), 'url' => '/shop/index'],
-                            ['name' => Yii::t('app', 'My purchases'), 'url' => '/shop/purchases'],
-                            ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/shop/slos'],
+                            ['name' => Yii::t('app', 'Shop'), 'url' => '/items/shop/index'],
+                            ['name' => Yii::t('app', 'My purchases'), 'url' => '/items/shop/purchases'],
+                            ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/items/shop/slots'],
                         ]
                     ],
                     [
