@@ -112,6 +112,12 @@ $config = [
                 '<module:tours|news>/<action:\w+>' => '<module>/default/<action>',
                 '<module:tours|news>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
                 '<module:tours|news>' => '<module>/default/index',
+                //for module with many controllers without standard default /module/action
+                '<module:items>' => '<module>/admin/index',
+                '<module:items>/<controller:\w+>' => '<module>/<controller>/index',
+                '<module:items>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:items>/<controller:\w+>/<action:\w+>/<id:.*>' => '<module>/<controller>/<action>',
+                //controllers
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -207,6 +213,9 @@ $config = [
         ],
         'news' => [
             'class' => 'app\modules\news\Module',
+        ],
+        'items' => [
+            'class' => 'app\modules\items\Module',
         ],
     ],
     'params' => $params,
