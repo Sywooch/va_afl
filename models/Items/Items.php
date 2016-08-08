@@ -31,6 +31,11 @@ class Items extends \yii\db\ActiveRecord
         return 'items';
     }
 
+    public static function shop()
+    {
+        return self::find()->where(['available' => 1])->all();
+    }
+
     /**
      * @inheritdoc
      */
@@ -61,6 +66,10 @@ class Items extends \yii\db\ActiveRecord
             'temporary_stop' => Yii::t('app', 'Stop'),
             'created' => Yii::t('app', 'Created'),
         ];
+    }
+
+    public function getCreatedDT(){
+        return new \DateTime($this->created);
     }
 
     /**
