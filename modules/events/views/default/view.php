@@ -22,13 +22,13 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                 Html::a(
                     Yii::t('app', 'Update Content'),
                     ['/content/update/' . $model->contentInfo->id],
-                    ['class' => 'btn btn-primary']
+                    ['class' => 'btn btn-primary', 'target' => '_blank']
                 ) ?>
                 <?=
                 Html::a(
                     Yii::t('app', 'Update Event'),
                     ['/events/update/' . $model->id],
-                    ['class' => 'btn btn-primary']
+                    ['class' => 'btn btn-primary', 'target' => '_blank']
                 ) ?>
                 <?=
                 Html::a(
