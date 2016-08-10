@@ -2,13 +2,13 @@
 
 namespace app\modules\items\controllers;
 
-use app\models\Items\Items;
+use app\modules\items\models\Shop;
 
 class ShopController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        return $this->render('index', ['items' => Items::shop()]);
+        return $this->render('index', ['items' => Shop::all()]);
     }
 
     public function actionPurchases()

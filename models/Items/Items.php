@@ -43,7 +43,7 @@ class Items extends \yii\db\ActiveRecord
     {
         return [
             [['type_id'], 'required'],
-            [['type_id', 'user_id', 'available', 'cost', 'temporary', 'days'], 'integer'],
+            [['type_id', 'user_id', 'available', 'temporary', 'days'], 'integer'],
             [['temporary_stop', 'created'], 'safe'],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ItemsTypes::className(), 'targetAttribute' => ['type_id' => 'type_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'vid']],

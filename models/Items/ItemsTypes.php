@@ -34,6 +34,7 @@ class ItemsTypes extends \yii\db\ActiveRecord
     {
         return [
             [['type', 'content_id'], 'integer'],
+            [['cost'], 'number'],
             [['content_id'], 'required'],
             [['created'], 'safe'],
             [['content_id'], 'exist', 'skipOnError' => true, 'targetClass' => Content::className(), 'targetAttribute' => ['content_id' => 'id']],

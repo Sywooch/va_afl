@@ -12,51 +12,19 @@
 
         <div class="hline"></div>
         <ul class="popular-posts list-unstyled">
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
-
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
+            <?php foreach (\app\modules\items\models\Shop::lastAvailable() as $item): ?>
+                <li class="row">
+                    <div class="col-md-3">
+                        <a class="thumbnail" href="#"><img class="img-rounded"
+                                                           src="<?= $item->type->content->imgLink ?>"
+                                                           style=" height:50px"
+                                                           alt="Popular Post"></a>
+                    </div>
+                    <div class="col-md-9">
+                        <p class="pull-right"><a href="#"><?= $item->type->content->name ?></a></p>
+                    </div>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </div>
 </div>
