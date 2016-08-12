@@ -22,6 +22,19 @@ class BillingUserBalance extends \yii\db\ActiveRecord
         return 'billing_user_balance';
     }
 
+    public static function addMoney($user_id, $flight_id, $payment, $type)
+    {
+        if (!$ub = self::find()->andWhere(['user_vid' => $user_id])->one()) {
+            $ub = new BillingUserBalance();
+        }
+
+        $ub->balance += $payment;
+        $ub->lastupdate = date('Y-m-d H:i:s');
+        $ub->save();
+
+        BillingPayments::registerPayment(1,$user_id, $flight_id, $type, $payment);
+    }
+
     /**
      * @inheritdoc
      */
