@@ -39,7 +39,11 @@ $config = [
             'class' => 'yii\swiftmailer\Mailer',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'constructArgs' => ['localhost', 25],
+                'host' => 'smtp.yandex.ru',
+                'username' => 'noreply@va-afl.su',
+                'password' => 'eqA66RSuT9',
+                'port' => '465',
+                'encryption' => 'ssl',
             ],
             'enableSwiftMailerLogging' => true,
         ],
