@@ -14,12 +14,12 @@ echo \yii\widgets\DetailView::widget(
         'attributes' => [
             'callsign',
             'from_icao' => [
-                'label' => Yii::t('flights', 'Departure airport'),
+                'label' => Yii::t('flights', 'Departure'),
                 'value' => '<img src="' . $model->departure->flaglink . '">' . $model->from_icao,
                 'format' => 'html'
             ],
             'to_icao' => [
-                'label' => Yii::t('flights', 'Arrival airport'),
+                'label' => Yii::t('flights', 'Destination'),
                 'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->to_icao,
                 'format' => 'html'
             ],
@@ -30,7 +30,7 @@ echo \yii\widgets\DetailView::widget(
                 )->regnum : ''
             ],
             'acf_type' => [
-                'label' => Yii::t('flights', 'Aircraft type'),
+                'label' => Yii::t('flights', 'Aircraft'),
                 'value' => \app\models\Fleet::findOne($model->fleet_regnum)->type_code
             ],
             'pax' => [
