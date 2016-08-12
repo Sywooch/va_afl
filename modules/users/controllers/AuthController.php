@@ -57,9 +57,10 @@ class AuthController extends Controller
         if (!$IVAOTOKEN) {
            if($redirect_url == null)
             {
-                return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url=null');
+                return $this->redirect(Yii::$app->params['ivao_tools_login_url'] . '/users/auth/login?redirect_url=null');
+                //return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url=null');
             } else {
-                return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url='.$redirect_url);
+                //return $this->redirect(Yii::$app->params['ivao_login_url'] . '/users/auth/login?redirect_url='.$redirect_url);
             }
         }
         $model = new IvaoLogin();

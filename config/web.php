@@ -49,7 +49,7 @@ $config = [
         ],
         'logClient' => [
             'class' => 'nfedoseev\yii2\ExternalTarget\LogClient',
-            'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
+            'baseUrl' => 'http://devops.va-afl.su/logman/default/log',
             'site' => 'dev',
             'user_id' => 'vid',
             'ignore_statuses' => [200]
