@@ -14,13 +14,9 @@ $config = [
         'i18n' => [
             'translations' => [
                 '*' => [
-                    'class' => 'yii\i18n\DbMessageSource',
-                    'db' => 'db',
-                    'sourceLanguage' => 'en-US', // Developer language
-                    'sourceMessageTable' => '{{%language_source}}',
-                    'messageTable' => '{{%language_translate}}',
-                    'cachingDuration' => 86400,
-                    'enableCaching' => true,
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
                 ],
             ],
         ],
