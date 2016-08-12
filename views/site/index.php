@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Booking;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use yii\helpers\Url;
@@ -91,111 +92,6 @@ use app\components\Helper;
             sed bibendum turpis luctus eget
         </p>
 
-        <?=
-        GridView::widget(
-            [
-                'dataProvider' => $onlineProvider,
-                'layout' => '{items}{pager}',
-                'options' => ['class' => 'time-table table table-striped table-bordered'],
-                'columns' => [
-                    [
-                        'attribute' => 'callsign',
-                        'label' => '',
-                        'format' => 'raw',
-                        'value' => function($data){
-                                if($data->booking->stream){
-                                    return '<a href="'.$data->user->stream.'">'.'<i class="fa fa-rss" style="color: green"></i></a>';
-                                }else{
-                                    return '<i class="fa fa-rss"></i>';
-                                }
-                            }
-                    ],
-                    [
-                        'attribute' => 'callsign',
-                        'label' => Yii::t('flights', 'Callsign'),
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                                return Html::a(
-                                    Html::encode($data->callsign),
-                                    Url::to(['/airline/flights/view/' . $data->id])
-                                );
-                            },
-                    ],
-                    [
-                        'attribute' => 'user.full_name',
-                        'label' => Yii::t('flights', 'Pilot'),
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                                return Html::img(Helper::getFlagLink($data->user->country)).' '.Html::a(
-                                    Html::encode($data->user->full_name),
-                                    Url::to(
-                                        [
-                                            '/pilot/profile/',
-                                            'id' => $data->user_id
-                                        ]
-                                    ));
-
-                            }
-                    ],
-                    [
-                        'attribute' => 'acf_type',
-                        'label' => Yii::t('flights', 'Type'),
-                    ],
-                    [
-                        'attribute' => 'from_to',
-                        'label' => Yii::t('flights', 'Route'),
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                                return Html::a(
-                                    Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
-                                    Html::encode($data->from_icao),
-                                    Url::to(
-                                        [
-                                            '/airline/airports/view/',
-                                            'id' => $data->from_icao
-                                        ]
-                                    ),
-                                    [
-                                        'data-toggle' => "tooltip",
-                                        'data-placement' => "top",
-                                        'title' => Html::encode("{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})")
-                                    ]
-                                ) . ' - ' . Html::a(
-                                    Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
-                                    Html::encode($data->to_icao),
-                                    Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
-                                    [
-                                        'data-toggle' => "tooltip",
-                                        'data-placement' => "top",
-                                        'title' => Html::encode("{$data->arrAirport->name} ({$data->arrAirport->city}, {$data->arrAirport->iso})")
-                                    ]
-                                );
-                            },
-                    ],
-                    [
-                        'attribute' => 'dep_time',
-                        'label' => Yii::t('flights', 'Dep Time'),
-                        'format' => ['date', 'php:H:i']
-                    ],
-                    [
-                        'attribute' => 'landing_time',
-                        'label' => Yii::t('flights', 'Landing Time'),
-                        'format' => ['date', 'php:H:i'],
-                        'value' => function ($data) {
-                                $eet = explode(':', $data->eet);
-                                $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
-                                $dep_time = strtotime($data->dep_time);
-                                $landing_time = $dep_time + $eet_seconds;
-                                return date('H:i', $landing_time);
-                            }
-                    ],
-                    [
-                        'attribute' => 'status',
-
-                    ]
-                ],
-            ]
-        ) ?>
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title">Online Table <span class="label label-success pull-right">1 Online</span>
@@ -203,115 +99,162 @@ use app\components\Helper;
             </div>
             <div class="panel-body bg-silver">
                 <div class="table table-condensed">
-                    <div class="table-responsive">
-                        <table class="time-table table table-striped table-bordered wow bounceInDown" data-wow-duration="3s">
-                            <thead>
-                            <tr>
-                                <th>
-                                    Callsign
-                                </th>
-                                <th>Type</th>
-                                <th>Route</th>
-                                <th>Dep Time</th>
-                                <th>Arr Time</th>
-                                <th class="th-status">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr data-key="385" class="streamed">
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td class="nowrap">
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>0:00</td>
-                                <td>0:00</td>
-                                <td class="status"><span class="boarding">Boarding</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="approuch">Approuch</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="en-route">En-route</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="on-blocks">On blocks</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="landing">Landing</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="booked">Booked</span></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-rss"></i>
-                                    <a href="http://leo.va-aeroflot.su/airline/flights/view/385">AFL454</a>
-                                </td>
-                                <td>B738</td>
-                                <td>
-                                    <a href="http://leo.va-aeroflot.su/airline/airports/view/TNCM"><img src="./Pilot Center_files/an.png" alt=""> TNCM</a> - <a href="http://leo.va-aeroflot.su/airline/airports/view/MHTG"><img src="./Pilot Center_files/hn.png" alt=""> MHTG</a>
-                                </td>
-                                <td>21:00</td>
-                                <td>22:00</td>
-                                <td class="status"><span class="departing">Departing</span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <?= GridView::widget(
+                    [
+                    'dataProvider' => $onlineProvider,
+                    'layout' => '{items}{pager}',
+                    'options' => [
+                    'class' => 'time-table table table-striped table-bordered',
+                    ],
+                    'columns' => [
+                    [
+                    'attribute' => 'callsign',
+                    'label' => Yii::t('flights', 'Callsign'),
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                    return (($data->stream && isset($data->user->pilot->stream_link)) ?
+                    '<a href="' . $data->user->pilot->stream_link . '">' . '<i class="fa fa-rss" style="color: green"></i></a>' :
+                    '<i class="fa fa-rss"></i>') . ' ' . ((isset($data->flight)) ?
+                    Html::a(
+                    Html::encode($data->callsign),
+                    Url::to(['/airline/flights/view/' . $data->id]),
+                    [
+                    'data-toggle' => "tooltip",
+                    'data-placement' => "top",
+                    'title' => Html::encode($data->user->full_name)
+                    ]
+                    ) : Html::tag(
+                    'span',
+                    $data->callsign,
+                    [
+                    'title' => $data->user->full_name,
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => "top",
+                    'style' => 'cursor:pointer;'
+                    ]
+                    ));
+                    },
+                    ],
+                    [
+                    'attribute' => 'flight.acf_type',
+                    'label' => Yii::t('flights', 'Type'),
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                    return Html::tag(
+                    'span',
+                    $data->fleet->type_code,
+                    [
+                    'title' => $data->fleet->regnum,
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => "top",
+                    'style' => 'cursor:pointer;'
+                    ]
+                    );
+                    },
+                    ],
+                    [
+                    'attribute' => 'from_to',
+                    'label' => Yii::t('flights', 'Route'),
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                    return Html::a(
+                    Html::img(Helper::getFlagLink($data->departure->iso)) . ' ' .
+                    Html::encode($data->from_icao),
+                    Url::to(
+                    [
+                    '/airline/airports/view/',
+                    'id' => $data->from_icao
+                    ]
+                    ),
+                    [
+                    'data-toggle' => "tooltip",
+                    'data-placement' => "top",
+                    'title' => Html::encode(
+                    "{$data->departure->name} ({$data->departure->city}, {$data->departure->iso})"
+                    )
+                    ]
+                    ) . ' - ' . Html::a(
+                    Html::img(Helper::getFlagLink($data->arrival->iso)) . ' ' .
+                    Html::encode($data->to_icao),
+                    Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
+                    [
+                    'data-toggle' => "tooltip",
+                    'data-placement' => "top",
+                    'title' => Html::encode(
+                    "{$data->arrival->name} ({$data->arrival->city}, {$data->arrival->iso})"
+                    )
+                    ]
+                    );
+                    },
+                    ],
+                    [
+                    'attribute' => 'flight.dep_time',
+                    'label' => Yii::t('flights', 'Dep Time'),
+                    'format' => ['date', 'php:H:i'],
+                    'value' => function ($data) {
+                    if (isset($data->flight)) {
+                    return date('H:i', strtotime($data->flight->dep_time));
+                    } else {
+                    return "0:0";
+                    }
+                    }
+                    ],
+                    [
+                    'attribute' => 'flight.eta_time',
+                    'label' => Yii::t('flights', 'Landing Time'),
+                    'format' => ['date', 'php:H:i'],
+                    'value' => function ($data) {
+                    if (isset($data->flight)) {
+                    return $data->flight->eta_time;
+                    } else {
+                    return "00:00";
+                    }
+                    }
+                    ],
+                    [
+                    'attribute' => 'status',
+                    'contentOptions' => ['class' => 'status'],
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                    $ret = '<span class="';
+
+                                switch ($data->g_status) {
+                                    case Booking::STATUS_BOOKED:
+                                        $ret .= 'booked">Booked';
+                                        break;
+                                    case Booking::STATUS_BOARDING:
+                                        $ret .= 'boarding">Boarding';
+                                        break;
+                                    case Booking::STATUS_DEPARTING:
+                                        $ret .= 'departing">Departing';
+                                        break;
+                                    case Booking::STATUS_ENROUTE:
+                                        $ret .= 'en-route">En-route';
+                                        break;
+                                    case Booking::STATUS_LOSS:
+                                        $ret .= 'booked">Loss contact';
+                                        break;
+                                    case Booking::STATUS_APPROACH:
+                                        $ret .= 'approach">Approach';
+                                        break;
+                                    case Booking::STATUS_LANDED:
+                                        $ret .= 'landed">Landed';
+                                        break;
+                                    case Booking::STATUS_ON_BLOCKS:
+                                        $ret .= 'on-blocks">On blocks';
+                                        break;
+                                    default:
+                                        $ret .= '">###';
+                                        break;
+                                }
+
+                                $ret .= '</span>';
+                    return $ret;
+                    }
+                    ]
+                    ],
+                    ]
+                    ) ?>
                 </div>
             </div>
         </div>
