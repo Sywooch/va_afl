@@ -15,7 +15,7 @@ class MapAsset extends AssetBundle
     ];
     public $js = [
         'https://maps.googleapis.com/maps/api/js?key=AIzaSyBUjqLo07DhgO3zXdBLoe2abvDmMaxVwVs',
-        'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js',
+        'https://cdn.rawgit.com/googlemaps/v3-utility-library/master/markermanager/src/markermanager_packed.js',
         '/js/maps/fontawesome-markers.min.js',
         '/js/maps/initializelayers.js'
     ];

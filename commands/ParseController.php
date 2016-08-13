@@ -422,17 +422,20 @@ class ParseController extends Controller
      */
     private function insertTrackerData($flight)
     {
-        $tracker = new Tracker();
         $data = $this->ourpilots[$flight->user_id];
-        $tracker->user_id = $flight->user_id;
-        $tracker->altitude = $data[self::WZ_ALTITUDE];
-        $tracker->latitude = $data[self::WZ_LATITUDE];
-        $tracker->longitude = $data[self::WZ_LONGITUDE];
-        $tracker->heading = $data[self::WZ_HEADING];
-        $tracker->groundspeed = $data[self::WZ_GROUNDSPEED];
-        $tracker->flight_id = $flight->id;
-        $tracker->dtime = gmdate('Y-m-d H:i:s');
-        $tracker->save();
+
+        if (!empty($data[self::WZ_LATITUDE]) && !empty($data[self::WZ_LONGITUDE])) {
+            $tracker = new Tracker();
+            $tracker->user_id = $flight->user_id;
+            $tracker->altitude = $data[self::WZ_ALTITUDE];
+            $tracker->latitude = $data[self::WZ_LATITUDE];
+            $tracker->longitude = $data[self::WZ_LONGITUDE];
+            $tracker->heading = $data[self::WZ_HEADING];
+            $tracker->groundspeed = $data[self::WZ_GROUNDSPEED];
+            $tracker->flight_id = $flight->id;
+            $tracker->dtime = gmdate('Y-m-d H:i:s');
+            $tracker->save();
+        }
     }
 
     /**
