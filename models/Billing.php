@@ -86,6 +86,15 @@ class Billing extends \yii\db\ActiveRecord
         $results = 0;
         foreach(self::find()->andWhere('id > 25')->all() as $bi)
         {
+            /*
+             * Я не знаю что это и как это работает, а главное зачем.
+             * Но эти вещи позволяют получить стоимость полёта
+             * Вроде, это всё должно записываться,
+             * но из-за `$bc->direction='outbound'` оно не запишется(правила валидации).
+             *
+             * Пока пусть работает.
+             * N.
+             */
             $bc = new BillingPayments();
             $bc->direction='outbound';
             $bc->user_id=$flight->user_id;
@@ -95,32 +104,16 @@ class Billing extends \yii\db\ActiveRecord
             $bc->dtime = gmdate('Y-m-d H:i:s');
             $bc->save();
             $results+=$bc->payment;
-            //Зарплата пилота
+
             if(in_array($bi->id,[38,40]))
             {
-                if(!$ub=BillingUserBalance::find()->andWhere(['user_vid'=>$bc->user_id])->one())
-                    $ub=new BillingUserBalance();
-                $ub->balance+=$bc->payment;
-                $ub->lastupdate=date('Y-m-d H:i:s');
-                $ub->save();
+                BillingUserBalance::addMoney($bc->user_id, $flight->id, $bc->payment, $bi->id);
             }
         }
 
         //Выплаты компании
         try {
-            $bc = new BillingPayments();
-            $bc->direction = 'inbound';
-            $bc->user_id = $flight->user_id;
-            $bc->flight_id = $flight->user_id;
-            $bc->bill_cost_id = 0;
-            $bc->payment = $cost - $results;
-            $bc->dtime = gmdate('Y-m-d H:i:s');
-            $bc->save();
-
-            $ub = BillingUserBalance::find()->andWhere(['user_vid' => 0])->one();
-            $ub->balance += $bc->payment;
-            $ub->lastupdate = date('Y-m-d H:i:s');
-            $ub->save();
+            BillingUserBalance::addMoney(0, $flight->id, $cost - $results, 0);
         } catch (Exception $ex) {
             throw new Exception(sprintf('Unable to make payments to company from %d flight', $flight->flight_id), 0, $ex);
         }

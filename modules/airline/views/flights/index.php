@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
     }
     ?>
-    <div id="flights_grid">
+    <div id="flights_grid"  data-scrollbar="true" data-height="350px">
         <?php Pjax::begin() ?>
         <?=
         GridView::widget(
@@ -107,7 +107,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'visible' => !$from_view
                     ],
-                    'vucs',
                     [
                         'attribute' => 'first_seen',
                         'label' => Yii::t('app', 'Date'),

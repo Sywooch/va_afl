@@ -14,13 +14,9 @@ $config = [
         'i18n' => [
             'translations' => [
                 '*' => [
-                    'class' => 'yii\i18n\DbMessageSource',
-                    'db' => 'db',
-                    'sourceLanguage' => 'en-US', // Developer language
-                    'sourceMessageTable' => '{{%language_source}}',
-                    'messageTable' => '{{%language_translate}}',
-                    'cachingDuration' => 86400,
-                    'enableCaching' => true,
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en',
                 ],
             ],
         ],
@@ -43,13 +39,17 @@ $config = [
             'class' => 'yii\swiftmailer\Mailer',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'constructArgs' => ['localhost', 25],
+                'host' => 'smtp.yandex.ru',
+                'username' => 'noreply@va-afl.su',
+                'password' => 'eqA66RSuT9',
+                'port' => '465',
+                'encryption' => 'ssl',
             ],
             'enableSwiftMailerLogging' => true,
         ],
         'logClient' => [
             'class' => 'nfedoseev\yii2\ExternalTarget\LogClient',
-            'baseUrl' => 'http://devops.va-aeroflot.su/logman/default/log',
+            'baseUrl' => 'http://devops.va-afl.su/logman/default/log',
             'site' => 'dev',
             'user_id' => 'vid',
             'ignore_statuses' => [200]

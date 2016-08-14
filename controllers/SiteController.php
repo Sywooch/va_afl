@@ -85,10 +85,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-
         if(Yii::$app->user->isGuest) {
             $onlineProvider = new ActiveDataProvider([
-                'query' => Flights::find()->where(['status' => Flights::FLIGHT_STATUS_STARTED]),
+                'query' => Booking::find()->where('status > 0')->andWhere('status < 3')->orderBy('g_status desc'),
                 'sort' => false,
                 'pagination' => false,
             ]);
