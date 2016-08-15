@@ -25,7 +25,7 @@ use yii\helpers\Html;
                             <table class="btn-primary" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td>
-                                        <a href="http://dev.va-aeroflot.su/">View more info</a>
+                                        <a href="<?= $link ?>">View more info</a>
                                     </td>
                                 </tr>
                             </table>
