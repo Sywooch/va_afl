@@ -24,9 +24,9 @@ class News
                 Notification::add($user->vid, $content->author, $content->id);
 
                 Yii::$app->mailer->compose('notification_news.php', ['user' => $user, 'content' => $content])
-                    ->setFrom('noreply@va-transaero.ru')
+                    ->setFrom(Yii::$app->params['serverEmail'])
                     ->setTo($user->email)
-                    ->setSubject('AFL Group News '.$content->name_en)
+                    ->setSubject('VA AFL News '.$content->name_en)
                     ->send();
             }
         }
