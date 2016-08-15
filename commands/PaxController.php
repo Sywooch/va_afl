@@ -62,7 +62,7 @@ class PaxController extends Controller
     private function generateRandomPaxes($acftype)
     {
         $acf = Actypes::find()->andWhere(['code'=>$acftype])->one();
-        $maxpax = ($acf)?$acf->max_pax:100; //default value
-        return $maxpax;
+
+        return $acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101;
     }
 }
