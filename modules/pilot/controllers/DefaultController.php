@@ -79,17 +79,7 @@ class DefaultController extends Controller
             $this->refresh();
         }
 
-        $scheduledp = new ActiveDataProvider([
-            'query' => Schedule::find()->andWhere('dep = "' . $model->from_icao . '"')
-                    ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
-                    ->andWhere('SUBSTRING(day_of_weeks,' . (gmdate('N') - 1) . ',1) = 1')
-                    ->andWhere('start < "' . gmdate('Y-m-d') . '"')
-                    ->andWhere('stop > "' . gmdate('Y-m-d') . '"')
-                    ->orderBy('dep_utc_time'),
-            'pagination' => ['pageSize' => 6],
-        ]);
-
-        return $this->render('booking_new', ['model' => $model, 'scheduledp' => $scheduledp]);
+        return $this->render('booking_new', ['model' => $model]);
     }
 
     public function actionProfile($id = null)

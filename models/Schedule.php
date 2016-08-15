@@ -32,15 +32,35 @@ class Schedule extends \yii\db\ActiveRecord
         return 'schedule';
     }
 
+    /**
+     * Следующие рейсы до конца текущих суток и на следующие сутки
+     * @param $from string ICAO Code
+     * @param $to string ICAO Code
+     * @return $this
+     */
     public static function next($from, $to)
     {
         return self::find()->andWhere(['arr' => $to, 'dep' => $from])
-            ->andWhere('SUBSTRING(day_of_weeks,' . date('N') . ',1) = 1')
-            ->andWhere('dep_utc_time >= \''.date('H').':00:00\'')
-            ->andWhere('start <= \''.date('Y-m-d').'\'')
-            ->andWhere('stop >= \''.date('Y-m-d').'\'')
+            ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
+            ->andFilterWhere(['or', 'dep_utc_time >= \'' . gmdate('H') . ':00:00\'', 'dep_utc_time >= \'00:00:00\''])
+            ->andFilterWhere(['and', 'start <= \'' . gmdate('Y-m-d') . '\'', 'stop >= \'' . gmdate('Y-m-d') . '\''])
             ->orderBy('dep_utc_time asc')
             ->limit(9);
+    }
+
+    /**
+     * Возможжно не генерит паксов из-за gmdate('H:i:s', strtotime('+1 hour')) с 00:00 до 01:00 (25 часов?)
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function inHour()
+    {
+        return self::find()
+            ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
+            ->andWhere('dep_utc_time < "' . gmdate('H:i:s', strtotime('+1 hour')) . '"')
+            ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
+            ->andWhere('start <="' . gmdate('Y-m-d') . '"')
+            ->andWhere('stop >= "' . gmdate('Y-m-d') . '"')
+            ->orderBy('dep_utc_time')->all();
     }
 
     /**
