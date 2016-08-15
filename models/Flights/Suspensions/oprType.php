@@ -23,7 +23,6 @@ class oprType implements SuspensionProcess
     private $flight;
 
     private $errors = [
-        'VA AFL',
         'VAG AFL',
         'VA AEROFLOT',
         'AEROFLOT',
