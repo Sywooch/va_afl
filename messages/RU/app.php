@@ -86,5 +86,5 @@ return [
     'Statistics' => 'Статистика',
     'Pilot in Command' => 'КВС',
     'More info' => 'Подробности',
-
+    'Recent' => 'Недавние',
 ];
