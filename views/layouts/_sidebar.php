@@ -86,11 +86,11 @@ use app\models\Users;
                       'url' => \yii\helpers\Url::to('/news'),
                       'icon' => 'fa-newspaper-o'
                     ],
-                    [
+                    /*[
                         'name' => Yii::t('app', 'Missions'),
                         'url' => \yii\helpers\Url::to('/airline/missions'),
                         'icon' => 'fa-trophy'
-                    ],
+                    ],*/
                     [
                         'name' => Yii::t('app', 'Tours'),
                         'url' => \yii\helpers\Url::to('/tours'),
@@ -127,7 +127,7 @@ use app\models\Users;
                         'icon' => 'fa-laptop',
                         'items' => [
                             ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
-                            ['name' => Yii::t('app', 'Content'), 'url' => \yii\helpers\Url::to('/content/index')],
+                            //['name' => Yii::t('app', 'Content'), 'url' => \yii\helpers\Url::to('/content/index')],
                         ]
                     ],
                     [
@@ -140,7 +140,7 @@ use app\models\Users;
                         'url' => \yii\helpers\Url::to('/forum'),
                         'icon' => 'fa-rss'
                     ],
-                    [
+                    /*[
                         'name' => Yii::t('app', 'Shop'),
                         'icon' => 'fa-shopping-cart',
                         'items' => [
@@ -148,13 +148,12 @@ use app\models\Users;
                             ['name' => Yii::t('app', 'My purchases'), 'url' => '/shop/purchases'],
                             ['name' => Yii::t('app', 'Slot-machine'), 'url' => '/shop/slos'],
                         ]
-                    ],
+                    ],*/
                     [
                         'name' => Yii::t('app', 'VA AFL'),
                         'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/content/view/about'],
-                            //['name' => Yii::t('app', 'News'), 'url' => ''],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/airline/fleet'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
@@ -164,7 +163,7 @@ use app\models\Users;
                                 'url' => 'http://www.ivao.aero',
                                 'linkOptions' => ['target' => '_blank']
                             ],
-                            ['name' => Yii::t('app', 'Contacts'), 'url' => '/airline/contacts']
+                            ['name' => Yii::t('app', 'Contacts'), 'url' => '/content/view/contacts']
                         ]
                     ],
                 ]
