@@ -15,7 +15,7 @@ $confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['users/auth/confirmtoke
                         <td>
                             <h1>Hello, <?= Html::encode($user->full_name) ?>!</h1>
 
-                            <p>You are successfully registered in AFL GROUP </p>
+                            <p>You are successfully registered in VA AFL </p>
 
                             <p><?= Html::a(Html::encode($confirmLink), $confirmLink) ?></p>
 
@@ -30,7 +30,7 @@ $confirmLink = Yii::$app->urlManager->createAbsoluteUrl(['users/auth/confirmtoke
 
                             <p>Stay tuned,</p>
 
-                            <p>AFL GROUP Team</p>
+                            <p>VA AFL Team</p>
                         </td>
                     </tr>
                 </table>

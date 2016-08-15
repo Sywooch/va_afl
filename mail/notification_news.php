@@ -33,7 +33,7 @@ use yii\helpers\Html;
 
                             <p>Stay tuned,</p>
 
-                            <p>AFL GROUP Team</p>
+                            <p>VA AFL Team</p>
                         </td>
                     </tr>
                 </table>

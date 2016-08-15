@@ -79,7 +79,7 @@ class Helper extends Component
         $apfrom = Airports::find()->andWhere(['icao'=>$from])->one();
         $apto = Airports::find()->andWhere(['icao'=>$to])->one();
         $nms = self::calculateDistanceLatLng($apfrom->lat,$apto->lat,$apfrom->lon,$apto->lon);
-        $priceforone = Billing::findOne(2)->base_cost;
+        $priceforone = Billing::findOne(2)->base_cost * 3;
         return ceil($nms*$priceforone);
     }
 

@@ -31,7 +31,7 @@ class NotificationsController extends Controller
      */
     public function actionIndex()
     {
-        Notification::read();
+        Notification::read(999);
 
         return $this->render('index', [
             'notifications' => Notification::userList(),

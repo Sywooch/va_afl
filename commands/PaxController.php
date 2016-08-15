@@ -46,14 +46,7 @@ class PaxController extends Controller
 
     private function generatePaxes()
     {
-        $data = Schedule::find()
-            ->andWhere('dep_utc_time > "'.gmdate('H:i:s').'"')
-            ->andWhere('dep_utc_time < "'.gmdate('H:i:s',strtotime('+1 hour')).'"')
-            ->andWhere('SUBSTRING(day_of_weeks,'.(gmdate('N')-1).',1) = 1')
-            ->andWhere('start < "'.gmdate('Y-m-d').'"')
-            ->andWhere('stop > "'.gmdate('Y-m-d').'"')
-            ->orderBy('dep_utc_time')->all();
-        foreach($data as $paxdata)
+        foreach(Schedule::inHour() as $paxdata)
         {
             if(Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('waiting_hours>=24')->one())
                 continue;
@@ -69,7 +62,7 @@ class PaxController extends Controller
     private function generateRandomPaxes($acftype)
     {
         $acf = Actypes::find()->andWhere(['code'=>$acftype])->one();
-        $maxpax = ($acf)?$acf->max_pax:100; //default value
-        return $maxpax;
+
+        return $acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101;
     }
 }

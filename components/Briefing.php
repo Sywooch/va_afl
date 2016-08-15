@@ -26,7 +26,7 @@ class Briefing extends Component
         //'PBN', 'NAV', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
         'PBN', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
     ];
-    private $operator = 'AFLGROUP';
+    private $operator = 'VA AFL';
 
     //$callsing, $from, $to,
     public function __construct($aircraft){

@@ -3,7 +3,7 @@
 namespace app\models\Flights\Suspensions;
 
 /**
- * AFL Group
+ * VA AFL
  *
  * Suspensions Processing
  * Type: mvz routes
