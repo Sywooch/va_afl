@@ -29,18 +29,18 @@ if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') .
             </tr>
             <?php if (Yii::$app->authManager->checkAccess($user->vid, 'supervisor')): ?>
                 <tr class="warning">
-                    <td>AFL Group Supervisor</td>
+                    <td>VA AFL Supervisor</td>
                 </tr>
             <?php endif; ?>
             <?php /*?>
             <?php if (Yii::$app->authManager->checkAccess($user->vid, 'training/examiner')): ?>
                 <tr>
-                    <td>AFL Group Examiner</td>
+                    <td>VA AFL Examiner</td>
                 </tr>
             <?php endif; ?>
             <?php if (Yii::$app->authManager->checkAccess($user->vid, 'training/trainer')): ?>
                 <tr>
-                    <td>AFL Group Trainer</td>
+                    <td>VA AFL Trainer</td>
                 </tr>
             <?php endif; ?>
             <?php */ ?>
