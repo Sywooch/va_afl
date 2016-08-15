@@ -8,17 +8,7 @@
 ?>
 <div class="col-lg-3 panel">
     <div class="panel-body">
-        <h4>Search</h4>
-
-        <div class="hline"></div>
-        <p>
-            <br>
-            <input type="text" class="form-control" placeholder="Search something">
-        </p>
-
-        <hr>
-
-        <h4>Categories</h4>
+        <h4><?= Yii::t('app', 'Categories') ?></h4>
 
         <div class="hline"></div>
         <p><a href="/news"> <?= Yii::t('app', 'All') ?></a> <span
@@ -30,7 +20,7 @@
         <?php endforeach; ?>
         <hr>
 
-        <h4>Recent Posts</h4>
+        <h4><?= Yii::t('app', 'Recent') ?></h4>
 
         <div class="hline"></div>
         <ul class="popular-posts list-unstyled">
