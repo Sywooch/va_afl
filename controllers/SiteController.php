@@ -128,6 +128,16 @@ class SiteController extends Controller
         if ($user = Yii::$app->user) {
             $booking = Booking::find()->andWhere(['user_id' => $user->id])->andWhere('status < '.Booking::BOOKING_FLIGHT_END)->one();
             $booking->status = Booking::BOOKING_DELETED_BY_USER;
+
+            if($booking->flight){
+                if($booking->flight->status == Flights::FLIGHT_STATUS_STARTED){
+                    $booking->flight->status = Flights::FLIGHT_STATUS_BREAK;
+                    $booking->status = Booking::BOOKING_FLIGHT_END;
+                }
+
+                $booking->flight->save();
+            }
+
             $booking->save();
             Status::get($booking);
         }
