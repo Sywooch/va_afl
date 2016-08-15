@@ -38,12 +38,12 @@ class DefaultController extends Controller
     public function actionCreate()
     {
         $model = new Content();
-
         $model->category = 16;
         $model->author = \Yii::$app->user->identity->vid;
         $model->machine_name = null;
 
         if ($model->load(\Yii::$app->request->post())) {
+            $model->name_ru = $model->name_en;
             $img = UploadedFile::getInstance($model, 'img_file');
             if (isset($img)) {
                 if ($img->size !== 0 && in_array($img->extension, ['gif', 'png', 'jpg'])) {

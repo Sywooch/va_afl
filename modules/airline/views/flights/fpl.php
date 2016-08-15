@@ -17,7 +17,7 @@ use app\components\Helper;
     <tr>
         <td align="right"> <?= Yii::t('flights', 'Callsign') ?>:</td>
         <td><b><?= $model->callsign ?></b></td>
-        <td colspan="2"><a href="/airline/flights/info/<?= $model->id ?>" class="btn btn-primary btn-xs"><?= Yii::t('flights', 'More info') ?></a></td>
+        <td colspan="2"><a href="/airline/flights/info/<?= $model->id ?>" class="btn btn-primary btn-xs"><?= Yii::t('app', 'More info') ?></a></td>
     </tr>
     <tr>
         <td align="right"> <?= Yii::t('app', 'Pilot in Command') ?>:</td>

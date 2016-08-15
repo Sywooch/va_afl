@@ -77,5 +77,14 @@ return [
     'of' => '',
     'Status' => 'Статус',
     'Notifications' => 'Уведомления',
-    'View more' => 'Посмотреть ещё'
+    'View more' => 'Посмотреть ещё',
+    'News' => 'Новости',
+    'Documents' => 'Документы',
+    'Pilot Center' => 'Центр Пилота',
+    'Current flight' => 'Текущий полёт',
+    'Settings' => 'Настройки',
+    'Statistics' => 'Статистика',
+    'Pilot in Command' => 'КВС',
+    'More info' => 'Подробности',
+    'Recent' => 'Недавние',
 ];

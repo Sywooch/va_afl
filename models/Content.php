@@ -2,9 +2,11 @@
 
 namespace app\models;
 
-use app\components\Levels;
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
+
+use app\components\Levels;
 
 /**
  * This is the model class for table "content".
@@ -34,11 +36,11 @@ class Content extends \yii\db\ActiveRecord
         return 'content';
     }
 
-    public static function news(){
+    public static function news($limit = 50){
         return self::prepare(
             self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy(
                 'created desc'
-            )->all()
+            )->limit($limit)->all()
         );
     }
 

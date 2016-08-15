@@ -10,7 +10,7 @@ use app\components\Helper;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Flights';
+$this->title = Yii::t('app', 'Flights');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="flights-index">

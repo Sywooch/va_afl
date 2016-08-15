@@ -28,26 +28,8 @@ use dosamigos\ckeditor\CKEditor;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'name_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'name_en')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'img_file')->fileInput() ?>
-    <?=
-    $form->field($model, 'text_ru')->widget(
-        CKEditor::className(),
-        [
-            'options' => ['rows' => 6],
-            'preset' => 'full'
-        ]
-    ) ?><?=
-    $form->field($model, 'text_en')->widget(
-        CKEditor::className(),
-        [
-            'options' => ['rows' => 6],
-            'preset' => 'full'
-        ]
-    ) ?>
-
-    <?= $form->field($model, 'description_ru')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'description_en')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
