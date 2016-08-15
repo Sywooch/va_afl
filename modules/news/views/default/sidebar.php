@@ -5,6 +5,8 @@
  * Date: 02.08.16
  * Time: 11:33
  */
+use app\models\Content;
+
 ?>
 <div class="col-lg-3 panel">
     <div class="panel-body">
@@ -24,51 +26,28 @@
 
         <div class="hline"></div>
         <ul class="popular-posts list-unstyled">
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
+            <?php foreach (Content::news(5) as $post): ?>
+                <li class="row">
+                    <div class="col-md-3">
+                        <a class="thumbnail" target="_blank" href="/pilot/profile/<?= $post->author ?>"><img
+                                class="img-rounded" data-toggle="tooltip" data-placement="top" title="<?= $post->authorUser->full_name ?>" src="<?= $post->authorUser->avatarLink ?>"></a>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="col-md-12">
+                            <p><a target="_blank"
+                                                     href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><?= $post->description ?></a>
+                            </p>
+                        </div>
+                        <div class="col-md-12">
+                            <em class="small"><?= $post->createdDT->format('d F Y') ?></em>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <hr>
+                </li>
+            <?php endforeach; ?>
 
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
-            <li class="row">
-                <div class="col-md-3">
-                    <a class="thumbnail" href="#"><img class="img-rounded" src="//placehold.it/75x75"
-                                                       alt="Popular Post"></a>
-                </div>
-                <div class="col-md-9">
-                    <p class="pull-right"><a href="#">Lorem ipsum dolor sit amet consectetur adipiscing elit</a>
-                    </p>
-                    <em class="small">Posted on 02/21/14</em>
-                </div>
-            </li>
         </ul>
     </div>
 </div>
