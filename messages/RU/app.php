@@ -89,4 +89,6 @@ return [
     'More info' => 'Подробности',
     'Recent' => 'Недавние',
     'Unknown' => 'Неизвестно',
+    'Flight Squadron' => 'Лётный отряд',
+    'Home Airport' => 'Домашний аэропорт',
 ];

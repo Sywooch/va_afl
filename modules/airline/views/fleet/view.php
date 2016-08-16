@@ -1,6 +1,8 @@
 <?php
 
+use app\components\Helper;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -38,18 +40,82 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'model' => $model,
                     'attributes' => [
-                        'id',
                         'regnum',
                         'type_code',
                         'full_type',
-                        'status',
-                        'user_id',
-                        'home_airport',
-                        'location',
-                        'squadron_id',
+                        [
+                            'attribute' => 'status',
+                            'label' => Yii::t('app', 'Status'),
+                            'format' => 'raw',
+                            'value' => $model->statusHTML
+                        ],
+                        [
+                            'attribute' => 'home_airport',
+                            'label' => Yii::t('app', 'Home Airport'),
+                            'format' => 'raw',
+                            'value' => Html::a(
+                                    Html::img(
+                                        Helper::getFlagLink($model->homeAirportInfo->iso)
+                                    ) . ' ' .
+                                    Html::encode(
+                                        $model->homeAirportInfo->name
+                                    ) . ' (' . Html::encode($model->home_airport) . ')',
+                                    Url::to(
+                                        [
+                                            '/airline/airports/view/',
+                                            'id' => $model->home_airport
+                                        ]
+                                    ),
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode($model->homeAirportInfo->city)
+                                    ]
+                                )
+                        ],
+                        [
+                            'attribute' => 'location',
+                            'label' => Yii::t('app', 'Location'),
+                            'format' => 'raw',
+                            'value' => Html::a(
+                                    Html::img(
+                                        Helper::getFlagLink($model->airportInfo->iso)
+                                    ) . ' ' .
+                                    Html::encode(
+                                        $model->airportInfo->name
+                                    ) . ' (' . Html::encode($model->location) . ')',
+                                    Url::to(
+                                        [
+                                            '/airline/airports/view/',
+                                            'id' => $model->location
+                                        ]
+                                    ),
+                                    [
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "top",
+                                        'title' => Html::encode($model->airportInfo->city)
+                                    ]
+                                )
+                        ],
+                        [
+                            'attribute' => 'squadron_id',
+                            'label' => Yii::t('app', 'Flight Squadron'),
+                            'format' => 'raw',
+                            'value' => Html::a(
+                                    \app\models\Squadrons::findOne($model->squadron_id)->abbr,
+                                    Url::to(
+                                        [
+                                            '/squadron/view/',
+                                            'id' => $model->squadron_id
+                                        ]
+                                    ),
+                                    ['target' => '_blank']
+                                )
+                        ],
                         'max_pax',
+                        'hrs',
                         'max_hrs',
-                        'selcal',
+                        'need_srv',
                     ],
                 ]
             ) ?>

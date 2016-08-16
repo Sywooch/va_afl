@@ -37,4 +37,6 @@ return [
     'Remarks' => 'Ремарки',
     'Flight Information' => 'Информация о полёте',
     'In History' => 'Выведен из флота',
+    'Type Code' => 'Код',
+    'Full Type' => 'Полный тип',
 ];

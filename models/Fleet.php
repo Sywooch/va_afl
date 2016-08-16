@@ -64,14 +64,14 @@ class Fleet extends \yii\db\ActiveRecord
     {
         return [
             'regnum' => 'Regnum',
-            'type_code' => 'Type Code',
-            'full_type' => 'Full Type',
-            'status' => 'Status',
-            'user_id' => 'User ID',
-            'home_airport' => 'Home Airport',
-            'location' => 'Location',
+            'type_code' => Yii::t('flights', 'Type Code'),
+            'full_type' => Yii::t('flights', 'Full Type'),
+            'status' => Yii::t('app', 'Status'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'home_airport' => Yii::t('flights', 'Home Airport'),
+            'location' => Yii::t('flights', 'Location'),
             'image_path' => 'Image Path',
-            'squadron_id' => 'Squadron ID',
+            'squadron_id' => Yii::t('flights', 'Flight Squadron'),
             'max_pax' => 'Max Pax',
             'max_hrs' => 'Max Hrs',
         ];
@@ -152,9 +152,34 @@ class Fleet extends \yii\db\ActiveRecord
         return Json::encode($out);
     }
 
+    public function getStatusHTML()
+    {
+        switch ($this->status) {
+            case -1:
+                return '<i class="fa fa-calendar"></i> ' . Yii::t('flights', 'In History');
+                break;
+            case 0:
+                return '<i class="fa fa-unlock"></i> ' . Yii::t('flights', 'Available');
+                break;
+            case 1:
+                return '<i class="fa fa-lock"></i> ' . Yii::t('flights', 'Booked');
+                break;
+            case 2:
+                return '<i class="fa fa-plane"></i> ' . Yii::t('flights', 'In flight');
+                break;
+            default:
+                return '<i class="fa fa-lock"></i> ' . Yii::t('flights', 'No info');
+        }
+    }
+
     public function getAirportInfo()
     {
         return $this->hasOne('app\models\Airports', ['icao' => 'location']);
+    }
+
+    public function getHomeAirportInfo()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'home_airport']);
     }
 
     public function getProfileInfo()
