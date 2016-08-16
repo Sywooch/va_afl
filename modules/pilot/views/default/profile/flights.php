@@ -35,7 +35,7 @@ GridView::widget(
                 'label' => Yii::t('flights', 'Aircraft'),
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return Html::a(
+                        return ($data->fleet ? Html::a(
                             Html::encode($data->fleet->regnum) . " (" . Html::encode($data->fleet->type_code) . ")",
                             Url::to(
                                 [
@@ -47,7 +47,7 @@ GridView::widget(
                                 'data-placement' => "top",
                                 'title' => Html::encode("{$data->fleet->full_type}")
                             ]
-                        );
+                        ) : $data->acf_type);
                     }
             ],
             [
