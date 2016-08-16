@@ -235,7 +235,6 @@ class ParseController extends Controller
             if($booking->fleet_regnum){
                 $this->transferCraft($flight, $flight->landing);
                 Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
-                Fleet::hrsAdd($booking->fleet_regnum, $flight->flight_time);
                 Fleet::checkSrv($booking->fleet_regnum, $flight->landing);
             }
 
@@ -305,6 +304,11 @@ class ParseController extends Controller
         $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
 
         if ($this->validateOnlineFlight($booking, $data)) {
+
+            if ($booking->fleet_regnum) {
+                $time = intval((strtotime(gmdate('Y-m-d H:i:s')) - strtotime($flight->last_seen)) / 60);
+                Fleet::hrsAdd($booking->fleet_regnum, $time);
+            }
 
             $flight->from_icao = $booking->from_icao;
             $flight->to_icao = $booking->to_icao;
