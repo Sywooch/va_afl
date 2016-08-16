@@ -17,17 +17,8 @@ class DefaultController extends Controller
         return $this->render(
             'index',
             [
-                'content' => $id == null ? false : Content::documentsCategory($id)
-            ]
-        );
-    }
-
-    public function actionList($id)
-    {
-        return $this->render(
-            'index',
-            [
-                'content' => Content::documentsCategory($id)
+                'content' => $id == null ? false : Content::documentsCategory($id),
+                'name' => $id == null ? '' : ContentCategories::findOne(['link' => $id])->name
             ]
         );
     }

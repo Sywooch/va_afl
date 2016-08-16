@@ -17,7 +17,8 @@ class DefaultController extends Controller
         return $this->render(
             'index',
             [
-                'content' => $id == null ? Content::news() : Content::newsCategory($id)
+                'content' => $id == null ? Content::news() : Content::newsCategory($id),
+                'name' => $id == null ? '' : ContentCategories::findOne(['link' => $id])->name
             ]
         );
     }

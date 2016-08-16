@@ -8,7 +8,7 @@
 use app\models\Content;
 use app\models\ContentCategories;
 
-$this->title = Yii::t('app', 'News');
+$this->title = Yii::t('app', 'News').' '.$name;
 ?>
 <h1><?= $this->title ?></h1>
 <div class="col-md-9">
