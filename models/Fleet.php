@@ -19,10 +19,72 @@ use yii\helpers\Json;
  * @property string $image_path
  * @property integer $squadron_id
  * @property integer $max_pax
- * @property integer $max_hrs
+ * @property integer $max_hrs Налёт до ТО (минуты)
+ * @property integer $hrs Налёт после ТО (минуты)
+ * @property integer $need_srv Требуется ТО (минуты)
  */
 class Fleet extends \yii\db\ActiveRecord
 {
+    const STATUS_OLD = -1;
+    const STATUS_AVAIL = 0;
+    const STATUS_LOCKED = 1;
+    const STATUS_ENROUTE = 2;
+
+    public static $airports = [
+        'A319' => ['UUEE'],
+        'A320' => ['UUEE'],
+        'A321' => ['UUEE'],
+        'A332' => ['UUEE'],
+        'A333' => ['UUEE'],
+        'B77W' => ['UUEE'],
+        'B738' => ['UUEE'],
+        'SU95' => ['UUEE']
+    ];
+
+    /**
+     * Изменение статуса борта
+     * @param $id int ID Самолёта из таблицы
+     * @param $status int статус из констант
+     */
+    public static function changeStatus($id, $status)
+    {
+        $fleet = self::findOne($id);
+        $fleet->status = $status;
+        $fleet->save();
+    }
+
+    /**
+     * Добавление часов до ТО
+     * @param $id int ID Самолёта из таблицы
+     * @param $time int время в минутах
+     */
+    public static function hrsAdd($id, $time)
+    {
+        $fleet = self::findOne($id);
+        $fleet->hrs += $time;
+
+        if ($fleet->hrs > $fleet->max_hrs) {
+            $fleet->need_srv = 1;
+        }
+
+        $fleet->save();
+    }
+
+    /**
+     * Функция проверки ТО
+     * @param $id int ID Самолёта из таблицы
+     * @param $landing string ICAO код аэродрома
+     */
+    public static function checkSrv($id, $landing)
+    {
+        $fleet = self::findOne($id);
+        if (in_array($landing, self::$airports[$fleet->type_code])) {
+            $fleet->need_srv = 0;
+            $fleet->hrs = 0;
+        }
+        $fleet->save();
+    }
+
     public static function transfer($regnum, $location)
     {
         if (!$regnum) {

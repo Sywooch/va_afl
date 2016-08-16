@@ -139,6 +139,12 @@ class SiteController extends Controller
             }
 
             $booking->save();
+
+            //разблокировка борта
+            if($booking->fleet_regnum){
+                Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
+            }
+
             Status::get($booking);
         }
 

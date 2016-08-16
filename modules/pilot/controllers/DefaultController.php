@@ -4,6 +4,7 @@ namespace app\modules\pilot\controllers;
 
 use app\components\EmailSender;
 use app\components\Levels;
+use app\models\Fleet;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
 use Yii;
@@ -75,7 +76,9 @@ class DefaultController extends Controller
             $model->attributes = $_POST['Booking'];
             $model->status = Booking::BOOKING_INIT;
             $model->save();
-            Levels::addExp(1, \Yii::$app->user->identity->vid);
+            if($model->fleet_regnum){
+                Fleet::changeStatus($model->fleet_regnum, Fleet::STATUS_LOCKED);
+            }
             $this->refresh();
         }
 

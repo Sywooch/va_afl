@@ -313,6 +313,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'format' => 'raw',
                                         'value' => function ($data) {
                                                 switch($data->status){
+                                                    case -1:
+                                                        return '<i class="fa fa-calendar"></i> '.Yii::t('flights', 'In History');
+                                                        break;
                                                     case 0:
                                                         return '<i class="fa fa-unlock"></i> '.Yii::t('flights', 'Available');
                                                         break;

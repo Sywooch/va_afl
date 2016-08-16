@@ -20,7 +20,7 @@ class News
     public static function add($content)
     {
         $link = '/news/'.$content->categoryInfo->link.'/'.$content->link;
-        
+
         foreach(Users::active() as $user){
             if(Yii::$app->authManager->checkAccess($user->vid, $content->categoryInfo->access_feed)){
                 Notification::add($user->vid, $content->author, $content->id);

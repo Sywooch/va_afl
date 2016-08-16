@@ -170,6 +170,8 @@ class ParseController extends Controller
         $flight = new Flights();
 
         if ($booking->fleet_regnum) {
+            Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_ENROUTE);
+
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
 
@@ -230,9 +232,15 @@ class ParseController extends Controller
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time)) / 60);
 
             $this->transferPilot($flight, $flight->landing);
-            $this->transferCraft($flight, $flight->landing);
-            //Биллинг
 
+            if($booking->fleet_regnum){
+                $this->transferCraft($flight, $flight->landing);
+                Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
+                Fleet::hrsAdd($booking->fleet_regnum, $flight->flight_time);
+                Fleet::checkSrv($booking->fleet_regnum, $flight->landing);
+            }
+
+            //Биллинг
             $flight->vucs = Billing::calculatePriceForFlight(
                 $flight->from_icao,
                 $flight->landing,
@@ -240,8 +248,10 @@ class ParseController extends Controller
             );
             Billing::doFlightCosts($flight);
 
+            //Уровни
             Levels::flight($flight->user_id, $flight->nm);
 
+            //Slack
             if ($this->slackFeed) {
                 $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) finished in {$flight->landing}.");
                 $slack->sent();
@@ -251,6 +261,11 @@ class ParseController extends Controller
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
                 $flight->status = Flights::FLIGHT_STATUS_BREAK;
                 $booking->status = Booking::BOOKING_FLIGHT_END;
+
+                //Разблокировка борта
+                if($booking->fleet_regnum){
+                    Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
+                }
 
                 if ($this->slackFeed) {
                     $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) failed.");

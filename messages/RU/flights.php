@@ -36,4 +36,5 @@ return [
     'Arrival time' => 'Время прибытия',
     'Remarks' => 'Ремарки',
     'Flight Information' => 'Информация о полёте',
+    'In History' => 'Выведен из флота',
 ];
