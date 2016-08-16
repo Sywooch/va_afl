@@ -231,6 +231,9 @@ $config = [
                 $user->last_visited = date('Y-m-d H:i:s');
                 $user->save();
             }
+            if (Yii::$app->requestedRoute = 'site/error') {
+                Yii::$app->layout = 'error';
+            }
             \app\models\User::setLanguage();
         },
 ];

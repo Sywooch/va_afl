@@ -9,19 +9,14 @@ use yii\helpers\Html;
 
 $this->title = $name;
 ?>
-<div class="site-error">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+<div class="error-code m-b-10"><?= $this->title ?> <i class="fa fa-warning"></i></div>
+<div class="error-content">
+    <div class="error-message">We couldn't find it...</div>
+    <div class="error-desc m-b-20">
+        The page you're looking for doesn't exist. <br />
+        Perhaps, there pages will help find what you're looking for.
     </div>
-
-    <pre>
-        <?= \yii\helpers\VarDumper::dump($exception, 10, true) ?>
-    </pre>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
+    <div>
+        <a href="/" class="btn btn-success">Go Back to Home Page</a>
+    </div>
 </div>

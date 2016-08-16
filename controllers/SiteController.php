@@ -99,11 +99,14 @@ class SiteController extends Controller
 
     public function actionError()
     {
+        $this->layout = 'error';
         $exception = Yii::$app->errorHandler->exception;
 
         if ($exception !== null) {
-            return $this->render('error', ['exception' => $exception]);
+            return $this->render('error', ['name' => $this->layout, 'exception' => $exception]);
         }
+
+        return $this->render('error', ['name' => $this->layout]);
     }
 
     public function actionGetairports($q = null, $id = null)
