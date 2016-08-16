@@ -45,10 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title">FPL</h4>
+        <h4 class="panel-title"><?= Yii::t('flights', 'FPL') ?></h4>
     </div>
     <div class="panel-body">
-        <div class="col-sm-2"><b>Route</b></div>
+        <div class="col-sm-2"><b><?= Yii::t('flights', 'Route') ?></b></div>
         <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?=
             str_replace(
                 "\n",
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12">
             <hr>
         </div>
-        <div class="col-sm-2"><b>Remarks</b></div>
+        <div class="col-sm-2"><b><?= Yii::t('flights', 'Remarks') ?></b></div>
         <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?= $brif->getRemarks() ?></div>
         <div class="col-md-12">
             <hr>
@@ -72,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?></div>
     </div>
 </div>
+<?php if($model->fleet) :?>
 <div class="panel panel-inverse">
     <div class="panel-heading">
         <h4 class="panel-title"><?= Yii::t('flights', 'Aircraft Info') ?></h4>
@@ -97,13 +98,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-sm-10"><?= $model->fleet->selcal ?></div>
     </div>
 </div>
+<?php endif; ?>
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title">Departure</h4>
+        <h4 class="panel-title"><?= Yii::t('flights', 'Departure') ?></h4>
     </div>
 
     <div class="panel-body">
-        <div class="col-sm-2"><b>Airport: </b></div>
+        <div class="col-sm-2"><b><?= Yii::t('app', 'Airport') ?>: </b></div>
         <div class="col-sm-10"><b><?= Html::img(Helper::getFlagLink($model->departure->iso)) ?> <?=
                 Html::a(
                     Html::encode($model->from_icao),
@@ -140,11 +142,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title">Destination</h4>
+        <h4 class="panel-title"><?= Yii::t('flights', 'Destination') ?></h4>
     </div>
 
     <div class="panel-body">
-        <div class="col-sm-2"><b>Airport: </b></div>
+        <div class="col-sm-2"><b><?= Yii::t('app', 'Airport') ?>: </b></div>
         <div class="col-sm-10"><b><?= Html::img(Helper::getFlagLink($model->arrival->iso)) ?> <?=
                 Html::a(
                     Html::encode($model->to_icao),

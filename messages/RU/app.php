@@ -14,6 +14,7 @@ return [
     'Level' => 'Уровень',
     'Experience' => 'Опыт',
     'Airports' => 'Аэропорты',
+    'Airport' => 'Аэропорт',
     'Setting' => 'Настройки',
     'Help' => 'Помощь',
     'Log out' => 'Выйти',
