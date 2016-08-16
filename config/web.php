@@ -81,6 +81,7 @@ $config = [
                 '' => 'site/index',
                 'translatemanager' => 'translatemanager/language/list',
                 'admin' => 'admin/role',
+                'mail' => 'mail/default/index',
                 '<module:users>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:users>/<controller:\w+>' => '<module>/<controller>/index',
@@ -109,9 +110,9 @@ $config = [
                 '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
                 '<module:news|documents>/<category:\w+>/<id:.*>' => '<module>/default/view',
                 '<module:news|documents>/<id:\w+>' => '<module>/default/index',
-                '<module:tours|news|documents>/<action:\w+>' => '<module>/default/<action>',
-                '<module:tours|news|documents>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
-                '<module:tours|news|documents>' => '<module>/default/index',
+                '<module:tours|news|documents|mail>/<action:\w+>' => '<module>/default/<action>',
+                '<module:tours|news|documents|mail>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+                '<module:tours|news|documents|mail>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -210,6 +211,9 @@ $config = [
         ],
         'documents' => [
             'class' => 'app\modules\documents\Module',
+        ],
+        'mail' => [
+            'class' => 'app\modules\mail\Module',
         ],
     ],
     'params' => $params,

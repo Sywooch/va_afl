@@ -66,7 +66,8 @@ class Menu extends Widget
 
                 $menuitems[] = [
                     'items' => Html::a(
-                            Html::tag('i', '', ['class' => $itemclass]) . "<span>" . $item['name'] . "</span>",
+                            (isset($item['badge']) ? '<span class="badge pull-right">' . $item['badge'] . '</span>' : '').
+                                Html::tag('i', '', ['class' => $itemclass]) . "<span>" . $item['name'] . "</span>",
                             $item['url'],
                             $linkOptions
                         ),

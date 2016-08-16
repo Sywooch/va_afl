@@ -86,6 +86,12 @@ use app\models\Users;
                       'url' => \yii\helpers\Url::to('/news'),
                       'icon' => 'fa-newspaper-o'
                     ],
+                    [
+                        'name' => Yii::t('app', 'Mail'),
+                        'url' => \yii\helpers\Url::to('/mail'),
+                        'icon' => 'fa-inbox',
+                        'badge' => 0
+                    ],
                     /*[
                         'name' => Yii::t('app', 'Missions'),
                         'url' => \yii\helpers\Url::to('/airline/missions'),
