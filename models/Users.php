@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use app\components\Helper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "users".
@@ -46,6 +47,26 @@ class Users extends \yii\db\ActiveRecord
     {
         $user = self::find()->where(['vid' => $id])->one();
         return $user ? $user->full_name : '';
+    }
+
+    public static function getList($q)
+    {
+        $out = [];
+        $d= self::find();
+        if($q) {
+            $d->andFilterWhere(
+                [
+                    'or',
+                    ['like', 'full_name', $q ],
+                    ['like', 'vid', $q],
+                ]
+            );
+        }
+
+        foreach ($d->all() as $data) {
+            $out['results'][] = ['id' => $data->vid, 'text' => $data->full_name." (".$data->vid.")"];
+        }
+        return Json::encode($out);
     }
 
 
