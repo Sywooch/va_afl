@@ -132,7 +132,7 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Documents'),
-                        'url' => \yii\helpers\Url::to('/content/documents'),
+                        'url' => \yii\helpers\Url::to('/documents'),
                         'icon' => 'fa-folder'
                     ],
                     [
