@@ -14,7 +14,7 @@ $this->title = Yii::t('app', 'Documents');
     <div class="col-md-9">
         <div class="panel panel-documents">
             <div class="panel-body">
-                <?php if ($content) : ?>
+                <?php if ($content !== false) : ?>
                     <?php foreach ($content as $post): ?>
                         <div class="row">
                             <br>
@@ -48,6 +48,11 @@ $this->title = Yii::t('app', 'Documents');
                         </div>
                         <hr>
                     <?php endforeach; ?>
+                    <?php if(empty($content)) :?>
+                        <div class="note note-info">
+                            <i class="fa fa-search"></i> <?= Yii::t('app', 'No results found') ?>
+                        </div>
+                    <?php endif; ?>
                 <?php else: ?>
                     <?= Content::findOne(1362)->text ?>
                 <?php endif; ?>

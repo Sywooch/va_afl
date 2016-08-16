@@ -91,4 +91,5 @@ return [
     'Unknown' => 'Неизвестно',
     'Flight Squadron' => 'Лётный отряд',
     'Home Airport' => 'Домашний аэропорт',
+    'No results found' => 'Ничего не найдено',
 ];

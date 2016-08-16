@@ -17,7 +17,7 @@ class DefaultController extends Controller
         return $this->render(
             'index',
             [
-                'content' => $id == null ? null : Content::documentsCategory($id)
+                'content' => $id == null ? false : Content::documentsCategory($id)
             ]
         );
     }
