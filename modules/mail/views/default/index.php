@@ -4,15 +4,14 @@ use app\models\Users;
 
 ?>
 <div class="vertical-box">
-    <?= $this->render('_sidebar') ?>
+    <?= $this->render('_sidebar', ['type' => $type]) ?>
     <div class="vertical-box-column">
-        <?= $this->render('_top') ?>
-
         <ul class="list-group list-group-lg no-radius list-email">
             <?php foreach ($content['data'] as $msg) : ?>
                 <li class="list-group-item inverse">
                     <a href="/mail/details/<?= $msg['id'] ?>" class="email-user">
-                        <img src="<?= Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
+                        <img src="<?=
+                        Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
                             ['vid' => $msg['from']]
                         )->one()->avatarLink : '' ?>" alt=""/>
                     </a>
@@ -23,10 +22,11 @@ use app\models\Users;
                                 'g:ia \o\n l jS F'
                             ) ?></span>
                         <h5 class="email-title">
-                            <a href="/mail/details/<?= $msg['id'] ?>"><?= Users::find()->where(
+                            <a href="/mail/details/<?= $msg['id'] ?>"><?=
+                                Users::find()->where(
                                     ['vid' => $msg['from']]
                                 )->one() ? Users::find()->where(['vid' => $msg['from']])->one(
-                                    )->full_name . ' (' . $msg['from'] . ' )' : $msg['from'] ?></a>
+                                    )->full_name . ' (' . $msg['from'] . ')' : $msg['from'] ?></a>
                         </h5>
 
                         <p class="email-desc">

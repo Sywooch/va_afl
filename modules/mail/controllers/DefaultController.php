@@ -5,17 +5,14 @@ namespace app\modules\mail\controllers;
 use Yii;
 use yii\httpclient\Client;
 use yii\web\Controller;
+use yii\web\HttpException;
 
 /**
  * Default controller for the `mail` module
  */
 class DefaultController extends Controller
 {
-    /**
-     * Renders the index view for the module
-     * @return string
-     */
-    public function actionIndex()
+    public function actionIndex($id = 0)
     {
         $client = new Client();
         $response = $client->createRequest()
@@ -28,7 +25,7 @@ class DefaultController extends Controller
             )
             ->send();
 
-        return $this->render('index', ['content' => json_decode($response->content, true)]);
+        return $this->render('index', ['content' => json_decode($response->content, true), 'type' => $id]);
     }
 
     public function actionCompose()
@@ -54,32 +51,32 @@ class DefaultController extends Controller
             $status = ($response->statusCode == 200 ? 2 : 1);
         }
 
-        return $this->render('compose', ['status' => $status]);
+        return $this->render('compose', ['status' => $status, 'type' => 1]);
     }
 
-    public function actionList()
+    public function actionDetails($id)
     {
         $client = new Client();
         $response = $client->createRequest()
             ->setMethod('get')
-            ->setUrl('http://api.va-afl.su/chat/default/list')
+            ->setUrl('http://api.va-afl.su/chat/default/detail?message_id')
             ->setData(
                 [
-                    'vid' => Yii::$app->user->identity->vid
+                    'message_id' => $id
                 ]
             )
             ->send();
 
+        if ($response->statusCode != 200) {
+            throw new HttpException(404);
+        }
+
         return $this->render(
-            'index',
+            'details',
             [
-                'content' => $response->content
+                'msg' => json_decode($response->content, true)['data'],
+                'type' => 0,//TODO: Сделать проверку
             ]
         );
-    }
-
-    public function actionDetail()
-    {
-        return $this->render('detail');
     }
 }

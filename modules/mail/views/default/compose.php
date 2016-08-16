@@ -6,9 +6,8 @@ use kartik\select2\Select2;
 $this->registerCssFile('/plugins/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css');
 $this->registerCssFile('/plugins/jquery-tag-it/css/jquery.tagit.css');
 ?>
-
 <div class="vertical-box">
-    <?= $this->render('_sidebar') ?>
+    <?= $this->render('_sidebar', ['type' => $type]) ?>
     <div class="vertical-box-column">
         <?= $this->render('_top') ?>
         <div class="wrapper">

@@ -10,11 +10,8 @@
     <div class="wrapper">
         <p><b>FOLDERS</b></p>
         <ul class="nav nav-pills nav-stacked nav-sm">
-            <li class="active"><a href="email_inbox_v2.html"><i class="fa fa-inbox fa-fw m-r-5"></i> Inbox <span class="badge pull-right">52</span></a></li>
-            <li><a href="email_inbox_v2.html"><i class="fa fa-flag fa-fw m-r-5"></i> Important</a></li>
-            <li><a href="email_inbox_v2.html"><i class="fa fa-send fa-fw m-r-5"></i> Sent</a></li>
-            <li><a href="email_inbox_v2.html"><i class="fa fa-pencil fa-fw m-r-5"></i> Drafts</a></li>
-            <li><a href="email_inbox_v2.html"><i class="fa fa-trash fa-fw m-r-5"></i> Trash</a></li>
+            <li<?= $type == 0 ? ' class="active"' : '' ?>><a href="/mail/index"><i class="fa fa-inbox fa-fw m-r-5"></i> Inbox <span class="badge pull-right">52</span></a></li>
+            <li<?= $type == 1 ? ' class="active"' : '' ?>><a href="/mail/index/1"><i class="fa fa-send fa-fw m-r-5"></i> Sent</a></li>
         </ul>
     </div>
 </div>
