@@ -27,11 +27,13 @@ echo \yii\widgets\DetailView::widget(
                 'label' => Yii::t('flights', 'Aircraft Registration Number'),
                 'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
                     $model->fleet_regnum
-                )->regnum : ''
+                )->regnum : Yii::t('app', 'Unknown')
             ],
             'acf_type' => [
                 'label' => Yii::t('flights', 'Aircraft'),
-                'value' => \app\models\Fleet::findOne($model->fleet_regnum)->type_code
+                'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
+                        $model->fleet_regnum
+                    )->regnum : Yii::t('app', 'Unknown')
             ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),

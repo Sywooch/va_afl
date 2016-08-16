@@ -203,7 +203,7 @@ class Pax extends \yii\db\ActiveRecord
     }
     public static function appendPax($from,$to,$fleet,$need_save_pax=false)
     {
-        $maxpax = $fleet->max_pax;
+        $maxpax = $fleet ? $fleet->max_pax : 100;
         $paxtypes=['red'=>0,'yellow'=>0,'green'=>0];
         $flightpax = $maxpax;
         $needpax = self::find()->andWhere('from_icao = "'.$from.'"')->andWhere('to_icao = "'.$to.'"')->orderBy('waiting_hours desc')->all();
