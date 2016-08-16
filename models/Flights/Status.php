@@ -98,7 +98,7 @@ class Status
                 }
 
                 if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_MH
-                    && in_array(self::$booking->fleet->actypes->turbulence, ['H', 'M'])
+                    && (self::$booking->fleet ? in_array(self::$booking->fleet->actypes->turbulence, ['H', 'M']) : true)
                     && self::$landing && self::$status == Booking::STATUS_ENROUTE
                 ) {
                     if (self::$landing != self::$booking->from_icao) {
@@ -107,7 +107,7 @@ class Status
                 }
 
                 if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_L
-                    && in_array(self::$booking->fleet->actypes->turbulence, ['L'])
+                    && (self::$booking->fleet ? in_array(self::$booking->fleet->actypes->turbulence, ['L']) : true)
                     && self::$landing && self::$status == Booking::STATUS_ENROUTE
                 ) {
                     if (self::$landing != self::$booking->from_icao) {
