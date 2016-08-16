@@ -17,7 +17,7 @@ use yii\helpers\Url;
 use app\models\Content;
 use app\models\ContentCategories;
 
-$this->title = $model->name.' ('.$model->createdDT->format('d.m.Y').' )';
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'documents'), 'url' => ['/documents']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->categoryInfo->name,
