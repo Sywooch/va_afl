@@ -48,19 +48,19 @@ class Briefing extends Component
     }
 
     public function getPBN(){
-        return $this->aircraft->profileInfo ? $this->aircraft->profileInfo->pbn ? 'PBN/'.$this->aircraft->profileInfo->pbn : '' : '';
+        return $this->aircraft ? $this->aircraft->profileInfo ? $this->aircraft->profileInfo->pbn ? 'PBN/' . $this->aircraft->profileInfo->pbn : '' : '' : '';
     }
 
     public function getNAV(){
-        return $this->aircraft->profileInfo ? $this->aircraft->profileInfo->nav ? 'NAV/'.$this->aircraft->profileInfo->nav : '' : '';
+        return $this->aircraft ? $this->aircraft->profileInfo ? $this->aircraft->profileInfo->nav ? 'NAV/' . $this->aircraft->profileInfo->nav : '' : '' : '';
     }
 
     public function getSEL(){
-        return $this->aircraft->selcal ? 'SEL/'.$this->aircraft->selcal : '';
+        return $this->aircraft ? $this->aircraft->selcal ? 'SEL/' . $this->aircraft->selcal : '' : '';
     }
 
     public function getRMK(){
-        return $this->aircraft->profileInfo ? $this->aircraft->profileInfo->rmk ? 'RMK/'.$this->aircraft->profileInfo->rmk : '' : '';
+        return $this->aircraft ? $this->aircraft->profileInfo ? $this->aircraft->profileInfo->rmk ? 'RMK/' . $this->aircraft->profileInfo->rmk : '' : '' : '';
     }
 
     public function getOPR(){
@@ -68,6 +68,6 @@ class Briefing extends Component
     }
 
     public function getREG(){
-        return 'REG/'.str_replace('-', '', $this->aircraft->regnum);
+        return $this->aircraft ? 'REG/' . str_replace('-', '', $this->aircraft->regnum) : '';
     }
 }
