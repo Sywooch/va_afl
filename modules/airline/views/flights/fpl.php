@@ -30,6 +30,7 @@ use app\components\Helper;
         </td>
     </tr>
     <tr>
+        <?php if($model->fleet) : ?>
         <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
         <td><b> <?= $model->fleet->full_type ?> (<?= $model->fleet->type_code ?>)</b></td>
         <td align="right"> <?= Yii::t('flights', 'Tail number') ?>:</td>
@@ -39,6 +40,10 @@ use app\components\Helper;
                     Url::to(['/airline/fleet/view/' . $model->fleet->id])
                 ) ?></b>
         </td>
+        <?php else: ?>
+            <td align="right"> <?= Yii::t('flights', 'Aircraft') ?>:</td>
+            <td colspan="3"><b><?= $model->acf_type ?></b></td>
+        <?php endif; ?>
     </tr>
     <tr>
         <td align="right"> <?= Yii::t('flights', 'Departure') ?>:</td>

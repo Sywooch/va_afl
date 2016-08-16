@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => Yii::t('flights', 'Aircraft'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                                return Html::a(
+                                return $data->fleet ? Html::a(
                                     Html::encode($data->fleet->type_code),
                                     Url::to(
                                         [
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         'data-toggle' => "tooltip",
                                         'data-placement' => "top",
                                         'title' => Html::encode("{$data->fleet->regnum} ({$data->fleet->full_type})")
-                                    ]);
+                                    ]) : $data->acf_type;
                             }
                     ],
                     [
