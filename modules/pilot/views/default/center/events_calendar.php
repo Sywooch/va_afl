@@ -17,6 +17,7 @@
                 [
                     'googleCalendar' => false,
                     'config' => [
+                        'firstDay' => 1,
                         'lang' => Yii::$app->language == 'RU' ? 'ru' : 'en',
                         'events' => $eventsCalendar
                     ],
