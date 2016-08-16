@@ -234,9 +234,15 @@ $config = [
                 $user->last_visited = date('Y-m-d H:i:s');
                 $user->save();
             }
-            if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'error') {
+
+            /**
+             * Возможная страница ошибок из дизайна
+             * @see @app\views\error_mb
+             */
+            /*if(Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'error') {
                 Yii::$app->layout = 'error';
-            }
+            }*/
+
             \app\models\User::setLanguage();
         },
 ];

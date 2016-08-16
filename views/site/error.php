@@ -7,16 +7,9 @@
 
 use yii\helpers\Html;
 
-$this->title = $name;
+$this->title = $exception->statusCode . ' - ' . $message . ' :-(';
 ?>
-<div class="error-code m-b-10"><?= $this->title ?> <i class="fa fa-warning"></i></div>
-<div class="error-content">
-    <div class="error-message">We couldn't find it...</div>
-    <div class="error-desc m-b-20">
-        The page you're looking for doesn't exist. <br />
-        Perhaps, there pages will help find what you're looking for.
-    </div>
-    <div>
-        <a href="/" class="btn btn-success">Go Back to Home Page</a>
-    </div>
+<div class="site-error">
+    <h1><?= Html::encode($this->title) ?></h1>
+    <img src="http://akphoto1.ask.fm/334/116/375/-59996989-1tk77oq-ip6pp96m4iqskcf/original/avatar.jpg">
 </div>
