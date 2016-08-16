@@ -58,7 +58,7 @@ class IvaoLogin extends Model
 
     public function login($token)
     {
-        $data = json_decode(file_get_contents(Yii::$app->params['ivao_tools_api_url'] . $token), true);
+        $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
         $user = $this->getUser();
         if ($user->vid == null) {
@@ -70,7 +70,7 @@ class IvaoLogin extends Model
 
     public function register($post, $token)
     {
-        $data = json_decode(file_get_contents(Yii::$app->params['ivao_tools_api_url'] . $token), true);
+        $data = json_decode(file_get_contents(Yii::$app->params['ivao_api_url'] . $token), true);
         $this->load($data, '');
         User::setMainData($this, $post);
     }
