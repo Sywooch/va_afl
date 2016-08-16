@@ -135,6 +135,6 @@ class Airports extends \yii\db\ActiveRecord
     }
 
     public function getFullname(){
-        return $this->name.' ('.$this->iata.' / '.$this->icao.')';
+        return !empty($this->iata) ? $this->name.' ('.$this->iata.' / '.$this->icao.')' : $this->name . ' ('. $this->icao . ')';
     }
 }
