@@ -125,6 +125,11 @@ class SiteController extends Controller
         echo Fleet::getForBooking($q);
     }
 
+    public function actionGetusers($q = null)
+    {
+        echo Users::getList($q);
+    }
+
     public function actionDeletemybooking()
     {
         if ($user = Yii::$app->user) {

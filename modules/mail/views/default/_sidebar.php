@@ -1,7 +1,7 @@
 <div class="vertical-box-column width-250">
     <!-- begin wrapper -->
     <div class="wrapper bg-silver text-center">
-        <a href="email_compose.html" class="btn btn-success p-l-40 p-r-40 btn-sm">
+        <a href="/mail/compose" class="btn btn-success p-l-40 p-r-40 btn-sm">
             Compose
         </a>
     </div>
