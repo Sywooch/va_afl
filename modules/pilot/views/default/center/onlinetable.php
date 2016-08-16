@@ -69,8 +69,8 @@ use app\models\Flights;
                                 'label' => Yii::t('flights', 'Type'),
                                 'format' => 'raw',
                                 'value' => function ($data) {
-                                        return Html::tag(
-                                            'span',
+                                        return ($data->flight ? $data->flight->acf_type : ($data->fleet ? Html::tag(
+                                        'span',
                                             $data->fleet->type_code,
                                             [
                                                 'title' => $data->fleet->regnum,
@@ -78,7 +78,7 @@ use app\models\Flights;
                                                 'data-placement' => "top",
                                                 'style' => 'cursor:pointer;'
                                             ]
-                                        );
+                                        ) : 'XXXX'));
                                     },
                             ],
                             [

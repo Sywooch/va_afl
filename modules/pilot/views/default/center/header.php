@@ -80,7 +80,7 @@ use yii\helpers\Url;
         </div>
         <div class="stats-desc">
             <?php if ($flight) : ?>
-                <?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>), <?php
+                <?php if ($flight->fleet) : ?><?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>) <?php else: ?> <?= $flight->flight ? $flight->flight->acf_type : ''?> <?php endif; ?>, <?php
                 switch ($flight->g_status) {
                     case Booking::STATUS_BOOKED:
                         echo 'Booked';

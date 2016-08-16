@@ -175,7 +175,6 @@ class ParseController extends Controller
             $flight->fleet_regnum = $booking->fleet_regnum;
         }
 
-        $flight->acf_type = Fleet::find()->andWhere(['id' => $flight->fleet_regnum])->one()->type_code;
         $flight->id = $booking->id;
         $flight->user_id = $booking->user_id;
         $flight->status = Flights::FLIGHT_STATUS_STARTED;
@@ -309,6 +308,7 @@ class ParseController extends Controller
 
             $flight->from_icao = $booking->from_icao;
             $flight->to_icao = $booking->to_icao;
+            $flight->acf_type = explode('/', $data[self::WZ_AIRCRAFT])[1];
             $flight->last_seen = gmdate('Y-m-d H:i:s');
             $flight->flightplan = $this->getFlightRoute($data, $flight);
             $flight->callsign = $data[self::WZ_CALLSIGN];
