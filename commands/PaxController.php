@@ -12,6 +12,7 @@ namespace app\commands;
 
 use app\models\Actypes;
 use app\models\BillingUserBalance;
+use app\models\Fleet;
 use app\models\Pax;
 use app\models\Schedule;
 use yii\console\Controller;
@@ -61,8 +62,7 @@ class PaxController extends Controller
     }
     private function generateRandomPaxes($acftype)
     {
-        $acf = Actypes::find()->andWhere(['code'=>$acftype])->one();
-
-        return $acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101;
+        $acf = Fleet::randByType($acftype);
+        return ($acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101);
     }
 }

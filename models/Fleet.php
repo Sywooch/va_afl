@@ -41,6 +41,10 @@ class Fleet extends \yii\db\ActiveRecord
         'SU95' => ['UUEE']
     ];
 
+    public static function randByType($acftype)
+    {
+        return Fleet::find()->where(['type_code' => $acftype])->one();
+    }
 
     /**
      * @inheritdoc
