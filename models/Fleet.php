@@ -41,6 +41,42 @@ class Fleet extends \yii\db\ActiveRecord
         'SU95' => ['UUEE']
     ];
 
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['regnum'], 'required'],
+            [['status', 'user_id', 'squadron_id', 'max_pax', 'max_hrs', 'profile', 'hrs', 'need_srv'], 'integer'],
+            [['image_path'], 'string'],
+            [['regnum', 'type_code'], 'string', 'max' => 10],
+            [['full_type'], 'string', 'max' => 100],
+            [['home_airport', 'location', 'selcal'], 'string', 'max' => 44]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'regnum' => 'Regnum',
+            'type_code' => 'Type Code',
+            'full_type' => 'Full Type',
+            'status' => 'Status',
+            'user_id' => 'User ID',
+            'home_airport' => 'Home Airport',
+            'location' => 'Location',
+            'image_path' => 'Image Path',
+            'squadron_id' => 'Squadron ID',
+            'max_pax' => 'Max Pax',
+            'max_hrs' => 'Max Hrs',
+        ];
+    }
+
     /**
      * Изменение статуса борта
      * @param $id int ID Самолёта из таблицы
@@ -135,46 +171,15 @@ class Fleet extends \yii\db\ActiveRecord
         return $this->hasOne('app\models\Actypes', ['code' => 'type_code']);
     }
 
+    public function getName(){
+        return $this->regnum.' ('.$this->type_code.')';
+    }
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
         return 'fleet';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['regnum'], 'required'],
-            [['status', 'user_id', 'squadron_id', 'max_pax', 'max_hrs', 'profile', 'hrs', 'need_srv'], 'integer'],
-            [['image_path'], 'string'],
-            [['regnum', 'type_code'], 'string', 'max' => 10],
-            [['full_type'], 'string', 'max' => 100],
-            [['home_airport', 'location', 'selcal'], 'string', 'max' => 44]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'regnum' => 'Regnum',
-            'type_code' => 'Type Code',
-            'full_type' => 'Full Type',
-            'status' => 'Status',
-            'user_id' => 'User ID',
-            'home_airport' => 'Home Airport',
-            'location' => 'Location',
-            'image_path' => 'Image Path',
-            'squadron_id' => 'Squadron ID',
-            'max_pax' => 'Max Pax',
-            'max_hrs' => 'Max Hrs',
-        ];
     }
 }

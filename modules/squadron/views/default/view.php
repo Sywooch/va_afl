@@ -275,7 +275,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 [
                                                                     '/airline/fleet/view/'.$data->id,
                                                                 ]
-                                                            )
+                                                            ),
+                                                            ['target' => '_blank', 'data-pjax' => 0]
                                                         );
 
                                                     }
@@ -334,7 +335,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'attribute' => 'lastFlight',
                                                 'label' => Yii::t('app', 'Last') . ' ' . Yii::t('app', 'Flight'),
                                                 'format' => 'raw',
-                                                'visible' => Yii::$app->user->can("squadrons/{$squadron->abbr}/fleet"),
                                                 'value' => function ($data) {
                                                         return $data->lastFlight != null ? Html::a(
                                                             Html::encode(

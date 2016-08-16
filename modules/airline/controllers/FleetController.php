@@ -24,6 +24,16 @@ class FleetController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['fleet/edit'],
+                    ],
+                ]
+            ]
         ];
     }
 
