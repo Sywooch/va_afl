@@ -44,11 +44,29 @@ class Content extends \yii\db\ActiveRecord
         );
     }
 
+    public static function documents($limit = 50)
+    {
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(['content_categories.documents' => 1])->orderBy(
+                'created desc'
+            )->limit($limit)->all()
+        );
+    }
+
     public static function newsCategory($link)
     {
         return self::prepare(
             self::find()->joinWith('categoryInfo')->where(
             ['content_categories.news' => 1, 'content_categories.link' => $link]
+            )->orderBy('created desc')->all()
+        );
+    }
+
+    public static function documentsCategory($link)
+    {
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(
+                ['content_categories.documents' => 1, 'content_categories.link' => $link]
             )->orderBy('created desc')->all()
         );
     }

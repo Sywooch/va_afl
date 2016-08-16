@@ -22,6 +22,11 @@ class ContentCategories extends \yii\db\ActiveRecord
         return self::available(self::find()->where(['news' => 1])-> all(), true);
     }
 
+    public static function documents()
+    {
+        return self::available(self::find()->where(['documents' => 1])-> all(), true);
+    }
+
     public static function available($data = null, $object = false){
         $categories = [];
 
@@ -58,7 +63,7 @@ class ContentCategories extends \yii\db\ActiveRecord
         return [
             [['link', 'name_ru', 'name_en'], 'required'],
             [['link'], 'string', 'max' => 20],
-            [['news', 'notifications'], 'integer'],
+            [['news', 'notifications', 'documents'], 'integer'],
             [['name_ru', 'name_en', 'access_read', 'access_edit', 'access_feed'], 'string', 'max' => 50],
             [['link_to'], 'string', 'max' => 100]
         ];

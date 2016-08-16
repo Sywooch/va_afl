@@ -107,11 +107,11 @@ $config = [
                 '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>' => '<module>/<controller>/index',
                 '<module:pilot|airline|fleet|events|admin|squadron|translatemanager>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:content|pilot|fleet|events|squadron>' => '<module>/default/index',
-                '<module:news>/<category:\w+>/<id:.*>' => '<module>/default/view',
-                '<module:news>/<id:\w+>' => '<module>/default/index',
-                '<module:tours|news>/<action:\w+>' => '<module>/default/<action>',
-                '<module:tours|news>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
-                '<module:tours|news>' => '<module>/default/index',
+                '<module:news|documents>/<category:\w+>/<id:.*>' => '<module>/default/view',
+                '<module:news|documents>/<id:\w+>' => '<module>/default/index',
+                '<module:tours|news|documents>/<action:\w+>' => '<module>/default/<action>',
+                '<module:tours|news|documents>/<action:\w+>/<id:\w+>' => '<module>/default/<action>',
+                '<module:tours|news|documents>' => '<module>/default/index',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
 
@@ -207,6 +207,9 @@ $config = [
         ],
         'news' => [
             'class' => 'app\modules\news\Module',
+        ],
+        'documents' => [
+            'class' => 'app\modules\documents\Module',
         ],
     ],
     'params' => $params,
