@@ -59,6 +59,14 @@ class Content extends \yii\db\ActiveRecord
         foreach ($mNews as $new) {
             if (empty($new->access) || Yii::$app->user->can($new->access)) {
                 $news[] = $new;
+                
+                Yii::trace(
+                    [
+                        'empty' => empty($new->access),
+                        'can' => Yii::$app->user->can($new->access),
+                        'access' => $new->access
+                    ]
+                );
             }
         }
         return $news;
