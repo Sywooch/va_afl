@@ -43,6 +43,16 @@ use app\models\Users;
 
             <?= nl2br($msg['text']) ?>
         </div>
+        <div class="wrapper">
+            <form action="/mail/compose/<?= $msg['chat']['id'] ?>" method="POST" name="email_to_form">
+                <div class="m-b-15">
+                    <textarea class="textarea form-control" name="text" id="text" rows="1"
+                              placeholder="Enter text ..."></textarea>
+                </div>
+                <input type="hidden" name="_csrf" value="<?= Yii::$app->request->getCsrfToken() ?>"/>
+                <button type="submit" class="btn btn-primary p-l-40 p-r-40">Reply</button>
+            </form>
+        </div>
         <!-- end wrapper -->
         <!-- begin wrapper -->
         <div class="wrapper bg-silver-lighter text-right clearfix">

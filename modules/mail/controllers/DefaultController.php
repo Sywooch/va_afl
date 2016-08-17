@@ -28,7 +28,7 @@ class DefaultController extends Controller
         return $this->render('index', ['content' => json_decode($response->content, true), 'type' => 1]);
     }
 
-    public function actionCompose($chat_id = null)
+    public function actionCompose($id = null)
     {
         $status = 0;
 
@@ -40,7 +40,7 @@ class DefaultController extends Controller
 
             ];
 
-            if ($chat_id != null) {
+            if ($id != null) {
                 $data = array_merge(
                     $data,
                     [
@@ -53,7 +53,7 @@ class DefaultController extends Controller
                 $data = array_merge(
                     $data,
                     [
-                        'chat_id' => $chat_id,
+                        'chat_id' => $id,
                     ]
                 );
             }
@@ -67,7 +67,14 @@ class DefaultController extends Controller
             $status = ($response->statusCode == 200 ? 2 : 1);
         }
 
-        return $this->render('compose', ['status' => $status, 'type' => 3, 'chat' => $chat_id]);
+
+        /*
+         * TODO: переадресация в чат
+         * if($chat_id = null){
+            $this->redirect('/mail/details/');
+        }*/
+
+        return $this->render('compose', ['status' => $status, 'type' => 3, 'chat' => $id]);
     }
 
     public function actionDetails($id)
