@@ -40,7 +40,7 @@ class DefaultController extends Controller
 
             ];
 
-            if ($id != null) {
+            if ($id == null) {
                 $data = array_merge(
                     $data,
                     [
@@ -53,6 +53,7 @@ class DefaultController extends Controller
                 $data = array_merge(
                     $data,
                     [
+                        'chat_separated' => false,
                         'chat_id' => $id,
                     ]
                 );
@@ -65,6 +66,8 @@ class DefaultController extends Controller
                 ->send();
 
             $status = ($response->statusCode == 200 ? 2 : 1);
+            Yii::trace($response->content);
+            Yii::trace(var_export($data, 1));
         }
 
 
