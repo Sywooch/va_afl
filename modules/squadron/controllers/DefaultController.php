@@ -16,6 +16,7 @@ use app\models\Squadrons;
 use app\models\SquadronUsers;
 use app\models\Users;
 use app\models\Log;
+use app\models\Services\notifications\Squadron;
 
 /**
  * DefaultController implements the CRUD actions for Squads model.
@@ -129,9 +130,13 @@ class DefaultController extends Controller
                 $member = new SquadronUsers();
                 $member->user_id = Yii::$app->user->id;
                 $member->squadron_id = $squadron->id;
-                $member->status = SquadronUsers::STATUS_PENDING;
+                //$member->status = SquadronUsers::STATUS_PENDING;
+                $member->status = SquadronUsers::STATUS_ACTIVE;
+
                 if (!$member->save()) {
                     //var_dump($member->errors);
+                }else{
+                    Squadron::join($member->user_id, $squadron);
                 }
             }
         }

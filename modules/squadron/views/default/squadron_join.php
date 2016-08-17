@@ -22,7 +22,7 @@ use yii\helpers\Url;
             </div>
             <div class="modal-footer">
                 <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-                <?= Html::a('Подать заявку', Url::to(['join']),
+                <?= Html::a(Yii::t('app', 'Join'), Url::to(['join']),
                     [
                         'class' => 'btn btn-primary disabled',
                         'id' => 'join_button',
