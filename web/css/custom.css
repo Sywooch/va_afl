@@ -55,3 +55,11 @@ a, a:hover, a:active, a:visited {
 .news-link:hover {
     color: #234973;
 }
+
+.dialog:hover{
+    background: #f5f7fa;
+}
+
+.dialog-wrapper{
+    cursor: pointer;
+}

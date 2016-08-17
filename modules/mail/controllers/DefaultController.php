@@ -12,7 +12,7 @@ use yii\web\HttpException;
  */
 class DefaultController extends Controller
 {
-    public function actionIndex($id = 0)
+    public function actionIndex()
     {
         $client = new Client();
         $response = $client->createRequest()
@@ -25,33 +25,59 @@ class DefaultController extends Controller
             )
             ->send();
 
-        return $this->render('index', ['content' => json_decode($response->content, true), 'type' => $id]);
+        return $this->render('index', ['content' => json_decode($response->content, true), 'type' => 1]);
     }
 
-    public function actionCompose()
+    public function actionCompose($id = null)
     {
         $status = 0;
 
         if (Yii::$app->request->post()) {
             $client = new Client();
-            $response = $client->createRequest()
-                ->setMethod('post')
-                ->setUrl('http://api.va-afl.su/chat/default/send')
-                ->setData(
+            $data = [
+                'from' => Yii::$app->user->identity->vid,
+                'text' => Yii::$app->request->post('text'),
+
+            ];
+
+            if ($id == null) {
+                $data = array_merge(
+                    $data,
                     [
-                        'from' => Yii::$app->user->identity->vid,
-                        'text' => Yii::$app->request->post('text'),
                         'chat_topic' => Yii::$app->request->post('topic'),
                         'to' => Yii::$app->request->post('to'),
                         'chat_separated' => true
                     ]
-                )
+                );
+            } else {
+                $data = array_merge(
+                    $data,
+                    [
+                        'chat_separated' => false,
+                        'chat_id' => $id,
+                    ]
+                );
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('post')
+                ->setUrl('http://api.va-afl.su/chat/default/send')
+                ->setData($data)
                 ->send();
 
             $status = ($response->statusCode == 200 ? 2 : 1);
+            Yii::trace($response->content);
+            Yii::trace(var_export($data, 1));
         }
 
-        return $this->render('compose', ['status' => $status, 'type' => 1]);
+
+        /*
+         * TODO: переадресация в чат
+         * if($chat_id = null){
+            $this->redirect('/mail/details/');
+        }*/
+
+        return $this->render('compose', ['status' => $status, 'type' => 3, 'chat' => $id]);
     }
 
     public function actionDetails($id)
@@ -75,7 +101,7 @@ class DefaultController extends Controller
             'details',
             [
                 'msg' => json_decode($response->content, true)['data'],
-                'type' => 0,//TODO: Сделать проверку
+                'type' => 0, //TODO: Сделать проверку
             ]
         );
     }
