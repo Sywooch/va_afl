@@ -9,14 +9,14 @@ use yii\helpers\Url;
             <div class="modal-body">
                 <div class="panel panel-inverse">
                     <div class="panel-heading">
-                        <h4 class="panel-title"><?= Yii::t('app', 'Join sqaudron') ?></h4>
+                        <h4 class="panel-title"><?= Yii::t('app', 'Join squadron') ?></h4>
                     </div>
                     <div class="panel-body panel-form" style="color: #707478 !important; padding:10px !important;">
                         <?= $squadron->squadronRules->text ?>
                     </div>
                     <div class="panel-footer">
                         <?= Html::checkbox('rules_agree', false,
-                            ['label' => 'I understand and agree with the rules', 'id' => 'rules_agree', 'onChange' => 'submitform()']) ?>
+                            ['label' => Yii::t('squadron', 'I understand everything, ready to fly!'), 'id' => 'rules_agree', 'onChange' => 'submitform()']) ?>
                     </div>
                 </div>
             </div>
