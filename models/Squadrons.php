@@ -69,6 +69,11 @@ class Squadrons extends \yii\db\ActiveRecord
         return Content::find()->where(['machine_name' => $this->abbr . '_rules'])->one();
     }
 
+    public function getSquadronJoin()
+    {
+        return Content::find()->where(['machine_name' => $this->abbr . '_join'])->one();
+    }
+
     public function getTotalPax()
     {
         return Flights::find()->joinWith('fleet')->where('fleet.squadron_id = ' . $this->id)->sum('pob');

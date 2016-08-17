@@ -12,7 +12,7 @@ use yii\helpers\Url;
                         <h4 class="panel-title"><?= Yii::t('app', 'Join squadron') ?></h4>
                     </div>
                     <div class="panel-body panel-form" style="color: #707478 !important; padding:10px !important;">
-                        <?= $squadron->squadronRules->text ?>
+                        <?= $squadron->squadronJoin->text ?>
                     </div>
                     <div class="panel-footer">
                         <?= Html::checkbox('rules_agree', false,
@@ -21,7 +21,7 @@ use yii\helpers\Url;
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal"><?= Yii::t('app', 'Close') ?></a>
                 <?= Html::a(Yii::t('app', 'Join'), Url::to(['join']),
                     [
                         'class' => 'btn btn-primary disabled',
