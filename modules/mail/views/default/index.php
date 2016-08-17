@@ -26,10 +26,9 @@ use app\models\Users;
                         </h5>
 
                         <p class="email-desc">
-                            <?=
-                            Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
+                            <?= explode(' ', Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
                                     ['vid' => $msg['from']]
-                                )->one()->full_name . ' (' . $msg['from'] . ')' : $msg['from'] ?>
+                                )->one()->full_name . ' (' . $msg['from'] . ')' : $msg['from'])[0] ?>
                             : <?= explode("\n", $msg['text'])[0] ?>
                         </p>
                     </div>
