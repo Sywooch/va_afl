@@ -33,8 +33,9 @@ return [
         508469, //SERGEY EGOROV
         340167, //MAXIM FOKEEV
         409395, //ROMAN SIVTSOV
-        473883, //Maxim Kudinov
-        406771, //Ruslan Urazaev
+        473883, //MAXIM KUDINOV
+        406771, //RUSLAN URAZEV
+        473695, //ANDREI ISLEVSKI
     ],
     'ivaoru_api_url' => 'http://ivaoru.org/api/futureevents?key=975b7d632cb80cdb7f1145006573ee9f',
     'ivao_rss' => 'https://www.ivao.aero/EVENTS/rss.asp',
