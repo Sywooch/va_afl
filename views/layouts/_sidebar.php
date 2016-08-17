@@ -42,6 +42,12 @@ use app\models\Users;
                         'icon' => 'fa-plane'
                     ],
                     [
+                        'name' => Yii::t('app', 'My messages'),
+                        'url' => \yii\helpers\Url::to('/mail'),
+                        'icon' => 'fa-envelope',
+                        'badge' => 0
+                    ],
+                    [
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
                             ['name' => Yii::t('app', 'Main'), 'url' => \yii\helpers\Url::to('/pilot/index')],
@@ -85,12 +91,6 @@ use app\models\Users;
                       'name' => Yii::t('app', 'News'),
                       'url' => \yii\helpers\Url::to('/news'),
                       'icon' => 'fa-newspaper-o'
-                    ],
-                    [
-                        'name' => Yii::t('app', 'Mail'),
-                        'url' => \yii\helpers\Url::to('/mail'),
-                        'icon' => 'fa-envelope',
-                        'badge' => 0
                     ],
                     /*[
                         'name' => Yii::t('app', 'Missions'),
