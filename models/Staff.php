@@ -15,6 +15,10 @@ use Yii;
  */
 class Staff extends \yii\db\ActiveRecord
 {
+    /**
+     * @param $id int
+     * @return $this
+     */
     public static function getSquad($id){
         return self::find()->where(['department' => 'Squadrons'])->andWhere(['direction' => $id]);
     }
