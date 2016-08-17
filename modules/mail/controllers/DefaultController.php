@@ -28,30 +28,46 @@ class DefaultController extends Controller
         return $this->render('index', ['content' => json_decode($response->content, true), 'type' => $id]);
     }
 
-    public function actionCompose()
+    public function actionCompose($chat_id = null)
     {
         $status = 0;
 
         if (Yii::$app->request->post()) {
             $client = new Client();
-            $response = $client->createRequest()
-                ->setMethod('post')
-                ->setUrl('http://api.va-afl.su/chat/default/send')
-                ->setData(
+            $data = [
+                'from' => Yii::$app->user->identity->vid,
+                'text' => Yii::$app->request->post('text'),
+
+            ];
+
+            if ($chat_id != null) {
+                $data = array_merge(
+                    $data,
                     [
-                        'from' => Yii::$app->user->identity->vid,
-                        'text' => Yii::$app->request->post('text'),
                         'chat_topic' => Yii::$app->request->post('topic'),
                         'to' => Yii::$app->request->post('to'),
                         'chat_separated' => true
                     ]
-                )
+                );
+            } else {
+                $data = array_merge(
+                    $data,
+                    [
+                        'chat_id' => $chat_id,
+                    ]
+                );
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('post')
+                ->setUrl('http://api.va-afl.su/chat/default/send')
+                ->setData($data)
                 ->send();
 
             $status = ($response->statusCode == 200 ? 2 : 1);
         }
 
-        return $this->render('compose', ['status' => $status, 'type' => 3]);
+        return $this->render('compose', ['status' => $status, 'type' => 3, 'chat' => $chat_id]);
     }
 
     public function actionDetails($id)
@@ -75,7 +91,7 @@ class DefaultController extends Controller
             'details',
             [
                 'msg' => json_decode($response->content, true)['data'],
-                'type' => 0,//TODO: Сделать проверку
+                'type' => 0, //TODO: Сделать проверку
             ]
         );
     }
