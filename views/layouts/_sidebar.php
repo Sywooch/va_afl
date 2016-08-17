@@ -89,7 +89,7 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Mail'),
                         'url' => \yii\helpers\Url::to('/mail'),
-                        'icon' => 'fa-inbox',
+                        'icon' => 'fa-envelope',
                         'badge' => 0
                     ],
                     /*[
