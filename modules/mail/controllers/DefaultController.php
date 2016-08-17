@@ -51,7 +51,7 @@ class DefaultController extends Controller
             $status = ($response->statusCode == 200 ? 2 : 1);
         }
 
-        return $this->render('compose', ['status' => $status, 'type' => 1]);
+        return $this->render('compose', ['status' => $status, 'type' => 3]);
     }
 
     public function actionDetails($id)
