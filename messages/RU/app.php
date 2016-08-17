@@ -57,7 +57,7 @@ return [
     'FIR' => 'FIR(РПИ)',
     'Staff Position' => 'Должность',
     'Total flights' => 'Всего полетов',
-    'Total hours' => 'Часов налета',
+    'Total hours' => 'Налёт',
     'Total pax' => 'Кол-во пассажиров',
     'Total miles' => 'Миль пройдено',
     'VUC earned' => 'VUC заработано',
