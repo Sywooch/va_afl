@@ -45,7 +45,7 @@ use app\models\Users;
                     <i class="fa fa-chevron-right"></i>
                 </button>
             </div>
-            <div class="m-t-5">1,232 messages</div>
+            <div class="m-t-5"><?= count($content['data']) ?> chats</div>
         </div>
     </div>
 </div>

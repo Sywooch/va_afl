@@ -12,7 +12,7 @@ use yii\web\HttpException;
  */
 class DefaultController extends Controller
 {
-    public function actionIndex($id = 0)
+    public function actionIndex()
     {
         $client = new Client();
         $response = $client->createRequest()
@@ -25,7 +25,7 @@ class DefaultController extends Controller
             )
             ->send();
 
-        return $this->render('index', ['content' => json_decode($response->content, true), 'type' => $id]);
+        return $this->render('index', ['content' => json_decode($response->content, true), 'type' => 1]);
     }
 
     public function actionCompose($chat_id = null)

@@ -10,8 +10,7 @@
     <div class="wrapper">
         <p><b>FOLDERS</b></p>
         <ul class="nav nav-pills nav-stacked nav-sm">
-            <li<?= $type == 0 ? ' class="active"' : '' ?>><a href="/mail/index"><i class="fa fa-inbox fa-fw m-r-5"></i> Inbox <span class="badge pull-right">52</span></a></li>
-            <li<?= $type == 1 ? ' class="active"' : '' ?>><a href="/mail/index/1"><i class="fa fa-send fa-fw m-r-5"></i> Sent</a></li>
+            <li<?= $type == 1 ? ' class="active"' : '' ?>><a href="/mail/index"><i class="fa fa-inbox fa-fw m-r-5"></i> All <span class="badge pull-right">52</span></a></li>
         </ul>
     </div>
 </div>
