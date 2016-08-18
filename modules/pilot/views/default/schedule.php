@@ -15,7 +15,8 @@
                 'pagination' => false,
             ]),
         'tableOptions' => [
-            'class' => ''
+            'class' => '',
+            'style' => 'border-spacing: 5px;border-collapse: inherit;'
         ],
         'layout' => '{items}{pager}',
         'columns' => [

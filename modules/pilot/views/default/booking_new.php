@@ -61,7 +61,6 @@ $this->title = Yii::t('app', 'Booking');
 <?php
 \yii\bootstrap\Modal::begin([
     'header' => '<h2>Request AirTaxi</h2>',
-    'toggleButton' => ['label' => 'Close'],
     'options' => ['id'=>'taxiModal','tabindex' => false,'style'=>'background-color: rgba(0,0,0,0.5); color: black !important'],
 
 ]);

@@ -15,7 +15,6 @@ function closedrilldown()
 }
 function showDrillDownContent(to, from)
 {
-    closedrilldown();
     var url='/pilot/schedule';
     $.get(url, {to: to, from: from}, function (response) {
         $('#drilldownwindow').html(response).toggle();
@@ -89,15 +88,13 @@ setTimeout(function () {
         var aptname=event.feature.getProperty('name');
 
         function content(){
-            closedrilldown();
-
             return '<div id="content">'+
                 '<div id="siteNotice">'+
                 '</div>'+
                 '<h3 id="firstHeading" class="text-center firstHeading">'+to_airport.icao+'</h3>'+
                 '<h4 id="firstHeading" class="text-center firstHeading">' + to_airport.name + '</h4>' +
                 '<hr>' +
-                '<div id="bodyContent" style="cursor: pointer;" onclick="showDrillDownContent(\'' + aptname + '\', \'' + from_airport.icao + '\')">' +
+                '<div id="bodyContent" style="cursor: pointer;">' +
                 '<b>' + from_airport.icao + ' ‒ 	' + to_airport.icao + '</b> ' +
                 '<i class="fa fa-user" style="color: green"></i> <b>' + ((paxlist[0]) ? paxlist[0] : 0) + '</b> ' +
                 '<i class="fa fa-user" style="color: orange"></i> <b>' + ((paxlist[1]) ? paxlist[1] : 0) + '</b> ' +
@@ -155,6 +152,8 @@ setTimeout(function () {
             });
         }
 
+        closedrilldown();
+        showDrillDownContent(aptname, from_airport.icao);
 
         infowindow.setContent(content());
         infowindow.setPosition(event.feature.getGeometry().get());
