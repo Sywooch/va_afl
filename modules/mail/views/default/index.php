@@ -8,7 +8,7 @@ use app\models\Users;
     <div class="vertical-box-column">
         <ul class="list-group list-group-lg no-radius list-email dialog-wrapper">
             <?php foreach ($content['data'] as $msg) : ?>
-                <li onclick="location.href = '/mail/details/<?= $msg['id'] ?>'" class="list-group-item inverse dialog">
+                <li onclick="location.href = '/mail/chat/<?= $msg['chat']['id'] ?>'" class="list-group-item inverse dialog">
                     <a href="/mail/details/<?= $msg['id'] ?>" class="email-user">
                         <img src="<?=
                         Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
@@ -22,7 +22,7 @@ use app\models\Users;
                                 'g:ia \o\n l jS F'
                             ) ?></span>
                         <h5 class="email-title">
-                            <a href="/mail/details/<?= $msg['id'] ?>"><?= $msg['chat']['topic'] ?></a>
+                            <a href="/mail/chat/<?= $msg['chat']['id'] ?>"><?= $msg['chat']['topic'] ?></a>
                         </h5>
 
                         <p class="email-desc">

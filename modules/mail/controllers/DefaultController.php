@@ -66,8 +66,6 @@ class DefaultController extends Controller
                 ->send();
 
             $status = ($response->statusCode == 200 ? 2 : 1);
-            Yii::trace($response->content);
-            Yii::trace(var_export($data, 1));
         }
 
 
@@ -80,15 +78,15 @@ class DefaultController extends Controller
         return $this->render('compose', ['status' => $status, 'type' => 3, 'chat' => $id]);
     }
 
-    public function actionDetails($id)
+    public function actionChat($id)
     {
         $client = new Client();
         $response = $client->createRequest()
             ->setMethod('get')
-            ->setUrl('http://api.va-afl.su/chat/default/detail?message_id')
+            ->setUrl('http://api.va-afl.su/chat/default/chat')
             ->setData(
                 [
-                    'message_id' => $id
+                    'chat_id' => $id
                 ]
             )
             ->send();
@@ -100,7 +98,7 @@ class DefaultController extends Controller
         return $this->render(
             'details',
             [
-                'msg' => json_decode($response->content, true)['data'],
+                'data' => json_decode($response->content, true)['data'],
                 'type' => 0, //TODO: Сделать проверку
             ]
         );
