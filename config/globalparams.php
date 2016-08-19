@@ -36,6 +36,7 @@ return [
         473883, //MAXIM KUDINOV
         406771, //RUSLAN URAZEV
         473695, //ANDREI ISLEVSKI
+        494592, //ALEKSANDR SHISHKIN,
     ],
     'ivaoru_api_url' => 'http://ivaoru.org/api/futureevents?key=975b7d632cb80cdb7f1145006573ee9f',
     'ivao_rss' => 'https://www.ivao.aero/EVENTS/rss.asp',
