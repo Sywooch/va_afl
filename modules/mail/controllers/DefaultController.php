@@ -86,7 +86,8 @@ class DefaultController extends Controller
             ->setUrl('http://api.va-afl.su/chat/default/chat')
             ->setData(
                 [
-                    'chat_id' => $id
+                    'chat_id' => $id,
+                    'vid' => Yii::$app->user->identity->vid,
                 ]
             )
             ->send();
