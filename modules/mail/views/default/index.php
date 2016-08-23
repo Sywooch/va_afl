@@ -7,8 +7,10 @@ use app\models\Users;
     <?= $this->render('_sidebar', ['type' => $type]) ?>
     <div class="vertical-box-column">
         <ul class="list-group list-group-lg no-radius list-email dialog-wrapper">
-            <?php foreach ($content['data'] as $msg) : ?>
-                <li onclick="location.href = '/mail/chat/<?= $msg['chat']['id'] ?>'" class="list-group-item inverse dialog">
+            <?php if (!empty($content['data'])): ?>
+                <?php foreach ($content['data'] as $msg) : ?>
+                    <li <?= $msg['read'] == false ? ' style="background: #fff4e3;" ' : '' ?>onclick="location.href = '/mail/chat/<?= $msg['chat']['id'] ?>'"
+                        class="list-group-item inverse dialog">
                     <a href="/mail/details/<?= $msg['id'] ?>" class="email-user">
                         <img src="<?=
                         Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
@@ -34,6 +36,7 @@ use app\models\Users;
                     </div>
                 </li>
             <?php endforeach; ?>
+            <?php endif; ?>
         </ul>
         <div class="wrapper bg-silver-lighter clearfix">
             <div class="btn-group pull-right">

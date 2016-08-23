@@ -46,7 +46,7 @@ class DefaultController extends Controller
                     [
                         'chat_topic' => Yii::$app->request->post('topic'),
                         'to' => Yii::$app->request->post('to'),
-                        'chat_separated' => true
+                        'chat_separated' => count(Yii::$app->request->post('to')) > 1 ? true : false
                     ]
                 );
             } else {
@@ -66,8 +66,8 @@ class DefaultController extends Controller
                 ->send();
 
             $status = ($response->statusCode == 200 ? 2 : 1);
+            Yii::trace($response->content);
         }
-
 
         /*
          * TODO: переадресация в чат

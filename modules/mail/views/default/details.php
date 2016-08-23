@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Users;
+use yii\httpclient\Client;
 
 ?>
 <div class="vertical-box">
@@ -24,8 +25,23 @@ use app\models\Users;
             </div>
         </div>
         <?php foreach ($data['messages'] as $msg): ?>
-            <div class="wrapper">
-                <ul class="media-list underline m-b-20 p-b-15">
+            <?php
+            if ($msg['read'] == false ) {
+                $client = new Client();
+                $response = $client->createRequest()
+                    ->setMethod('post')
+                    ->setUrl('http://api.va-afl.su/chat/default/read')
+                    ->setData(
+                        [
+                            'message_id' => $msg['id'],
+                            'vid' => Yii::$app->user->identity->vid,
+                        ]
+                    )
+                    ->send();
+            }
+            ?>
+            <div class="wrapper"<?= (bool)$msg['read'] === false && $msg['read'] != null ? ' style="background: #fff4e3;"' : '' ?>>
+            <ul class="media-list underline m-b-20 p-b-15">
                     <li class="media media-sm clearfix">
                         <a href="javascript:;" class="pull-left">
                         <img class="media-object rounded-corner" alt="" src="<?=
