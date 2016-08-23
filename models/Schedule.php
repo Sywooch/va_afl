@@ -45,7 +45,7 @@ class Schedule extends \yii\db\ActiveRecord
             ->andFilterWhere(['or', 'dep_utc_time >= \'' . gmdate('H') . ':00:00\'', 'dep_utc_time >= \'00:00:00\''])
             ->andFilterWhere(['and', 'start <= \'' . gmdate('Y-m-d') . '\'', 'stop >= \'' . gmdate('Y-m-d') . '\''])
             ->orderBy('dep_utc_time asc')
-            ->limit(9);
+            ->limit(6);
     }
 
     /**

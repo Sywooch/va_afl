@@ -40,7 +40,7 @@ $this->title = Yii::t('app', 'Booking');
 </style>
 <div id="map" style="height: 90vh;"></div>
 <div id="drilldownwindow"
-     style="display: none; padding: 10px;  z-index: 10; color: white; background-color: rgba(0,0,0,0.8); height: 200px; width: 600px; position: absolute; bottom: 35px; right: 10px">
+     style="display: none; padding: 10px;  z-index: 10; color: white; background-color: rgba(0,0,0,0.8); height: 215px; width: 400px; position: absolute; bottom: 75px; right: 10px">
 </div>
 <div id="booking_form"
      style="position: absolute; top: 70px; left: 250px; z-index: 10; background-color: rgba(0,0,0,0.8); color: white; width: 300px;">
