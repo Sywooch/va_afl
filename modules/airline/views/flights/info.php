@@ -62,26 +62,33 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<div class="panel panel-inverse">
-    <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('flights', 'Aircraft Info') ?></h4>
-    </div>
+<?php if($model->fleet) :?>
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <h4 class="panel-title"><?= Yii::t('flights', 'Aircraft Info') ?></h4>
+        </div>
 
-    <div class="panel-body">
-        <div class="col-sm-2"><b><?= Yii::t('flights', 'Aircraft') ?>:</b></div>
-        <div class="col-sm-10"><b> <?= $model->fleet->full_type ?> (<?= $model->fleet->type_code ?>)</b></div>
-        <div class="col-md-12">
-            <hr>
-        </div>
-        <div class="col-sm-2"><b> <?= Yii::t('flights', 'Tail number') ?>:</b></div>
-        <div class="col-sm-10"><?=
-            Html::a(
-                $model->fleet->regnum,
-                Url::to(['/airline/fleet/view/' . $model->fleet->id])
-            ) ?>
+        <div class="panel-body">
+            <div class="col-sm-2"><b><?= Yii::t('flights', 'Aircraft') ?>:</b></div>
+            <div class="col-sm-10"><b><?= $model->fleet->full_type ?> (<?= $model->fleet->type_code ?>)</b></div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <div class="col-sm-2"><b><?= Yii::t('flights', 'Tail number') ?>:</b></div>
+            <div class="col-sm-10"><b><?=
+                    Html::a(
+                        $model->fleet->regnum,
+                        Url::to(['/airline/fleet/view/' . $model->fleet->id])
+                    ) ?></b>
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <div class="col-sm-2"><b> <?= Yii::t('flights', 'SELCAL') ?>:</b></div>
+            <div class="col-sm-10"><?= $model->fleet->selcal ?></div>
         </div>
     </div>
-</div>
+<?php endif; ?>
 <div class="panel panel-inverse">
     <div class="panel-heading">
         <h4 class="panel-title">Departure</h4>
