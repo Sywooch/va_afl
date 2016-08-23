@@ -248,7 +248,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 '/pilot/profile/',
                                                                 'id' => $data->user->vid
                                                             ]
-                                                        )
+                                                        ),
+                                                        [
+                                                            'target' => '_blank',
+                                                            'data-pjax' => "0"
+                                                        ]
                                                     );
                                                 }
                                         ],
@@ -515,7 +519,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'value' => function ($data) {
                                                             return Html::a(
                                                                 $data->name,
-                                                                \yii\helpers\Url::to('/content/view/' . $data->id)
+                                                                \yii\helpers\Url::to('/content/view/' . $data->id),
+                                                                [
+                                                                    'target' => '_blank',
+                                                                    'data-pjax' => "0"
+                                                                ]
                                                             );
                                                         }
                                                 ],
@@ -533,7 +541,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                             '/pilot/profile/',
                                                                             'id' => $data->author
                                                                         ]
-                                                                    )
+                                                                    ),
+                                                                    [
+                                                                        'target' => '_blank',
+                                                                        'data-pjax' => "0"
+                                                                    ]
                                                                 ) : '');
 
                                                         }
@@ -586,7 +598,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     '/pilot/profile/',
                                                                     'id' => $data->user->vid
                                                                 ]
-                                                            )
+                                                            ),
+                                                            [
+                                                                'target' => '_blank',
+                                                                'data-pjax' => "0"
+                                                            ]
                                                         );
                                                     }
                                             ],
