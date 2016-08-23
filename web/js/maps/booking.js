@@ -94,11 +94,15 @@ setTimeout(function () {
                 '<h3 id="firstHeading" class="text-center firstHeading">'+to_airport.icao+'</h3>'+
                 '<h4 id="firstHeading" class="text-center firstHeading">' + to_airport.name + '</h4>' +
                 '<hr>' +
-                '<div id="bodyContent" style="cursor: pointer;">' +
+                '<div id="bodyContent">' +
                 '<b>' + from_airport.icao + ' ‒ 	' + to_airport.icao + '</b> ' +
                 '<i class="fa fa-user" style="color: green"></i> <b>' + ((paxlist[0]) ? paxlist[0] : 0) + '</b> ' +
                 '<i class="fa fa-user" style="color: orange"></i> <b>' + ((paxlist[1]) ? paxlist[1] : 0) + '</b> ' +
-                '<i class="fa fa-user" style="color: red"></i> <b>' + ((paxlist[2]) ? paxlist[2] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: red"></i> <b>' + ((paxlist[2]) ? paxlist[2] : 0) + '</b> ' + '<br>' +
+                '<b>' + to_airport.icao + ' ‒ 	' + from_airport.icao + '</b> ' +
+                '<i class="fa fa-user" style="color: green"></i> <b>' + ((paxlist[3]) ? paxlist[3] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: orange"></i> <b>' + ((paxlist[4]) ? paxlist[4] : 0) + '</b> ' +
+                '<i class="fa fa-user" style="color: red"></i> <b>' + ((paxlist[5]) ? paxlist[5] : 0) + '</b> ' +
                 '</div>' +
                 '</div>';
         }

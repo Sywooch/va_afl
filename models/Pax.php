@@ -79,6 +79,25 @@ class Pax extends \yii\db\ActiveRecord
                      ->orderBy('num_pax desc')->all() as $p) {
             $data[$p['waiting_hours']] = $p['num_pax'];
         }
+        foreach (self::find()->select('
+        (case
+            when waiting_hours<4 then 0
+            when waiting_hours<24 then 1
+            else 2
+        end) as waiting_hours,
+        sum(num_pax) as num_pax'
+                 )
+                     ->where(['to_icao' => Users::getAuthUser()->pilot->location])->andWhere(['from_icao' => $icao])
+                     ->groupBy('
+       (case
+            when waiting_hours<4 then 0
+            when waiting_hours<24 then 1
+            else 2
+        end)')
+                     ->orderBy('num_pax desc')->all() as $p) {
+            $data[$p['waiting_hours'] + 3] = $p['num_pax'];
+        }
+
         return $data;
     }
 
@@ -107,6 +126,9 @@ class Pax extends \yii\db\ActiveRecord
                 $max=$v;
                 $res = $k;
             }
+        }
+        if($res > 3){
+            $res = $res - 3;
         }
         return $feeling[$res];
     }
