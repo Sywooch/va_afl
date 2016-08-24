@@ -7,14 +7,15 @@ use yii\base\Component;
 use app\models\Airports;
 use app\models\Fleet;
 use app\models\FleetProfiles;
+use app\components\internal\routes\Routes;
 
 
 /**
  * Class briefing
- * @package yii\components
  */
 class Briefing extends Component
 {
+    public $routes;
     /*private $callsign;
     private $from;
     private $to;*/
@@ -27,6 +28,10 @@ class Briefing extends Component
         'PBN', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
     ];
     private $operator = 'VA AFL';
+    /**
+     * @var \app\models\Booking
+     */
+    private $booking;
 
     //$callsing, $from, $to,
     public function __construct($aircraft){
@@ -36,6 +41,16 @@ class Briefing extends Component
         $this->aircraft = Fleet::findOne($aircraft);
     }
 
+    /**
+     * @param \app\models\Booking $booking
+     * @return $this
+     */
+    public static function fromBooking($booking){
+        $one = new Briefing($booking->fleet_regnum ? $booking->fleet->id : null);
+        $one->routes = new Routes($booking->from_icao, $booking->to_icao);
+        return $one;
+    }
+
     public function getRemarks(){
         $remarks = '';
         foreach($this->template as $part){
@@ -43,7 +58,6 @@ class Briefing extends Component
                 $remarks .= $this->$part.' ';
             }
         }
-
         return trim($remarks);
     }
 

@@ -2,9 +2,12 @@
 
 namespace app\models;
 
-use app\components\Helper;
+use app\components\Briefing;
+use app\components\internal\internal\routes\Routes;
 use Yii;
 use yii\db\Expression;
+
+use app\components\Helper;
 
 /**
  * This is the model class for table "booking".
@@ -18,6 +21,7 @@ use yii\db\Expression;
  * @property string $fleet_regnum
  * @property integer $schedule_id
  * @property string $non_schedule_utc
+ * @property \app\components\Briefing $briefing
  */
 class Booking extends \yii\db\ActiveRecord
 {
@@ -145,6 +149,10 @@ class Booking extends \yii\db\ActiveRecord
         $userdata = Users::getAuthUser();
         $this->from_icao = $userdata->pilot->location;
         $this->user_id = $userdata->vid;
+    }
+
+    public function getBriefing(){
+        return Briefing::fromBooking($this);
     }
 
     public function getFleet()

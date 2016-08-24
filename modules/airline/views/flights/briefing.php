@@ -49,17 +49,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <div class="col-sm-2"><b><?= Yii::t('flights', 'Route') ?></b></div>
-        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?=
-            str_replace(
-                "\n",
-                '<br>',
-                ''
-            ) ?></div>
+        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?= $model->briefing->routes->route ?></div>
         <div class="col-md-12">
             <hr>
         </div>
         <div class="col-sm-2"><b><?= Yii::t('flights', 'Remarks') ?></b></div>
-        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?= $brif->getRemarks() ?></div>
+        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?= $model->briefing->remarks ?></div>
         <div class="col-md-12">
             <hr>
         </div>
@@ -181,3 +176,46 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?></div>
     </div>
 </div>
+<?php if($model->briefing->routes->altn):?>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title"><?= Yii::t('flights', 'Alternative') ?></h4>
+    </div>
+
+    <div class="panel-body">
+        <div class="col-sm-2"><b><?= Yii::t('app', 'Airport') ?>: </b></div>
+        <div class="col-sm-10"><b><?= Html::img(Helper::getFlagLink($model->briefing->routes->altnAirport->iso)) ?> <?=
+                Html::a(
+                    Html::encode($model->briefing->routes->altn),
+                    Url::to(
+                        [
+                            '/airline/airports/view/',
+                            'id' => $model->briefing->routes->altn
+                        ]
+                    )
+                );?> <?= Html::encode($model->briefing->routes->altnAirport->name) ?> (<?=
+                Html::encode(
+                    $model->briefing->routes->altnAirport->city
+                ) ?>)</b>
+        </div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-sm-2"><b>METAR: </b></div>
+        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?=
+            \app\components\IvaoWx::metar(
+                $model->briefing->routes->altn
+            ) ?></div>
+        <div class="col-md-12">
+            <hr>
+        </div>
+        <div class="col-sm-2"><b>TAF: </b></div>
+        <div class="col-sm-10" style="font: 14px Courier New, Monospace"><?=
+            str_replace(
+                "  ",
+                '<br>',
+                \app\components\IvaoWx::taf($model->briefing->routes->altn)
+            ) ?></div>
+    </div>
+</div>
+<?php endif; ?>
