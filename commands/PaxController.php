@@ -63,6 +63,8 @@ class PaxController extends Controller
     private function generateRandomPaxes($acftype)
     {
         $acf = Fleet::randByType($acftype);
-        return ($acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101);
+        $coff = rand(75, 100) / 100;
+        
+        return ($acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101) * $coff;
     }
 }
