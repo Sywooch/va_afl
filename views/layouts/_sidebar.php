@@ -45,7 +45,7 @@ use app\models\Users;
                         'name' => Yii::t('app', 'My messages'),
                         'url' => \yii\helpers\Url::to('/mail'),
                         'icon' => 'fa-envelope',
-                        'badge' => 0
+                        'badge' => \app\components\internal\api\chat\NewCounter::get()
                     ],
                     [
                         'name' => Yii::t('app', 'My statistics'),

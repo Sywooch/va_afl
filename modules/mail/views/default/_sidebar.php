@@ -10,7 +10,7 @@
     <div class="wrapper">
         <p><b>FOLDERS</b></p>
         <ul class="nav nav-pills nav-stacked nav-sm">
-            <li<?= $type == 1 ? ' class="active"' : '' ?>><a href="/mail/index"><i class="fa fa-inbox fa-fw m-r-5"></i> All <span class="badge pull-right">52</span></a></li>
+            <li<?= $type == 1 ? ' class="active"' : '' ?>><a href="/mail/index"><i class="fa fa-inbox fa-fw m-r-5"></i> All <span class="badge pull-right"><?= \app\components\internal\api\chat\NewCounter::get() ?></span></a></li>
         </ul>
     </div>
 </div>
