@@ -39,7 +39,7 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Booking'),
                         'url' => \yii\helpers\Url::to('/pilot/booking'),
-                        'icon' => 'fa-plane'
+                        'icon' => 'fa-random'
                     ],
                     [
                         'name' => Yii::t('app', 'My messages'),
