@@ -127,7 +127,7 @@ class Pax extends \yii\db\ActiveRecord
                 $res = $k;
             }
         }
-        if($res > 3){
+        if($res >= 3){
             $res = $res - 3;
         }
         return $feeling[$res];
