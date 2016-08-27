@@ -1,6 +1,16 @@
 /**
  * Created by BTH on 08.01.16.
  */
+
+function getShapeHeading(hdg) {
+    hdg = parseInt(hdg / 10) * 10;
+    if (hdg == 360)
+        hdg = 0;
+    var pt = parseInt(hdg / 10) * 21;
+    pt += (hdg / 10);
+    return new google.maps.Point(0, pt);
+}
+
 function initialize() {
     var mapOptions = {
         zoom: 4,

@@ -1,11 +1,7 @@
-/**
- * Created by BTH on 06.01.16.
- */
-/**
- * Routes map
- * Created by Nikita Fedoseev <agent.daitel@gmail.com>
- */
-
+var map;
+var marker = null;
+var features = [];
+var features_flight = [];
 
 function closedrilldown()
 {
@@ -20,9 +16,51 @@ function showDrillDownContent(airport,paxtype)
     });
 }
 
+function reload() {
+    $.get('/airline/flights/booking', {}, function (response) {
+        var booking = JSON.parse(response);
+        if (booking.id > 0) {
+            $.getJSON('/airline/flights/mapdata?id=' + booking.id, function (djs) {
+                for (var i = 0; i < features_flight.length; i++) {
+                    map.data.remove(features_flight[i]);
+                }
+                features_flight = map.data.addGeoJson(djs);
+
+                $.get('/airline/flights/current', {id: booking.id}, function (response) {
+                    var data = JSON.parse(response);
+                    var mLatLng = new google.maps.LatLng(data.lat, data.lon);
+                    if (marker != null) {
+                        marker.setPosition(mLatLng);
+                    } else {
+                        var image = {
+                            url: "/img/map/medium.png",
+                            size: new google.maps.Size(21, 21),
+                            //scaledSize: new google.maps.Size(21, 21),
+                            origin: getShapeHeading(data.hdg),
+                            anchor: new google.maps.Point(10, 10)
+                        };
+                        marker = new google.maps.Marker({
+                            position: mLatLng,
+                            map: map,
+                            icon: image
+                        });
+                    }
+                });
+            });
+        }
+    });
+}
+
+function update() {
+    reload();
+}
+
 function showhidebookingform(){
     $('#booking-details').toggle();
 }
+
+setInterval(update, 60000);
+
 setTimeout(function () {
     initialize();
     map.data.loadGeoJson('/site/mybookingdetails');
@@ -37,10 +75,20 @@ setTimeout(function () {
             }
         }
         else{
-            return {
-                strokeWeight: 1.3,
-                strokeColor: 'red',
-                geodesic: true,
+            if (feature.getProperty('color') == 'green') {
+                return {
+                    strokeWeight: 1.3,
+                    strokeOpacity: feature.getProperty('opacity'),
+                    strokeColor: 'green',
+                    geodesic: true
+                }
+            } else {
+                return {
+                    geodesic: true,
+                    strokeWeight: 3,
+                    strokeOpacity: 0.6,
+                    strokeColor: feature.getProperty('color')
+                }
             }
         }
     });
@@ -56,4 +104,5 @@ setTimeout(function () {
         infowindow.open(map);
     });
     $('.sidebar-minify-btn').remove();
+    reload();
 }, 1000);

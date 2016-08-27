@@ -168,6 +168,30 @@ class FlightsController extends Controller
         echo Flights::prepareTrackerData($id);
     }
 
+    public function actionCurrent($id = null)
+    {
+        $flight = $this->findModel($id);
+        echo json_encode(
+            [
+                'lat' => $flight->lastTrack->latitude,
+                'lon' => $flight->lastTrack->longitude,
+                'hdg' => $flight->lastTrack->heading
+            ]
+        );
+    }
+
+    public function actionBooking()
+    {
+        $data = ['id' => 0];
+        $model = Booking::find()->where('status < ' . Booking::BOOKING_FLIGHT_END)->andWhere(['user_id' => Yii::$app->user->identity->vid])->one();
+
+        if ($model->flight) {
+            $data['id'] = (int) $model->id;
+        }
+
+        return json_encode($data);
+    }
+
     public function actionDetails($id = null)
     {
         $model = $this->findModel($id);

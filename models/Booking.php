@@ -317,7 +317,8 @@ class Booking extends \yii\db\ActiveRecord
                 [
                     'type' => 'Feature',
                     'properties' => [
-
+                        'color' => 'green',
+                        'opacity' => ($booking->flight ? 0.4 : 1)
                     ],
                     'geometry' => [
                         'type' => 'LineString',
