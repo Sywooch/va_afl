@@ -11,7 +11,7 @@ use app\models\Users;
                 <?php foreach ($content['data'] as $msg) : ?>
                     <li <?= $msg['read'] == false ? ' style="background: #fff4e3;" ' : '' ?>onclick="location.href = '/mail/chat/<?= $msg['chat']['id'] ?>'"
                         class="list-group-item inverse dialog">
-                    <a href="/mail/details/<?= $msg['id'] ?>" class="email-user">
+                    <a href="/mail/chat/<?= $msg['chat']['id'] ?>" class="email-user">
                         <img src="<?=
                         Users::find()->where(['vid' => $msg['from']])->one() ? Users::find()->where(
                             ['vid' => $msg['from']]
