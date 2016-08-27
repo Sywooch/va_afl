@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <ul class="list-inline">
                     <li><?= $model->createdDT->format('d F Y') ?></li>
-                    <li><a href="/documents/list/<?= $model->categoryInfo->link ?>"><?= $model->categoryInfo->name ?></a></li>
+                    <li><a href="/documents/<?= $model->categoryInfo->link ?>"><?= $model->categoryInfo->name ?></a></li>
                     <?php if (!empty($model->forum)) : ?>
                         <li><a target="_blank" href="<?= $model->forum ?>"><i class="fa fa-comments"></i> <?=
                                 Yii::t(
