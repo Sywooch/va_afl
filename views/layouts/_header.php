@@ -12,6 +12,11 @@ use app\models\Users;
         <div class="navbar-header">
             <p align="center"><a href="/pilot/center" class="navbar-brand"><img src="/img/afl_logo.png"
                                                                                 style="height: 100%"></a></p>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
 
         <div class="nav navbar-text progress progress-striped active" style="width: 330px; height: 20px">
