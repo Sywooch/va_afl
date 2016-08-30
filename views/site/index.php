@@ -27,7 +27,7 @@ use yii\helpers\Url;
         </div>
         <div class="collapse navbar-collapse" id="header-navbar">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#home" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Главная<?php else: ?>HOME<?php endif; ?></a></li>
+                <li><a href="#home" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Главная<?php else: ?>Home<?php endif; ?></a></li>
                 <li><a href="#online" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Онлайн<?php else: ?>Online<?php endif; ?></a></li>
                 <li><a href="#about" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>О нас<?php else: ?>About<?php endif; ?></a></li>
                 <li><a href="#service" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Сервисы<?php else: ?>Services<?php endif; ?></a></li>
