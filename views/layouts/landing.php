@@ -33,6 +33,7 @@ OnlineTableAsset::register($this);
     <link href="/landing/css/style.min.css" rel="stylesheet"/>
     <link href="/landing/css/style-responsive.min.css" rel="stylesheet"/>
     <link href="/landing/css/theme/default.css" id="theme" rel="stylesheet"/>
+    <link href="/css/custom.css" id="theme" rel="stylesheet"/>
 
     <!-- ================== END BASE CSS STYLE ================== -->
 

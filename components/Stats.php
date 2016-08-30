@@ -2,6 +2,7 @@
 
 namespace app\components;
 
+use app\models\BillingUserBalance;
 use app\models\Flights;
 use app\models\Users;
 
@@ -31,17 +32,26 @@ class Stats
 
     /**
      * Get all paxs count
+     * @return int
      */
     public static function paxs(){
-        //?
-        return 0;
+        return (int)Flights::find()->sum('pob');
     }
 
     /**
      * Get all vucs count
+     * @return int
      */
     public static function vucs(){
-        //?
-        return 0;
+        return (int)BillingUserBalance::find()->where('user_vid > 0')->sum('balance');
+    }
+
+    /**
+     * Get all distance from flights
+     * @return int
+     */
+    public static function nm()
+    {
+        return (int)Flights::find()->sum('nm');
     }
 }

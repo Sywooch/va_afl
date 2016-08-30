@@ -115,7 +115,7 @@ use app\models\Users;
                     ],
                     [
                         'name' => 'TeamSpeak 3',
-                        'url' => '/content/view/teamspeak',
+                        'url' => '/documents/handbook/teamspeak',
                         'icon' => 'fa-microphone',
                     ],
                     [
@@ -159,7 +159,7 @@ use app\models\Users;
                         'name' => Yii::t('app', 'VA AFL'),
                         'icon' => 'fa-info-circle',
                         'items' => [
-                            ['name' => Yii::t('app', 'About'), 'url' => '/content/view/about'],
+                            ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/airline/fleet'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
@@ -169,7 +169,7 @@ use app\models\Users;
                                 'url' => 'http://www.ivao.aero',
                                 'linkOptions' => ['target' => '_blank']
                             ],
-                            ['name' => Yii::t('app', 'Contacts'), 'url' => '/content/view/contacts']
+                            //['name' => Yii::t('app', 'Contacts'), 'url' => '/content/view/contacts']
                         ]
                     ],
                 ]

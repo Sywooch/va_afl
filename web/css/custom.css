@@ -63,3 +63,7 @@ a, a:hover, a:active, a:visited {
 .dialog-wrapper{
     cursor: pointer;
 }
+
+.header.navbar.navbar-transparent.navbar-small {
+    background: #f4f6f7 !important;
+}
