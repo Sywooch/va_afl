@@ -32,6 +32,6 @@ class Simulator
         20 => 'Fly!',
         21 => 'Fly! 2',
         25 => 'FlightGear',
-        30 => 'Prepar3D 1.x]',
+        30 => 'Prepar3D 1.x',
     ];
 } 
