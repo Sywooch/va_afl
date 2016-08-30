@@ -56,7 +56,7 @@ class PaxController extends Controller
             $pax->from_icao = $paxdata->dep;
             $pax->to_icao = $paxdata->arr;
             $pax->waiting_hours = 0;
-            $pax->num_pax += $this->generateRandomPaxes($paxdata->aircraft);
+            $pax->num_pax += (int)$this->generateRandomPaxes($paxdata->aircraft);
             $pax->save();
         }
     }
