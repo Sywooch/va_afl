@@ -57,12 +57,6 @@ use yii\widgets\Pjax;
                             }
                     ],
                     'pilot.level',
-                    [
-                        'attribute' => 'pilot.billingUserBalance',
-                        'value' => function ($data) {
-                                return isset($data->pilot->billingUserBalance) ? $data->pilot->billingUserBalance->balance : 0;
-                            }
-                    ]
                 ]
             ]
         ); ?>
