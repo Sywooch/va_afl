@@ -25,7 +25,14 @@ class Briefing extends Component
     private $aircraft;
     private $template = [
         //'PBN', 'NAV', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
-        'PBN', 'REG', 'OPR', 'EET', 'SEL', 'RALT', 'RMK'
+        'PBN',
+        'REG',
+        'OPR',
+        'EET',
+        'SEL',
+        'RALT',
+        'DOF',
+        'RMK',
     ];
     private $operator = 'VA AFL';
     /**
@@ -83,5 +90,10 @@ class Briefing extends Component
 
     public function getREG(){
         return $this->aircraft ? 'REG/' . str_replace('-', '', $this->aircraft->regnum) : '';
+    }
+
+    public function getDOF()
+    {
+        return 'DOF/' . date("ymd");
     }
 }
