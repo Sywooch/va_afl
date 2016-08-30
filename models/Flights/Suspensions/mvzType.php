@@ -41,12 +41,18 @@ class mvzType implements SuspensionProcess
         'MF1T',
         'MF3T',
         'MF6T',
+        'MF8T',
         'FE2T',
         'FE3T',
         'FE4T',
         'NAM4T',
         'NAM1T',
+        'NAM3T',
         'FK1T',
+        'SW2R',
+        'NAMIN NAM3W LEDOR NAM1E SW',
+        'FK FK4W UMBEG FK4AR LO',
+
     ];
 
     /**

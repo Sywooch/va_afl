@@ -25,6 +25,8 @@ class oprType implements SuspensionProcess
     private $errors = [
         'VAG AFL',
         'VA AEROFLOT',
+        'AFLGROUP',
+        'AFL GROUP',
         'AEROFLOT',
         'RMK/OPR',
         'HTTP//VAAEROFLOTSU/',
