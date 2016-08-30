@@ -1,4 +1,7 @@
 <?php
+
+namespace app\components;
+
 use app\models\Flights;
 use app\models\Users;
 

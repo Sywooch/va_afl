@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Stats;
 use app\models\Booking;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
