@@ -20,10 +20,10 @@ use app\components\Helper;
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <span class="brand-logo"></span>
                         <span class="brand-text">
-                            <span class="text-theme">Color</span> Admin
+                            <span class="text-theme">VA</span> AFL
                         </span>
             </a>
         </div>
@@ -33,12 +33,6 @@ use app\components\Helper;
             <ul class="nav navbar-nav navbar-right">
                 <li class="active dropdown">
                     <a href="#home" data-click="scroll-to-target" data-toggle="dropdown">HOME <b class="caret"></b></a>
-                    <ul class="dropdown-menu dropdown-menu-left animated fadeInDown">
-                        <li><a href="index.html">Page with Transparent Header</a></li>
-                        <li><a href="index_inverse_header.html">Page with Inverse Header</a></li>
-                        <li><a href="index_default_header.html">Page with White Header</a></li>
-                        <li><a href="extra_element.html">Extra Element</a></li>
-                    </ul>
                 </li>
                 <li><a href="#about" data-click="scroll-to-target">ABOUT</a></li>
                 <li><a href="#team" data-click="scroll-to-target">TEAM</a></li>
@@ -47,7 +41,7 @@ use app\components\Helper;
                 <li><a href="#client" data-click="scroll-to-target">CLIENT</a></li>
                 <li><a href="#pricing" data-click="scroll-to-target">PRICING</a></li>
                 <li><a href="#contact" data-click="scroll-to-target">CONTACT</a></li>
-                <li><a href="/users/auth/login"><i class="fa fa-user"></i>LOGIN</a></li>
+                <li><a href="/users/auth/login">LOGIN</a></li>
             </ul>
         </div>
         <!-- end navbar-collapse -->
@@ -65,17 +59,16 @@ use app\components\Helper;
     <!-- end content-bg -->
     <!-- begin container -->
     <div class="container home-content">
-        <h1>Welcome to Color Admin</h1>
+        <h1>Welcome to VA AFL</h1>
 
-        <h3>Multipurpose One Page Theme</h3>
+        <h3>Simmers' best choise</h3>
 
         <p>
-            We have created a multi-purpose theme that take the form of One-Page or Multi-Page Version.<br/>
-            Use our <a href="#">theme panel</a> to select your favorite theme color.
+            We have created the best VA in IVAO.<br/>
+            Sign up on <a href="/users/auth/login">registration page</a> to become a part of our company.
         </p>
-        <a href="#" class="btn btn-success">Explore More</a> <a href="#" class="btn btn-outline">Purchase Now</a><br/>
-        <br/>
-        or <a href="#">subscribe</a> newsletter
+        <a href="/users/auth/login" class="btn btn-success">Sign Up</a> <a href="#about" data-click="scroll-to-target"
+                                                                           class="btn btn-outline">Learn more</a><br/>
     </div>
     <!-- end container -->
 </div>
@@ -85,16 +78,11 @@ use app\components\Helper;
 <div id="pricing" class="content" data-scrollview="true">
     <!-- begin container -->
     <div class="container">
-        <h2 class="content-title">Our Price</h2>
-
-        <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
-            sed bibendum turpis luctus eget
-        </p>
+        <h2 class="content-title">Online</h2>
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Online Table <span class="label label-success pull-right">1 Online</span>
+                <h4 class="panel-title">&nbsp;<span class="label label-success pull-right">1 Online</span>
                 </h4>
             </div>
             <div class="panel-body bg-silver">
@@ -258,114 +246,63 @@ use app\components\Helper;
                 </div>
             </div>
         </div>
-
     </div>
-    <!-- end container -->
 </div>
-<!-- end #pricing -->
-
-<!-- begin #about -->
 <div id="about" class="content" data-scrollview="true">
-    <!-- begin container -->
     <div class="container" data-animation="true" data-animation-type="fadeInDown">
         <h2 class="content-title">About Us</h2>
 
         <p class="content-desc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum consectetur eros dolor,<br/>
-            sed bibendum turpis luctus eget
+            <?php if (Yii::$app->request->get('lang') == 'RU'): ?>
+
+            <?php else: ?>
+                Virtual Airlines was founded and officially registered at the IVAO Network at January 2012. Three years later, in February 2015 our virtual airlines was totally updated. Now we have one of the best website among other VAs, ultimate Pilot Center, custom tracking system and much more!
+            <?php endif; ?>
         </p>
-        <!-- begin row -->
         <div class="row">
-            <!-- begin col-4 -->
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-6 col-sm-6">
                 <!-- begin about -->
                 <div class="about">
                     <h3>Our Story</h3>
+                    <?php if (Yii::$app->request->get('lang') == 'RU'): ?>
+                        <p>
 
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Vestibulum posuere augue eget ante porttitor fringilla.
-                        Aliquam laoreet, sem eu dapibus congue, velit justo ullamcorper urna,
-                        non rutrum dolor risus non sapien. Vivamus vel tincidunt quam.
-                        Donec ultrices nisl ipsum, sed elementum ex dictum nec.
-                    </p>
+                        </p>
+                        <p>
 
+
+                        </p>
+                        <?php else: ?>
                     <p>
-                        In non libero at orci rutrum viverra at ac felis.
-                        Curabitur a efficitur libero, eu finibus quam.
-                        Pellentesque pretium ante vitae est molestie, ut faucibus tortor commodo.
-                        Donec gravida, eros ac pretium cursus, est erat dapibus quam,
-                        sit amet dapibus nisl magna sit amet orci.
+                        We restarted with a vision to make the best virtual airline at the IVAO network. We do our best
+                        to make all pilots the most realistic experience with online flying. No any additional software
+                        needed – just book your flight at the Pilot Center, connect to the IVAO and enjoy virtual sky!
+                        Our fleet consists of the real air company aircraft – types, tail numbers – everything matches
+                        as real as it gets! Boeing, Airbus, Sukhoi SuperJet – all these perfect aircraft are available.
                     </p>
+                    <?php endif; ?>
                 </div>
-                <!-- end about -->
             </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-4 col-sm-6">
+            <div class="col-md-6 col-sm-6">
                 <h3>Our Philosophy</h3>
                 <!-- begin about-author -->
                 <div class="about-author">
                     <div class="quote bg-silver">
                         <i class="fa fa-quote-left"></i>
 
-                        <h3>We work harder,<br/><span>to let our user keep simple</span></h3>
+                        <h3>We are striving for perfection</h3>
                         <i class="fa fa-quote-right"></i>
                     </div>
                     <div class="author">
-                        <div class="image">
-                            <img src="/landing/img/user-1.jpg" alt="Sean Ngu"/>
-                        </div>
                         <div class="info">
-                            Sean Ngu
-                            <small>Front End Developer</small>
+                            VA AFL Team
                         </div>
                     </div>
                 </div>
-                <!-- end about-author -->
             </div>
-            <!-- end col-4 -->
-            <!-- begin col-4 -->
-            <div class="col-md-4 col-sm-12">
-                <h3>Our Experience</h3>
-                <!-- begin skills -->
-                <div class="skills">
-                    <div class="skills-name">Front End</div>
-                    <div class="progress progress-striped">
-                        <div class="progress-bar progress-bar-success" style="width: 95%">
-                            <span class="progress-number">95%</span>
-                        </div>
-                    </div>
-                    <div class="skills-name">Programming</div>
-                    <div class="progress progress-striped">
-                        <div class="progress-bar progress-bar-success" style="width: 90%">
-                            <span class="progress-number">90%</span>
-                        </div>
-                    </div>
-                    <div class="skills-name">Database Design</div>
-                    <div class="progress progress-striped">
-                        <div class="progress-bar progress-bar-success" style="width: 85%">
-                            <span class="progress-number">85%</span>
-                        </div>
-                    </div>
-                    <div class="skills-name">Wordpress</div>
-                    <div class="progress progress-striped">
-                        <div class="progress-bar progress-bar-success" style="width: 80%">
-                            <span class="progress-number">80%</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- end skills -->
-            </div>
-            <!-- end col-4 -->
         </div>
-        <!-- end row -->
     </div>
-    <!-- end container -->
 </div>
-<!-- end #about -->
-
-<!-- begin #milestone -->
 <div id="milestone" class="content bg-black-darker has-bg" data-scrollview="true">
     <!-- begin content-bg -->
     <div class="content-bg">
@@ -379,20 +316,20 @@ use app\components\Helper;
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="1292">
-                        1,292
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="<?= Stats::members() ?>">
+                        <?= Stats::members() ?>
                     </div>
-                    <div class="title">Themes & Template</div>
+                    <div class="title">Members</div>
                 </div>
             </div>
             <!-- end col-3 -->
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="9039">
-                        9,039
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="<?= Stats::vucs() ?>">
+                        <?= Stats::vucs() ?>
                     </div>
-                    <div class="title">Registered Members</div>
+                    <div class="title">VUCs</div>
                 </div>
             </div>
             <!-- end col-3 -->
@@ -400,20 +337,20 @@ use app\components\Helper;
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
                     <div class="number" data-animation="true" data-animation-type="number"
-                         data-final-number="89291">
-                        89,291
+                         data-final-number=" <?= Stats::flights() ?>">
+                        <?= Stats::flights() ?>
                     </div>
-                    <div class="title">Items Sold</div>
+                    <div class="title">Flights</div>
                 </div>
             </div>
             <!-- end col-3 -->
             <!-- begin col-3 -->
             <div class="col-md-3 col-sm-3 milestone-col">
                 <div class="milestone">
-                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="129">
-                        129
+                    <div class="number" data-animation="true" data-animation-type="number" data-final-number="<?= Stats::paxs() ?>">
+                        <?= Stats::paxs() ?>
                     </div>
-                    <div class="title">Theme Authors</div>
+                    <div class="title">PAXs</div>
                 </div>
             </div>
             <!-- end col-3 -->
