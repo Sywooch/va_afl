@@ -32,7 +32,7 @@ use yii\helpers\Url;
                 <li><a href="#about" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>О нас<?php else: ?>About<?php endif; ?></a></li>
                 <li><a href="#service" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Сервисы<?php else: ?>Services<?php endif; ?></a></li>
                 <li><a href="#contact" data-click="scroll-to-target"><?php if (Yii::$app->request->get('lang') == 'RU'): ?>Связаться с нами<?php else: ?>Contact<?php endif; ?></a></li>
-                <li><a href="/users/auth/login"><i class="fa fa-user-plus" aria-hidden="true"></i> <?php if (Yii::$app->request->get('lang') == 'RU'): ?>Войти или зарегистрироваться<?php else: ?>Sign Up<?php endif; ?></a></li>
+                <li><a href="/users/auth/login<?php if (Yii::$app->request->get('lang') == 'RU'): ?>?lang=RU<?php endif; ?>"><i class="fa fa-user-plus" aria-hidden="true"></i> <?php if (Yii::$app->request->get('lang') == 'RU'): ?>Войти или Зарегистрироваться<?php else: ?>Login or Sign Up<?php endif; ?></a></li>
             </ul>
         </div>
     </div>

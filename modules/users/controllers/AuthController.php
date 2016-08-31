@@ -48,7 +48,7 @@ class AuthController extends Controller
         return $this->render('index');
     }
 
-    public function actionLogin($redirect_url = null, $IVAOTOKEN = null)
+    public function actionLogin($redirect_url = null, $IVAOTOKEN = null, $lang = 'EN')
     {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -67,7 +67,7 @@ class AuthController extends Controller
         if ($model->login($IVAOTOKEN) == false) {
             if($redirect_url == 'null' || empty($redirect_url))
             {
-                return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN);
+                return $this->redirect('registration?IVAOTOKEN=' . $IVAOTOKEN.'&lang='.$lang);
             } else {
                 return $this->redirect('/site/index'); //TODO: тут нужно показать страницу о том, что пользователю зарегистрироваться для продолжения
             }

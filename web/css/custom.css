@@ -67,3 +67,10 @@ a, a:hover, a:active, a:visited {
 .header.navbar.navbar-transparent.navbar-small {
     background: #f4f6f7 !important;
 }
+
+.title{
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
