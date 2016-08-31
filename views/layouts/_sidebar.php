@@ -143,8 +143,9 @@ use app\models\Users;
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),
-                        'url' => \yii\helpers\Url::to('/forum'),
-                        'icon' => 'fa-rss'
+                        'url' => \yii\helpers\Url::to('http://forum.va-afl.su'),
+                        'icon' => 'fa-rss',
+                        'linkOptions' => ['target' => '_blank']
                     ],
                     /*[
                         'name' => Yii::t('app', 'Shop'),
