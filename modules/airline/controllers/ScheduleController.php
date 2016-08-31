@@ -2,83 +2,60 @@
 
 namespace app\modules\airline\controllers;
 
-use app\components\Levels;
-use app\models\Squadrons;
 use Yii;
-use app\models\FleetProfiles;
-use yii\data\ActiveDataProvider;
+use app\models\Schedule;
+use app\modules\airline\models\ScheduleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * FleetProfilesController implements the CRUD actions for FleetProfiles model.
+ * ScheduleController implements the CRUD actions for Schedule model.
  */
-class FleetprofileController extends Controller
+class ScheduleController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'only' => ['index', 'stats', 'create', 'update', 'delete'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['fleet/edit'],
+                        'roles' => ['schedule/edit'],
                     ],
                 ]
             ]
         ];
     }
 
-
-    public function actionStats()
-    {
-        $stats_t = Yii::$app->getDb()->createCommand(
-            'SELECT fleet.squadron_id, count(DISTINCT id) as acoun, a.coun
-                    FROM fleet
-                    LEFT JOIN
-                    (SELECT squadron_id, count(DISTINCT id) as coun FROM fleet WHERE profile IS NOT NULL GROUP BY fleet.squadron_id)
-                    AS a ON a.squadron_id = fleet.squadron_id WHERE profile IS NULL AND fleet.squadron_id > 0 AND fleet.squadron_id < 4
-                    GROUP BY fleet.squadron_id'
-        )->queryAll();
-        $stats = [];
-
-        foreach($stats_t as $stat){
-            $stats[Squadrons::findOne($stat['squadron_id'])->name_en][] = ['name' => 'Without profile', 'y' => (int) $stat['acoun']];
-            $stats[Squadrons::findOne($stat['squadron_id'])->name_en][] = ['name' => 'With profile', 'y' => (int) $stat['coun']];
-        }
-
-
-        return $this->render('stats', [
-                'stats' => $stats,
-            ]);
-    }
-
     /**
-     * Lists all FleetProfiles models.
+     * Lists all Schedule models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => FleetProfiles::find(),
-        ]);
+        $searchModel = new ScheduleSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     /**
-     * Displays a single FleetProfiles model.
+     * Displays a single Schedule model.
      * @param integer $id
      * @return mixed
      */
@@ -90,16 +67,15 @@ class FleetprofileController extends Controller
     }
 
     /**
-     * Creates a new FleetProfiles model.
+     * Creates a new Schedule model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new FleetProfiles();
+        $model = new Schedule();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Levels::addExp(10, \Yii::$app->user->identity->vid);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -109,7 +85,7 @@ class FleetprofileController extends Controller
     }
 
     /**
-     * Updates an existing FleetProfiles model.
+     * Updates an existing Schedule model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -128,7 +104,7 @@ class FleetprofileController extends Controller
     }
 
     /**
-     * Deletes an existing FleetProfiles model.
+     * Deletes an existing Schedule model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -136,19 +112,20 @@ class FleetprofileController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the FleetProfiles model based on its primary key value.
+     * Finds the Schedule model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return FleetProfiles the loaded model
+     * @return Schedule the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FleetProfiles::findOne($id)) !== null) {
+        if (($model = Schedule::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
