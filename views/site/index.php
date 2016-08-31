@@ -540,7 +540,7 @@ use yii\helpers\Url;
         <!-- begin row -->
         <div class="row">
             <!-- begin col-6 -->
-            <div class="col-md-6" data-animation="true" data-animation-type="fadeInLeft">
+            <div class="col-md-12" data-animation="true" data-animation-type="fadeInLeft">
                 <h3><?php if (Yii::$app->request->get('lang') == 'RU'): ?>
                         Если вам что-то не ясно, свяжитесь с нами
                     <?php else: ?>
@@ -550,55 +550,6 @@ use yii\helpers\Url;
                 <p>
                     <a href="mailto:support@va-afl.su">support@va-afl.su</a>
                 </p>
-            </div>
-            <!-- end col-6 -->
-            <!-- begin col-6 -->
-            <div class="col-md-6 form-col" data-animation="true" data-animation-type="fadeInRight">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Name <span class="text-theme">*</span></label>
-
-                        <div class="col-md-9">
-                            <input type="text" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Email <span class="text-theme">*</span></label>
-
-                        <div class="col-md-9">
-                            <input type="text" class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3"><?php if (Yii::$app->request->get(
-                                    'lang'
-                                ) == 'RU'
-                            ): ?>
-                                Сообщение
-                            <?php else: ?>
-                                Message
-                            <?php endif; ?><span class="text-theme">*</span></label>
-
-                        <div class="col-md-9">
-                            <textarea class="form-control" rows="10"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3"></label>
-
-                        <div class="col-md-9 text-left">
-                            <button type="submit" class="btn btn-theme btn-block"><?php if (Yii::$app->request->get(
-                                        'lang'
-                                    ) == 'RU'
-                                ): ?>
-                                    Отправить сообщение
-                                <?php else: ?>
-                                    Send Message
-                                <?php endif; ?>
-                            </button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
