@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use app\components\Helper;
 use app\components\Slack;
+use app\models\Airports;
 use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
+use app\models\Fleet;
 use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
@@ -88,5 +90,18 @@ class ApiController extends Controller
         }
 
         $slack->sent();
+    }
+
+    public function actionId($id){
+        return Fleet::findOne(['regnum' => $id])->id;
+    }
+
+    public function actionDomestic($from, $to){
+        if(Airports::findOne(['icao' => $from])->iso == 'RU' && Airports::findOne(['icao' => $to])->iso == 'RU'){
+            return 1;
+        }else{
+            return 0;
+        }
+
     }
 }

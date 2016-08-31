@@ -33,7 +33,7 @@ use app\models\Flights;
                         'layout' => '{items}{pager}',
                         'options' => [
                             'class' => 'time-table table table-striped table-bordered',
-                            'style' => 'visibility: visible; animation-duration: 3s; animation-name: bounceInDown;'
+                            'style' => ''
                         ],
                         'columns' => [
                             [
