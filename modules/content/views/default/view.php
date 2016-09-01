@@ -7,8 +7,12 @@ use yii\helpers\Url;
 /* @var $model app\models\Content */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contents'), 'url' => ['index']];
+if (Yii::$app->user->can($model->categoryInfo->access_edit) || Yii::$app->user->can(
+        'content/edit'
+    )){
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Contents'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->categoryInfo->name, 'url' => ['/content/categories/view/'.$model->categoryInfo->link]];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="panel panel-inverse">
