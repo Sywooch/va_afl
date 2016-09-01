@@ -219,8 +219,10 @@ $config = [
     'params' => $params,
     'on beforeAction' => function ($event) {
             if (!Yii::$app->user->isGuest) {
-                if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
-                    throw new \yii\web\HttpException(401, 'Not allowed');
+                if (time() < strtotime('2016-09-02')) {
+                    if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
+                        throw new \yii\web\HttpException(401, 'Not allowed');
+                }
                 }
                 Yii::$app->layout = 'main';
             }

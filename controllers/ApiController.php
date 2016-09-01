@@ -93,15 +93,26 @@ class ApiController extends Controller
     }
 
     public function actionId($id){
-        return Fleet::findOne(['regnum' => $id])->id;
+        return (($fleet = Fleet::findOne(['regnum' => $id])) ? $fleet->id : '0');
     }
 
     public function actionDomestic($from, $to){
-        if(Airports::findOne(['icao' => $from])->iso == 'RU' && Airports::findOne(['icao' => $to])->iso == 'RU'){
+        if(($dep = Airports::findOne(['icao' => $from])) && ($arr = Airports::findOne(['icao' => $to]))){
+            if($dep->iso == 'RU' && $arr->iso == 'RU'){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+
+    public function actionTest(){
+        if (strtotime('2016-09-02 23:59:59') < strtotime('2016-09-02')) {
             return 1;
         }else{
             return 0;
         }
-
     }
 }
