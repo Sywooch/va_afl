@@ -19,17 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="panel-body">
         <h2 class="page-header">
-            Tour description for "<?= $tour->content->name ?>"
+            "<?= $tour->content->name ?>"
         </h2>
 
         <div class="row">
             <div class="col-md-12 col-lg-6">
                 <img class="img-responsive" src="<?= $tour->content->imgLink ?>"></div>
             <div class="col-md-12 col-lg-6">
-                <h2 style="margin-top: 0;">Welcome to the <?= $tour->content->name ?>!</h2>
-                In addition to the general rules found <a href="rules" target="_blank">here</a>, you need to comply
-                with these additional rules for this tour:<br><br>
-
+                <h2 style="margin-top: 0;"><?= $tour->content->name ?>!</h2>
                 <div class="well">
                     <?= $tour->content->text ?>
                 </div>

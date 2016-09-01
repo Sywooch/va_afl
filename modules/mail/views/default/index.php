@@ -3,6 +3,10 @@
 use app\models\Users;
 
 ?>
+<div class="note note-warning">
+    <h4>This module is still under beta testing</h4>
+    <h4>Данный модуль находится в стадии бета тестирования</h4>
+</div>
 <div class="vertical-box">
     <?= $this->render('_sidebar', ['type' => $type]) ?>
     <div class="vertical-box-column">
