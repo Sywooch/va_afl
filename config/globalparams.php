@@ -39,6 +39,7 @@ return [
         494592, //ALEKSANDR SHISHKIN,
         508117, //DMITRIY LAVROV
         421871, //ALEXANDER SHATSKY
+        365463
     ],
     'ivaoru_api_url' => 'http://ivaoru.org/api/futureevents?key=975b7d632cb80cdb7f1145006573ee9f',
     'ivao_rss' => 'https://www.ivao.aero/EVENTS/rss.asp',
