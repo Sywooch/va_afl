@@ -62,7 +62,7 @@ use app\models\Users;
                                     'app',
                                     'Settings'
                                 ) ?></a></li>
-                        <li><a href="javascript:;"><?= Yii::t('app', 'Help') ?></a></li>
+                        <li><a href="/documents"><?= Yii::t('app', 'Help') ?></a></li>
                         <li class="divider"></li>
                         <li><a data-method="post" href="/users/auth/logout"><?= Yii::t('app', 'Log out') ?></a></li>
                     </ul>
