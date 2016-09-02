@@ -561,7 +561,7 @@ use yii\helpers\Url;
         </div>
         <p>
             "VA AFL" is non-commercial virtual orginisation of aviation enthusiasts. "VA AFL" is NOT an official or
-            authorised website of the real-life aircompany "Aeroflot0 - Russian airlines". "VA AFL" does NOT affilated
+            authorised website of the real-life aircompany "Aeroflot - Russian airlines". "VA AFL" does NOT affilated
             to the real aircompany "Aeroflot - Russian airlines" or its representatives. "VA AFL" is irrelevant to any
             kind of activites of the real aircompany "Aeroflot - Russian airlines". To visit real aircompany "Aeroflot -
             Russian airlines" website <a href="http://www.aeroflot.ru/">click here</a>.
