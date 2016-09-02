@@ -138,7 +138,7 @@ class Fleet extends \yii\db\ActiveRecord
     public static function getForBooking($q)
     {
         $out = [];
-        $d=Fleet::find()->andWhere(['location' => Users::getAuthUser()->pilot->location]);
+        $d=Fleet::find()->where(['status' => 0])->andWhere(['location' => Users::getAuthUser()->pilot->location]);
         if($q) {
             $d->andFilterWhere(
                 [
