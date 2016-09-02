@@ -248,7 +248,10 @@ $config = [
             /*if(Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'error') {
                 Yii::$app->layout = 'error';
             }*/
-
+            if (substr($_SERVER['HTTP_HOST'], 0, 4) === 'www.') {
+                header('Location: http://' . substr($_SERVER['HTTP_HOST'], 4).$_SERVER['REQUEST_URI']);
+                exit;
+            }
             \app\models\User::setLanguage();
         },
 ];
