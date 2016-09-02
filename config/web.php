@@ -252,6 +252,10 @@ $config = [
                 header('Location: http://' . substr($_SERVER['HTTP_HOST'], 4).$_SERVER['REQUEST_URI']);
                 exit;
             }
+            if (strripos($_SERVER['REQUEST_URI'], '//') !== false) {
+                header('Location: http://' . $_SERVER['HTTP_HOST'] . str_replace("//", '/', $_SERVER['REQUEST_URI']));
+                exit;
+            }
             \app\models\User::setLanguage();
         },
 ];
