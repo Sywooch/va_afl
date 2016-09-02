@@ -81,7 +81,7 @@ class ParseController extends Controller
      * Отправлять или не отправлять, вот в чём вопрос.
      * @var bool
      */
-    private $slackFeed = true;
+    private $slackFeed = false;
 
     /**
      * Главная функция, запускает остальные функции
