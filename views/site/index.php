@@ -544,7 +544,7 @@ use yii\helpers\Url;
                 <h3><?php if (Yii::$app->request->get('lang') == 'RU'): ?>
                         Если вам что-то не ясно, свяжитесь с нами
                     <?php else: ?>
-                        If you something is not clear, please contact us
+                        If you have any questions or offers, do not hesitate to contact us
                     <?php endif; ?></h3>
 
                 <p>
