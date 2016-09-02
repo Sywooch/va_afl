@@ -262,9 +262,9 @@ use yii\helpers\Url;
 
         <p class="content-desc">
             <?php if (Yii::$app->request->get('lang') == 'RU'): ?>
-                Виртуальная авиакомпания АЭРОФЛОТ была образована и официально зарегистрирована в сети ИВАО в январе 2012 года. Спустя три года после основания наша виртуальная авиакомпания была полностью обновлена. Теперь для всех пилотов стал доступен один из лучших сайтов среди виртуальных авиакомпаний, непревзойденный Центр Пилота, уникальная система трекинга и многое другое!
+                ВА "АФЛ" была образована и официально зарегистрирована в сети ИВАО в январе 2012 года. Спустя три года после основания наша виртуальная авиакомпания была полностью обновлена. Теперь для всех пилотов стал доступен один из лучших сайтов среди виртуальных авиакомпаний, непревзойденный Центр Пилота, уникальная система трекинга и многое другое!
             <?php else: ?>
-                Virtual Airlines was founded and officially registered at the IVAO Network at January 2012. Three years later, in February 2015 our virtual airlines was totally updated. Now we have one of the best website among other VAs, ultimate Pilot Center, custom tracking system and much more!
+                VA AFL was founded and officially registered at the IVAO Network at January 2012. Three years later, in February 2015 our virtual airlines was totally updated. Now we have one of the best website among other VAs, ultimate Pilot Center, custom tracking system and much more!
             <?php endif; ?>
         </p>
         <div class="row">
