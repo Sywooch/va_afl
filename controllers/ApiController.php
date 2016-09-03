@@ -115,4 +115,8 @@ class ApiController extends Controller
             return 0;
         }
     }
+
+    public function actionWhazzup(){
+        return Helper::getWhazzup();
+    }
 }
