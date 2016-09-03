@@ -3,6 +3,7 @@
 namespace app\modules\screens\controllers;
 
 use app\components\Levels;
+use app\models\ContentLikes;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -31,7 +32,7 @@ class DefaultController extends Controller
 
     public function actionTop()
     {
-        $screens = Content::find()->where(['category' => 16])->orderBy(['views' => SORT_DESC])->limit(20)->all();
+        $screens = Content::find()->select(['content.*', 'COUNT(content_likes.user_id) AS countlike'])->join('LEFT JOIN', ContentLikes::tableName(), 'content.id=content_likes.content_id')->where(['category' => 16])->andWhere('created >= DATE_ADD(NOW(), INTERVAL -1 WEEK)')->groupBy('content.id')->orderBy(['countlike' => SORT_DESC])->limit(20)->all();
         return $this->render('index', ['screens' => $screens, 'title' => \YIi::t('screens', 'Top') . 20]);
     }
 
