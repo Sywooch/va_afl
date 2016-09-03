@@ -45,7 +45,7 @@ class Levels
 
     public static function getNextLevel($level)
     {
-        return (($level + 1) * 500) - 50;
+        return (($level + 1) * 150) - 50;
     }
 
     public static function getProgress($exp, $level)
