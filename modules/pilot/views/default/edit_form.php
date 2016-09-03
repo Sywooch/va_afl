@@ -36,6 +36,7 @@ $form = ActiveForm::begin(
     <label class="control-label col-sm-4" for="userpilot-vk_id">VK</label>
 
     <div class="col-sm-8">
+        <?php /*?>
         <!-- Put this script tag to the <head> of your page -->
         <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
 
@@ -56,6 +57,7 @@ $form = ActiveForm::begin(
             } });
         </script>
         <input type="hidden" id="userpilot-vk_id" name="UserPilot[vk_id]" value="<?= $pilot->vk_id ?>">
+        <?php */ ?>
 
         <div class="help-block help-block-error "></div>
     </div>
