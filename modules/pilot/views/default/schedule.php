@@ -32,10 +32,18 @@
             [
                 'attribute' => 'dep_utc_time',
                 'label' => 'EDT',
+                'format' => 'raw',
+                'value' => function ($data) {
+                        return date('H:i',strtotime($data->dep_utc_time))."Z";
+                    }
             ],
             [
                 'attribute' => 'arr_utc_time',
                 'label' => 'ETA',
+                'format' => 'raw',
+                'value' => function ($data) {
+                        return date('H:i',strtotime($data->arr_utc_time))."Z";
+                    }
             ],
             [
                 'attribute' => 'eet',
