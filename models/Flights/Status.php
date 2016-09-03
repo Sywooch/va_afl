@@ -9,7 +9,6 @@
 namespace app\models\Flights;
 
 use app\commands\ParseController;
-use app\components\Slack;
 use app\models\Booking;
 use app\models\Suspensions;
 
@@ -73,9 +72,6 @@ class Status
     {
         if (self::$booking->g_status != self::$status && self::$status != 0) {
             self::$booking->g_status = self::$status;
-
-            $slack = new Slack('#dev_reports', "Status of " . self::$booking->callsign . " has been changed to " . self::$status);
-            $slack->sent();
         }
 
         self::$booking->save();

@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\Slack;
 use app\models\Content;
 use app\models\Services\notifications\Notification;
 use Yii;
@@ -71,6 +72,10 @@ class Suspensions extends \yii\db\ActiveRecord
                 '[errors_en]' => $errors_en,
                 '[errors_ru]' => $errors_ru,
             ];
+
+            $slack = new Slack('#flights', $array['flight_name'].' - '.$array['errors_ru']);
+            $slack->addLink('http://va-afl.su/airline/flights/view/'.$array['flight_id']);
+            $slack->sent();
 
             Notification::add($flight->user_id, 0, Content::template(self::TEMPLATE, $array), 'fa-times-circle-o', 'red');
         }
