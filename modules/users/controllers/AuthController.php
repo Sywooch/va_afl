@@ -2,6 +2,7 @@
 
 namespace app\modules\users\controllers;
 
+use app\components\Slack;
 use app\models\IvaoLogin;
 use app\models\UserPilot;
 use app\models\Users;
@@ -91,6 +92,14 @@ class AuthController extends Controller
         if (Yii::$app->request->isPost) {
             $ivaologin = new IvaoLogin();
             $ivaologin->register($_POST, $IVAOTOKEN);
+
+            try{
+                $slack = new Slack('#members', 'New user - '.$ivaologin->username.' ('.$ivaologin->vid.')');
+                $slack->sent();
+            }catch (\Exception $ex){
+                Yii::error(serialize($ex));
+            }
+
             return $this->redirect('login?IVAOTOKEN=' . $IVAOTOKEN);
         } else {
             $this->layout = '/registration';
