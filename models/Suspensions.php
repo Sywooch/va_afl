@@ -73,8 +73,8 @@ class Suspensions extends \yii\db\ActiveRecord
                 '[errors_ru]' => $errors_ru,
             ];
 
-            $slack = new Slack('#flights', $array['flight_name'].' - '.$array['errors_ru']);
-            $slack->addLink('http://va-afl.su/airline/flights/view/'.$array['flight_id']);
+            $slack = new Slack('#flights', $array['[flight_name]'].' - '.$array['[errors_ru]']);
+            $slack->addLink('http://va-afl.su/airline/flights/view/'.$array['[flight_id]']);
             $slack->sent();
 
             Notification::add($flight->user_id, 0, Content::template(self::TEMPLATE, $array), 'fa-times-circle-o', 'red');
