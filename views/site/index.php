@@ -50,7 +50,7 @@ use yii\helpers\Url;
         <h3><?php if (Yii::$app->request->get(
                     'lang'
                 ) == 'RU'
-            ): ?>Лучший выбор симмера<?php else: ?>Simmers' best choise<?php endif; ?></h3>
+            ): ?>Лучший выбор симмера<?php else: ?>Simmers' best choice<?php endif; ?></h3>
 
         <p>
             <?php if (Yii::$app->request->get(
