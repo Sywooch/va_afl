@@ -73,6 +73,7 @@ class DefaultController extends Controller
         }
 
         if (isset($_POST['Booking'])) {
+            $_POST['Booking']['callsign'] = 'AFL'.str_replace('AFL', '', strtoupper($_POST['Booking']['callsign']));
             $model->attributes = $_POST['Booking'];
             $model->status = Booking::BOOKING_INIT;
             $model->save();

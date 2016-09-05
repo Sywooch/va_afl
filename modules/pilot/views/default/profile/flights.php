@@ -56,7 +56,7 @@ GridView::widget(
                 'format' => 'raw',
                 'value' => function ($data) {
                         return Html::a(
-                            Html::img(Helper::getFlagLink($data->depAirport->iso)) . ' ' .
+                            Html::img(Helper::getFlagLink($data->depAirport ? $data->depAirport->iso : null)) . ' ' .
                             Html::encode($data->from_icao),
                             Url::to(
                                 [
@@ -67,9 +67,9 @@ GridView::widget(
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(
+                                'title' => $data->depAirport ? Html::encode(
                                         "{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})"
-                                    )
+                                    ) : ''
                             ]
                         ) . ' - ' . Html::a(
                             Html::img(Helper::getFlagLink($data->arrAirport->iso)) . ' ' .

@@ -150,8 +150,10 @@ class Fleet extends \yii\db\ActiveRecord
             );
         }
 
+        $d->orderBy(['type_code' => SORT_ASC]);
+
         foreach ($d->all() as $data) {
-            $out['results'][] = ['id' => $data->id, 'text' => $data->regnum." (".$data->type_code.")"];
+            $out['results'][] = ['id' => $data->id, 'text' => $data->type_code." (".$data->regnum.")"];
         }
         return Json::encode($out);
     }
