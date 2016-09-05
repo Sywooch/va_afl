@@ -12,6 +12,7 @@ namespace app\components;
 use app\models\Content;
 use app\models\Services\notifications\Notification;
 use app\models\UserPilot;
+use Yii;
 
 class Levels
 {
@@ -45,7 +46,7 @@ class Levels
 
     public static function getNextLevel($level)
     {
-        return (($level + 1) * 150) - 50;
+        return 1000 * pow(2, $level);
     }
 
     public static function getProgress($exp, $level)
@@ -56,6 +57,6 @@ class Levels
 
     public static function flight($user_id, $nm)
     {
-        self::addExp(round($nm / 50) + 1, $user_id);
+        self::addExp(($nm * 3) + 1, $user_id);
     }
 } 

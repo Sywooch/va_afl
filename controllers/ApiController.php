@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\components\Helper;
+use app\components\Levels;
 use app\components\Slack;
 use app\models\Airports;
 use app\models\Billing;
@@ -10,6 +11,7 @@ use app\models\BillingPayments;
 use app\models\BillingUserBalance;
 use app\models\Fleet;
 use app\models\UserPilot;
+use app\models\Users;
 use Yii;
 use yii\db\Query;
 use yii\web\Controller;
@@ -103,14 +105,6 @@ class ApiController extends Controller
             }else{
                 return 0;
             }
-        }else{
-            return 0;
-        }
-    }
-
-    public function actionTest(){
-        if (strtotime('2016-09-02 23:59:59') < strtotime('2016-09-02')) {
-            return 1;
         }else{
             return 0;
         }

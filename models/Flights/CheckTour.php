@@ -9,6 +9,8 @@
 namespace app\models\Flights;
 
 
+use app\components\Levels;
+use app\models\BillingUserBalance;
 use app\models\Content;
 use app\models\Services\notifications\Notification;
 use app\models\Tours\ToursUsers;
@@ -46,6 +48,7 @@ class CheckTour
                     $_tour->save();
 
                     self::notification($flight, $_tour, self::TEMPLATE_START);
+                    Levels::addExp(1000, $flight->user_id);
                 }
 
                 if(!$leg = ToursUsersLegs::findOne(['flight_id' => $flight->id, 'tour_id' => $_tour->tour_id, 'leg_id' => $_tour->nextLeg->leg_id])){
@@ -72,8 +75,11 @@ class CheckTour
                 {
                     $_tour->tourUser->status = ToursUsers::STATUS_COMPLETED;
                     self::notification($flight, $_tour, self::TEMPLATE_TOUR);
+                    Levels::addExp($_tour->tour->exp, $flight->user_id);
+                    BillingUserBalance::addMoney($flight->user_id, $flight->id, $_tour->tour->vucs, 57);
                 }else{
                     self::notification($flight, $_tour, self::TEMPLATE_LEG);
+                    Levels::addExp(200, $flight->user_id);
                 }
             }else{
                 $_tour->status = ToursUsersLegs::STATUS_FLIGHT_FAILED;

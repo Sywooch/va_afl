@@ -8,6 +8,7 @@
 
 namespace app\models\Flights;
 
+use app\components\Levels;
 use Yii;
 
 use app\components\Slack;
@@ -34,6 +35,8 @@ class CheckEvent
                     $_flight->status = EventsMembers::STATUS_FINISHED_FLIGHT;
                 }
 
+                Levels::addExp(1000, $flight->user_id);
+                
                 $_flight->save();
             }
         }
