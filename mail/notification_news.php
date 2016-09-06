@@ -50,8 +50,8 @@ use yii\helpers\Html;
                 <table>
                     <tr>
                         <td align="center">
-                            <p>Don't like these annoying emails? <a href="#">
-                                    <unsubscribe>Unsubscribe</unsubscribe>
+                            <p>Don't like these annoying emails? Write to <a href="mailto:support@va-afl.su">
+                                    support@va-afl.su
                                 </a>.
                             </p>
                         </td>
