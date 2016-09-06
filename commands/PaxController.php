@@ -57,14 +57,19 @@ class PaxController extends Controller
             $pax->to_icao = $paxdata->arr;
             $pax->waiting_hours = 0;
             $pax->num_pax += (int)$this->generateRandomPaxes($paxdata->aircraft);
+
+            if ($pax->num_pax == 0) {
+                var_dump($pax);
+            }
+
             $pax->save();
         }
     }
     private function generateRandomPaxes($acftype)
     {
         $acf = Fleet::randByType($acftype);
-        $coff = rand(70, 100) / 100;
+        $coff = rand(50, 100) / 100;
 
-        return ($acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101) * $coff;
+        return round(($acf ? ($acf->max_pax > 0 ? $acf->max_pax : 100) : 101) * $coff);
     }
 }
