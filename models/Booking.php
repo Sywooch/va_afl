@@ -140,7 +140,7 @@ class Booking extends \yii\db\ActiveRecord
             'callsign' => Yii::t('flights', 'Callsign'),
             'fleet_regnum' => Yii::t('flights', 'Aircraft Registration Number'),
             'schedule_id' => Yii::t('boking', 'Flight number'),
-            'etd' => Yii::t('flights', 'UTC departure time'),
+            'etd' => Yii::t('flights', 'Estimated Time Departure'),
         ];
     }
 
@@ -178,6 +178,11 @@ class Booking extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getSchedule()
+    {
+        return $this->hasOne(Schedule::className(), ['id' => 'schedule_id']);
     }
 
     public function getPercent(){

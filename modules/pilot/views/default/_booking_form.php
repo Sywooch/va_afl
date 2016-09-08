@@ -61,6 +61,8 @@ $form->field($model, 'fleet_regnum')->widget(
 $form->field($model, 'stream')->checkbox();
 ?>
 
+<input type="hidden" id="booking-schedule_id" class="form-control" name="Booking[schedule_id]">
+
 <?php
 /*
 $form->field($model, 'fleet_regnum')->widget(

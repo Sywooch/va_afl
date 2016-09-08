@@ -23,21 +23,29 @@ echo \yii\widgets\DetailView::widget(
                 'value' => '<img src="' . $model->arrival->flaglink . '">' . $model->to_icao,
                 'format' => 'html'
             ],
-            'fleet_regnum' => [
-                'label' => Yii::t('flights', 'Aircraft Registration Number'),
-                'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
-                    $model->fleet_regnum
-                )->regnum : Yii::t('app', 'Unknown')
-            ],
             'acf_type' => [
                 'label' => Yii::t('flights', 'Aircraft'),
                 'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
                         $model->fleet_regnum
                     )->regnum : Yii::t('app', 'Unknown')
             ],
+            'fleet_regnum' => [
+                'label' => Yii::t('flights', 'Aircraft Registration Number'),
+                'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
+                    $model->fleet_regnum
+                )->regnum : Yii::t('app', 'Unknown')
+            ],
+            'etd' => [
+                'label' => Yii::t('flights', 'Estimated Time Departure'),
+                'value' => $model->etd ? $model->etd : Yii::t('app', 'Unknown')
+            ],
+            'eet' => [
+                'label' => Yii::t('flights', 'Estimated En-route Time'),
+                'value' => $model->schedule ? $model->schedule->eet : Yii::t('app', 'Unknown')
+            ],
             'pax' => [
                 'label' => Yii::t('booking','Pax\'s'),
-                'value' => Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)['total']
+                'value' => !$model->flight ? Pax::appendPax($model->from_icao,$model->to_icao,$model->fleet)['total'] : $model->flight->pax
             ],
             'status' => [
                 'label' => Yii::t('flights', 'Booking status'),

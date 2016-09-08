@@ -24,7 +24,7 @@
                 'attribute' => 'flight',
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return '<a class="btn btn-success btn-xs" role="button" href="#" onclick="scheduleBook(\'' . str_replace('AFL', '', $data->flight) . '\', \''.$data->aircraft.'\', \''.$data->dep_utc_time.'\')">' . $data->flight . '</a>';
+                        return '<a class="btn btn-success btn-xs" role="button" href="#" onclick="scheduleBook(\'' . str_replace('AFL', '', $data->flight) . '\', \''.$data->aircraft.'\', \''.$data->dep_utc_time.'\', \''.$data->id.'\')">' . $data->flight . '</a>';
                     }
             ],
             'dep',
