@@ -124,7 +124,7 @@ use app\models\Flights;
                                         if (isset($data->flight)) {
                                             return date('H:i', strtotime($data->flight->dep_time));
                                         } else {
-                                            return "0:0";
+                                            return $data->etd ? date('H:i', strtotime($data->etd)) : "0:0";
                                         }
                                     }
                             ],
@@ -136,7 +136,7 @@ use app\models\Flights;
                                         if (isset($data->flight)) {
                                             return $data->flight->eta_time;
                                         } else {
-                                            return "00:00";
+                                            return $data->etd && $data->schedule ? date('H:i', strtotime($data->etd) + strtotime($data->schedule->eet)) : "0:0";
                                         }
                                     }
                             ],
