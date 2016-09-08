@@ -57,11 +57,13 @@ $form->field($model, 'fleet_regnum')->widget(
 
 <?= $form->field($model, 'etd')->widget(TimePicker::classname(), ['pluginOptions' => ['showMeridian' => false]]) ?>
 
-<?=
+<?php if (Yii::$app->user->identity->level >= 8): ?>
+    <?=
 $form->field($model, 'stream')->checkbox();
 ?>
+<?php endif; ?>
 
-<input type="hidden" id="booking-schedule_id" class="form-control" name="Booking[schedule_id]">
+    <input type="hidden" id="booking-schedule_id" class="form-control" name="Booking[schedule_id]">
 
 <?php
 /*
