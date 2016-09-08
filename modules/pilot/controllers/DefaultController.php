@@ -263,6 +263,6 @@ class DefaultController extends Controller
     }
 
     public function actionSchedule($from, $to){
-        return $this->renderAjax('schedule', ['schedule' => Schedule::next($from, $to)]);
+        return $this->renderAjax('schedule', ['schedule' => Schedule::next($from, $to, 100)]);
     }
 }

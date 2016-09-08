@@ -6,8 +6,8 @@
  * Time: 16:21
  */
 ?>
-
-<?php echo \yii\grid\GridView::widget(
+<div class="schedule-grid">
+    <?php echo \yii\grid\GridView::widget(
     [
         'dataProvider' => new \yii\data\ActiveDataProvider([
                 'query' => $schedule,
@@ -56,3 +56,4 @@
         ]
     ]
 ); ?>
+</div>
