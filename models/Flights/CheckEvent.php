@@ -36,7 +36,7 @@ class CheckEvent
                 }
 
                 Levels::addExp(1000, $flight->user_id);
-                
+
                 $_flight->save();
             }
         }

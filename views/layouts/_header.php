@@ -1,5 +1,6 @@
 <?php
 
+use app\components\Levels;
 use yii\bootstrap\Html;
 
 use app\models\Users;
@@ -20,16 +21,16 @@ use app\models\Users;
         </div>
 
         <div class="nav navbar-text progress progress-striped active" style="width: 330px; height: 20px">
-            <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><h4 style="margin-left: 0px; margin-top: 0px; text-align: left;"><?=
+            <div class="progress-bar progress-bar-warning" style="font-weight: lighter; width: <?= Yii::$app->user->identity->progress ?>%"><span><h4 style="margin-left: 0px; margin-top: 0px; text-align: left;"><?=
                 Html::tag(
                     'span',
-                    '<i class="fa fa-star" aria-hidden="true"></i> '.Yii::$app->user->identity->level,
+                    '<i class="fa fa-star" aria-hidden="true"></i> '.Yii::$app->user->identity->experience .' / '.Levels::getNextLevel(Yii::$app->user->identity->level),
                     [
                         'title'=> Yii::t('app', 'Level').' '.Yii::$app->user->identity->level,
                         'data-toggle' => 'tooltip',
                         'data-placement' => 'bottom',
                     ]
-                )?></h4></div>
+                )?></h4></span></div>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li>
