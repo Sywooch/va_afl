@@ -18,7 +18,7 @@ use yii\helpers\Url;
                 <?php $i = 0; ?>
                 <?php foreach ($events as $event) : ?>
                     <div class="item<?= $i == 0 ? ' active' : '' ?>">
-                        <a href="<?= Url::to('/events/' . $event->id)?>"><img src="<?= $event->contentInfo->img ?>" width="1140" height="610" alt=""></a>
+                        <a href="<?= Url::to('/events/' . $event->id)?>"><img src="<?= $event->contentInfo->imgLink ?>" width="1140" height="610" alt=""></a>
                     </div>
                     <?php $i++; ?>
                 <?php endforeach; ?>

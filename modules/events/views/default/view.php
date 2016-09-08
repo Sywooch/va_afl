@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
             </legend>
             <?= $model->contentInfo->getDescription() ?>
             <?php if ($model->contentInfo->img): ?>
-                <img class="center-block" height="450px" src="<?= $model->contentInfo->img ?>">
+                <img class="center-block" height="450px" src="<?= $model->contentInfo->imgLink ?>">
                 <hr>
             <?php endif; ?>
             <h3><?= Yii::t('app', 'Information') ?></h3>
