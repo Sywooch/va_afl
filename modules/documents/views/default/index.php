@@ -19,12 +19,12 @@ $this->title = Yii::t('app', 'Documents') . ' ' . $name;
                         <div class="row">
                             <br>
 
-                            <div class="col-md-2 col-sm-3 text-center">
+                            <div class="col-md-4 col-sm-3 text-center">
                                 <a class="story-img"
                                    href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><img
                                         src="<?= $post->imgLink ?>" style="width:127px;height:72px"></a>
                             </div>
-                            <div class="col-md-10 col-sm-9">
+                            <div class="col-md-8 col-sm-9">
                                 <h3 class="news-header"><a class="documents-link"
                                                                 href="/documents/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><?= $post->name ?></a>
                                 </h3>
