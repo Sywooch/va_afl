@@ -38,8 +38,13 @@ $this->title = Yii::t('app', 'Booking');
         color: black !important;
     }
     .slimScrollDiv{
-        position: absolute;
+        position: inherit !important;
     }
+
+    #drilldownwindow {
+        overflow-x: hidden !important;
+    }
+
 </style>
 <div id="map" style="height: 90vh;"></div>
 <div id="drilldownwindow"  data-scrollbar="true" data-height="215px"

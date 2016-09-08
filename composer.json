@@ -28,7 +28,8 @@
         "thiagotalma/yii2-fullcalendar" : "*",
         "lajax/yii2-translate-manager": "1.*",
         "nfedoseev/yii2-external-target" : "*",
-        "yiisoft/yii2-httpclient" : "^2.0"
+        "yiisoft/yii2-httpclient" : "^2.0",
+        "kartik-v/yii2-widget-timepicker": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

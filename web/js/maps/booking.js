@@ -25,9 +25,10 @@ function showhidebookingform(){
     $('#booking-details').toggle();
 }
 
-function scheduleBook(callsign, aircraft){
+function scheduleBook(callsign, aircraft, time){
     $('#booking-callsign').val(callsign);
     $('#booking-to_icao').append('<option value="' + to_airport.icao + '">' + to_airport.icao + ' - ' + to_airport.icao.name + '</option>').val(to_airport.icao).trigger('change');
+    $('#booking-etd').val(time);
     infowindow.close();
 }
 
