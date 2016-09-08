@@ -440,7 +440,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'label' => Yii::t('flights', 'Route'),
                                                     'format' => 'raw',
                                                     'value' => function ($data) {
-                                                            return Html::a(
+                                                        return ($data->depAirport ? Html::a(
                                                                 Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
                                                                 Html::encode($data->from_icao),
                                                                 Url::to(
@@ -454,7 +454,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     'data-placement' => "top",
                                                                     'title' => Html::encode("{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})")
                                                                 ]
-                                                            ) . ' - ' . Html::a(
+                                                        ) : $data->from_icao) . ' - ' . ($data->arrAirport ? Html::a(
                                                                 Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                                                 Html::encode($data->to_icao),
                                                                 Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
@@ -463,7 +463,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                     'data-placement' => "top",
                                                                     'title' => Html::encode("{$data->arrAirport->name} ({$data->arrAirport->city}, {$data->arrAirport->iso})")
                                                                 ]
-                                                            );
+                                                        ) : $data->to_icao);
                                                         },
                                                 ],
                                                 [
