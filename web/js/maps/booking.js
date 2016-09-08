@@ -239,5 +239,9 @@ setTimeout(function () {
                 $('#taxi_price').html(message);
             })
         });
-    })
+    });
+
+    $(document.body).on("change","#booking-to_icao",function(){
+        $('#booking-schedule_id').val('');
+    });
 }, 1000);

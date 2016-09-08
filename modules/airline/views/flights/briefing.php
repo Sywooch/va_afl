@@ -67,6 +67,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ) ?></div>
     </div>
 </div>
+<?php if ($model->schedule) : ?>
+    <div class="panel panel-inverse">
+        <div class="panel-heading">
+            <h4 class="panel-title"><?= Yii::t('app', 'Schedule') ?></h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="col-sm-2"><b><?= Yii::t('flights', 'Estimated Time Departure') ?>:</b></div>
+            <div class="col-sm-10"><?= date('H:i', strtotime($model->schedule->dep_utc_time)) ?></div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <div class="col-sm-2"><b><?= Yii::t('flights', 'Estimated En-route Time') ?>:</b></div>
+            <div class="col-sm-10"><?= date('H:i', strtotime($model->schedule->eet)) ?></div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <div class="col-sm-2"><b> <?= Yii::t('flights', 'Estimated Time Arrival') ?>:</b></div>
+            <div class="col-sm-10"><?= date(
+                        'H:i',
+                        strtotime($model->schedule->dep_utc_time) + strtotime($model->schedule->eet)
+                    ) ?></div>
+        </div>
+    </div>
+<?php endif; ?>
 <?php if($model->fleet) :?>
 <div class="panel panel-inverse">
     <div class="panel-heading">

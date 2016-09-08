@@ -27,7 +27,9 @@ echo \yii\widgets\DetailView::widget(
                 'label' => Yii::t('flights', 'Aircraft'),
                 'value' => \app\models\Fleet::findOne($model->fleet_regnum) ? \app\models\Fleet::findOne(
                         $model->fleet_regnum
-                    )->regnum : Yii::t('app', 'Unknown')
+                    )->full_type.' ('.\app\models\Fleet::findOne(
+                            $model->fleet_regnum
+                        )->type_code.')' : Yii::t('app', 'Unknown')
             ],
             'fleet_regnum' => [
                 'label' => Yii::t('flights', 'Aircraft Registration Number'),
