@@ -20,16 +20,17 @@ function reload(flight_id) {
         $.get('/airline/flights/current', {id: flight_id}, function (response) {
             var data = JSON.parse(response);
             var mLatLng = new google.maps.LatLng(data.lat, data.lon);
+            var image = {
+                url: "/img/map/medium.png",
+                size: new google.maps.Size(21, 21),
+                //scaledSize: new google.maps.Size(21, 21),
+                origin: getShapeHeading(data.hdg),
+                anchor: new google.maps.Point(10, 10)
+            };
             if(marker != null){
                 marker.setPosition(mLatLng);
+                marker.setIcon(image);
             }else{
-                var image = {
-                    url: "/img/map/medium.png",
-                    size: new google.maps.Size(21, 21),
-                    //scaledSize: new google.maps.Size(21, 21),
-                    origin: getShapeHeading(data.hdg),
-                    anchor: new google.maps.Point(10, 10)
-                };
                 marker = new google.maps.Marker({
                     position: mLatLng,
                     map: map,

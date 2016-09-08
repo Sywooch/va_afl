@@ -24,5 +24,6 @@ $this->params['breadcrumbs'] = [
         <?= $this->render('news', ['news' => $news]) ?>
         <?= $this->render('events', ['events' => $events]) ?>
         <?= $this->render('top', ['top' => $topProvider]) ?>
+        <?= $this->render('tours', ['toursProvider' => $toursProvider]) ?>
     </div>
 </div>

@@ -36,16 +36,17 @@ class Schedule extends \yii\db\ActiveRecord
      * Следующие рейсы до конца текущих суток и на следующие сутки
      * @param $from string ICAO Code
      * @param $to string ICAO Code
+     * @param $limit int count of flights
      * @return $this
      */
-    public static function next($from, $to)
+    public static function next($from, $to, $limit = 6)
     {
         return self::find()->andWhere(['arr' => $to, 'dep' => $from])
             ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
             ->andFilterWhere(['or', 'dep_utc_time >= \'' . gmdate('H') . ':00:00\'', 'dep_utc_time >= \'00:00:00\''])
             ->andFilterWhere(['and', 'start <= \'' . gmdate('Y-m-d') . '\'', 'stop >= \'' . gmdate('Y-m-d') . '\''])
             ->orderBy('dep_utc_time asc')
-            ->limit(6);
+            ->limit($limit);
     }
 
     /**

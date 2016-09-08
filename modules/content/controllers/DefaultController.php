@@ -37,11 +37,13 @@ class DefaultController extends Controller
     public function actionLike(){
         $model = $this->findModel(\Yii::$app->request->post('cid'));
         $model->like(Yii::$app->user->identity->vid);
+        Levels::addExp(5, \Yii::$app->user->identity->vid);
     }
 
     public function actionComment(){
         $model = $this->findModel(\Yii::$app->request->post('cid'));
         $model->comment(Yii::$app->user->identity->vid, \Yii::$app->request->post('text'));
+        Levels::addExp(7, \Yii::$app->user->identity->vid);
     }
 
     public function actionComments($id){
@@ -114,7 +116,7 @@ class DefaultController extends Controller
                         News::add($model);
                     }
 
-                    Levels::addExp(10, \Yii::$app->user->identity->vid);
+                    Levels::addExp(100, \Yii::$app->user->identity->vid);
                 }
             } else {
                 throw new \yii\web\HttpException(500, Yii::t('app', 'Error'));

@@ -6,8 +6,8 @@
  * Time: 16:21
  */
 ?>
-
-<?php echo \yii\grid\GridView::widget(
+<div class="schedule-grid">
+    <?php echo \yii\grid\GridView::widget(
     [
         'dataProvider' => new \yii\data\ActiveDataProvider([
                 'query' => $schedule,
@@ -24,7 +24,7 @@
                 'attribute' => 'flight',
                 'format' => 'raw',
                 'value' => function ($data) {
-                        return '<a class="btn btn-success btn-xs" role="button" href="#" onclick="scheduleBook(\'' . str_replace('AFL', '', $data->flight) . '\', \''.$data->aircraft.'\')">' . $data->flight . '</a>';
+                        return '<a class="btn btn-success btn-xs" role="button" href="#" onclick="scheduleBook(\'' . str_replace('AFL', '', $data->flight) . '\', \''.$data->aircraft.'\', \''.$data->dep_utc_time.'\', \''.$data->id.'\')">' . $data->flight . '</a>';
                     }
             ],
             'dep',
@@ -56,3 +56,4 @@
         ]
     ]
 ); ?>
+</div>

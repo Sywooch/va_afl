@@ -30,6 +30,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-md-3">
                         <ul class="list-group">
+                            <li class="list-group-item list-group-item-success">
+                                <span class="badge"><?= $tour->exp ?></span>
+                                <?= Yii::t('app', 'EXP') ?>
+                            </li>
+                            <li class="list-group-item list-group-item-success">
+                                <span class="badge"><?= $tour->vucs ?></span>
+                                <?= Yii::t('app', 'VUCs') ?>
+                            </li>
                             <li class="list-group-item list-group-item-info">
                                 <span class="badge"><?=
                                     $tour->getToursUsers()->andWhere(

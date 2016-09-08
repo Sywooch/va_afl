@@ -20,7 +20,7 @@ use app\components\Helper;
  * @property string $aircraft_type
  * @property string $fleet_regnum
  * @property integer $schedule_id
- * @property string $non_schedule_utc
+ * @property string $etd
  * @property \app\components\Briefing $briefing
  */
 class Booking extends \yii\db\ActiveRecord
@@ -121,7 +121,7 @@ class Booking extends \yii\db\ActiveRecord
         return [
             [['user_id', 'to_icao', 'from_icao', 'callsign'], 'required'],
             [['user_id', 'schedule_id', 'status', 'fleet_regnum', 'stream', 'g_status'], 'integer'],
-            [['non_schedule_utc', 'status'], 'safe'],
+            [['etd', 'status'], 'safe'],
             [['from_icao', 'to_icao'], 'string', 'max' => 5],
             [['callsign'], 'string', 'max' => 10]
         ];
@@ -140,7 +140,7 @@ class Booking extends \yii\db\ActiveRecord
             'callsign' => Yii::t('flights', 'Callsign'),
             'fleet_regnum' => Yii::t('flights', 'Aircraft Registration Number'),
             'schedule_id' => Yii::t('boking', 'Flight number'),
-            'non_schedule_utc' => Yii::t('flights', 'UTC departure time'),
+            'etd' => Yii::t('flights', 'Estimated Time Departure'),
         ];
     }
 
@@ -178,6 +178,11 @@ class Booking extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getSchedule()
+    {
+        return $this->hasOne(Schedule::className(), ['id' => 'schedule_id']);
     }
 
     public function getPercent(){

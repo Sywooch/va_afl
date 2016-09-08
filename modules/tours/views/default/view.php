@@ -34,11 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-9">
                         <div class="widget widget-stats bg-blue">
                             <div class="stats-icon stats-icon-lg"><i class="fa fa-tags fa-fw"></i></div>
-                            <div class="stats-title"><?= Yii::t('app', 'Next Flight') ?></div>
+                            <div class="stats-title"><?= Yii::t('flights', 'Next Leg') ?></div>
                             <div class="stats-number">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a href="/pilot/booking" style="color: white;">Go to booking</a>
+                                        <a href="/pilot/booking" style="color: white;"><?= Yii::t('app', 'Go to booking') ?></a>
                                     </div>
                                     <div class="col-md-8">
                                         <?=
@@ -86,6 +86,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-md-12">
                     <ul class="list-group">
                         <li class="list-group-item list-group-item-success">
+                            <span class="badge"><?= $tour->exp ?></span>
+                            <?= Yii::t('app', 'EXP') ?>
+                        </li>
+                        <li class="list-group-item list-group-item-success">
+                            <span class="badge"><?= $tour->vucs ?></span>
+                            <?= Yii::t('app', 'VUCs') ?>
+                        </li>
+                        <li class="list-group-item list-group-item-info">
                             <span class="badge"><?=
                                 $tour->getToursUsers()->andWhere(
                                     ['status' => \app\models\Tours\ToursUsers::STATUS_COMPLETED]
@@ -117,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="well col-md-12" style="background-color: transparent">
                         <?=
                         \yii\helpers\Html::button(
-                            Yii::t('app', 'Assign to me'),
+                            Yii::t('app', 'Join'),
                             ['class' => 'btn btn-success', 'onClick' => 'assign(0);']
                         ) ?>
                     </div>
@@ -126,7 +134,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="well col-md-12" style="background-color: transparent">
                         <?=
                         \yii\helpers\Html::button(
-                            Yii::t('app', 'Unassign from me'),
+                            Yii::t('app', 'Exit'),
                             ['class' => 'btn btn-danger', 'onClick' => 'assign(-1);']
                         ) ?>
                     </div>

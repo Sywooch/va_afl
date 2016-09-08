@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'label' => Yii::t('flights', 'Route'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                            return Html::a(
+                            return ($data->depAirport ? Html::a(
                                 Html::img(Helper::getFlagLink($data->depAirport->iso)).' '.
                                 Html::encode($data->from_icao),
                                 Url::to(
@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $data->depAirport->name
                                         ) . ' (' . $data->depAirport->city . ')'
                                 ]
-                            ) . ' - ' . Html::a(
+                            ) : $data->from_icao) . ' - ' . ($data->arrAirport ? Html::a(
                                 Html::img(Helper::getFlagLink($data->arrAirport->iso)).' '.
                                 Html::encode($data->to_icao),
                                 Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $data->arrAirport->name
                                         ) . ' (' . $data->arrAirport->city . ')'
                                 ]
-                            );
+                            ) : $data->to_icao);
                         },
                     ],
                     [

@@ -47,8 +47,8 @@ use app\components\Helper;
     </tr>
     <tr>
         <td align="right"> <?= Yii::t('flights', 'Departure') ?>:</td>
-        <td colspan="3"><b><?= Html::img(Helper::getFlagLink($model->depAirport->iso)) ?> <?=
-                Html::a(
+        <td colspan="3"><b><?= $model->depAirport ? (Html::img(Helper::getFlagLink($model->depAirport->iso))) : '' ?> <?=
+                $model->depAirport ? Html::a(
                     Html::encode($model->from_icao),
                     Url::to(
                         [
@@ -56,16 +56,16 @@ use app\components\Helper;
                             'id' => $model->from_icao
                         ]
                     )
-                );?> <?= Html::encode($model->depAirport->name) ?> (<?=
+                ) : $model->from_icao;?> <?= $model->depAirport ? Html::encode($model->depAirport->name) : '' ?> (<?= $model->depAirport ?
             Html::encode(
                 $model->depAirport->city
-            ) ?>)</b>
+            ) : '' ?>)</b>
         </td>
     </tr>
     <tr>
         <td align="right"> <?= Yii::t('flights', 'Destination') ?>:</td>
-        <td colspan="3"><b><?= Html::img(Helper::getFlagLink($model->arrAirport->iso)) ?> <?=
-                Html::a(
+        <td colspan="3"><b><?= $model->arrAirport ? Html::img(Helper::getFlagLink($model->arrAirport->iso)) : '' ?> <?=
+                $model->arrAirport ? Html::a(
                     Html::encode($model->to_icao),
                     Url::to(
                         [
@@ -73,10 +73,10 @@ use app\components\Helper;
                             'id' => $model->to_icao
                         ]
                     )
-                );?> <?= Html::encode($model->arrAirport->name) ?> (<?=
+                ) : $model->to_icao ;?> <?= $model->arrAirport ? Html::encode($model->arrAirport->name) : ''?> (<?= $model->arrAirport ?
             Html::encode(
                 $model->arrAirport->city
-            ) ?>)</b>
+            ) : '' ?>)</b>
         </td>
     </tr>
     <?php if($model->landingAirport && $model->landing != $model->to_icao) :?>

@@ -283,8 +283,9 @@ class Flights extends \yii\db\ActiveRecord
             $fpcoords[] = $fppeace['crd'];
         }
 
-        $data['features'][] = [
-            'type' => 'Feature',
+        if ($model->depAirport) {
+            $data['features'][] = [
+                'type' => 'Feature',
             'properties' => [
                 'type' => 'start',
                 'title' => $model->depAirport->name . ' (' . $model->depAirport->icao . ')'
@@ -293,10 +294,11 @@ class Flights extends \yii\db\ActiveRecord
                 'type' => 'Point',
                 'coordinates' => [$model->depAirport->lon, $model->depAirport->lat]
             ],
-
         ];
+        }
 
-        $data['features'][] = [
+        if ($model->arrAirport) {
+            $data['features'][] = [
             'type' => 'Feature',
             'properties' => [
                 'type' => 'stop',
@@ -307,6 +309,7 @@ class Flights extends \yii\db\ActiveRecord
                 'coordinates' => [$model->arrAirport->lon, $model->arrAirport->lat]
             ],
         ];
+        }
 
         return json_encode($data);
     }
