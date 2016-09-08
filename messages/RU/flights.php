@@ -42,4 +42,6 @@ return [
     'Estimated Time Departure' => 'Расчётное время вылета',
     'Estimated En-route Time' => 'Расчётное время в пути',
     'Estimated Time Arrival' => 'Расчётное время прибытия',
+    'Next Leg' => 'Следующий этап',
+
 ];

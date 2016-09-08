@@ -7,6 +7,7 @@ use app\components\Levels;
 use app\models\Fleet;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
+use app\models\Tours\Tours;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -165,6 +166,10 @@ class DefaultController extends Controller
             'desc' => ['billing_user_balance.balance' => SORT_DESC]
         ];
 
+        $toursProvider = new ActiveDataProvider([
+            'query' => Tours::userTours()
+        ]);
+
         return $this->render(
             'center/index',
             [
@@ -175,7 +180,8 @@ class DefaultController extends Controller
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider,
                 'topProvider' => $topProvider,
-                'flight' => Booking::current()
+                'flight' => Booking::current(),
+                'toursProvider' => $toursProvider,
             ]
         );
     }

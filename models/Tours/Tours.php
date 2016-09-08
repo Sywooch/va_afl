@@ -32,6 +32,13 @@ class Tours extends \yii\db\ActiveRecord
         return '{{%tours}}';
     }
 
+    public static function userTours()
+    {
+        return self::find()->joinWith('toursUsers')->where(
+            ['tours_users.user_id' => Yii::$app->user->identity->vid, 'tours_users.status' => 1]
+        );
+    }
+
     /**
      * @inheritdoc
      */
