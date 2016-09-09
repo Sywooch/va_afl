@@ -138,22 +138,35 @@ class Fleet extends \yii\db\ActiveRecord
     public static function getForBooking($q)
     {
         $out = [];
-        $d=Fleet::find()->where(['status' => 0])->andWhere(['location' => Users::getAuthUser()->pilot->location]);
-        if($q) {
+        $d = Fleet::find()->where(['status' => 0])->andWhere(['location' => Users::getAuthUser()->pilot->location]);
+        if ($q) {
             $d->andFilterWhere(
                 [
                     'or',
-                    ['like', 'regnum', $q ],
+                    ['like', 'regnum', $q],
                     ['like', 'type_code', $q],
                     ['like', 'full_type', $q]
                 ]
             );
         }
 
-        $d->orderBy(['type_code' => SORT_ASC]);
+        $squads = ['or'];
 
-        foreach ($d->all() as $data) {
-            $out['results'][] = ['id' => $data->id, 'text' => $data->type_code." (".$data->regnum.")"];
+        foreach (Squadrons::find()->all() as $squad) {
+            if (Yii::$app->user->can("squadrons/{$squad->abbr}/member")) {
+                $squads[] = ['=', 'squadron_id', $squad->id];
+            }
+        }
+
+        if (count($squads) == 1) {
+            $out['results'][] = ['id' => '', 'text' => Yii::t('flights', 'No aircraft available to you. Please join to flights squadrons')];
+        } else {
+            $d->andFilterWhere($squads);
+            $d->orderBy(['type_code' => SORT_ASC]);
+
+            foreach ($d->all() as $data) {
+                $out['results'][] = ['id' => $data->id, 'text' => $data->type_code . " (" . $data->regnum . ")"];
+            }
         }
         return Json::encode($out);
     }

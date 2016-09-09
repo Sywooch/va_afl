@@ -43,5 +43,5 @@ return [
     'Estimated En-route Time' => 'Расчётное время в пути',
     'Estimated Time Arrival' => 'Расчётное время прибытия',
     'Next Leg' => 'Следующий этап',
-
+    'No aircraft available to you. Please join to flights squadrons' => 'Нет самолётов доступных для Вас. Пожалуйста, вступите в ЛО',
 ];
