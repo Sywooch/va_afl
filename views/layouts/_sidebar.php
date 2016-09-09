@@ -83,6 +83,14 @@ use app\models\Users;
                             [
                                 'name' => Yii::t('app', 'Squadron HEAVY'),
                                 'url' => \yii\helpers\Url::to('/squadron/view/3')
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Squadron SU95'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/4')
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Squadron OLD'),
+                                'url' => \yii\helpers\Url::to('/squadron/view/6')
                             ]
                         ],
                         'icon' => 'fa-plane'
