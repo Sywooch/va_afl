@@ -153,7 +153,16 @@ $config = [
                     'usernameField' => 'full_name', // username field of your User model
                 ],
             ],
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ]
+                ]
             ],
+        ],
         'content' => [
             'class' => 'app\modules\content\Module',
         ],
@@ -265,13 +274,31 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        //'allowedIPs' => ['*'],
+        'allowedIPs' => ['*'],
+        'as access' => [
+            'class' => 'yii\filters\AccessControl',
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['debug'],
+                ]
+            ]
+        ],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        //'allowedIPs' => ['*'],
+        'allowedIPs' => ['*'],
+        'as access' => [
+            'class' => 'yii\filters\AccessControl',
+            'rules' => [
+                [
+                    'allow' => true,
+                    'roles' => ['gii'],
+                ]
+            ]
+        ],
     ];
 }
 
