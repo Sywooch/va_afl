@@ -118,11 +118,13 @@ class Fleet extends \yii\db\ActiveRecord
     public static function checkSrv($id, $landing)
     {
         $fleet = self::findOne($id);
-        if (in_array($landing, self::$airports[$fleet->type_code])) {
-            $fleet->need_srv = 0;
-            $fleet->hrs = 0;
+        if (isset(self::$airports[$fleet->type_code])) {
+            if (in_array($landing, self::$airports[$fleet->type_code])) {
+                $fleet->need_srv = 0;
+                $fleet->hrs = 0;
+            }
+            $fleet->save();
         }
-        $fleet->save();
     }
 
     public static function transfer($regnum, $location)
