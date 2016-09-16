@@ -10,7 +10,7 @@ test:
     - echo "OK"
 deploy_dev:
   script:
-    - rsync -rltzuvO ./ /var/www/dev.va-aeroflot.su
+    - rsync -rltzuvO ./ /var/www/dev.va-aeroflot.su/public_html
   only:
     - dev
 deploy:
