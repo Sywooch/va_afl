@@ -4,6 +4,7 @@ use app\components\Helper;
 use app\components\Stats;
 use app\models\Booking;
 use app\models\Flights;
+use yii\bootstrap\Modal;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -536,7 +537,9 @@ use yii\helpers\Url;
             <?php if (Yii::$app->request->get('lang') == 'RU'): ?>
             <?php else: ?>
             <?php endif; ?>
+
         </p>
+
         <!-- begin row -->
         <div class="row">
             <!-- begin col-6 -->
@@ -552,6 +555,7 @@ use yii\helpers\Url;
                 </p>
             </div>
         </div>
+        <?= $this->render('_modals') ?>
     </div>
 </div>
 <div id="footer" class="footer">
