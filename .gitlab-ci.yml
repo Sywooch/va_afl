@@ -15,6 +15,6 @@ deploy_dev:
     - dev
 deploy:
   script:
-    - rsync -rltzuvO ./ daitel@va-transaero.ru:/var/www/vag_afl
+    - rsync -rltzuvO ./ /var/www/va-aeroflot.su/public_html
   only:
     - master
