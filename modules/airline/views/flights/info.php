@@ -43,6 +43,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12">
             <hr>
         </div>
+        <div class="col-sm-2"><b><?= Yii::t('flights', 'Flight ID') ?>:</b></div>
+        <div class="col-sm-2"><b> <?= $model->id ?></b></div>
+        <div class="col-md-12">
+            <hr>
+        </div>
         <div class="col-sm-2"><b><?= Yii::t('flights', 'Flight time') ?>:</b></div>
         <div class="col-sm-10"><?= (new \DateTime($model->landing_time))->diff(new \DateTime($model->dep_time))->format(
                 '%h:%i'

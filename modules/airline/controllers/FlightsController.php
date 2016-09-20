@@ -2,7 +2,14 @@
 
 namespace app\modules\airline\controllers;
 
+use app\components\Helper;
+use app\components\Levels;
+use app\models\Billing;
 use app\models\Booking;
+use app\models\Fleet;
+use app\models\Flights\Status;
+use app\models\Log;
+use app\models\Users;
 use Yii;
 use yii\base\View;
 use yii\data\ActiveDataProvider;
@@ -196,6 +203,44 @@ class FlightsController extends Controller
     {
         $model = $this->findModel($id);
         return $this->renderPartial('details', ['model' => $model]);
+    }
+
+    public function actionFix($id)
+    {
+        if ($flight = $this->findModel($id)) {
+            $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
+
+            $flight->landing = $flight->to_icao;
+            $flight->finished = gmdate('Y-m-d H:i:s');
+            $flight->status = Flights::FLIGHT_STATUS_OK;
+            $booking->status = Booking::BOOKING_FLIGHT_END;
+            $flight->flight_time = round(Helper::time2seconds($flight->eet) / 60);
+
+            Users::transfer($flight->user_id, $flight->landing);
+
+            if ($booking->fleet_regnum) {
+                Fleet::transfer($flight->fleet_regnum, $flight->landing);
+                Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
+                Fleet::checkSrv($booking->fleet_regnum, $flight->landing);
+            }
+
+            $flight->vucs = Billing::calculatePriceForFlight(
+                $flight->from_icao,
+                $flight->landing,
+                unserialize($flight->paxtypes)
+            );
+            Billing::doFlightCosts($flight);
+            Levels::flight($flight->user_id, $flight->nm);
+            $booking->save();
+            $flight->save();
+
+            Status::get($booking, $flight->landing);
+
+
+            Log::action(Yii::$app->user->id, 'success', 'flights', $id);
+
+            return $this->redirect(['view', 'id' => $flight->id]);
+        }
     }
 
     /**
