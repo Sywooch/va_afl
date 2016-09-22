@@ -61,7 +61,7 @@ class CheckEvent
             foreach ($_cond as $cond) {
                 if (strtotime($flight->$key) >= strtotime($event->start) &&
                     strtotime($flight->$key) <= strtotime($event->stop) &&
-                    array_key_exists($flight->$cond[0], $event->$cond[1])
+                    array_key_exists($flight->{$cond[0]}, $event->{$cond[1]})
                 ) {
                     self::makeActive($event, $flight);
                 }

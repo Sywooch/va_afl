@@ -3,12 +3,18 @@ before_script:
   - composer install --prefer-dist --no-interaction
 stages:
   - test
+  - deploy_dev
   - deploy
 test:
   script:
     - echo "OK"
+deploy_dev:
+  script:
+    - rsync -rltzuvO ./ /var/www/dev.va-aeroflot.su/public_html
+  only:
+    - dev
 deploy:
   script:
-    - rsync -rltzuvO ./ daitel@va-transaero.ru:/var/www/vag_afl
+    - rsync -rltzuvO ./ /var/www/va-aeroflot.su/public_html
   only:
     - master
