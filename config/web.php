@@ -55,7 +55,7 @@ $config = [
             'ignore_statuses' => [200]
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => 6,
             'targets' => [
                 [
                     'class' => 'nfedoseev\yii2\ExternalTarget\LogTarget',
@@ -227,12 +227,17 @@ $config = [
     ],
     'params' => $params,
     'on beforeAction' => function ($event) {
+            //access to dev host========
+            $domain = strtolower($_SERVER['SERVER_NAME']);
+            $position = strrpos($domain, '.va-afl.su');
+            $subdomain = substr($domain, 0, $position);
+
+            if ($subdomain == 'dev' && !(in_array(Yii::$app->user->id, Yii::$app->params['whitelist']))) {
+               die('Not allowed');
+            }
+            //access to dev host========
+
             if (!Yii::$app->user->isGuest) {
-                if (time() < strtotime('2016-09-02')) {
-                    if (!in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) {
-                        throw new \yii\web\HttpException(401, 'Not allowed');
-                }
-                }
                 Yii::$app->layout = 'main';
             }
             if (Yii::$app->user->isGuest) {
@@ -269,37 +274,35 @@ $config = [
         },
 ];
 
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        'allowedIPs' => ['*'],
-        'as access' => [
-            'class' => 'yii\filters\AccessControl',
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['debug'],
-                ]
+// configuration adjustments for 'dev' environment
+$config['bootstrap'][] = 'debug';
+$config['modules']['debug'] = [
+    'class' => 'yii\debug\Module',
+    'allowedIPs' => ['*'],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['debug'],
             ]
-        ],
-    ];
+        ]
+    ],
+];
 
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-        'allowedIPs' => ['*'],
-        'as access' => [
-            'class' => 'yii\filters\AccessControl',
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['gii'],
-                ]
+$config['bootstrap'][] = 'gii';
+$config['modules']['gii'] = [
+    'class' => 'yii\gii\Module',
+    'allowedIPs' => ['*'],
+    'as access' => [
+        'class' => 'yii\filters\AccessControl',
+        'rules' => [
+            [
+                'allow' => true,
+                'roles' => ['gii'],
             ]
-        ],
-    ];
-}
+        ]
+    ],
+];
 
 return $config;
