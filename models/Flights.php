@@ -97,9 +97,13 @@ class Flights extends \yii\db\ActiveRecord
 
     public function getEta_time(){
         $eet = explode(':', $this->eet);
-        $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
-        $dep_time = strtotime($this->dep_time);
-        return date('H:i', $dep_time + $eet_seconds);
+        if(isset($eet[0]) && isset($eet[1]) && isset($eet[2])){
+            $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
+            $dep_time = strtotime($this->dep_time);
+            return date('H:i', $dep_time + $eet_seconds);
+        }else{
+            return date('H:i', 0);
+        }
     }
 
     public static function getFlightsCount($id)//TODO: перенести в UserPilot
