@@ -208,10 +208,15 @@ class ParseController extends Controller
     private function updateFlights()
     {
         foreach (Flights::find()->andWhere(['status' => Flights::FLIGHT_STATUS_STARTED])->all() as $flight) {
-            if (empty($this->onlinepilotslist) || !in_array($flight->user_id, $this->onlinepilotslist)) {
-                $this->endFlight($flight);
-            } else {
-                $this->updateFlightInformation($flight);
+            try {
+                if (empty($this->onlinepilotslist) || !in_array($flight->user_id, $this->onlinepilotslist)) {
+                    $this->endFlight($flight);
+                } else {
+                    $this->updateFlightInformation($flight);
+                }
+            }catch (\Exception $ex){
+                $slack = new Slack('#dev_reports', "{$flight->callsign};".var_export($ex, true)." http://va-afl.su/airline/flights/view/{$flight->id}");
+                $slack->sent();
             }
         }
     }
@@ -344,7 +349,7 @@ class ParseController extends Controller
 
             $landing = $this->validateFlight($flight);
             if ($landing) {
-                if (!$flight->landing && $flight->dep_time > '0000-00-00 00:00:00'
+                if (!$flight->landing && $flight->dep_time > null
                     && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160
                 ) {
                     if ($this->slackFeed) {
@@ -363,7 +368,7 @@ class ParseController extends Controller
                     }
 
                     $flight->landing = '';
-                    $flight->landing_time = '0000-00-00 00:00:00';
+                    $flight->landing_time = null;
                 }
             }
             $flight->fpl = $this->getFPL($data, $flight);
