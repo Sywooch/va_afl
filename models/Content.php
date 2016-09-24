@@ -199,7 +199,7 @@ class Content extends \yii\db\ActiveRecord
             return "https://placeholdit.imgix.net/~text?txtsize=33&txt=no%20image&w=350&h=150";
         }
 
-        if(strpos($this->img, 'http://') !== false){
+        if(strpos($this->img, 'http://') !== false || strpos($this->img, 'https://') !== false){
             return $this->img;
         }else{
             return "/img/content/{$this->img}";
