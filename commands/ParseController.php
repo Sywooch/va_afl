@@ -341,7 +341,7 @@ class ParseController extends Controller
                 if (!$flight->landing && !empty($flight->dep_time)) {
                     $flight->landing = $landing;
 
-                    if($data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160 && !$flight->landing_time){
+                    if($data[self::WZ_ONGROUND] == 1 && empty($flight->landing_time)){
                         $flight->landing_time = gmdate('Y-m-d H:i:s');
                         $flight->metar_landing = IvaoWx::metar($landing);
                     }
