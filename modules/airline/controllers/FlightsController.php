@@ -4,6 +4,7 @@ namespace app\modules\airline\controllers;
 
 use app\components\Helper;
 use app\components\Levels;
+use app\components\Slack;
 use app\models\Billing;
 use app\models\Booking;
 use app\models\Fleet;
@@ -95,7 +96,7 @@ class FlightsController extends Controller
     {
         $model = $this->findModel($id);
 
-        $query = Flights::find()->where(['user_id' => $model->user_id])->andWhere(['status' => 2])->orderBy(
+        $query = Flights::find()->where(['user_id' => $model->user_id])->orderBy(
             ['id' => SORT_DESC]
         );
 
@@ -239,8 +240,18 @@ class FlightsController extends Controller
 
             Log::action(Yii::$app->user->id, 'success', 'flights', $id);
 
+            $slack = new Slack('#dev_reports', "Flight {$id} by {$flight->user->full_name} fixed; http://va-afl.su/airline/flights/view/".$id);
+            $slack->sent();
+
             return $this->redirect(['view', 'id' => $flight->id]);
         }
+    }
+
+    public function actionRequest($id){
+        $flight = $this->findModel($id);
+        $slack = new Slack('#dev_reports', "User {$flight->user->full_name} request fix flight {$id}; http://va-afl.su/airline/flights/view/".$id);
+        $slack->sent();
+        return $this->redirect(['view', 'id' => $flight->id]);
     }
 
     /**

@@ -6,6 +6,7 @@
  * Time: 2:54
  */
 
+use app\models\Flights;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -25,6 +26,14 @@ use app\components\Helper;
                 Html::a(
                     Yii::t('app', 'Fix'),
                     ['/airline/flights/fix/' . $model->id],
+                    ['class' => 'btn btn-warning']
+                ) ?>
+            <?php endif; ?>
+            <?php if ($model->status == Flights::FLIGHT_STATUS_BREAK && $model->user->vid == Yii::$app->user->id): ?>
+                <?=
+                Html::a(
+                    Yii::t('app', 'Request fix'),
+                    ['/airline/flights/request/' . $model->id],
                     ['class' => 'btn btn-warning']
                 ) ?>
             <?php endif; ?>

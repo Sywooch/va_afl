@@ -342,14 +342,14 @@ class ParseController extends Controller
             $flight->sim = $data[self::WZ_SIMULATOR]; //according to ivao specifications (8-FS9, 9-FSX, 11-14 X-planes...)
             $flight->eet = sprintf("%02d:%02d", $data[self::WZ_EET_HOURS], $data[self::WZ_EET_MINUTES]);
 
-            if ($flight->dep_time == '0000-00-00 00:00:00' && $data[self::WZ_ONGROUND] == 0 && $data[self::WZ_GROUNDSPEED] > 40) {
+            if ($flight->dep_time == null && $data[self::WZ_ONGROUND] == 0 && $data[self::WZ_GROUNDSPEED] > 40) {
                 $flight->dep_time = gmdate('Y-m-d H:i:s');
                 $flight->metar_dep = IvaoWx::metar($flight->from_icao);
             }
 
             $landing = $this->validateFlight($flight);
             if ($landing) {
-                if (!$flight->landing && $flight->dep_time > null
+                if (!$flight->landing && $flight->dep_time != null
                     && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160
                 ) {
                     if ($this->slackFeed) {
