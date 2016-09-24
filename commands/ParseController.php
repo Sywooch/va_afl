@@ -191,11 +191,6 @@ class ParseController extends Controller
             $booking->save();
 
             Status::get($booking, false);
-
-            if ($this->slackFeed) {
-                $slack = new Slack('#dev_reports', "Flight {$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) started with {$paxs['total']} pax on board.");
-                $slack->sent();
-            }
         } else {
             var_dump($flight->errors);
         }
@@ -253,12 +248,6 @@ class ParseController extends Controller
 
             //Уровни
             Levels::flight($flight->user_id, $flight->nm);
-
-            //Slack
-            if ($this->slackFeed) {
-                $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) finished in {$flight->landing}.");
-                $slack->sent();
-            }
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
                 $flight->last_seen = gmdate('Y-m-d H:i:s');
@@ -271,7 +260,7 @@ class ParseController extends Controller
                 }
 
                 if ($this->slackFeed) {
-                    $slack = new Slack('#dev_reports', "{$booking->callsign}({$booking->from_icao} - {$booking->to_icao}) failed.");
+                    $slack = new Slack('#dev_reports', "http://va-afl.su/airline/flights/view/{$flight->id} failed.");
                     $slack->sent();
                 }
             }
@@ -349,32 +338,24 @@ class ParseController extends Controller
 
             $landing = $this->validateFlight($flight);
             if ($landing) {
-                if (!$flight->landing && $flight->dep_time != null
-                    && $data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160
-                ) {
-                    if ($this->slackFeed) {
-                        $slack = new Slack('#dev_reports', "{$flight->callsign} - landed in {$landing}");
-                        $slack->sent();
-                    }
+                if (!$flight->landing && !empty($flight->dep_time)) {
                     $flight->landing = $landing;
-                    $flight->landing_time = gmdate('Y-m-d H:i:s');
-                    $flight->metar_landing = IvaoWx::metar($landing);
+                    
+                    if($data[self::WZ_ONGROUND] == 1 && $data[self::WZ_GROUNDSPEED] <= 160 && !$flight->landing_time){
+                        $flight->landing_time = gmdate('Y-m-d H:i:s');
+                        $flight->metar_landing = IvaoWx::metar($landing);
+                    }
                 }
             } else {
                 if ($flight->landing) {
-                    if ($this->slackFeed) {
-                        $slack = new Slack('#dev_reports', "{$flight->callsign} - left from {$flight->landing}");
-                        $slack->sent();
-                    }
-
-                    $flight->landing = '';
+                    $flight->landing = null;
                     $flight->landing_time = null;
+                    $flight->metar_landing = '';
                 }
             }
+
             $flight->fpl = $this->getFPL($data, $flight);
             $this->insertTrackerData($flight);
-
-
         }
         if($save){
             $flight->save();

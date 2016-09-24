@@ -92,6 +92,7 @@ class Status
                 if (self::$booking->flight->lastTrack->groundspeed >= self::SPEED_ENROUTE) {
                     self::$status = Booking::STATUS_ENROUTE;
                 }
+            } else {
 
                 if (self::$booking->flight->lastTrack->groundspeed <= self::SPEED_APP_MH
                     && (self::$booking->fleet ? in_array(self::$booking->fleet->actypes->turbulence, ['H', 'M']) : true)
@@ -110,8 +111,10 @@ class Status
                         self::$status = Booking::STATUS_APPROACH;
                     }
                 }
-            } else {
-                self::$status = Booking::STATUS_LANDED;
+
+                if(self::$landing && self::$booking->flight->lastTrack->groundspeed <= self::SPEED_ENROUTE){
+                    self::$status = Booking::STATUS_LANDED;
+                }
 
                 if (self::$booking->flight->lastTrack->groundspeed == 0 && self::$status == Booking::STATUS_LANDED) {
                     self::$status = Booking::STATUS_ON_BLOCKS;
