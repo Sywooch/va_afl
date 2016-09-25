@@ -250,7 +250,9 @@ class ParseController extends Controller
             Levels::flight($flight->user_id, $flight->nm);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
-                $flight->last_seen = gmdate('Y-m-d H:i:s');
+                if(empty($flight->landing_time)){
+                    $flight->landing_time = $flight->last_seen;
+                }
                 $flight->status = Flights::FLIGHT_STATUS_BREAK;
                 $booking->status = Booking::BOOKING_FLIGHT_END;
 
