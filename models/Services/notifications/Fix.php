@@ -16,9 +16,10 @@ class Fix {
 
     const CONTENT_REQUEST = 3305;
     const CONTENT_ACCEPT = 3307;
+    const SLACK_CHANNEL = '#flights';
 
     public static function request($flight){
-        $slack = new Slack('#dev_reports', "User {$flight->user->full_name} request fix flight {$flight->id}; http://va-afl.su/airline/flights/view/{$flight->id}");
+        $slack = new Slack(self::SLACK_CHANNEL, "User {$flight->user->full_name} request fix flight {$flight->id}; http://va-afl.su/airline/flights/view/{$flight->id}");
         $slack->sent();
 
         $array = [
@@ -30,7 +31,7 @@ class Fix {
 
     public static function accept($flight)
     {
-        $slack = new Slack('#dev_reports', "Flight {$flight->id} by {$flight->user->full_name} fixed; http://va-afl.su/airline/flights/view/{$flight->id}");
+        $slack = new Slack(self::SLACK_CHANNEL, "Flight {$flight->id} by {$flight->user->full_name} fixed; http://va-afl.su/airline/flights/view/{$flight->id}");
         $slack->sent();
 
         $array = [
