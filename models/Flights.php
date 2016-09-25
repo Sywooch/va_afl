@@ -123,7 +123,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public static function getTime($id)//TODO: перенести в UserPilot
     {
-        return Flights::find()->where(['user_id' => $id])->sum('flight_time');
+        return Flights::find()->where(['user_id' => $id])->andWhere('flight_time > 0')->sum('flight_time');
     }
 
     public static function getStatFLightsDomestic($id)//TODO: перенести в UserPilot
