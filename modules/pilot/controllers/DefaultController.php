@@ -191,7 +191,7 @@ class DefaultController extends Controller
         $user = Users::find()->where(['vid' => Yii::$app->user->identity->vid])->one();
 
         return $this->render(
-            'index',
+            'stats/index',
             ['user' => $user]
         );
     }

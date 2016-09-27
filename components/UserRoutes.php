@@ -42,7 +42,7 @@ class UserRoutes
      */
     private function getRoutes()
     {
-        $this->routes = Flights::find()->where(['user_id' => $this->user_id])->select('from_icao, to_icao')->joinWith(
+        $this->routes = Flights::find()->where(['user_id' => $this->user_id, 'status' => Flights::FLIGHT_STATUS_OK])->select('from_icao, to_icao')->joinWith(
             [
                 'depAirport' => function ($q) {
                         $q->from('airports dep');

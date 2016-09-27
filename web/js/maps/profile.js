@@ -60,7 +60,7 @@ function initialize(vid) {
 
 function loadData() {
     //TODO: путь приложение как-нибудь поправить
-    var url = "//site/getuserroutes/" + user_id;
+    var url = '/site/getuserroutes/' + user_id;
     $.getJSON(url, function (response) {
         handleData(response)
     });
@@ -70,7 +70,7 @@ function handleData(response) {
     var n;
 
     for (n = 0; n < response.length; n++) {
-        /*var routeCoordinates = [
+        var routeCoordinates = [
             {lat: response[n].from.lat, lng: response[n].from.lon},
             {lat: response[n].to.lat, lng: response[n].to.lon}
         ];
@@ -81,7 +81,7 @@ function handleData(response) {
             strokeOpacity: 1,
             strokeWeight: 1,
             map: map
-        });*/
+        });
 
         var fromCoordinate = new google.maps.LatLng(response[n].from.lat, response[n].from.lon);
         var fromMarker = new google.maps.Marker({
