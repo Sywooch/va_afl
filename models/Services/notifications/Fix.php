@@ -16,6 +16,7 @@ class Fix {
 
     const CONTENT_REQUEST = 3305;
     const CONTENT_ACCEPT = 3307;
+    const CONTENT_REJECT = 3468;
     const SLACK_CHANNEL = '#flights';
 
     public static function request($flight){
@@ -39,5 +40,17 @@ class Fix {
             '[full_name]' => "{$flight->callsign} {$flight->from_icao}-{$flight->to_icao} " . (new \DateTime($flight->first_seen))->format('d.m.Y')
         ];
         Notification::add($flight->user_id,Yii::$app->user->id, \app\models\Content::template(self::CONTENT_ACCEPT, $array), 'fa-thumbs-up', 'green');
+    }
+
+    public static function reject($flight)
+    {
+        $slack = new Slack(self::SLACK_CHANNEL, "Request fix flight {$flight->id} by {$flight->user->full_name} rejected; http://va-afl.su/airline/flights/view/{$flight->id}");
+        $slack->sent();
+
+        $array = [
+            '[flight_id]' => $flight->id,
+            '[full_name]' => "{$flight->callsign} {$flight->from_icao}-{$flight->to_icao} " . (new \DateTime($flight->first_seen))->format('d.m.Y')
+        ];
+        Notification::add($flight->user_id,Yii::$app->user->id, \app\models\Content::template(self::CONTENT_REJECT, $array), 'fa-ban', 'red');
     }
 } 

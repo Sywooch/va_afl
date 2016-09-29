@@ -203,6 +203,12 @@ class FlightsController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
+    public function actionRejectfix($id)
+    {
+        Flights\Fix::reject($id);
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
     public function actionRequest($id){
         Flights\Fix::request($id);
         return $this->redirect(['view', 'id' => $id]);

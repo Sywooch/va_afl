@@ -8,6 +8,7 @@
 
 namespace app\models\Flights;
 
+use app\models\Services\notifications\Notification;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -25,7 +26,10 @@ class Fix
 {
     public static function request($id)
     {
-        Notifications::request(self::findModel($id));
+        $flight = self::findModel($id);
+        $flight->request_fix = 1;
+        $flight->save();
+        Notifications::request($flight);
     }
 
     public static function accept($id)
@@ -53,7 +57,11 @@ class Fix
                 unserialize($flight->paxtypes)
             );
             Billing::doFlightCosts($flight);
+
             Levels::flight($flight->user_id, $flight->nm);
+
+            $flight->request_fix = 0;
+
             $booking->save();
             $flight->save();
 
@@ -69,7 +77,10 @@ class Fix
 
     public static function reject($id)
     {
-
+        $flight = self::findModel($id);
+        $flight->request_fix = 0;
+        $flight->save();
+        Notifications::reject(self::findModel($id));
     }
 
     protected static function findModel($id)

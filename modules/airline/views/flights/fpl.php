@@ -6,6 +6,7 @@
  * Time: 2:54
  */
 
+use app\models\Booking;
 use app\models\Flights;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -29,7 +30,15 @@ use app\components\Helper;
                     ['class' => 'btn btn-warning']
                 ) ?>
             <?php endif; ?>
-            <?php if ($model->status == Flights::FLIGHT_STATUS_BREAK && $model->user->vid == Yii::$app->user->id): ?>
+            <?php if ($model->status != Flights::FLIGHT_STATUS_STARTED && $model->request_fix == 1 && $model->booking->status != Booking::STATUS_ARRIVED && Yii::$app->user->can('supervisor')): ?>
+                <?=
+                Html::a(
+                    Yii::t('app', 'Reject'),
+                    ['/airline/flights/rejectfix/' . $model->id],
+                    ['class' => 'btn btn-warning']
+                ) ?>
+            <?php endif; ?>
+            <?php if ($model->status != Flights::FLIGHT_STATUS_STARTED && $model->request_fix != 1 && $model->booking->status != Booking::STATUS_ARRIVED && $model->user->vid == Yii::$app->user->id): ?>
                 <?=
                 Html::a(
                     Yii::t('app', 'Request fix'),
