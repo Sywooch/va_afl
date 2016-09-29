@@ -209,8 +209,11 @@ class ParseController extends Controller
                 } else {
                     $this->updateFlightInformation($flight);
                 }
-            }catch (\Exception $ex){
-                $slack = new Slack('#dev_reports', "{$flight->callsign};".var_export($ex, true)." http://va-afl.su/airline/flights/view/{$flight->id}");
+            } catch (\Exception $ex) {
+                $slack = new Slack('#dev_reports', "{$flight->callsign};" . var_export(
+                        $ex,
+                        true
+                    ) . " http://va-afl.su/airline/flights/view/{$flight->id}");
                 $slack->sent();
             }
         }
@@ -232,7 +235,7 @@ class ParseController extends Controller
 
             $this->transferPilot($flight, $flight->landing);
 
-            if($booking->fleet_regnum){
+            if ($booking->fleet_regnum) {
                 $this->transferCraft($flight, $flight->landing);
                 Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
                 Fleet::checkSrv($booking->fleet_regnum, $flight->landing);
@@ -250,14 +253,14 @@ class ParseController extends Controller
             Levels::flight($flight->user_id, $flight->nm);
         } else {
             if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
-                if(empty($flight->landing_time)){
+                if (empty($flight->landing_time)) {
                     $flight->landing_time = $flight->last_seen;
                 }
                 $flight->status = Flights::FLIGHT_STATUS_BREAK;
                 $booking->status = Booking::BOOKING_FLIGHT_END;
 
                 //Разблокировка борта
-                if($booking->fleet_regnum){
+                if ($booking->fleet_regnum) {
                     Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
                 }
 
@@ -338,28 +341,53 @@ class ParseController extends Controller
                 $flight->metar_dep = IvaoWx::metar($flight->from_icao);
             }
 
-            $landing = $this->validateFlight($flight);
-            if ($landing) {
-                if (!$flight->landing && !empty($flight->dep_time)) {
-                    $flight->landing = $landing;
-                }
+            //board have dep
+            if (!empty($flight->dep_time)) {
+                $landing = $this->validateFlight($flight);
 
-                if($data[self::WZ_ONGROUND] == 1 && empty($flight->landing_time)){
-                    $flight->landing_time = gmdate('Y-m-d H:i:s');
-                    $flight->metar_landing = IvaoWx::metar($landing);
-                }
-            } else {
-                if ($flight->landing) {
-                    $flight->landing = null;
-                    $flight->landing_time = null;
-                    $flight->metar_landing = '';
+                //landing - airport of available arrivals
+                if ($landing) {
+                    //if this flight not have landing
+                    if (!$flight->landing) {
+                        //check it airport to departure airport
+                        if ($landing == $flight->from_icao) {
+                            //require be on ground for validate
+                            if ($data[self::WZ_ONGROUND] == 1) {
+                                $flight->landing = $landing;
+                            }
+                            //else write landing
+                        } else {
+                            $flight->landing = $landing;
+                        }
+                        //if have landing
+                    } else {
+                        //if this newest than by record overwrite
+                        if ($landing != $flight->landing) {
+                            $flight->landing = $landing;
+                            $flight->landing_time = null;
+                            $flight->metar_landing = '';
+                        }
+                    }
+
+                    //if on ground write landing time and metar
+                    if ($data[self::WZ_ONGROUND] == 1 && empty($flight->landing_time)) {
+                        $flight->landing_time = gmdate('Y-m-d H:i:s');
+                        $flight->metar_landing = IvaoWx::metar($landing);
+                    }
+                //else clear record info about landing
+                } else {
+                    if ($flight->landing) {
+                        $flight->landing = null;
+                        $flight->landing_time = null;
+                        $flight->metar_landing = '';
+                    }
                 }
             }
 
             $flight->fpl = $this->getFPL($data, $flight);
             $this->insertTrackerData($flight);
         }
-        if($save){
+        if ($save) {
             $flight->save();
         }
 
