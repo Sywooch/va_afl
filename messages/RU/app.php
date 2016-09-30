@@ -100,4 +100,5 @@ return [
     'Go to booking' => 'Перейти к бронированию',
     'Map' => 'Карта',
     'Graphs' => 'Графики',
+    'Flights during 14 days' => 'Полёты за 14 дней'
 ];

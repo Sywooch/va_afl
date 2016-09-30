@@ -6,6 +6,7 @@ use app\components\Helper;
 use app\models\Flights\Simulator;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\i18n\Formatter;
 
 /**
@@ -37,6 +38,9 @@ class Flights extends \yii\db\ActiveRecord
     const FLIGHT_STATUS_BREAK = 3;
     const FLIGHT_STATUS_STARTED = 1;
 
+    public $dep_date;
+    public $flights_count;
+
     /**
      * @inheritdoc
      */
@@ -48,6 +52,25 @@ class Flights extends \yii\db\ActiveRecord
     public static function countOnline()
     {
         return self::find()->where(['status' => self::FLIGHT_STATUS_STARTED])->count();
+    }
+
+    /**
+     * @param int $limit
+     * @return array
+     */
+    public static function stats($limit)
+    {
+        $flights = self::find()->select([
+            'DATE(first_seen) as dep_date',
+            'COUNT(DISTINCT id) as flights_count'
+        ])->groupBy('DATE(first_seen)')->orderBy('DATE(first_seen) desc')->limit($limit)->all();
+
+        return [
+            'days' => array_reverse(ArrayHelper::getColumn($flights, 'dep_date')),
+            'count' => array_reverse(ArrayHelper::getColumn($flights, function ($element) {
+                return (int)$element->flights_count;
+            })),
+        ];
     }
 
     /**

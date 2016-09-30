@@ -18,6 +18,7 @@ $this->params['breadcrumbs'] = [
     <div class="col-md-8">
         <?= $this->render('onlinetable', ['onlineProvider' => $onlineProvider]) ?>
         <?= $this->render('events_calendar', ['eventsCalendar' => $eventsCalendar]) ?>
+        <?= $this->render('stats', ['stats' => $stats]) ?>
     </div>
     <div class="col-md-4">
         <!-- begin panel -->

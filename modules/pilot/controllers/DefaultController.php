@@ -182,6 +182,7 @@ class DefaultController extends Controller
                 'topProvider' => $topProvider,
                 'flight' => Booking::current(),
                 'toursProvider' => $toursProvider,
+                'stats' => Flights::stats(14)
             ]
         );
     }
