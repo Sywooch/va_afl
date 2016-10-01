@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\Levels;
+use app\models\Top\Top;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -101,6 +102,16 @@ class UserPilot extends \yii\db\ActiveRecord
     public function getAirport()
     {
         return $this->hasOne(Airports::className(), ['icao' => 'location']);
+    }
+
+    public function getTopAll()
+    {
+        return Top::find()->where(['user_id' => $this->user_id, 'mouth' => 0, 'year' => 0])->one();
+    }
+
+    public function getTopMouth()
+    {
+        return Top::find()->where(['user_id' => $this->user_id, 'mouth' => gmdate("m"), 'year' => gmdate("Y")])->one();
     }
 
     public function getFlights()

@@ -9,8 +9,6 @@ use dosamigos\highcharts\HighCharts;
 use yii\helpers\BaseVarDumper;
 use yii\widgets\DetailView;
 
-PilotFlightsMapAsset::register($this);
-
 $this->title = Yii::t('app', 'Statistics');
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Pilot Center'), 'url' => '/pilot/center'],
@@ -21,17 +19,17 @@ $this->params['breadcrumbs'] = [
     'items' => [
         [
             'label' => Yii::t('app', 'Information'),
-            'content' => $this->render('info', ['user' => $user], false, true),
+            'content' => $this->render('../profile/info', ['user' => $user], false, true),
             'active' => true
         ],
         [
             'label' => Yii::t('app', 'Graphs'),
-            'content' =>  $this->render('graphs', ['user' => $user], false, true),
+            'content' =>  $this->render('../profile/graphs', ['user' => $user], false, true),
             'active' => false
         ],
         [
             'label' => Yii::t('app', 'Map'),
-            'content' => $this->render('map', [], false, true),
+            'content' => $this->render('../profile/map', ['id' => Yii::$app->user->id], false, true),
             'active' => false
         ],
     ]

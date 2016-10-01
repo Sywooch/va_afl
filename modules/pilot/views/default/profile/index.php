@@ -72,4 +72,18 @@ $this->params['breadcrumbs'] = [
             </div>
         </div>
     </div>
+    <div class="profile-section">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><?= Yii::t('app', 'Map') ?></h4>
+                    </div>
+                    <div class="panel-body bg-silver">
+                        <?= $this->render('map', ['id' => $user->vid]) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

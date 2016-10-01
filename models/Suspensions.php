@@ -81,6 +81,21 @@ class Suspensions extends \yii\db\ActiveRecord
         }
     }
 
+    public static function overPeriod($user_id, $mouth = 0, $year = 0)
+    {
+        $records =  self::find()->where(['user_id' => $user_id]);
+
+        if($mouth > 0 && $year > 0){
+            $records->andFilterWhere([
+                'AND',
+                "issue_datetime >= '{$year}-{$mouth}-01'",
+                "issue_datetime <= '{$year}-{$mouth}-31'"
+            ]);
+        }
+
+        return $records;
+    }
+
     /**
      * @inheritdoc
      */

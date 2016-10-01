@@ -169,6 +169,8 @@ use app\models\Users;
                         'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
+                            ['name' => Yii::t('app', 'Top'), 'url' => '/users/top/all'],
+                            ['name' => Yii::t('app', 'Top').' '.Yii::t('top', 'by mouth'), 'url' => '/users/top/mouth'],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/airline/fleet'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
