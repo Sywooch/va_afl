@@ -51,7 +51,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'rating',
                     'label' => Yii::t('top', 'Rating'),
                     'format' => 'raw',
-                    'value' => Html::a(
+                    'value' => ($user->pilot->topAll ? Html::a(
                             $user->pilot->topAll->rating_count.' ('.$user->pilot->topAll->rating_pos.')',
                             Url::to(
                                 [
@@ -63,7 +63,7 @@ use yii\widgets\DetailView;
                                 'data-placement' => "top",
                                 'title' => Html::encode(Yii::t('top', 'Position by Rating'))
                             ]
-                        ).' / '. ($user->pilot->topMouth ? Html::a(
+                        ) : '').' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->rating_count.' ('.$user->pilot->topMouth->rating_pos.')',
                             Url::to(
                                 [
@@ -81,7 +81,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'flights_num',
                     'label' => Yii::t('user', 'Total flights'),
                     'format' => 'raw',
-                    'value' => $user->pilot->flightsCount.' ('.Html::a(
+                    'value' => $user->pilot->flightsCount.' ('.($user->pilot->topAll ? Html::a(
                             $user->pilot->topAll->flights_pos,
                             Url::to(
                                 [
@@ -93,7 +93,7 @@ use yii\widgets\DetailView;
                                 'data-placement' => "top",
                                 'title' => Html::encode(Yii::t('top', 'Position by Flights'))
                             ]
-                        ).' / '. ($user->pilot->topMouth ? Html::a(
+                        ) : '').' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->flights_pos,
                             Url::to(
                                 [
@@ -111,7 +111,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'total_hours',
                     'label' => Yii::t('user', 'Total hours'),
                     'format' => 'raw',
-                    'value' => Helper::getTimeFormatted($user->pilot->time).' ('.Html::a(
+                    'value' => Helper::getTimeFormatted($user->pilot->time).' ('.($user->pilot->topAll ? Html::a(
                             $user->pilot->topAll->hours_pos,
                             Url::to(
                                 [
@@ -123,7 +123,7 @@ use yii\widgets\DetailView;
                                 'data-placement' => "top",
                                 'title' => Html::encode(Yii::t('top', 'Position by Online Hours'))
                             ]
-                        ).' / '. ($user->pilot->topMouth ? Html::a(
+                        ) : '').' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->hours_pos,
                             Url::to(
                                 [
@@ -147,7 +147,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'total_pax',
                     'label' => Yii::t('user', 'Total pax'),
                     'format' => 'raw',
-                    'value' => $user->pilot->passengers.' ('.Html::a(
+                    'value' => $user->pilot->passengers.' ('.($user->pilot->topAll ? Html::a(
                             $user->pilot->topAll->pax_pos,
                             Url::to(
                                 [
@@ -159,7 +159,7 @@ use yii\widgets\DetailView;
                                 'data-placement' => "top",
                                 'title' => Html::encode(Yii::t('top', 'Position by PAXs'))
                             ]
-                        ).' / '. ($user->pilot->topMouth ? Html::a(
+                        ) : '').' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->pax_pos,
                             Url::to(
                                 [
