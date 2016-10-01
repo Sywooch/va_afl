@@ -22,7 +22,6 @@ class TopController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Top::all());
 
         return $this->render('all', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -42,7 +41,6 @@ class TopController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Top::byMouth($mouth, $year));
 
         return $this->render('mouth', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

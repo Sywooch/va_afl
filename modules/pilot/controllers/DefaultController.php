@@ -7,6 +7,8 @@ use app\components\Levels;
 use app\models\Fleet;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
+use app\models\Top\Top;
+use app\models\Top\TopSearch;
 use app\models\Tours\Tours;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -179,7 +181,7 @@ class DefaultController extends Controller
                 'eventsCalendar' => Calendar::center(),
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider,
-                'topProvider' => $topProvider,
+                'topProvider' => (new TopSearch())->search(Yii::$app->request->queryParams, Top::byMouth(gmdate("m"), gmdate("Y"))),
                 'flight' => Booking::current(),
                 'toursProvider' => $toursProvider,
                 'stats' => Flights::stats(14)
