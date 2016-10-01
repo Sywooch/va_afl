@@ -80,21 +80,22 @@ class UserRoutes
             /**
              * @var Flights $route
              */
-
-            $routes[] = [
-                'from' =>
-                    [
-                        'icao' => $route->from_icao,
-                        'lat' => $route->depAirport->lat,
-                        'lon' => $route->depAirport->lon
-                    ],
-                'to' =>
-                    [
-                        'icao' => $route->to_icao,
-                        'lat' => $route->arrAirport->lat,
-                        'lon' => $route->arrAirport->lon
-                    ]
-            ];
+            if ($route->depAirport && $route->arrAirport) {
+                $routes[] = [
+                    'from' =>
+                        [
+                            'icao' => $route->from_icao,
+                            'lat' => $route->depAirport->lat,
+                            'lon' => $route->depAirport->lon
+                        ],
+                    'to' =>
+                        [
+                            'icao' => $route->to_icao,
+                            'lat' => $route->arrAirport->lat,
+                            'lon' => $route->arrAirport->lon
+                        ]
+                ];
+            }
         }
 
         return $routes;
