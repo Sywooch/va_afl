@@ -144,7 +144,7 @@ class Top extends \yii\db\ActiveRecord
             'rating_pos' => Yii::t('top', 'Position by Rating'),
             'exp_count' => Yii::t('top' ,'Amount of Experience'),
             'exp_pos' => Yii::t('top' ,'Position by Experience'),
-            'flights_count' => Yii::t('top' ,'Flights Count'),
+            'flights_count' => Yii::t('top' ,'Amount of Flights'),
             'flights_pos' => Yii::t('top' ,'Position by Flights'),
             'hours_count' => Yii::t('top' ,'Amount of Online Hours'),
             'hours_pos' => Yii::t('top' ,'Position by Online Hours'),
