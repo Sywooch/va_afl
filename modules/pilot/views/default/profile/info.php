@@ -61,7 +61,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating'))
                             ]
                         ).' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->rating_count.' ('.$user->pilot->topMouth->rating_pos.')',
@@ -73,7 +73,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position').' '.Yii::t('top','by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating').' '.Yii::t('top','by mouth'))
                             ]
                         ) : ''),
                 ],
@@ -91,7 +91,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Flights'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by Flights'))
                             ]
                         ).' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->flights_pos,
@@ -103,7 +103,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Flights').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by Flights').' '.Yii::t('top', 'by mouth'))
                             ]
                         ) : '').')',
                 ],
@@ -121,7 +121,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Online Hours'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by Online Hours'))
                             ]
                         ).' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->hours_pos,
@@ -133,7 +133,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Online Hours').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by Online Hours').' '.Yii::t('top', 'by mouth'))
                             ]
                         ) : '').')',
                 ],
@@ -157,7 +157,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by PAXs'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by PAXs'))
                             ]
                         ).' / '. ($user->pilot->topMouth ? Html::a(
                             $user->pilot->topMouth->pax_pos,
@@ -169,7 +169,7 @@ use yii\widgets\DetailView;
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by PAXs').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating by PAXs').' '.Yii::t('top', 'by mouth'))
                             ]
                         ) : '').')',
                 ],
