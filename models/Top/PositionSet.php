@@ -14,14 +14,21 @@ class PositionSet
 {
     /**
      * @param ActiveQuery $records
+     * @param bool $rating
      */
-    public function __construct(ActiveQuery $records)
+    public function __construct(ActiveQuery $records, $rating = false)
     {
-        foreach(Top::$count_fields as $field){
+        $fields = !$rating ? Top::$count_fields : ['rating_count'];
+
+        foreach($fields as $field){
             $this->field($records, $field);
         }
     }
 
+    /**
+     * @param ActiveQuery $records
+     * @param $field
+     */
     private function field($records, $field){
         $fieldRecords = $records->orderBy($field.' DESC')->all();
 

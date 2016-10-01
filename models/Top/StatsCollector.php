@@ -26,12 +26,10 @@ class StatsCollector extends Component
         if ($this->record->mouth > 0 && $this->record->year > 0) {
             $this->flights->andFilterWhere([
                 'AND',
-                "first_seen >= '{$this->record->year}-{$this->record->mouth}-01'",
-                "last_seen <= '{$this->record->year}-{$this->record->mouth}-31'"
+                "first_seen >= '{$this->record->year}-{$this->record->mouth}-01 00:00:00'",
+                "first_seen <= '{$this->record->year}-{$this->record->mouth}-31 23:59:59'"
             ]);
         }
-
-        var_dump($this->flights->createCommand()->getRawSql());
     }
 
     public function getExp_count()
@@ -47,7 +45,7 @@ class StatsCollector extends Component
 
     public function getHours_count()
     {
-        return (int)$this->flights->sum('flight_time');
+        return (int)round($this->flights->sum('flight_time') / 60);
     }
 
     public function getPax_count()

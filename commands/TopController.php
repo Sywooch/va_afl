@@ -11,6 +11,7 @@
 namespace app\commands;
 
 use app\models\Top\PositionSet;
+use app\models\Top\Rating;
 use app\models\Top\Top;
 use app\models\UserPilot;
 use yii\console\Controller;
@@ -29,6 +30,8 @@ class TopController extends Controller
             for($mouth = 1; $mouth <= 12; $mouth++){
                 $this->stats($mouth, $year);
                 $this->pos($mouth, $year);
+                $this->rating($mouth, $year);
+                $this->pos($mouth, $year, true);
             }
         }
     }
@@ -37,12 +40,16 @@ class TopController extends Controller
     {
         $this->stats(0, 0);
         $this->pos(0, 0);
+        $this->rating(0, 0);
+        $this->pos(0, 0, true);
     }
 
     private function currentMouth()
     {
         $this->stats(gmdate("m"), gmdate("Y"));
         $this->pos(gmdate("m"), gmdate("Y"));
+        $this->rating(gmdate("m"), gmdate("Y"));
+        $this->pos(gmdate("m"), gmdate("Y"), true);
     }
 
     private function stats($mouth, $year)
@@ -53,13 +60,24 @@ class TopController extends Controller
         }
     }
 
-    private function pos($mouth, $year){
+    private function rating($mouth, $year)
+    {
+        new Rating($this->records($mouth, $year), $mouth, $year);
+    }
+
+    private function pos($mouth, $year, $rating = false)
+    {
+        new PositionSet($this->records($mouth, $year), $rating);
+    }
+
+    private function records($mouth, $year)
+    {
         $records = Top::find();
 
-        if($mouth > 0 && $year > 0){
-            $records->filterWhere(['AND', 'mouth' => $mouth, 'year' => $year]);
+        if ($mouth > 0 && $year > 0) {
+            $records->filterWhere(['AND', ['mouth' => $mouth], ['year' => $year]]);
         }
 
-        new PositionSet($records);
+        return $records;
     }
 }
