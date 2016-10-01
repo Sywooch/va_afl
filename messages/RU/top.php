@@ -10,5 +10,5 @@ return [
     'Position by Experience' => 'Место по опыту',
     'Position by Flights' => 'Место по полётам',
     'Position by Online Hours' => 'Место по часам онлайн',
-    'Position by PAXs' => 'Место по пассажироам',
+    'Position by PAXs' => 'Место по пассажирам',
 ];
