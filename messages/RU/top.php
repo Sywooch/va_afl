@@ -1,7 +1,7 @@
 <?php
 return [
     'Rating' => 'Рейтинг',
-    'Position by Rating' => 'Место в рейтиге',
+    'Position by Rating' => 'Место в рейтинге',
     'by mouth' => 'за месяц',
     'Amount of Experience' => 'Количество опыта',
     'Amount of Flights' => 'Количество плётов',
