@@ -15,51 +15,26 @@ use yii\widgets\Pjax;
 <!-- begin panel -->
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('app', 'Top') ?></h4>
+        <h4 class="panel-title"><?= Yii::t('app', 'Top') . ' ' . Yii::t('top', 'by mouth') ?></h4>
     </div>
     <div class="panel-body bg-silver">
-
-
-        <?php Pjax::begin();?>
-        <?=
-        GridView::widget(
-            [
-                'dataProvider' => $top,
-                'layout' => '{items}{pager}',
-                'options' => ['class' => 'table table-condensed table-responsive'],
-                'columns' => [
-                    [
-                        'attribute' => 'full_name',
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                                return "<img src=" . $data->flaglink . "> " .
-                                Html::a($data->full_name, Url::to('/pilot/profile/' . $data->vid));
-                            }
-                    ],
-                    [
-                        'attribute' => 'pilot.location',
-                        'format' => 'raw',
-                        'value' => function ($data) {
-                                return '<img src="' . $data->pilot->airport->flaglink . '"> ' . Html::a(
-                                    Html::encode($data->pilot->airport->name . ' (' . $data->pilot->location . ')'),
-                                    Url::to(
-                                        [
-                                            '/airline/airports/view/',
-                                            'id' => $data->pilot->location
-                                        ]
-                                    ),
-                                    [
-                                        'data-toggle' => "tooltip",
-                                        'data-placement' => "top",
-                                        'title' => Html::encode("{$data->pilot->airport->city}, {$data->pilot->airport->iso}")
-                                    ]
-                                );
-                            }
-                    ],
-                    'pilot.level',
-                ]
-            ]
-        ); ?>
+        <?php Pjax::begin(); ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                [
+                    'attribute' => 'user_id',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return "<img src=" . $data->user->flaglink . "> " .
+                        Html::a($data->user->full_name, Url::to('/pilot/profile/' . $data->user->vid),
+                            ['target' => '_blank']);
+                    }
+                ],
+                'rating_pos',
+                'rating_count',
+            ],
+        ]); ?>
         <?php Pjax::end(); ?>
     </div>
 </div>

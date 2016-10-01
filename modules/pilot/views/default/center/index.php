@@ -24,7 +24,7 @@ $this->params['breadcrumbs'] = [
         <!-- begin panel -->
         <?= $this->render('news', ['news' => $news]) ?>
         <?= $this->render('events', ['events' => $events]) ?>
-        <?= $this->render('top', ['top' => $topProvider]) ?>
+        <?= $this->render('top', ['dataProvider' => $topProvider]) ?>
         <?= $this->render('tours', ['toursProvider' => $toursProvider]) ?>
     </div>
 </div>

@@ -137,19 +137,19 @@ class Top extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => Yii::t('app', 'User'),
             'mouth' => 'Mouth',
-            'year' => 'Year',
-            'rating_count' => 'Rating',
-            'rating_pos' => 'Position by Rating',
-            'exp_count' => 'Amount of Experience',
-            'exp_pos' => 'Position by Experience',
-            'flights_count' => 'Flights Count',
-            'flight_pos' => 'Position by Flights',
-            'hours_count' => 'Amount of Online Hours',
-            'hours_pos' => 'Position by Online Hours',
-            'pax_count' => 'Amount of PAXs',
-            'pax_pos' => 'Position by PAXs Pos',
+            'year' => Yii::t('top',  'Year'),
+            'rating_count' => Yii::t('top',  'Rating'),
+            'rating_pos' => Yii::t('top',  'Position by Rating'),
+            'exp_count' => Yii::t('top',  'Amount of Experience'),
+            'exp_pos' => Yii::t('top',  'Position by Experience'),
+            'flights_count' => Yii::t('top',  'Flights Count'),
+            'flight_pos' => Yii::t('top',  'Position by Flights'),
+            'hours_count' => Yii::t('top',  'Amount of Online Hours'),
+            'hours_pos' => Yii::t('top',  'Position by Online Hours'),
+            'pax_count' => Yii::t('top',  'Amount of PAXs'),
+            'pax_pos' => Yii::t('top',  'Position by PAXs Pos'),
         ];
     }
 }
