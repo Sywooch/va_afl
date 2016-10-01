@@ -70,6 +70,7 @@ class TopSearch extends Top
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['rating_pos' => SORT_ASC]]
         ]);
 
         $this->load($params);

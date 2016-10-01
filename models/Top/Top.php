@@ -50,7 +50,12 @@ class Top extends \yii\db\ActiveRecord
 
     public static function all()
     {
-        return self::find()->where(['mouth' => 0, 'year' => 0]);
+        return self::byMouth(0,0);
+    }
+
+    public static function byMouth($mouth, $year)
+    {
+        return self::find()->where(['mouth' => $mouth, 'year' => $year]);
     }
 
     public static function user($user, $mouth = 0, $year = 0)

@@ -26,4 +26,24 @@ class TopController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * Lists all Top models.
+     * @return mixed
+     */
+    public function actionMouth($mouth = 0, $year = 0)
+    {
+        $searchModel = new TopSearch();
+        if($mouth == 0 && $year == 0){
+            $mouth = gmdate("m");
+            $year = gmdate("Y");
+        }
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Top::byMouth($mouth, $year));
+
+        return $this->render('mouth', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 }
