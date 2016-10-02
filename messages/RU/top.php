@@ -2,7 +2,7 @@
 return [
     'Rating' => 'Рейтинг',
     'Position by Rating' => 'Место в рейтинге',
-    'by mouth' => 'за месяц',
+    'by month' => 'за месяц',
     'Amount of Experience' => 'Количество опыта',
     'Amount of Flights' => 'Количество плётов',
     'Amount of Online Hours' => 'Количество часов онлайн',

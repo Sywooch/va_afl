@@ -5,7 +5,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 
-$this->title = Yii::t('app', 'Top');
 ?>
 <div class="panel panel-inverse">
     <div class="panel-heading">

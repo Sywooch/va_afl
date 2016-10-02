@@ -67,13 +67,13 @@ use yii\widgets\DetailView;
                             $user->pilot->topMouth->rating_count.' ('.$user->pilot->topMouth->rating_pos.')',
                             Url::to(
                                 [
-                                    '/users/top/mouth'
+                                    '/users/top/month'
                                 ]
                             ),
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Rating').' '.Yii::t('top','by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Rating').' '.Yii::t('top','by month'))
                             ]
                         ) : ''),
                 ],
@@ -97,13 +97,13 @@ use yii\widgets\DetailView;
                             $user->pilot->topMouth->flights_pos,
                             Url::to(
                                 [
-                                    '/users/top/mouth'
+                                    '/users/top/month'
                                 ]
                             ),
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Flights').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Flights').' '.Yii::t('top', 'by month'))
                             ]
                         ) : '').')',
                 ],
@@ -127,13 +127,13 @@ use yii\widgets\DetailView;
                             $user->pilot->topMouth->hours_pos,
                             Url::to(
                                 [
-                                    '/users/top/mouth'
+                                    '/users/top/month'
                                 ]
                             ),
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by Online Hours').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by Online Hours').' '.Yii::t('top', 'by month'))
                             ]
                         ) : '').')',
                 ],
@@ -163,13 +163,13 @@ use yii\widgets\DetailView;
                             $user->pilot->topMouth->pax_pos,
                             Url::to(
                                 [
-                                    '/users/top/mouth'
+                                    '/users/top/month'
                                 ]
                             ),
                             [
                                 'data-toggle' => "tooltip",
                                 'data-placement' => "top",
-                                'title' => Html::encode(Yii::t('top', 'Position by PAXs').' '.Yii::t('top', 'by mouth'))
+                                'title' => Html::encode(Yii::t('top', 'Position by PAXs').' '.Yii::t('top', 'by month'))
                             ]
                         ) : '').')',
                 ],
