@@ -11,7 +11,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $mouth
+ * @property integer $month
  * @property integer $year
  * @property integer $rating_count
  * @property integer $rating_pos
@@ -50,20 +50,20 @@ class Top extends \yii\db\ActiveRecord
 
     public static function all()
     {
-        return self::byMouth(0,0);
+        return self::byMonth(0,0);
     }
 
-    public static function byMouth($mouth, $year)
+    public static function byMonth($month, $year)
     {
-        return self::find()->where(['mouth' => $mouth, 'year' => $year]);
+        return self::find()->where(['month' => $month, 'year' => $year]);
     }
 
-    public static function user($user, $mouth = 0, $year = 0)
+    public static function user($user, $month = 0, $year = 0)
     {
-        if (!$record = self::findOne(['user_id' => $user, 'mouth' => $mouth, 'year' => $year])) {
+        if (!$record = self::findOne(['user_id' => $user, 'month' => $month, 'year' => $year])) {
             $record = new self;
             $record->user_id = $user;
-            $record->mouth = $mouth;
+            $record->month = $month;
             $record->year = $year;
         }
 
@@ -95,7 +95,7 @@ class Top extends \yii\db\ActiveRecord
             [
                 [
                     'user_id',
-                    'mouth',
+                    'month',
                     'year',
                     /*'exp_count',
                     'exp_pos',
@@ -111,7 +111,7 @@ class Top extends \yii\db\ActiveRecord
             [
                 [
                     'user_id',
-                    'mouth',
+                    'month',
                     'year',
                     'rating_count',
                     'rating_pos',
@@ -138,7 +138,7 @@ class Top extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => Yii::t('app', 'User'),
-            'mouth' => 'Mouth',
+            'month' => 'Month',
             'year' => Yii::t('top' ,'Year'),
             'rating_count' => Yii::t('top' ,'Rating'),
             'rating_pos' => Yii::t('top', 'Position by Rating'),

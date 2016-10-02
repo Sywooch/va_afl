@@ -28,19 +28,21 @@ class TopController extends Controller
 
     /**
      * Lists all Top models.
+     * @param int $month
+     * @param int $year
      * @return mixed
      */
-    public function actionMouth($mouth = 0, $year = 0)
+    public function actionMonth($month = 0, $year = 0)
     {
         $searchModel = new TopSearch();
-        if($mouth == 0 && $year == 0){
-            $mouth = gmdate("m");
+        if($month == 0 && $year == 0){
+            $month = gmdate("m");
             $year = gmdate("Y");
         }
 
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Top::byMouth($mouth, $year));
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Top::byMonth($month, $year));
 
-        return $this->render('mouth', [
+        return $this->render('month', [
             'dataProvider' => $dataProvider,
         ]);
     }
