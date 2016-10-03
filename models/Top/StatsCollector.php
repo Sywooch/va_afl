@@ -23,18 +23,18 @@ class StatsCollector extends Component
         $this->record = $record;
         $this->flights = Flights::find()->where(['user_id' => $this->record->user_id]);
 
-        if ($this->record->mouth > 0 && $this->record->year > 0) {
+        if ($this->record->month > 0 && $this->record->year > 0) {
             $this->flights->andFilterWhere([
                 'AND',
-                "first_seen >= '{$this->record->year}-{$this->record->mouth}-01 00:00:00'",
-                "first_seen <= '{$this->record->year}-{$this->record->mouth}-31 23:59:59'"
+                "first_seen >= '{$this->record->year}-{$this->record->month}-01 00:00:00'",
+                "first_seen <= '{$this->record->year}-{$this->record->month}-31 23:59:59'"
             ]);
         }
     }
 
     public function getExp_count()
     {
-        return $this->record->year == 0 && $this->record->mouth == 0 ? $this->record->user->pilot->experience : 0;
+        return $this->record->year == 0 && $this->record->month == 0 ? $this->record->user->pilot->experience : 0;
     }
 
     public function getFlights_count()

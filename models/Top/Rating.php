@@ -17,20 +17,20 @@ class Rating
     /**
      * Rating constructor.
      * @param ActiveQuery $records
-     * @param $mouth
+     * @param $month
      * @param $year
      */
-    public function __construct($records, $mouth, $year)
+    public function __construct($records, $month, $year)
     {
         /**
          * @var Top $record
          */
         foreach ($records->all() as $record) {
-            if ($record->mouth == 0 && $record->year == 0) {
+            if ($record->month == 0 && $record->year == 0) {
                 $record->rating_type = Top::RATING_ALL;
                 $sum = $record->exp_pos + $record->flights_pos + $record->hours_pos + $record->pax_pos;
                 $pos = $sum / 4;
-            }elseif (($record->mouth < 9 && $year == 2016) || $year < 2016) {
+            }elseif (($record->month < 9 && $year == 2016) || $year < 2016) {
                 $record->rating_type = Top::RATING_OLD;
                 $sum = $record->flights_pos + $record->hours_pos;
                 $pos = $sum / 2;
@@ -40,7 +40,7 @@ class Rating
                 $pos = $sum / 3;
             }
 
-            $preRating = $pos + (int)Suspensions::overPeriod($record->user_id, $mouth, $year)->count();
+            $preRating = $pos + (int)Suspensions::overPeriod($record->user_id, $month, $year)->count();
             if($preRating <= 0){
                 $preRating = 999;
             }

@@ -67,7 +67,7 @@ class TopController extends Controller
 
     private function pos($mouth, $year, $rating = false)
     {
-        new PositionSet($this->records($mouth, $year), $rating);
+        new PositionSet($this->records($mouth, $year), $rating, date("N") == 1 ? true : false);
     }
 
     private function records($mouth, $year)
@@ -75,7 +75,7 @@ class TopController extends Controller
         $records = Top::find();
 
         if ($mouth > 0 && $year > 0) {
-            $records->filterWhere(['AND', ['mouth' => $mouth], ['year' => $year]]);
+            $records->filterWhere(['AND', ['month' => $mouth], ['year' => $year]]);
         }
 
         return $records;

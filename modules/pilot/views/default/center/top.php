@@ -65,8 +65,14 @@ use yii\widgets\Pjax;
                                 );
                             }
                     ],
-                    'rating_pos',
-                    //'rating_count',
+                    [
+                        'label' => Yii::t('top', 'Position by Rating'),
+                        'attribute' => 'rating_pos',
+                        'format' => 'raw',
+                        'value' => function ($data) {
+                            return $data->rating_pos.' (<span style="color:'.($data->rating_pos_change_day >= 0 ? 'darkgreen;"> +' : '#8b0000;"> -').$data->rating_pos_change_day.'</span> / <span style="color:'.($data->rating_pos_change_week >= 0 ? 'darkgreen;"> +' : '#8b0000;"> -').$data->rating_pos_change_week.'</span>)';
+                        }
+                    ]
                 ],
             ]
         ); ?>

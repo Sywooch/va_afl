@@ -15,6 +15,9 @@ use Yii;
  * @property integer $year
  * @property integer $rating_count
  * @property integer $rating_pos
+ * @property integer $rating_pos_change_day
+ * @property integer $rating_pos_week
+ * @property integer $rating_pos_change_week
  * @property integer $rating_type
  * @property integer $exp_count
  * @property integer $exp_pos
@@ -115,6 +118,9 @@ class Top extends \yii\db\ActiveRecord
                     'year',
                     'rating_count',
                     'rating_pos',
+                    'rating_pos_change_day',
+                    'rating_pos_week',
+                    'rating_pos_change_week',
                     'rating_type',
                     'exp_count',
                     'exp_pos',

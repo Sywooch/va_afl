@@ -12,29 +12,51 @@ use yii\db\ActiveQuery;
 
 class PositionSet
 {
+    public $fields;
+    public $week_diff;
+    public $records;
+
     /**
      * @param ActiveQuery $records
      * @param bool $rating
+     * @param bool $week_diff
      */
-    public function __construct(ActiveQuery $records, $rating = false)
+    public function __construct(ActiveQuery $records, $rating = false, $week_diff = false)
     {
-        $fields = !$rating ? Top::$count_fields : ['rating_count'];
+        $this->fields = !$rating ? Top::$count_fields : ['rating_count'];
+        $this->week_diff = $week_diff;
+        $this->records = $records;
+        $this->process();
+    }
 
-        foreach($fields as $field){
-            $this->field($records, $field);
+    private function process(){
+        foreach($this->fields as $field){
+            $this->field($field);
         }
     }
 
     /**
-     * @param ActiveQuery $records
      * @param $field
      */
-    private function field($records, $field){
-        $fieldRecords = $records->orderBy($field.' DESC')->all();
+    private function field($field){
+        $fieldRecords = $this->records->orderBy($field.' DESC')->all();
 
         $i = 1;
         foreach($fieldRecords as $record){
+            /**
+             * @var Top $record
+             */
             $field = str_replace("count", "pos", $field);
+
+            if($field == 'rating_pos'){
+                $record->rating_pos_change_day = $i - $record->rating_pos;
+
+                if($this->week_diff){
+                    $record->rating_pos_change_week = $i - $record->rating_pos_week;
+                    $record->rating_pos_week = $i;
+                }
+            }
+
             $record->$field = $i;
             $i++;
             $record->save();
