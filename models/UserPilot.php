@@ -106,12 +106,12 @@ class UserPilot extends \yii\db\ActiveRecord
 
     public function getTopAll()
     {
-        return Top::find()->where(['user_id' => $this->user_id, 'mouth' => 0, 'year' => 0])->one();
+        return Top::find()->where(['user_id' => $this->user_id, 'month' => 0, 'year' => 0])->one();
     }
 
     public function getTopMouth()
     {
-        return Top::find()->where(['user_id' => $this->user_id, 'mouth' => gmdate("m"), 'year' => gmdate("Y")])->one();
+        return Top::find()->where(['user_id' => $this->user_id, 'month' => gmdate("m"), 'year' => gmdate("Y")])->one();
     }
 
     public function getFlights()

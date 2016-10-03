@@ -15,7 +15,7 @@ class TopSearch extends Top
 
     public static function all()
     {
-        return self::findOne(['mouth' => 0, 'year' => 0]);
+        return self::findOne(['month' => 0, 'year' => 0]);
     }
 
     /**
@@ -28,7 +28,7 @@ class TopSearch extends Top
                 [
                     'id',
                     'user_id',
-                    'mouth',
+                    'month',
                     'year',
                     'exp_count',
                     'exp_pos',
@@ -85,7 +85,7 @@ class TopSearch extends Top
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'mouth' => $this->mouth,
+            'month' => $this->month,
             'year' => $this->year,
             'exp_count' => $this->exp_count,
             'exp_pos' => $this->exp_pos,

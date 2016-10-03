@@ -181,7 +181,7 @@ class DefaultController extends Controller
                 'eventsCalendar' => Calendar::center(),
                 'flightsProvider' => $flightsProvider,
                 'onlineProvider' => $onlineProvider,
-                'topProvider' => (new TopSearch())->search(Yii::$app->request->queryParams, Top::byMouth(gmdate("m"), gmdate("Y"))),
+                'topProvider' => (new TopSearch())->search(Yii::$app->request->queryParams, Top::byMonth(gmdate("m"), gmdate("Y"))),
                 'flight' => Booking::current(),
                 'toursProvider' => $toursProvider,
                 'stats' => Flights::stats(14)
