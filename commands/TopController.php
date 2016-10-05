@@ -67,6 +67,6 @@ class TopController extends Controller
 
     private function pos($mouth, $year, $rating = false)
     {
-        new PositionSet(Top::byMonth($mouth, $year), $rating, date("N") == 1 ? true : false);
+        new PositionSet(Top::byMonth($mouth, $year), $rating, gmdate("N") == 1 ? true : false);
     }
 }
