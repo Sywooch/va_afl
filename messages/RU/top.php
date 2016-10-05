@@ -4,7 +4,7 @@ return [
     'Position by Rating' => 'Место в рейтинге',
     'by month' => 'за месяц',
     'Amount of Experience' => 'Количество опыта',
-    'Amount of Flights' => 'Количество плётов',
+    'Amount of Flights' => 'Количество полётов',
     'Amount of Online Hours' => 'Количество часов онлайн',
     'Amount of PAXs' => 'Количество пассажиров',
     'Position by Experience' => 'Место по опыту',
