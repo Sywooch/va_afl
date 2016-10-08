@@ -40,14 +40,13 @@ class PositionSet
      */
     private function field($field){
         $fieldRecords = $this->records->orderBy($field.' DESC')->all();
+        $field = str_replace("count", "pos", $field);
 
         $i = 1;
         foreach($fieldRecords as $record){
             /**
              * @var Top $record
              */
-            $field = str_replace("count", "pos", $field);
-
             if($field == 'rating_pos'){
                 $record->rating_pos_change_day = $i - $record->rating_pos;
 
@@ -58,8 +57,9 @@ class PositionSet
             }
 
             $record->$field = $i;
-            $i++;
             $record->save();
+
+            $i++;
         }
     }
 }

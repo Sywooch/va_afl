@@ -62,22 +62,11 @@ class TopController extends Controller
 
     private function rating($mouth, $year)
     {
-        new Rating($this->records($mouth, $year), $mouth, $year);
+        new Rating(Top::byMonth($mouth, $year), $mouth, $year);
     }
 
     private function pos($mouth, $year, $rating = false)
     {
-        new PositionSet($this->records($mouth, $year), $rating, date("N") == 1 ? true : false);
-    }
-
-    private function records($mouth, $year)
-    {
-        $records = Top::find();
-
-        if ($mouth > 0 && $year > 0) {
-            $records->filterWhere(['AND', ['month' => $mouth], ['year' => $year]]);
-        }
-
-        return $records;
+        new PositionSet(Top::byMonth($mouth, $year), $rating, gmdate("N") == 1 ? true : false);
     }
 }

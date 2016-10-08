@@ -5,6 +5,7 @@ namespace app\models\Top;
 use app\components\Stats;
 use app\models\Users;
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%top}}".
@@ -56,6 +57,11 @@ class Top extends \yii\db\ActiveRecord
         return self::byMonth(0,0);
     }
 
+    /**
+     * @param int $month
+     * @param int $year
+     * @return ActiveQuery
+     */
     public static function byMonth($month, $year)
     {
         return self::find()->where(['month' => $month, 'year' => $year]);
