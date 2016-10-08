@@ -52,6 +52,10 @@ class Booking extends \yii\db\ActiveRecord
         return self::find()->where(['user_id' => Yii::$app->user->identity->vid])->andWhere('status != '.self::BOOKING_FLIGHT_END)->andWhere('status < '.self::BOOKING_DELETED_BY_USER)->one();
     }
 
+    public static function toDelete(){
+        return self::find()->where('DATE(`created`) <= DATE_SUB(DATE(NOW()), INTERVAL 1 DAY)')->andWhere(['status' => Booking::BOOKING_INIT])->all();
+    }
+
     public function getStatusName()
     {
         if ($this->g_status >= self::STATUS_BOARDING && $this->g_status <= self::STATUS_ON_BLOCKS) {

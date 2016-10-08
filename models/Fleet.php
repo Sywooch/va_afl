@@ -46,6 +46,11 @@ class Fleet extends \yii\db\ActiveRecord
         return Fleet::find()->where(['type_code' => $acftype])->one();
     }
 
+    public static function notInBase()
+    {
+        return self::find()->where('location != home_airport')->all();
+    }
+
     /**
      * @inheritdoc
      */
@@ -211,6 +216,11 @@ class Fleet extends \yii\db\ActiveRecord
     public function getLastFlight()
     {
         return Flights::find()->where('fleet_regnum = ' . $this->id)->orderBy(['flights.id' => SORT_DESC])->one();
+    }
+
+    public function getLastSuccessFlight()
+    {
+        return Flights::find()->where('fleet_regnum = ' . $this->id)->andWhere(['status' => Flights::FLIGHT_STATUS_OK])->orderBy(['flights.id' => SORT_DESC])->one();
     }
 
     public function getActypes(){
