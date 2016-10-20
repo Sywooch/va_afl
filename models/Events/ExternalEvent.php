@@ -60,7 +60,7 @@ class ExternalEvent
         if (!$this->old) {
             if (!empty($this->event) && !empty($this->name)) {
                 $slack = new Slack($channel, 'New Event - ');
-                $slack->addLink('http://dev.va-afl.su/events/' . $this->event, $this->name);
+                $slack->addLink('http://va-afl.su/events/' . $this->event, $this->name);
                 $slack->sent();
             }
         }
