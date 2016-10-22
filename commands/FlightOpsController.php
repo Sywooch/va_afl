@@ -34,7 +34,7 @@ class FlightOpsController extends Controller
 
     private function aircraftReturn(){
         foreach(Fleet::notInBase() as $aircraft){
-            if($aircraft->lastSuccessFlight){
+            if($aircraft->lastSuccessFlight && $aircraft->status == Fleet::STATUS_AVAIL){
                 new AircraftReturn($aircraft->lastSuccessFlight);
             }
         }
