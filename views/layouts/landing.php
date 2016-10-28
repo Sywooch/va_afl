@@ -26,7 +26,7 @@ OnlineTableAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
     <link href="/landing/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/landing/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/landing/css/animate.min.css" rel="stylesheet"/>
