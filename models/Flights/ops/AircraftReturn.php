@@ -27,8 +27,8 @@ class AircraftReturn
     {
         if (strtotime($flight->landing_time) < strtotime(date('Y-m-d', strtotime('-2 week', time())))) {
             $this->flight = $flight;
-            $this->move();
             FlightOps::aircraftReturn($flight);
+            $this->move();
         }
     }
 
