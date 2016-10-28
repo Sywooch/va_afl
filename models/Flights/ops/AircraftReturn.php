@@ -25,7 +25,7 @@ class AircraftReturn
      */
     public function __construct(Flights $flight)
     {
-        if (strtotime($flight->landing_time) < strtotime(date('Y-m-d', strtotime('-2 week', strtotime('Y-m-d'))))) {
+        if (strtotime($flight->landing_time) < strtotime(date('Y-m-d', strtotime('-2 week', time())))) {
             $this->flight = $flight;
             $this->move();
             FlightOps::aircraftReturn($flight);
