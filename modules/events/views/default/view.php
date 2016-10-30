@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Flights;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
@@ -123,10 +125,18 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
 </div>
 <div class="col-md-3">
     <div class="panel panel-inverse">
-        <div class="panel-heading"><h4 class="panel-title">&nbsp;</h4></div>
+        <div class="panel-heading"><h4 class="panel-title"><?= Yii::t('app', 'Statistics') ?></h4></div>
 
         <div class="panel-body">
-
+            <div class="list-group">
+                <h4 class="text-center"><?= Yii::t('app', 'Flights') ?>/<?= Yii::t('app', 'Participants') ?>:</h4>
+                <h1 class="text-center" style="font-size: 4em;"><?= count($model->flights) ?><small>/<?= count($model->users) ?></small></h1>
+            </div>
+            <?= $this->render('flights', ['flightsProvider' => new ActiveDataProvider([
+                'query' => Flights::find()->where(['id' => \yii\helpers\ArrayHelper::getColumn($model->flights, 'flight_id')])->limit(10),
+                'sort' => false,
+                'pagination' => false,
+            ])]) ?>
         </div>
     </div>
 </div>
