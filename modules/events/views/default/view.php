@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                 <h1 class="text-center" style="font-size: 4em;"><?= count($model->flights) ?><small>/<?= count($model->users) ?></small></h1>
             </div>
             <?= $this->render('flights', ['flightsProvider' => new ActiveDataProvider([
-                'query' => Flights::find()->where(['id' => \yii\helpers\ArrayHelper::getColumn($model->flights, 'flight_id')])->limit(10),
+                'query' => Flights::find()->where(['id' => \yii\helpers\ArrayHelper::getColumn($model->flights, 'flight_id')]),
                 'sort' => false,
                 'pagination' => false,
             ])]) ?>
