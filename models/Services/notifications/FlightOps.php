@@ -39,7 +39,7 @@ class FlightOps
     {
         $array = [
             '[callsign]' => $flight->callsign,
-            '[landing_time]' => $flight->landing_time,
+            '[first_seen]' => $flight->first_seen,
         ];
 
         Yii::trace(var_export($array, 1));
