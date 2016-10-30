@@ -44,7 +44,7 @@ class FlightOps
 
         Yii::trace(var_export($array, 1));
         Notification::add($flight->user_id, 0, \app\models\Content::template(self::TEMPLATE_AIRCRAFT_RETURN, $array), 'fa-clock-o', 'orange');
-        $slack = new Slack('#flights', "Aircraft {$flight->fleet->regnum} ({$flight->fleet->type_code}) returned to {$flight->fleet->home_airport} from {$flight->fleet->location}; Last flight by {$flight->booking->user->full_name} ({$flight->booking->user_id}) {$flight->callsign} landing_time - {$flight->landing_time} http://va-afl.su/airline/flights/view/{$flight->id}");
+        $slack = new Slack('#flights', "Aircraft {$flight->fleet->regnum} ({$flight->fleet->type_code}) returned to {$flight->fleet->home_airport} from {$flight->fleet->location}; Last flight by {$flight->booking->user->full_name} ({$flight->booking->user_id}) {$flight->callsign} first_seen - {$flight->first_seen} http://va-afl.su/airline/flights/view/{$flight->id}");
         $slack->sent();
     }
 } 

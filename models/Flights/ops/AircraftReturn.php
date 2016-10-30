@@ -12,6 +12,7 @@ namespace app\models\Flights\ops;
 use app\models\Fleet;
 use app\models\Flights;
 use app\models\Services\notifications\FlightOps;
+use DateTime;
 
 class AircraftReturn
 {
@@ -25,7 +26,9 @@ class AircraftReturn
      */
     public function __construct(Flights $flight)
     {
-        if (strtotime($flight->landing_time) < strtotime(date('Y-m-d', strtotime('-2 week', time())))) {
+        $first_seen = new DateTime($flight->first_seen);
+        $time_to_diff = (new DateTime())->modify('-14 day');
+        if ($first_seen < $time_to_diff) {
             $this->flight = $flight;
             FlightOps::aircraftReturn($flight);
             $this->move();
