@@ -232,6 +232,9 @@ class ParseController extends Controller
             $flight->status = Flights::FLIGHT_STATUS_OK;
             $booking->status = Booking::BOOKING_FLIGHT_END;
             $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time)) / 60);
+            if($flight->flight_time < 0){
+                $flight->flight_time = intval((strtotime($flight->last_seen) - strtotime($flight->dep_time)) / 60);
+            }
 
             $this->transferPilot($flight, $flight->landing);
 
