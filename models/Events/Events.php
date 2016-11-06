@@ -7,6 +7,7 @@ use Yii;
 
 use app\models\Content;
 use app\models\Users;
+use yii\db\Query;
 
 /**
  * This is the model class for table "events".
@@ -98,6 +99,14 @@ class Events extends \yii\db\ActiveRecord
                 return 'black';
                 break;
         }
+    }
+
+    public function getFlights(){
+        return EventsMembers::find()->where(['event_id' => $this->id])->andWhere('flight_id IS NOT null')->all();
+    }
+
+    public function getUsers(){
+        return (new Query())->select(['user_id'])->from(EventsMembers::tableName())->where(['event_id' => $this->id])->groupBy('user_id')->all();
     }
 
     /**

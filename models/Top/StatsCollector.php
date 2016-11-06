@@ -8,10 +8,11 @@
 
 namespace app\models\Top;
 
-
-use app\models\Flights;
 use Yii;
 use yii\base\Component;
+
+use app\models\Booking;
+use app\models\Flights;
 
 class StatsCollector extends Component
 {
@@ -21,7 +22,7 @@ class StatsCollector extends Component
     public function __construct(Top $record)
     {
         $this->record = $record;
-        $this->flights = Flights::find()->where(['user_id' => $this->record->user_id]);
+        $this->flights = Flights::find()->where(['flights.user_id' => $this->record->user_id]);
 
         if ($this->record->month > 0 && $this->record->year > 0) {
             $this->flights->andFilterWhere([
@@ -39,9 +40,8 @@ class StatsCollector extends Component
 
     public function getFlights_count()
     {
-        return $this->flights->count();
+        return $this->flights->joinWith('booking')->andWhere(['booking.g_status' => Booking::STATUS_ARRIVED])->count();
     }
-
 
     public function getHours_count()
     {

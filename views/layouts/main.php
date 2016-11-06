@@ -19,7 +19,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
     <link href="/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
@@ -78,7 +78,7 @@ AppAsset::register($this);
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
 <script src="/js/apps.js"></script>
 <!-- ================== END PAGE LEVEL JS ================== -->
-<script src="http://userapi.com/js/api/openapi.js" type="text/javascript" charset="windows-1251"></script>
+<script src="https://userapi.com/js/api/openapi.js" type="text/javascript" charset="windows-1251"></script>
 <script>
     $(document).ready(function () {
         App.init();

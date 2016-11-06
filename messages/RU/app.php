@@ -102,4 +102,5 @@ return [
     'Graphs' => 'Графики',
     'Flights during 14 days' => 'Полёты за 14 дней',
     'Top' => 'Топ',
+    'Participants' => 'Участники',
 ];

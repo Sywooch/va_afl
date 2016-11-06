@@ -53,7 +53,7 @@ class Booking extends \yii\db\ActiveRecord
     }
 
     public static function toDelete(){
-        return self::find()->where('DATE(`created`) <= DATE_SUB(DATE(NOW()), INTERVAL 1 DAY)')->andWhere(['status' => Booking::BOOKING_INIT])->all();
+        return self::find()->where('DATE(`created`) < DATE_SUB(DATE(NOW()), INTERVAL 1 DAY)')->andWhere(['status' => Booking::BOOKING_INIT])->all();
     }
 
     public function getStatusName()
