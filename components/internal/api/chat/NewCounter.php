@@ -15,7 +15,7 @@ use yii\httpclient\Client;
 class NewCounter
 {
     public static function get(){
-        try{
+        /*try{
             $client = new Client();
             $response = $client->createRequest()
                 ->setMethod('get')
@@ -36,6 +36,7 @@ class NewCounter
             return 0;
         }catch(\Exception $ex){
             return 0;
-        }
+        }*/
+        return 0;
     }
 }
