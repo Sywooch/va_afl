@@ -46,7 +46,6 @@ class MembersController extends Controller
             $user = UserPilot::findOne(['user_id' => $record['vid']]);
             $user->status = UserPilot::STATUS_INACTIVE;
             $user->save();
-            Notification::add($record['vid'], 0, 5013, 'fa-hand-spock-o', 'red');
         }
     }
 }
