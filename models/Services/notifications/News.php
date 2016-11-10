@@ -25,11 +25,7 @@ class News
             if (Yii::$app->authManager->checkAccess($user->vid, $content->categoryInfo->access_feed)) {
                 if (!empty($user->email) && $user->mail == 1) {
                     try {
-                        Yii::$app->mailer->compose('notification_news.php', ['user' => $user, 'content' => $content, 'link' => $link])
-                            ->setFrom(Yii::$app->params['serverEmail'])
-                            ->setTo($user->email)
-                            ->setSubject('VA AFL News ' . $content->name_en)
-                            ->send();
+                        Mail::sent($user, $content, $link);
                     } catch (\Exception $ex) {
 
                     }
