@@ -23,7 +23,6 @@ class News
         set_time_limit(0);
         foreach (Users::active() as $user) {
             if (Yii::$app->authManager->checkAccess($user->vid, $content->categoryInfo->access_feed)) {
-                Notification::add($user->vid, $content->author, $content->id);
                 if (!empty($user->email) && $user->mail == 1) {
                     try {
                         Yii::$app->mailer->compose('notification_news.php', ['user' => $user, 'content' => $content, 'link' => $link])

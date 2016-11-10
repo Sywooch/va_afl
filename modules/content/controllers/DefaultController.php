@@ -2,17 +2,16 @@
 
 namespace app\modules\content\controllers;
 
-use app\components\Levels;
-use app\models\Services\notifications\News;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
-use yii\filters\VerbFilter;
 
+use app\components\Levels;
+use app\models\Services\notifications\News;
+use app\models\Services\notifications\Notifications;
 use app\models\Content;
-use app\models\ContentCategories;
 
 class DefaultController extends Controller
 {
@@ -114,6 +113,10 @@ class DefaultController extends Controller
                 if($model->save()){
                     if($model->categoryInfo->notifications == 1){
                         News::add($model);
+                    }
+
+                    if($model->categoryInfo->notifications == 1){
+                        Notifications::add($model);
                     }
 
                     Levels::addExp(100, \Yii::$app->user->identity->vid);
