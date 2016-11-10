@@ -15,23 +15,28 @@ use yii\httpclient\Client;
 class NewCounter
 {
     public static function get(){
-        $client = new Client();
-        $response = $client->createRequest()
-            ->setMethod('get')
-            ->setUrl('http://api.va-afl.su/chat/default/new')
-            ->setData(
-                [
-                    'vid' => Yii::$app->user->identity->vid
-                ]
-            )
-            ->send();
-        if($response->content){
-            $data = json_decode($response->content);
-            if($data->data->new){
-                return (int) $data->data->new;
+        /*try{
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('http://api.va-afl.su/chat/default/new')
+                ->setData(
+                    [
+                        'vid' => Yii::$app->user->identity->vid
+                    ]
+                )
+                ->send();
+            if($response->content){
+                $data = json_decode($response->content);
+                if($data->data->new){
+                    return (int) $data->data->new;
+                }
             }
-        }
 
+            return 0;
+        }catch(\Exception $ex){
+            return 0;
+        }*/
         return 0;
     }
 }
