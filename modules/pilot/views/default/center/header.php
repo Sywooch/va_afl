@@ -12,6 +12,11 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
+<?php if(!empty($user->pilot->center_comments)):?>
+    <div class="alert alert-danger">
+        <h4><b><?= $user->pilot->center_comments ?></b></h4>
+    </div>
+<?php endif; ?>
 <!-- begin col-3 -->
 <div class="col-md-3 col-sm-6">
     <div class="widget widget-stats bg-green">
@@ -80,7 +85,7 @@ use yii\helpers\Url;
         </div>
         <div class="stats-desc">
             <?php if ($flight) : ?>
-                <?php if ($flight->fleet) : ?><?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>),<?php else: ?> <?= $flight->flight ? $flight->flight->acf_type.',' : ''?> <?php endif; ?><?php
+                <?php if ($flight->fleet) : ?><?= $flight->fleet->regnum ?> (<?= $flight->fleet->full_type ?>), <?php else: ?> <?= $flight->flight ? $flight->flight->acf_type.',' : ''?> <?php endif; ?><?php
                 switch ($flight->g_status) {
                     case Booking::STATUS_BOOKED:
                         echo 'Booked';

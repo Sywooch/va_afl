@@ -103,4 +103,7 @@ return [
     'Flights during 14 days' => 'Полёты за 14 дней',
     'Top' => 'Топ',
     'Participants' => 'Участники',
+    'You do not have access to the booking, check your Pilot Center' =>
+        'У вас нет доступа к букингу, проверьте свой Центр Пилота',
+
 ];

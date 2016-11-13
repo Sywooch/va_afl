@@ -27,8 +27,10 @@ $form = ActiveForm::begin(
 
 <?= $form->field($pilot, 'avatar')->fileInput() ?>
 <?= $form->field($pilot, 'user_comments')->textArea(['rows' => '6']) ?>
-<?php if (Yii::$app->user->can('user_pilot/staffcomments/edit')): ?>
+<?php if (Yii::$app->user->can('supervisor')): ?>
+    <?= $form->field($pilot, 'avail_booking')->dropDownList(['1' => 'On','0' => 'Off']) ?>
     <?= $form->field($pilot, 'staff_comments')->textArea(['rows' => '6']) ?>
+    <?= $form->field($pilot, 'center_comments')->textArea(['rows' => '6']) ?>
 <?php endif; ?>
 <?= $form->field($pilot, 'stream_link')->textInput(['maxlength' => true]) ?>
 <?php if(empty($pilot->vk_id)): ?>

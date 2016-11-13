@@ -179,9 +179,15 @@ use yii\widgets\DetailView;
                     'value' => $user->pilot->user_comments,
                 ],
                 [
-                    'attribute' => 'user_comments',
+                    'attribute' => 'staff_comments',
                     'label' => Yii::t('user', 'Staff Comments'),
                     'value' => $user->pilot->staff_comments,
+                ],
+                [
+                    'attribute' => 'center_comments',
+                    'label' => Yii::t('user', 'Center Comments'),
+                    'value' => $user->pilot->center_comments,
+                    'visible' => Yii::$app->user->can('supervisor')
                 ],
             ]
         ]

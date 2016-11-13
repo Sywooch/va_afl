@@ -5,6 +5,7 @@ namespace app\modules\pilot\controllers;
 use app\components\EmailSender;
 use app\components\Levels;
 use app\models\Fleet;
+use app\models\Services\notifications\actions\Members;
 use app\models\Squadrons;
 use app\models\SquadronUsers;
 use app\models\Top\Top;
@@ -69,6 +70,10 @@ class DefaultController extends Controller
     public function actionBooking()
     {
         \Yii::$app->user->returnUrl = '/pilot/booking';
+
+        if(UserPilot::findOne(['user_id' => \Yii::$app->user->id])->avail_booking == 0) {
+            throw new HttpException(403, Yii::t('app', 'You do not have access to the booking, check your Pilot Center'));
+        }
 
         if (!$model = Booking::find()->andWhere(['user_id' => \Yii::$app->user->id])->andWhere('status < '.Booking::BOOKING_FLIGHT_END)->one()) {
             $model = new Booking();
@@ -227,6 +232,10 @@ class DefaultController extends Controller
 
             if (!$pilot->validate()) {
                 throw new \yii\web\HttpException(404, 'be');
+            }
+
+            if($old_pilot->avail_booking != $pilot->avail_booking){
+                Members::block($pilot, Yii::$app->user->identity->vid);
             }
 
             $pilot->save();

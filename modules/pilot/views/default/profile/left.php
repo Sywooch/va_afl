@@ -60,6 +60,13 @@ if (isset($user->avatar) && file_exists(Yii::getAlias('@app/web/img/avatars/') .
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php if (Yii::$app->user->can('supervisor')): ?>
+            <tr>
+                <td>
+                    <a href="/pilot/edit/<?= $user->vid ?>"><i class="fa fa-pencil-square" aria-hidden="true"></i> <?= Yii::t('app', 'Edit') ?></a>
+                </td>
+            </tr>
+            <?php endif; ?>
             </tbody>
         </table>
     </div>
