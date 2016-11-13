@@ -111,7 +111,7 @@ class DefaultController extends Controller
 
             if ($model->validate()) {
                 if($model->save()){
-                    if($model->categoryInfo->notifications == 1){
+                    if($model->categoryInfo->notifications_mail == 1){
                         News::add($model);
                     }
 
