@@ -48,12 +48,12 @@ class Members
             case 1:
                 $slack = new Slack('#members', "Booking unlocked member {$user->full_name} ({$user->vid}) https://va-afl.su/pilot/profile/{$user->vid}");
                 Notification::add($user->vid, $author, self::TEMPLATE_UNLOCK, 'fa-glass', 'green');
-                Mail::sent($user, \app\models\Content::findOne(['id' => self::TEMPLATE_UNLOCK]), 'https://va-afl.su/pilot/center');
+                Mail::sent($user, \app\models\Content::findOne(['id' => self::TEMPLATE_UNLOCK]), '/pilot/center');
                 break;
             case 0:
                 $slack = new Slack('#members', "Booking locked for member {$user->full_name} ({$user->vid}) https://va-afl.su/pilot/profile/{$user->vid}");
                 Notification::add($user->vid, $author, self::TEMPLATE_LOCK, 'fa-bomb', 'orange');
-                Mail::sent($user, \app\models\Content::findOne(['id' => self::TEMPLATE_LOCK]), 'https://va-afl.su/pilot/center');
+                Mail::sent($user, \app\models\Content::findOne(['id' => self::TEMPLATE_LOCK]), '/pilot/center');
                 break;
             default:
                 $slack = new Slack('#members', "@n_fedoseev, error status for member {$user->full_name} ({$user->vid})");
