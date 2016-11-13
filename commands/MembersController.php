@@ -10,11 +10,12 @@
  */
 namespace app\commands;
 
+use app\models\Users;
 use Yii;
 use yii\console\Controller;
 
 use app\models\Flights;
-use app\models\Services\notifications\Notification;
+use app\models\Services\notifications\actions\Members;
 use app\models\UserPilot;
 
 class MembersController extends Controller
@@ -33,7 +34,7 @@ class MembersController extends Controller
             if ($flight->user->pilot->status == UserPilot::STATUS_INACTIVE) {
                 $flight->user->pilot->status = UserPilot::STATUS_ACTIVE;
                 $flight->user->pilot->save();
-                Notification::add($flight->user_id, 0, 5013, 'fa-hand-spock-o', 'green');
+                Members::active($flight->user);
             }
         }
     }
@@ -46,6 +47,7 @@ class MembersController extends Controller
             $user = UserPilot::findOne(['user_id' => $record['vid']]);
             $user->status = UserPilot::STATUS_INACTIVE;
             $user->save();
+            Members::inactive(Users::findOne(['vid' => $user->user_id]));
         }
     }
 }
