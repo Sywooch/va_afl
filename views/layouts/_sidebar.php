@@ -41,12 +41,12 @@ use app\models\Users;
                         'url' => \yii\helpers\Url::to('/pilot/booking'),
                         'icon' => 'fa-random'
                     ],
-                    /*[
+                    [
                         'name' => Yii::t('app', 'My messages'),
                         'url' => \yii\helpers\Url::to('/mail'),
                         'icon' => 'fa-envelope',
                         'badge' => \app\components\internal\api\chat\NewCounter::get()
-                    ],*/
+                    ],
                     [
                         'name' => Yii::t('app', 'My statistics'),
                         'items' => [
