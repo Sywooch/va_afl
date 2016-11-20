@@ -175,6 +175,7 @@ use app\models\Users;
                             ['name' => Yii::t('app', 'Fleet'), 'url' => '/airline/fleet'],
                             ['name' => Yii::t('app', 'Schedule'), 'url' => '/airline/schedule'],
                             ['name' => Yii::t('app', 'Staff'), 'url' => '/airline/staff'],
+                            ['name' => Yii::t('app', 'Supervisors'), 'url' => '/airline/staff/supervisors'],
                             [
                                 'name' => 'IVAO',
                                 'url' => 'http://www.ivao.aero',

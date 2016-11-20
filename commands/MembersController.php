@@ -10,7 +10,9 @@
  */
 namespace app\commands;
 
+use app\models\Staff\StaffSups;
 use app\models\Users;
+use app\modules\airline\models\Sup;
 use Yii;
 use yii\console\Controller;
 
@@ -24,6 +26,7 @@ class MembersController extends Controller
     {
         $this->makeActive();
         $this->makeInactive();
+        $this->supList();
     }
 
     private function makeActive()
@@ -49,5 +52,12 @@ class MembersController extends Controller
             $user->save();
             Members::inactive(Users::findOne(['vid' => $user->user_id]));
         }
+    }
+
+    private function supList()
+    {
+        $sups = Sup::active(true);
+        StaffSups::clear();
+        StaffSups::write($sups);
     }
 }

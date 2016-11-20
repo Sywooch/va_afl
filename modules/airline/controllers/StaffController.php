@@ -8,6 +8,7 @@
 
 namespace app\modules\airline\controllers;
 
+use app\modules\airline\models\Sup;
 use yii;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
@@ -119,6 +120,17 @@ class StaffController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSupervisors()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Staff\StaffSups::active(),
+            'pagination' => array('pageSize' => 100),
+            'sort' => ['defaultOrder' => ['vid' => SORT_ASC]]
+        ]);
+
+        return $this->render('sups', ['dataProvider' => $dataProvider,]);
     }
 
     /**
