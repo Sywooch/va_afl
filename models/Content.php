@@ -255,12 +255,12 @@ class Content extends \yii\db\ActiveRecord
 
     }
 
-    public static function template($template, $array)
+    public static function template($template, $array, $category = 22)
     {
         $temp = self::findOne($template);
 
         $content = new Content();
-        $content->category = 22;
+        $content->category = $category;
         Yii::trace($array);
         foreach (self::$fields as $field) {
             $tempField = $temp->$field;

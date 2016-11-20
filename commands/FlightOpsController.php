@@ -13,6 +13,7 @@ namespace app\commands;
 use app\models\Fleet;
 use app\models\Flights\ops\AircraftReturn;
 use app\models\Flights\ops\BookingDelete;
+use app\models\Flights\ops\ScheduleUpdate;
 use yii\console\Controller;
 
 use app\models\Booking;
@@ -23,6 +24,10 @@ class FlightOpsController extends Controller
     {
         $this->deleteBooking();
         $this->aircraftReturn();
+    }
+
+    public function actionSchedule(){
+        new ScheduleUpdate();
     }
 
     private function deleteBooking()
