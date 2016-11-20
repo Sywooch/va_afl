@@ -60,7 +60,16 @@ AppAsset::register($this);
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>
 </div>
-
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <img src="" class="imagepreview" style="width: 100%;" >
+            </div>
+        </div>
+    </div>
+</div>
 <?php $this->endBody() ?>
 <script src="/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
 <script src="/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
@@ -85,6 +94,12 @@ AppAsset::register($this);
     });
     $('body').tooltip({
         selector: '[data-toggle="tooltip"]'
+    });
+    $(function() {
+        $('.imgmodel').on('click', function() {
+            $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+            $('#imagemodal').modal('show');
+        });
     });
 </script>
 <!-- Yandex.Metrika counter -->
