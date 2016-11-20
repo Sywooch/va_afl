@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p><?= $screen->description ?></p>
 
                     <p class="m-t-20">
-                        <a href="#" class="imgmodel">
+                        <a name="<?= $screen->id ?>" href="#<?= $screen->id ?>" class="imgmodel">
                             <img src="<?= $screen->imgLink ?>" alt=""/>
                         </a>
                     </p>
