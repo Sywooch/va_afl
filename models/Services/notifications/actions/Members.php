@@ -46,7 +46,7 @@ class Members
 
         switch($pilot->avail_booking){
             case 1:
-                $slack = new Slack('#members', "Booking unlocked member {$user->full_name} ({$user->vid}) https://va-afl.su/pilot/profile/{$user->vid}");
+                $slack = new Slack('#members', "Booking unlocked for member {$user->full_name} ({$user->vid}) https://va-afl.su/pilot/profile/{$user->vid}");
                 Notification::add($user->vid, $author, self::TEMPLATE_UNLOCK, 'fa-glass', 'green');
                 Mail::sent($user, \app\models\Content::findOne(['id' => self::TEMPLATE_UNLOCK]), '/pilot/center');
                 break;
