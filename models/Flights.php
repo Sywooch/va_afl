@@ -40,6 +40,8 @@ class Flights extends \yii\db\ActiveRecord
 
     public $dep_date;
     public $flights_count;
+    public $day;
+    public $count;
 
     /**
      * @inheritdoc
@@ -58,75 +60,26 @@ class Flights extends \yii\db\ActiveRecord
      * @param int $limit
      * @return array
      */
-    public static function stats($limit)
+    public static function stats($limit = 0, $order = 'desc')
     {
         $flights = self::find()->select([
             'DATE(first_seen) as dep_date',
             'COUNT(DISTINCT id) as flights_count'
-        ])->groupBy('DATE(first_seen)')->orderBy('DATE(first_seen) desc')->limit($limit)->all();
+        ])->groupBy('DATE(first_seen)')->orderBy('DATE(first_seen) '.$order);
+
+        if ($limit > 0) {
+            $flights = $flights->limit($limit);
+        }
+
+        $flights = $flights->all();
 
         return [
+            'all' => $flights,
             'days' => array_reverse(ArrayHelper::getColumn($flights, 'dep_date')),
             'count' => array_reverse(ArrayHelper::getColumn($flights, function ($element) {
                 return (int)$element->flights_count;
             })),
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'],'integer'],
-            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs', 'finished'], 'safe'],
-            [['flightplan', 'remarks', 'fpl', 'metar_dep', 'metar_landing'], 'string'],
-            [['from_icao', 'to_icao', 'alternate1', 'alternate2', 'landing'], 'string', 'max' => 4],
-            [['acf_type', 'callsign'], 'string', 'max' => 10]
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'callsign' => Yii::t('flights', 'Callsign'),
-            'first_seen' => 'First Seen',
-            'last_seen' => 'Last Seen',
-            'from_icao' => Yii::t('flights', 'Departure Airport'),
-            'to_icao' => Yii::t('flights', 'Arrival Airport'),
-            'flightplan' => Yii::t('flights', 'Flightplan'),
-            'remarks' => 'Remarks',
-            'dep_time' => 'Dep Time',
-            'eet' => 'Eet',
-            'landing_time' => 'Landing Time',
-            'sim' => 'Sim',
-            'fob' => 'Fob',
-            'pob' => 'Pob',
-            'acf_type' => Yii::t('flights', 'Acf Type'),
-            'fleet_regnum' => 'Fleet Regnum',
-            'status' => 'Status',
-            'alternate1' => 'Alternate1',
-        ];
-    }
-
-    public $day;
-    public $count;
-
-    public function getEta_time(){
-        $eet = explode(':', $this->eet);
-        if(isset($eet[0]) && isset($eet[1]) && isset($eet[2])){
-            $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
-            $dep_time = strtotime($this->dep_time);
-            return date('H:i', $dep_time + $eet_seconds);
-        }else{
-            return date('H:i', 0);
-        }
     }
 
     public static function getFlightsCount($id)//TODO: перенести в UserPilot
@@ -162,7 +115,8 @@ class Flights extends \yii\db\ActiveRecord
         $stat = [];
         foreach ($stats_raw as $stat_raw) {
             $stat[] = [
-                'name' => $stat_raw->domestic == '1' ? Yii::t('flights', 'Domestic') : Yii::t('flights', 'International'),
+                'name' => $stat_raw->domestic == '1' ? Yii::t('flights', 'Domestic') : Yii::t('flights',
+                    'International'),
                 'y' => intval($stat_raw->count)
             ];
         }
@@ -202,61 +156,6 @@ class Flights extends \yii\db\ActiveRecord
             $stat[] = ['name' => $stat_raw->acf_type, 'y' => intval($stat_raw->count)];
         }
         return $stat;
-    }
-
-
-    public function getDepAirport()
-    {
-        return $this->hasOne('app\models\Airports', ['icao' => 'from_icao']);
-    }
-
-    public function getArrAirport()
-    {
-        return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
-    }
-
-    public function getLandingAirport()
-    {
-        return $this->hasOne('app\models\Airports', ['icao' => 'landing']);
-    }
-
-    public function getFleet()
-    {
-        return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
-    }
-
-    public function getTrack()
-    {
-        return $this->hasMany(Tracker::className(), ['flight_id' => 'id']);
-    }
-
-    public function getLastTrack()
-    {
-        return Tracker::find()->where(['flight_id' => $this->id])->orderBy('id desc')->one();
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(Users::className(), ['vid' => 'user_id']);
-    }
-
-    public function getBooking()
-    {
-        return $this->hasOne(Booking::className(), ['id' => 'id']);
-    }
-
-    public function getSuspensions()
-    {
-        return $this->hasOne(Suspensions::className(), ['flight_id' => 'id']);
-    }
-
-    public function getSimulator(){
-        return Simulator::$ivao[$this->sim];
-    }
-
-    public function getFlightName(){
-        return "{$this->callsign} {$this->from_icao}-{$this->to_icao} " .
-        (new \DateTime($this->first_seen))->format('d.m.Y');
     }
 
     public static function prepareTrackerData($id)
@@ -313,32 +212,142 @@ class Flights extends \yii\db\ActiveRecord
         if ($model->depAirport) {
             $data['features'][] = [
                 'type' => 'Feature',
-            'properties' => [
-                'type' => 'start',
-                'title' => $model->depAirport->name . ' (' . $model->depAirport->icao . ')'
-            ],
-            'geometry' => [
-                'type' => 'Point',
-                'coordinates' => [$model->depAirport->lon, $model->depAirport->lat]
-            ],
-        ];
+                'properties' => [
+                    'type' => 'start',
+                    'title' => $model->depAirport->name . ' (' . $model->depAirport->icao . ')'
+                ],
+                'geometry' => [
+                    'type' => 'Point',
+                    'coordinates' => [$model->depAirport->lon, $model->depAirport->lat]
+                ],
+            ];
         }
 
         if ($model->arrAirport) {
             $data['features'][] = [
-            'type' => 'Feature',
-            'properties' => [
-                'type' => 'stop',
-                'title' => $model->arrAirport->name . ' (' . $model->arrAirport->icao . ')'
-            ],
-            'geometry' => [
-                'type' => 'Point',
-                'coordinates' => [$model->arrAirport->lon, $model->arrAirport->lat]
-            ],
-        ];
+                'type' => 'Feature',
+                'properties' => [
+                    'type' => 'stop',
+                    'title' => $model->arrAirport->name . ' (' . $model->arrAirport->icao . ')'
+                ],
+                'geometry' => [
+                    'type' => 'Point',
+                    'coordinates' => [$model->arrAirport->lon, $model->arrAirport->lat]
+                ],
+            ];
         }
 
         return json_encode($data);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'], 'integer'],
+            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs', 'finished'], 'safe'],
+            [['flightplan', 'remarks', 'fpl', 'metar_dep', 'metar_landing'], 'string'],
+            [['from_icao', 'to_icao', 'alternate1', 'alternate2', 'landing'], 'string', 'max' => 4],
+            [['acf_type', 'callsign'], 'string', 'max' => 10]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'user_id' => 'User ID',
+            'callsign' => Yii::t('flights', 'Callsign'),
+            'first_seen' => 'First Seen',
+            'last_seen' => 'Last Seen',
+            'from_icao' => Yii::t('flights', 'Departure Airport'),
+            'to_icao' => Yii::t('flights', 'Arrival Airport'),
+            'flightplan' => Yii::t('flights', 'Flightplan'),
+            'remarks' => 'Remarks',
+            'dep_time' => 'Dep Time',
+            'eet' => 'Eet',
+            'landing_time' => 'Landing Time',
+            'sim' => 'Sim',
+            'fob' => 'Fob',
+            'pob' => 'Pob',
+            'acf_type' => Yii::t('flights', 'Acf Type'),
+            'fleet_regnum' => 'Fleet Regnum',
+            'status' => 'Status',
+            'alternate1' => 'Alternate1',
+        ];
+    }
+
+    public function getEta_time()
+    {
+        $eet = explode(':', $this->eet);
+        if (isset($eet[0]) && isset($eet[1]) && isset($eet[2])) {
+            $eet_seconds = $eet[0] * 3600 + $eet[1] * 60 + $eet[2];
+            $dep_time = strtotime($this->dep_time);
+            return date('H:i', $dep_time + $eet_seconds);
+        } else {
+            return date('H:i', 0);
+        }
+    }
+
+    public function getDepAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'from_icao']);
+    }
+
+    public function getArrAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'to_icao']);
+    }
+
+    public function getLandingAirport()
+    {
+        return $this->hasOne('app\models\Airports', ['icao' => 'landing']);
+    }
+
+    public function getFleet()
+    {
+        return $this->hasOne(Fleet::className(), ['id' => 'fleet_regnum']);
+    }
+
+    public function getTrack()
+    {
+        return $this->hasMany(Tracker::className(), ['flight_id' => 'id']);
+    }
+
+    public function getLastTrack()
+    {
+        return Tracker::find()->where(['flight_id' => $this->id])->orderBy('id desc')->one();
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['vid' => 'user_id']);
+    }
+
+    public function getBooking()
+    {
+        return $this->hasOne(Booking::className(), ['id' => 'id']);
+    }
+
+    public function getSuspensions()
+    {
+        return $this->hasOne(Suspensions::className(), ['flight_id' => 'id']);
+    }
+
+    public function getSimulator()
+    {
+        return Simulator::$ivao[$this->sim];
+    }
+
+    public function getFlightName()
+    {
+        return "{$this->callsign} {$this->from_icao}-{$this->to_icao} " .
+        (new \DateTime($this->first_seen))->format('d.m.Y');
     }
 
 }
