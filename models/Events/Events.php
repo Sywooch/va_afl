@@ -8,6 +8,7 @@ use Yii;
 use app\models\Content;
 use app\models\Users;
 use yii\db\Query;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "events".
@@ -47,6 +48,32 @@ class Events extends \yii\db\ActiveRecord
     public static function active()
     {
         return self::find()->where('DATE(start) > DATE_SUB(NOW(), INTERVAL 1 DAY) AND DATE(stop) < DATE_ADD(NOW(), INTERVAL 1 DAY)')->all();
+    }
+
+    public static function search($q)
+    {
+        $out = [];
+        $d= self::find()->joinWith(['contentInfo']);
+
+        if($q) {
+            $d->andFilterWhere(
+                [
+                    'or',
+                    ['like', 'content.name_en', $q],
+                    ['like', 'content.description_en', $q],
+                    ['like', 'content.text_en', $q],
+                    ['like', 'start', $q],
+                    ['like', 'events.id', $q],
+                    ['like', 'events.from', $q],
+                    ['like', 'events.to', $q],
+                ]
+            );
+        }
+
+        foreach ($d->all() as $data) {
+            $out['results'][] = ['id' => $data->id, 'text' => $data->contentInfo->name_en." (".$data->start.")"];
+        }
+        return Json::encode($out);
     }
 
     /**
