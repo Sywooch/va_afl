@@ -28,10 +28,10 @@ AppAsset::register($this);
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
     <link href="/css/theme/default.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet"/>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script><script type="text/javascript" src="/newyear/swfobject.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script><script type="text/javascript" src="/newyear/swfobject.min.js"></script>
     <script type="text/javascript" src="/newyear/newyear.js"></script>
     <link rel="stylesheet" href="/newyear/style.css">
-    <script src="http://uguide.ru/js/script/ok4.js" type="text/javascript"></script>
+    <script src="/newyear/ok4.js" type="text/javascript"></script>
     <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->
 
