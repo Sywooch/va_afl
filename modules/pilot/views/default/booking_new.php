@@ -51,7 +51,7 @@ $this->title = Yii::t('app', 'Booking');
      style="display: none; padding: 10px;  z-index: 10; color: white; background-color: rgba(0,0,0,0.8); height: 215px; width: 400px; position: absolute; bottom: 75px; right: 10px">
 </div>
 <div id="booking_form"
-     style="position: absolute; top: 70px; left: 250px; z-index: 10; background-color: rgba(0,0,0,0.8); color: white; width: 300px;">
+     style="position: absolute; top: 70px; left: 250px; z-index: 10000; background-color: rgba(0,0,0,0.8); color: white; width: 300px;">
     <div class="text-center" style="display: block; height: 40px; padding: 10px; cursor: pointer; color: yellow; font-weight: bold;" onclick="showhidebookingform();"><?=Yii::t('booking','Booking details')?></div>
     <div id="booking-details" style="padding: 10px; display: none;">
     <?php
