@@ -35,7 +35,7 @@ use dosamigos\ckeditor\CKEditor;
     <div class="form-group">
         <?=
         Html::submitButton(
-            $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
+            $model->isNewRecord ? Yii::t('app', 'Upload') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
         ) ?>
     </div>

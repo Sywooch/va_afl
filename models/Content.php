@@ -128,7 +128,7 @@ class Content extends \yii\db\ActiveRecord
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
             [['name_ru', 'name_en'], 'string', 'max' => 50],
-            [['description_ru', 'description_en', 'forum'], 'string', 'max' => 255],
+            [['description_ru', 'description_en', 'forum', 'site'], 'string', 'max' => 255],
             [['img', 'preview'], 'string', 'skipOnEmpty' => true, 'max' => 255],
             [['machine_name'], 'string', 'max' => 100],
             [['machine_name'], 'unique']
