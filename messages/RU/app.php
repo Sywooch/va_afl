@@ -109,4 +109,5 @@ return [
     'Supervisors' => 'Супервайзеры',
     'Suspensions' => 'Нарушения',
     'Flights on events' => 'Полёты на эвентах',
+    'Last news' => 'Крайние новости',
 ];

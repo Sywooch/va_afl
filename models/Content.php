@@ -44,6 +44,15 @@ class Content extends \yii\db\ActiveRecord
         );
     }
 
+    public static function feed($limit = 50)
+    {
+        return self::prepare(
+            self::find()->joinWith('categoryInfo')->where(['content_categories.feed' => 1])->orderBy(
+                'created desc'
+            )->limit($limit)->all()
+        );
+    }
+
     public static function documents($limit = 50)
     {
         return self::prepare(
@@ -202,7 +211,25 @@ class Content extends \yii\db\ActiveRecord
         if(strpos($this->img, 'http://') !== false || strpos($this->img, 'https://') !== false){
             return $this->img;
         }else{
-            return "/img/content/{$this->img}";
+            return "https://va-afl.su/img/content/{$this->img}";
+        }
+    }
+
+    public function getContentLink(){
+        if($this->site){
+            return $this->site;
+        }
+
+        if($this->categoryInfo->news == 1){
+            return '/news/'.$this->categoryInfo->link.'/'.($this->machine_name ? $this->machine_name : $this->id);
+        }
+
+        if($this->categoryInfo->documents == 1){
+            return '/documents/'.$this->categoryInfo->link.($this->machine_name ? $this->machine_name : $this->id);
+        }
+
+        if($this->category == 16){
+            return '/screens/view/'.$this->id;
         }
     }
 

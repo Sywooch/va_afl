@@ -204,6 +204,16 @@ class DefaultController extends Controller
         );
     }
 
+    public function actionFeed()
+    {
+        return $this->render(
+            'feed/index',
+            [
+                'feed' => Content::feed(),
+            ]
+        );
+    }
+
     public function actionEdit($id = null)
     {
         if(!$id) $id=Users::getAuthUser()->vid;

@@ -42,6 +42,11 @@ use app\models\Users;
                         'icon' => 'fa-random'
                     ],
                     [
+                        'name' => Yii::t('app', 'Feed'),
+                        'url' => \yii\helpers\Url::to('/pilot/feed'),
+                        'icon' => 'fa-rss'
+                    ],
+                    [
                         'name' => Yii::t('app', 'My messages'),
                         'url' => \yii\helpers\Url::to('/mail'),
                         'icon' => 'fa-envelope',
