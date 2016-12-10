@@ -33,13 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="col-lg-3 panel">
     <div class="panel-body">
-        <h4><?= Yii::t('app', 'Categories') ?></h4>
-
-        <div class="hline"></div>
-        <p><a href="/news"> <?= Yii::t('app', 'All') ?></a> <span
-                class="badge badge-theme pull-right"></span></p>
-        <hr>
-
         <h4><?= Yii::t('app', 'Last news') ?></h4>
 
         <div class="hline"></div>
@@ -54,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-9">
                         <div class="col-md-12">
                             <p><a target="_blank"
-                                  href="/news/<?= $post->categoryInfo->link ?>/<?= $post->link ?>"><?= $post->description ?></a>
+                                  href="<?= $post->link ?>"><?= $post->description ?></a>
                             </p>
                         </div>
                         <div class="col-md-12">
