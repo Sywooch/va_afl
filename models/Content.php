@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\Pagination;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -44,12 +45,10 @@ class Content extends \yii\db\ActiveRecord
         );
     }
 
-    public static function feed($limit = 50)
+    public static function feed()
     {
         return self::prepare(
-            self::find()->joinWith('categoryInfo')->where(['content_categories.feed' => 1])->orderBy(
-                'created desc'
-            )->limit($limit)->all()
+            self::find()->joinWith('categoryInfo')->where(['content_categories.feed' => 1])->all()
         );
     }
 
