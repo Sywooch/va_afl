@@ -2,17 +2,23 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 \app\assets\ContentAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model app\models\Content */
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Screenshots'), 'url' => ['/screens']];
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'Screenshots of '.$model->authorUser->full_name),
+    'url' => ['/screens/user/' . $model->authorUser->vid]
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="well row" style="min-height: 50px">
     <div class="col-md-6">
-        <a href="javascript:content_like(<?= $model->id ?>);" id="btn_like_<?= $model->id ?>" class="m-r-15 btn btn-default<?= $model->like ? ' disabled btn-success' : '' ?>"><i class="fa fa-thumbs-up fa-fw"></i> Like</a>
+        <a href="javascript:content_like(<?= $model->id ?>);" id="btn_like_<?= $model->id ?>"
+           class="m-r-15 btn btn-default<?= $model->like ? ' disabled btn-success' : '' ?>"><i
+                class="fa fa-thumbs-up fa-fw"></i> Like</a>
         <?php if (($model->author == \Yii::$app->user->identity->vid) || (\Yii::$app->user->can('content/edit')) || (\Yii::$app->user->can($model->categoryInfo->access_edit) && !empty($model->categoryInfo->access_edit))): ?>
             <?=
             Html::a(
@@ -32,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <p class="text-right"> Author: <?=
             Html::a(
                 $model->authorUser->full_name,
-                Url::to('/pilot/profile/' . $model->authorUser->vid)
+                Url::to('/pilot/profile/' . $model->authorUser->vid),
+                ['target' => '_blank']
             ) ?></p>
     </div>
 </div>
@@ -66,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="input-group">
                     <input type="text" class="form-control input-sm" name="message" id="message"
                            placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
-             <span class="input-group-btn">
+                    <span class="input-group-btn">
                  <button onclick="content_comment(<?= $model->id ?>)" class="btn btn-primary btn-sm"
                          type="button"><?= Yii::t('app', 'Send') ?></button>
              </span>
@@ -87,7 +94,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php foreach ($model->likes as $like): ?>
                             <li class="left">
                                 <a href="/pilot/profile/<?= $like->user_id ?>"
-                                   class="name"><img alt="" height="50px" src="<?= $like->user->avatarLink ?>"/> <?= $like->user->full_name ?></a>
+                                   class="name"><img alt="" height="50px"
+                                                     src="<?= $like->user->avatarLink ?>"/> <?= $like->user->full_name ?>
+                                </a>
                             </li>
                         <?php endforeach; ?>
                     </ul>

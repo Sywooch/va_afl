@@ -1,5 +1,4 @@
-<?php ?>
-
+<?php $model->viewsPlus() ?>
 <div class="timeline-time">
     <span class="date"><?= $model->createdDT->format('d F Y') ?></span>
     <span class="time"><?= $model->createdDT->format('H:i') ?></span>
@@ -15,9 +14,9 @@
         <span class="username"><a target="_blank" href="/pilot/profile/<?= $model->authorUser->vid ?>">
                                 <?= $model->authorUser->full_name ?>
                                 </a></span>
-        <h3 style="display: inline"><span class="label label-warning">
-                                    <i class="fa fa-star"
-                                       aria-hidden="true"></i> <?= $model->authorUser->pilot->level ?></span>
+        <h3 style="padding-left: 7px; display: inline"><span class="label label-warning">
+                <i class="fa fa-star"
+                   aria-hidden="true"></i> <?= $model->authorUser->pilot->level ?></span>
         </h3>
         <span class="pull-right text-muted"><?= $model->views ?></span>
     </div>

@@ -37,14 +37,14 @@ use app\models\Users;
                         'icon' => 'fa-globe'
                     ],
                     [
-                        'name' => Yii::t('app', 'Booking'),
-                        'url' => \yii\helpers\Url::to('/pilot/booking'),
-                        'icon' => 'fa-random'
-                    ],
-                    [
                         'name' => Yii::t('app', 'Feed'),
                         'url' => \yii\helpers\Url::to('/pilot/feed'),
                         'icon' => 'fa-rss'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Booking'),
+                        'url' => \yii\helpers\Url::to('/pilot/booking'),
+                        'icon' => 'fa-random'
                     ],
                     [
                         'name' => Yii::t('app', 'My messages'),
@@ -132,14 +132,9 @@ use app\models\Users;
                         'icon' => 'fa-microphone',
                     ],
                     [
-                        'name' => Yii::t('app', 'Screenshots'),
+                        'name' => Yii::t('app', 'Upload screenshot'),
+                        'url' => '/screens/create',
                         'icon' => 'fa-picture-o',
-                        'items' => [
-                            ['name' => Yii::t('screens', 'Feed'), 'url' => '/screens'],
-                            ['name' => Yii::t('screens', 'Upload'), 'url' => '/screens/create'],
-                            ['name' => Yii::t('screens', 'Personal Feed'), 'url' => '/screens/user/'.Yii::$app->user->identity->vid],
-                            ['name' => Yii::t('screens', 'Top'), 'url' => '/screens/top'],
-                        ]
                     ],
                     [
                         'name' => Yii::t('app', 'Services'),

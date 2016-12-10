@@ -214,6 +214,11 @@ class Content extends \yii\db\ActiveRecord
         }
     }
 
+    public function viewsPlus(){
+        $this->views++;
+        $this->save();
+    }
+
     public function getContentLink(){
         if($this->site){
             return $this->site;
