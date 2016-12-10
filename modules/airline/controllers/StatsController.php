@@ -2,7 +2,9 @@
 
 namespace app\modules\airline\controllers;
 
+use app\models\Events\EventsMembers;
 use app\models\Flights;
+use app\models\Suspensions;
 use Yii;
 use app\models\Log;
 use yii\data\ActiveDataProvider;
@@ -35,6 +37,8 @@ class StatsController extends Controller
     {
         return $this->render('index', [
             'flights' => Flights::stats(0,'asc')['all'],
+            'suspensions' => Suspensions::stats(0,'asc'),
+            'events' => EventsMembers::stats(0,'asc'),
         ]);
     }
 }

@@ -24,6 +24,9 @@ class EventsMembers extends \yii\db\ActiveRecord
     const STATUS_ACTIVE_FLIGHT = 3;
     const STATUS_FINISHED_FLIGHT = 4;
 
+    public $date;
+    public $count_members;
+
     /**
      * @inheritdoc
      */
@@ -40,6 +43,20 @@ class EventsMembers extends \yii\db\ActiveRecord
     public static function flight($flight)
     {
         return EventsMembers::find()->andWhere(['flight_id' => $flight->id])->all();
+    }
+
+    public static function stats($limit, $order)
+    {
+        $members = self::find()->joinWith('event')->select([
+            'DATE(events.start) as date',
+            'COUNT(DISTINCT events_members.id) as count_members'
+        ])->groupBy('DATE(events.start)')->orderBy('events_members.id ' . $order);
+
+        if ($limit > 0) {
+            $members = $members->limit($limit);
+        }
+
+        return $members->all();
     }
 
     /**
@@ -77,5 +94,13 @@ class EventsMembers extends \yii\db\ActiveRecord
     public function getFlight()
     {
         return $this->hasOne(\app\models\Flights::className(), ['id' => 'flight_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEvent()
+    {
+        return $this->hasOne(\app\models\Events\Events::className(), ['id' => 'event_id']);
     }
 }

@@ -85,6 +85,7 @@ return [
     'Current flight' => 'Текущий полёт',
     'Settings' => 'Настройки',
     'Statistics' => 'Статистика',
+    'Airline statistics' => 'Статистика компании',
     'Pilot in Command' => 'КВС',
     'More info' => 'Подробности',
     'Recent' => 'Недавние',
@@ -106,4 +107,6 @@ return [
     'You do not have access to the booking, check your Pilot Center' =>
         'У вас нет доступа к букингу, проверьте свой Центр Пилота',
     'Supervisors' => 'Супервайзеры',
+    'Suspensions' => 'Нарушения',
+    'Flights on events' => 'Полёты на эвентах',
 ];

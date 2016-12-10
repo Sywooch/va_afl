@@ -141,6 +141,7 @@ use app\models\Users;
                         'icon' => 'fa-laptop',
                         'items' => [
                             ['name' => Yii::t('app', 'Airports'), 'url' => '/airline/airports'],
+                            ['name' => Yii::t('app', 'Airline statistics'), 'url' => '/airline/stats'],
                             //['name' => Yii::t('app', 'Content'), 'url' => \yii\helpers\Url::to('/content/index')],
                         ]
                     ],
@@ -168,6 +169,7 @@ use app\models\Users;
                         'name' => Yii::t('app', 'VA AFL'),
                         'icon' => 'fa-info-circle',
                         'items' => [
+                            ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'Top'), 'url' => '/users/top/all'],
                             ['name' => Yii::t('app', 'Top').' '.Yii::t('top', 'by month'), 'url' => '/users/top/month'],

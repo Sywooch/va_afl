@@ -23,6 +23,10 @@ use Yii;
 class Suspensions extends \yii\db\ActiveRecord
 {
     const TEMPLATE = 724;
+
+    public $date;
+    public $count_suspensions;
+
     public static $types = [
         'mvzType',
         'oprType',
@@ -94,6 +98,20 @@ class Suspensions extends \yii\db\ActiveRecord
         }
 
         return $records;
+    }
+
+    public static function stats($limit, $order = 'desc')
+    {
+        $suspensions = self::find()->select([
+            'DATE(issue_datetime) as date',
+            'COUNT(DISTINCT id) as count_suspensions'
+        ])->groupBy('DATE(issue_datetime)')->orderBy('DATE(issue_datetime) ' . $order);
+
+        if ($limit > 0) {
+            $suspensions = $suspensions->limit($limit);
+        }
+
+        return $suspensions->all();
     }
 
     /**
