@@ -114,5 +114,6 @@ return [
     'Image' => 'Картинка',
     'Currently in the air' => 'Сейчас в воздухе',
     'Currently on site' => 'Сейчас на сайте',
-    'Site status' => 'Статус сайта',
+    'Site' => 'Сайт',
+    'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих рейсов'
 ];

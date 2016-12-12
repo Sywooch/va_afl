@@ -81,3 +81,10 @@ a, a:hover, a:active, a:visited {
     border-radius: 2px;
     padding-left: 10px;
 }
+
+.status-offline{
+    background: #e74c3c;
+    color: #ffffff;
+    border-radius: 2px;
+    padding-left: 10px;
+}

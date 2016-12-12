@@ -6,6 +6,7 @@
  * Time: 12:07
  */
 use app\models\Flights;
+use app\models\Pax;
 use app\models\Users;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -83,10 +84,16 @@ use yii\widgets\DetailView;
                         ) : '#'),
                     ],
                     [
-                        'attribute' => 'rating',
-                        'label' => Yii::t('app', 'Site status'),
+                        'attribute' => 'site',
+                        'label' => Yii::t('app', 'Site'),
                         'format' => 'raw',
                         'value' => '<h4 class="panel-title status-online"><b>Online <i class="fa fa-check-circle" aria-hidden="true"></i></b></h4>',
+                    ],
+                    [
+                        'attribute' => 'rating',
+                        'label' => Yii::t('app', 'Number of passengers waiting for flights'),
+                        'format' => 'raw',
+                        'value' => '<h4 class="panel-title status-' . (Pax::find()->sum('num_pax') > 0 ? 'online' : 'offline') . '"><b>' . Pax::find()->sum('num_pax') . ' <i class="fa '.(Pax::find()->sum('num_pax') > 0 ? 'fa-check-circle' : 'fa-times-circle') . '" aria-hidden="true"></i></b></h4>',
                     ],
                 ]
             ]
