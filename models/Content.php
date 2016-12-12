@@ -24,7 +24,16 @@ use app\components\Levels;
  */
 class Content extends \yii\db\ActiveRecord
 {
-    public static $fields = ['name_en', 'name_ru', 'text_ru', 'text_en', 'description_ru', 'description_en', 'site'];
+    public static $fields = [
+        'name_en',
+        'name_ru',
+        'text_ru',
+        'text_en',
+        'description_ru',
+        'description_en',
+        'site',
+        'icon'
+    ];
     /**
      * @inheritdoc
      */
@@ -151,6 +160,7 @@ class Content extends \yii\db\ActiveRecord
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
             [['name_ru', 'name_en'], 'string', 'max' => 150],
+            [['icon', 'color'], 'string', 'max' => 50],
             [['description_ru', 'description_en', 'forum', 'site'], 'string', 'max' => 255],
             [['img', 'preview'], 'string', 'skipOnEmpty' => true, 'max' => 255],
             [['machine_name'], 'string', 'max' => 100],
@@ -172,6 +182,8 @@ class Content extends \yii\db\ActiveRecord
             'description_ru' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
             'description_en' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
             'img_file' => Yii::t('app', 'Image'),
+            'icon' => Yii::t('app', 'Icon'),
+            'color' => Yii::t('app', 'Color'),
         ];
     }
 

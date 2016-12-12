@@ -22,7 +22,7 @@
     </div>
     <div class="timeline-content">
         <h4 class="template-title">
-            <i class="fa fa-map-marker text-danger fa-fw"></i>
+            <i class="<?= $model->icon ? $model->icon : 'fa fa-map-marker text-danger fa-fw' ?>"></i>
             <a target="_blank" href="<?= $model->contentLink ?>"><?= $model->name ?></a>
         </h4>
 
