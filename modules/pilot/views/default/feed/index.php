@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-9">
                         <div class="col-md-12">
                             <p><a target="_blank"
-                                  href="<?= $post->link ?>"><?= $post->description ?></a>
+                                  href="<?= $post->contentLink ?>"><?= $post->description ?></a>
                             </p>
                         </div>
                         <div class="col-md-12">
