@@ -74,3 +74,10 @@ a, a:hover, a:active, a:visited {
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
+
+.status-online{
+    background: #1abc9c;
+    color: #ffffff;
+    border-radius: 2px;
+    padding-left: 10px;
+}

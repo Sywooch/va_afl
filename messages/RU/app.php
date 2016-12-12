@@ -112,4 +112,7 @@ return [
     'Last news' => 'Крайние новости',
     'Description' => 'Описание',
     'Image' => 'Картинка',
+    'Currently in the air' => 'Сейчас в воздухе',
+    'Currently on site' => 'Сейчас на сайте',
+    'Site status' => 'Статус сайта',
 ];

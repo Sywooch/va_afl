@@ -107,6 +107,7 @@ AppAsset::register($this);
 <script src="/plugins/jquery-hashchange/jquery.hashchange.min.js"></script>
 <script src="/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/plugins/jquery-cookie/jquery.cookie.js"></script>
+<script src="/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
 <!-- ================== END BASE JS ================== -->
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->

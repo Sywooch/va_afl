@@ -21,7 +21,7 @@ $this->params['breadcrumbs'] = [
         <?= $this->render('stats', ['stats' => $stats]) ?>
     </div>
     <div class="col-md-4">
-        <?= $this->render('current') ?>
+        <?= $this->render('current', ['user' => $user]) ?>
         <?= $this->render('events', ['events' => $events]) ?>
         <?= $this->render('top', ['dataProvider' => $topProvider]) ?>
         <?= $this->render('tours', ['toursProvider' => $toursProvider]) ?>
