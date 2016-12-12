@@ -31,7 +31,7 @@ class ContentComments extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['content_id', 'user_id'], 'integer'],
+            [['content_id', 'user_id', 'id'], 'integer'],
             [['write'], 'safe'],
             [['text'], 'required'],
             [['text'], 'string', 'max' => 250],

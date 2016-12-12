@@ -82,6 +82,19 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="modal_title"></h4>
+            </div>
+            <div class="modal-body" id="modal_body">
+
+            </div>
+        </div>
+    </div>
+</div>
 <?php $this->endBody() ?>
 <script src="/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
 <script src="/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>

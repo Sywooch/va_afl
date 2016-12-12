@@ -33,8 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="col-lg-3 panel">
     <div class="panel-body">
+        <?= Html::a('<i class="fa fa-picture-o"></i> ' . Yii::t('app', 'Upload screenshot'), '#',
+            ['class' => 'btn btn-primary', 'onclick' => 'modalOpen();']) ?>
+        <hr>
         <h4><?= Yii::t('app', 'Last news') ?></h4>
-
         <div class="hline"></div>
         <ul class="popular-posts list-unstyled">
             <?php foreach (Content::news(5) as $post): ?>
@@ -62,3 +64,10 @@ $this->params['breadcrumbs'][] = $this->title;
         </ul>
     </div>
 </div>
+<script>
+    function modalOpen(){
+        $("#modal_body").load("/screens/create");
+        $('#modal').modal('show');
+        $('$model_title').text('<?= Yii::t('app', 'Upload screenshot') ?>');
+    }
+</script>

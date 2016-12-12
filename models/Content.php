@@ -37,12 +37,24 @@ class Content extends \yii\db\ActiveRecord
         return 'content';
     }
 
-    public static function news($limit = 50){
+    public static function news($limit = 50)
+    {
         return self::prepare(
             self::find()->joinWith('categoryInfo')->where(['content_categories.news' => 1])->orderBy(
                 'created desc'
             )->limit($limit)->all()
         );
+    }
+
+    public static function prepare($mNews)
+    {
+        $news = [];
+        foreach ($mNews as $new) {
+            if (empty($new->categoryInfo->access_read) || Yii::$app->user->can($new->categoryInfo->access_read)) {
+                $news[] = $new;
+            }
+        }
+        return $news;
     }
 
     public static function feed()
@@ -65,7 +77,7 @@ class Content extends \yii\db\ActiveRecord
     {
         return self::prepare(
             self::find()->joinWith('categoryInfo')->where(
-            ['content_categories.news' => 1, 'content_categories.link' => $link]
+                ['content_categories.news' => 1, 'content_categories.link' => $link]
             )->orderBy('created desc')->all()
         );
     }
@@ -77,17 +89,6 @@ class Content extends \yii\db\ActiveRecord
                 ['content_categories.documents' => 1, 'content_categories.link' => $link]
             )->orderBy('created desc')->all()
         );
-    }
-
-    public static function prepare($mNews)
-    {
-        $news = [];
-        foreach ($mNews as $new) {
-            if (empty($new->categoryInfo->access_read) || Yii::$app->user->can($new->categoryInfo->access_read)) {
-                $news[] = $new;
-            }
-        }
-        return $news;
     }
 
     public static function view($id)
@@ -117,6 +118,26 @@ class Content extends \yii\db\ActiveRecord
         }
     }
 
+    public static function template($template, $array, $category = 22)
+    {
+        $temp = self::findOne($template);
+
+        $content = new Content();
+        $content->category = $category;
+        Yii::trace($array);
+        foreach (self::$fields as $field) {
+            $tempField = $temp->$field;
+            foreach ($array as $from => $to) {
+                Yii::trace($field . ' - ' . $from . '/' . $to);
+                $content->$field = str_replace($from, $to, $tempField);
+                $tempField = $content->$field;
+            }
+        }
+
+        $content->save();
+        return $content->id;
+    }
+
     /**
      * @inheritdoc
      */
@@ -142,10 +163,13 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name_ru' => Yii::t('app', 'Name') .' '.Yii::t('app', '(Ru.)'),
-            'name_en' => Yii::t('app', 'Name') .' '.Yii::t('app', '(En.)'),
-            'text_ru' => Yii::t('app', 'Text') .' '.Yii::t('app', '(Ru.)'),
-            'text_en' => Yii::t('app', 'Text') .' '.Yii::t('app', '(En.)'),
+            'name_ru' => Yii::t('app', 'Name') . ' ' . Yii::t('app', '(Ru.)'),
+            'name_en' => Yii::t('app', 'Name') . ' ' . Yii::t('app', '(En.)'),
+            'text_ru' => Yii::t('app', 'Text') . ' ' . Yii::t('app', '(Ru.)'),
+            'text_en' => Yii::t('app', 'Text') . ' ' . Yii::t('app', '(En.)'),
+            'description_ru' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
+            'description_en' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
+            'img_file' => Yii::t('app', 'Image'),
         ];
     }
 
@@ -156,6 +180,17 @@ class Content extends \yii\db\ActiveRecord
     public function getName()
     {
         return $this->getLocale('name_ru', 'name_en');
+    }
+
+    /**
+     * Возвращает переменную взависимости от языка
+     * @param $ru string
+     * @param $en string
+     * @return string
+     */
+    private function getLocale($ru, $en)
+    {
+        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
     }
 
     /**
@@ -202,54 +237,47 @@ class Content extends \yii\db\ActiveRecord
         return ContentComments::find()->where(['content_id' => $this->id])->count();
     }
 
-    public function getImgLink(){
-        if(empty($this->img)){
+    public function getImgLink()
+    {
+        if (empty($this->img)) {
             return "https://placeholdit.imgix.net/~text?txtsize=33&txt=no%20image&w=350&h=150";
         }
 
-        if(strpos($this->img, 'http://') !== false || strpos($this->img, 'https://') !== false){
+        if (strpos($this->img, 'http://') !== false || strpos($this->img, 'https://') !== false) {
             return $this->img;
-        }else{
+        } else {
             return "https://va-afl.su/img/content/{$this->img}";
         }
     }
 
-    public function viewsPlus(){
+    public function viewsPlus()
+    {
         $this->views++;
         $this->save();
     }
 
-    public function getContentLink(){
-        if($this->site){
+    public function getContentLink()
+    {
+        if ($this->site) {
             return $this->site;
         }
 
-        if($this->categoryInfo->news == 1){
-            return '/news/'.$this->categoryInfo->link.'/'.($this->machine_name ? $this->machine_name : $this->id);
+        if ($this->categoryInfo->news == 1) {
+            return '/news/' . $this->categoryInfo->link . '/' . ($this->machine_name ? $this->machine_name : $this->id);
         }
 
-        if($this->categoryInfo->documents == 1){
-            return '/documents/'.$this->categoryInfo->link.'/'.($this->machine_name ? $this->machine_name : $this->id);
+        if ($this->categoryInfo->documents == 1) {
+            return '/documents/' . $this->categoryInfo->link . '/' . ($this->machine_name ? $this->machine_name : $this->id);
         }
 
-        if($this->category == 16){
-            return '/screens/view/'.$this->id;
+        if ($this->category == 16) {
+            return '/screens/view/' . $this->id;
         }
     }
 
-    public function getCreatedDT(){
-        return new \DateTime($this->created);
-    }
-
-    /**
-     * Возвращает переменную взависимости от языка
-     * @param $ru string
-     * @param $en string
-     * @return string
-     */
-    private function getLocale($ru, $en)
+    public function getCreatedDT()
     {
-        return Yii::$app->language == 'RU' ? $this->$ru : $this->$en;
+        return new \DateTime($this->created);
     }
 
     public function getLike()
@@ -262,7 +290,8 @@ class Content extends \yii\db\ActiveRecord
         return empty($this->machine_name) ? $this->id : $this->machine_name;
     }
 
-    public function like($user){
+    public function like($user)
+    {
         $like = new ContentLikes();
         $like->content_id = $this->id;
         $like->user_id = $user;
@@ -273,7 +302,8 @@ class Content extends \yii\db\ActiveRecord
         \app\models\Services\notifications\Content::like($user, Content::findOne($this->id));
     }
 
-    public function comment($user, $text){
+    public function comment($user, $text)
+    {
         $comment = new ContentComments();
         $comment->content_id = $this->id;
         $comment->user_id = $user;
@@ -282,30 +312,11 @@ class Content extends \yii\db\ActiveRecord
         $comment->save();
 
         Levels::addExp(2, $user);
-        foreach(ContentComments::find()->where(['content_id' => $this->id])->groupBy('user_id')->all() as $record){
-            \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text, $record->user_id);
-        }
-
-
-    }
-
-    public static function template($template, $array, $category = 22)
-    {
-        $temp = self::findOne($template);
-
-        $content = new Content();
-        $content->category = $category;
-        Yii::trace($array);
-        foreach (self::$fields as $field) {
-            $tempField = $temp->$field;
-            foreach ($array as $from => $to) {
-                Yii::trace($field.' - '.$from.'/'.$to);
-                $content->$field = str_replace($from, $to, $tempField);
-                $tempField = $content->$field;
+        foreach (ContentComments::find()->where(['content_id' => $this->id])->groupBy('user_id')->all() as $record) {
+            if ($user != $record->user_id) {
+                \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text,
+                    $record->user_id);
             }
         }
-
-        $content->save();
-        return $content->id;
     }
 }

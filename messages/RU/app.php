@@ -111,4 +111,6 @@ return [
     'Flights on events' => 'Полёты на эвентах',
     'Last news' => 'Крайние новости',
     'Upload screenshot' => 'Загрузить скриншот',
+    'Description' => 'Описание',
+    'Image' => 'Картинка',
 ];

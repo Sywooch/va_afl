@@ -67,7 +67,7 @@ class DefaultController extends Controller
 
             return $this->redirect(['view/' . $model->id]);
         } else {
-            return $this->render(
+            return $this->renderPartial(
                 'create',
                 [
                     'model' => $model,

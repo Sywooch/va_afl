@@ -132,11 +132,6 @@ use app\models\Users;
                         'icon' => 'fa-microphone',
                     ],
                     [
-                        'name' => Yii::t('app', 'Upload screenshot'),
-                        'url' => '/screens/create',
-                        'icon' => 'fa-picture-o',
-                    ],
-                    [
                         'name' => Yii::t('app', 'Services'),
                         'icon' => 'fa-laptop',
                         'items' => [
@@ -148,7 +143,8 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Documents'),
                         'url' => \yii\helpers\Url::to('/documents'),
-                        'icon' => 'fa-folder'
+                        'icon' => 'fa-folder',
+                        'active' => Yii::$app->request->url == '/documents/handbook/about' ? false : true,
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),

@@ -19,9 +19,9 @@ use dosamigos\ckeditor\CKEditor;
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
-                'label' => 'col-sm-2',
+                'label' => 'col-sm-3',
                 'offset' => 'col-sm-offset-4',
-                'wrapper' => 'col-sm-10',
+                'wrapper' => 'col-sm-9',
                 'error' => '',
                 'hint' => '',
             ],
