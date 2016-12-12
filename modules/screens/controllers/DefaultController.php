@@ -60,7 +60,7 @@ class DefaultController extends Controller
 
             if ($model->validate()) {
                 $model->save();
-                Levels::addExp(5, \Yii::$app->user->identity->vid);
+                Levels::addExp(250, \Yii::$app->user->identity->vid);
             } else {
                 throw new \yii\web\HttpException(500, \Yii::t('app', 'Error'));
             }
