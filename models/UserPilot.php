@@ -42,7 +42,7 @@ class UserPilot extends \yii\db\ActiveRecord
     {
         return [
             [['user_id'], 'required'],
-            [['user_id', 'status', 'minutes', 'vk_id', 'level', 'experience', 'avail_booking'], 'integer'],
+            [['user_id', 'status', 'minutes', 'vk_id', 'level', 'experience', 'avail_booking', 'interface_newyear'], 'integer'],
             [['staff_comments', 'stream_link', 'user_comments', 'staff_comments', 'center_comments'], 'string'],
             [['location'], 'string', 'max' => 4],
             [['avatar'], 'safe'],

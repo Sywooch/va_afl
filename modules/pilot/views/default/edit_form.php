@@ -27,43 +27,14 @@ $form = ActiveForm::begin(
 
 <?= $form->field($pilot, 'avatar')->fileInput() ?>
 <?= $form->field($pilot, 'user_comments')->textArea(['rows' => '6']) ?>
-<?php if (Yii::$app->user->can('supervisor')): ?>
-    <?= $form->field($pilot, 'avail_booking')->dropDownList(['1' => 'On','0' => 'Off']) ?>
+<?php if (Yii::$app->user->can('suspensions/block')): ?>
+    <?= $form->field($pilot, 'avail_booking')->dropDownList(['1' => 'On', '0' => 'Off']) ?>
     <?= $form->field($pilot, 'staff_comments')->textArea(['rows' => '6']) ?>
     <?= $form->field($pilot, 'center_comments')->textArea(['rows' => '6']) ?>
 <?php endif; ?>
 <?= $form->field($pilot, 'stream_link')->textInput(['maxlength' => true]) ?>
-<?php if(empty($pilot->vk_id)): ?>
-<div class="form-group field-userpilot-vk_id">
-    <label class="control-label col-sm-4" for="userpilot-vk_id">VK</label>
-
-    <div class="col-sm-8">
-        <?php /*?>
-        <!-- Put this script tag to the <head> of your page -->
-        <script type="text/javascript" src="//vk.com/js/api/openapi.js?121"></script>
-
-        <script type="text/javascript">
-            VK.init({apiId: 5497954});
-        </script>
-
-        <!-- Put this div tag to the place, where Auth block will be -->
-        <div id="vk_auth"></div>
-        <div id="vk_success" style="display: none"><button class="btn btn-success btn-disabled">You are successful auth in VK</button><div>
-        <script type="text/javascript">
-            VK.Widgets.Auth("vk_auth", {width: "200px", onAuth: function (data) {
-                $(document).ready(function () {
-                    $('input[name="UserPilot[vk_id]"]').val(data['uid']);
-                    $("#vk_auth").hide();
-                    $("#vk_success").show();
-                });
-            } });
-        </script>
-        <input type="hidden" id="userpilot-vk_id" name="UserPilot[vk_id]" value="<?= $pilot->vk_id ?>">
-        <?php */ ?>
-
-        <div class="help-block help-block-error "></div>
-    </div>
-</div>
+<?php if (Yii::$app->user->can('user_pilot/interface/newyear')): ?>
+    <?= $form->field($pilot, 'interface_newyear')->dropDownList(['1' => 'On', '0' => 'Off']) ?>
 <?php endif; ?>
 <?php ActiveForm::end(); ?>
 
