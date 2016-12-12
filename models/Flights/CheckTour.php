@@ -22,7 +22,7 @@ class CheckTour
     const TEMPLATE_START = 806;
     const TEMPLATE_LEG = 807;
     const TEMPLATE_TOUR = 808;
-    
+
     public static function flight($flight)
     {
         foreach (ToursUsers::find()->where(['user_id' => $flight->user_id])
@@ -75,7 +75,7 @@ class CheckTour
      * @param $_tour
      * @param $TEMPLATE
      */
-    private static function notification($flight, $_tour, $TEMPLATE)
+    public static function notification($flight, $_tour, $TEMPLATE)
     {
         $array = [
             '[tour_id]' => $_tour->tour->id,
@@ -94,10 +94,10 @@ class CheckTour
 
         switch ($TEMPLATE) {
             case self::TEMPLATE_START:
-                Feed::tourStart($array);
+                Feed::tourStart($array, $flight->user_id);
                 break;
             case self::TEMPLATE_TOUR:
-                Feed::tourEnd($array);
+                Feed::tourEnd($array, $flight->user_id);
                 break;
         }
     }

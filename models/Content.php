@@ -24,7 +24,7 @@ use app\components\Levels;
  */
 class Content extends \yii\db\ActiveRecord
 {
-    public static $fields = ['name_en', 'name_ru', 'text_ru', 'text_en', 'description_ru', 'description_en'];
+    public static $fields = ['name_en', 'name_ru', 'text_ru', 'text_en', 'description_ru', 'description_en', 'site'];
     /**
      * @inheritdoc
      */
@@ -118,7 +118,7 @@ class Content extends \yii\db\ActiveRecord
         }
     }
 
-    public static function template($template, $array, $category = 22)
+    public static function template($template, $array, $category = 22, $author = 0)
     {
         $temp = self::findOne($template);
 
@@ -134,7 +134,9 @@ class Content extends \yii\db\ActiveRecord
             }
         }
 
+        $content->author = $author;
         $content->save();
+
         return $content->id;
     }
 
@@ -148,7 +150,7 @@ class Content extends \yii\db\ActiveRecord
             [['category', 'author', 'views'], 'integer'],
             [['text_ru', 'text_en'], 'string'],
             [['created'], 'safe'],
-            [['name_ru', 'name_en'], 'string', 'max' => 50],
+            [['name_ru', 'name_en'], 'string', 'max' => 150],
             [['description_ru', 'description_en', 'forum', 'site'], 'string', 'max' => 255],
             [['img', 'preview'], 'string', 'skipOnEmpty' => true, 'max' => 255],
             [['machine_name'], 'string', 'max' => 100],

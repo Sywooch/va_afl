@@ -27,7 +27,7 @@
         </h4>
 
         <p><?= $model->description ?></p>
-        <?php if ($model->imgLink): ?>
+        <?php if ($model->img): ?>
             <p class="m-t-20">
                 <?php if ($model->category == 16): ?>
                 <a name="<?= $model->id ?>" href="#<?= $model->id ?>" class="imgmodel">

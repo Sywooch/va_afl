@@ -11,6 +11,7 @@ use app\models\Content;
 use app\models\Flights\Status;
 use app\models\Log;
 use app\models\Suspensions;
+use app\models\Tours\ToursUsers;
 use app\models\UserPilot;
 use Yii;
 use yii\db\Query;
@@ -219,5 +220,9 @@ class SiteController extends Controller
             Levels::addExp($_GET['exp'], $_GET['user']);
             Log::action($_GET['user'], 'add', 'levels', 'achievement', Levels::exp($_GET['user']), $exp);
         }
+    }
+
+    public function actionTest(){
+        Flights\CheckTour::notification(Flights::findOne(1002359), ToursUsers::findOne(1), 808);
     }
 }

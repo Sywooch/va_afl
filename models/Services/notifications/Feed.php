@@ -19,17 +19,19 @@ class Feed
 
     /**
      * @param $data array
+     * @param $user_id int
      */
-    public static function tourStart($data)
+    public static function tourStart($data, $user_id)
     {
-        Content::template(self::TEMPLATE_TOUR_START, $data, self::CONTENT_CATEGORY_TOURS);
+        Content::template(self::TEMPLATE_TOUR_START, $data, self::CONTENT_CATEGORY_TOURS, $user_id);
     }
 
     /**
      * @param $data array
+     * @param $user_id int
      */
-    public static function tourEnd($data)
+    public static function tourEnd($data, $user_id)
     {
-        Content::template(self::TEMPLATE_TOUR_END, $data, self::CONTENT_CATEGORY_TOURS);
+        Content::template(self::TEMPLATE_TOUR_END, $data, self::CONTENT_CATEGORY_TOURS, $user_id);
     }
 }
