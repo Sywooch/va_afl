@@ -5,6 +5,7 @@
  * Date: 12.12.2016
  * Time: 12:07
  */
+use app\components\Stats;
 use app\models\Flights;
 use app\models\Pax;
 use app\models\Users;
@@ -28,15 +29,33 @@ use yii\widgets\DetailView;
                 'attributes' => [
                     [
                         'attribute' => 'online',
-                        'label' => Yii::t('app', 'Currently on site'),
+                        'label' => Yii::t('app', 'Users online on site'),
                         'format' => 'raw',
                         'value' => Users::countOnline()
+                    ],
+                    [
+                        'attribute' => 'online',
+                        'label' => Yii::t('app', 'Users on site in 24 hours'),
+                        'format' => 'raw',
+                        'value' => Users::countDay()
                     ],
                     [
                         'attribute' => 'online',
                         'label' => Yii::t('app', 'Currently in the air'),
                         'format' => 'raw',
                         'value' => Flights::countOnline()
+                    ],
+                    [
+                        'attribute' => 'online',
+                        'label' => Yii::t('app', 'Users flew for 24 hours'),
+                        'format' => 'raw',
+                        'value' => Flights::countDay()
+                    ],
+                    [
+                        'attribute' => 'flights',
+                        'label' => '<hr>',
+                        'format' => 'raw',
+                        'value' => '<hr>',
                     ],
                     [
                         'attribute' => 'rating',
@@ -84,10 +103,28 @@ use yii\widgets\DetailView;
                         ) : '#'),
                     ],
                     [
-                        'attribute' => 'site',
-                        'label' => Yii::t('app', 'Site'),
+                        'attribute' => 'flights',
+                        'label' => '<hr>',
                         'format' => 'raw',
-                        'value' => '<h4 class="panel-title status-online"><b>Online <i class="fa fa-check-circle" aria-hidden="true"></i></b></h4>',
+                        'value' => '<hr>',
+                    ],
+                    [
+                        'attribute' => 'flights',
+                        'label' => Yii::t('app', 'Total flights'),
+                        'format' => 'raw',
+                        'value' => Stats::flights(),
+                    ],
+                    [
+                        'attribute' => 'site',
+                        'label' => Yii::t('app', 'Registered users'),
+                        'format' => 'raw',
+                        'value' => Stats::members(),
+                    ],
+                    [
+                        'attribute' => 'flights',
+                        'label' => '<hr>',
+                        'format' => 'raw',
+                        'value' => '<hr>',
                     ],
                     [
                         'attribute' => 'rating',

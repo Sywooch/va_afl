@@ -113,7 +113,10 @@ return [
     'Description' => 'Описание',
     'Image' => 'Картинка',
     'Currently in the air' => 'Сейчас в воздухе',
-    'Currently on site' => 'Сейчас на сайте',
+    'Users online on site' => 'Сейчас на сайте',
+    'Users on site in 24 hours' => 'Пользователей на сайте за 24 часа',
+    'Users flew for 24 hours' => 'Пользователей было в воздухе за 24 часа',
     'Site' => 'Сайт',
-    'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих рейсов'
+    'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих рейсов',
+    'Registered users' => 'Зарегистрировано пользователей',
 ];
