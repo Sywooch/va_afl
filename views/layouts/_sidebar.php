@@ -170,7 +170,6 @@ use app\models\Users;
                         'icon' => 'fa-info-circle',
                         'items' => [
                             ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
-                            ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'Top'), 'url' => '/users/top/all'],
                             ['name' => Yii::t('app', 'Top').' '.Yii::t('top', 'by month'), 'url' => '/users/top/month'],
                             ['name' => Yii::t('app', 'Pilots roster'), 'url' => '/pilot/roster'],

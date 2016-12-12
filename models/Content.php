@@ -229,7 +229,7 @@ class Content extends \yii\db\ActiveRecord
         }
 
         if($this->categoryInfo->documents == 1){
-            return '/documents/'.$this->categoryInfo->link.($this->machine_name ? $this->machine_name : $this->id);
+            return '/documents/'.$this->categoryInfo->link.'/'.($this->machine_name ? $this->machine_name : $this->id);
         }
 
         if($this->category == 16){
@@ -282,7 +282,10 @@ class Content extends \yii\db\ActiveRecord
         $comment->save();
 
         Levels::addExp(2, $user);
-        \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text);
+        foreach(ContentComments::find()->where(['content_id' => $this->id])->groupBy('user_id')->all() as $record){
+            \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text, $record->user_id);
+        }
+
 
     }
 
