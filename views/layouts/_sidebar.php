@@ -37,6 +37,11 @@ use app\models\Users;
                         'icon' => 'fa-globe'
                     ],
                     [
+                        'name' => Yii::t('app', 'Feed'),
+                        'url' => \yii\helpers\Url::to('/pilot/feed'),
+                        'icon' => 'fa-rss'
+                    ],
+                    [
                         'name' => Yii::t('app', 'Booking'),
                         'url' => \yii\helpers\Url::to('/pilot/booking'),
                         'icon' => 'fa-random'
@@ -127,16 +132,6 @@ use app\models\Users;
                         'icon' => 'fa-microphone',
                     ],
                     [
-                        'name' => Yii::t('app', 'Screenshots'),
-                        'icon' => 'fa-picture-o',
-                        'items' => [
-                            ['name' => Yii::t('screens', 'Feed'), 'url' => '/screens'],
-                            ['name' => Yii::t('screens', 'Upload'), 'url' => '/screens/create'],
-                            ['name' => Yii::t('screens', 'Personal Feed'), 'url' => '/screens/user/'.Yii::$app->user->identity->vid],
-                            ['name' => Yii::t('screens', 'Top'), 'url' => '/screens/top'],
-                        ]
-                    ],
-                    [
                         'name' => Yii::t('app', 'Services'),
                         'icon' => 'fa-laptop',
                         'items' => [
@@ -148,7 +143,8 @@ use app\models\Users;
                     [
                         'name' => Yii::t('app', 'Documents'),
                         'url' => \yii\helpers\Url::to('/documents'),
-                        'icon' => 'fa-folder'
+                        'icon' => 'fa-folder',
+                        'active' => Yii::$app->request->url == '/documents/handbook/about' ? false : true,
                     ],
                     [
                         'name' => Yii::t('app', 'Forum'),
@@ -169,7 +165,6 @@ use app\models\Users;
                         'name' => Yii::t('app', 'VA AFL'),
                         'icon' => 'fa-info-circle',
                         'items' => [
-                            ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'About'), 'url' => '/documents/handbook/about'],
                             ['name' => Yii::t('app', 'Top'), 'url' => '/users/top/all'],
                             ['name' => Yii::t('app', 'Top').' '.Yii::t('top', 'by month'), 'url' => '/users/top/month'],

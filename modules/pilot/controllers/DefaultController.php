@@ -13,6 +13,7 @@ use app\models\Top\TopSearch;
 use app\models\Tours\Tours;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -85,7 +86,7 @@ class DefaultController extends Controller
             $model->attributes = $_POST['Booking'];
             $model->status = Booking::BOOKING_INIT;
             $model->save();
-            if($model->fleet_regnum){
+            if ($model->fleet_regnum) {
                 Fleet::changeStatus($model->fleet_regnum, Fleet::STATUS_LOCKED);
             }
             $this->refresh();
@@ -123,8 +124,9 @@ class DefaultController extends Controller
         );
     }
 
-    public function actionBalance($id){
-        if($id != Yii::$app->user->identity->vid && !Yii::$app->user->can('billing/user/view_balance')){
+    public function actionBalance($id)
+    {
+        if ($id != Yii::$app->user->identity->vid && !Yii::$app->user->can('billing/user/view_balance')) {
             throw new \yii\web\HttpException(403, Yii::t('app', 'Forbidden'));
         }
 
@@ -201,6 +203,23 @@ class DefaultController extends Controller
         return $this->render(
             'stats/index',
             ['user' => $user]
+        );
+    }
+
+    public function actionFeed()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Content::find()->where(['id' => ArrayHelper::getColumn(Content::feed(), 'id')])->orderBy('created desc'),
+            'pagination' => [
+                'pageSize' => 25,
+            ],
+        ]);
+
+        return $this->render(
+            'feed/index',
+            [
+                'feed' => $dataProvider,
+            ]
         );
     }
 

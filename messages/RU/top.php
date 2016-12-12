@@ -11,4 +11,8 @@ return [
     'Position by Flights' => 'Место по полётам',
     'Position by Online Hours' => 'Место по часам онлайн',
     'Position by PAXs' => 'Место по пассажирам',
+    'Your rating' => 'Ваш рейтинг',
+    'Your position by rating' => 'Ваше место по рейтингу',
+    'Your rating by month' => 'Ващ рейтинг за месяц',
+    'Your position by rating by month' => 'Ваше место по рейтингу за месяц',
 ];

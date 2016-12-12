@@ -56,6 +56,12 @@ class Flights extends \yii\db\ActiveRecord
         return self::find()->where(['status' => self::FLIGHT_STATUS_STARTED])->count();
     }
 
+    public static function countDay()
+    {
+        return self::find()->where('first_seen > \'' . gmdate('Y-d-m H:i:s',
+                strtotime('-1 day')) . '\'')->groupBy('user_id')->count();
+    }
+
     /**
      * @param int $limit
      * @return array
@@ -65,7 +71,7 @@ class Flights extends \yii\db\ActiveRecord
         $flights = self::find()->select([
             'DATE(first_seen) as dep_date',
             'COUNT(DISTINCT id) as flights_count'
-        ])->groupBy('DATE(first_seen)')->orderBy('DATE(first_seen) '.$order);
+        ])->groupBy('DATE(first_seen)')->orderBy('DATE(first_seen) ' . $order);
 
         if ($limit > 0) {
             $flights = $flights->limit($limit);

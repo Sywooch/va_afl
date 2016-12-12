@@ -15,13 +15,13 @@ use app\models\Content;
 use app\models\Services\notifications\Notification;
 use app\models\Tours\ToursUsers;
 use app\models\Tours\ToursUsersLegs;
+use app\models\Services\notifications\Feed;
 
 class CheckTour
 {
     const TEMPLATE_START = 806;
     const TEMPLATE_LEG = 807;
     const TEMPLATE_TOUR = 808;
-
 
     public static function flight($flight)
     {
@@ -31,8 +31,8 @@ class CheckTour
                              'or',
                              [
                                  'status' => [
-                                     \app\models\Tours\ToursUsers::STATUS_ACTIVE,
-                                     \app\models\Tours\ToursUsers::STATUS_ASSIGNED
+                                     ToursUsers::STATUS_ACTIVE,
+                                     ToursUsers::STATUS_ASSIGNED
                                  ]
                              ]
                          ]
@@ -41,9 +41,10 @@ class CheckTour
                 && $flight->first_seen >= $_tour->tour->start
                 && $flight->first_seen <= $_tour->tour->stop
                 && $_tour->nextLeg->from == $flight->from_icao
-                && $_tour->nextLeg->to == $flight->to_icao) {
+                && $_tour->nextLeg->to == $flight->to_icao
+            ) {
 
-                if($_tour->status == ToursUsers::STATUS_ASSIGNED){
+                if ($_tour->status == ToursUsers::STATUS_ASSIGNED) {
                     $_tour->status = ToursUsers::STATUS_ACTIVE;
                     $_tour->save();
 
@@ -51,7 +52,12 @@ class CheckTour
                     Levels::addExp(1000, $flight->user_id);
                 }
 
-                if(!$leg = ToursUsersLegs::findOne(['flight_id' => $flight->id, 'tour_id' => $_tour->tour_id, 'leg_id' => $_tour->nextLeg->leg_id])){
+                if (!$leg = ToursUsersLegs::findOne([
+                    'flight_id' => $flight->id,
+                    'tour_id' => $_tour->tour_id,
+                    'leg_id' => $_tour->nextLeg->leg_id
+                ])
+                ) {
                     $leg = new ToursUsersLegs;
                     $leg->tour_id = $_tour->tour_id;
                     $leg->leg_id = $_tour->nextLeg->leg_id;
@@ -64,45 +70,60 @@ class CheckTour
         }
     }
 
+    /**
+     * @param $flight \app\models\Flights
+     * @param $_tour
+     * @param $TEMPLATE
+     */
+    public static function notification($flight, $_tour, $TEMPLATE)
+    {
+        $array = [
+            '[tour_id]' => $_tour->tour->id,
+            '[tour_ru]' => $_tour->tour->content->name_ru,
+            '[tour_en]' => $_tour->tour->content->name_en,
+            '[leg_total]' => $_tour->tour->getToursLegs()->count(),
+            '[name]' => $flight->user->full_name,
+            '[vid]' => $flight->user_id,
+        ];
+
+        if (isset($_tour->tourUser)) {
+            $array['[leg]'] = $_tour->tourUser->legs_finished;
+        }
+
+        Notification::add($flight->user_id, 0, Content::template($TEMPLATE, $array));
+
+        switch ($TEMPLATE) {
+            case self::TEMPLATE_START:
+                Feed::tourStart($array, $flight->user_id);
+                break;
+            case self::TEMPLATE_TOUR:
+                Feed::tourEnd($array, $flight->user_id);
+                break;
+        }
+    }
+
     public static function end($flight)
     {
-        foreach (ToursUsersLegs::find()->where(['flight_id' => $flight->id])->all() as $_tour){
-            if($flight->to_icao == $flight->landing){
+        foreach (ToursUsersLegs::find()->where(['flight_id' => $flight->id])->all() as $_tour) {
+            if ($flight->to_icao == $flight->landing) {
                 $_tour->status = ToursUsersLegs::STATUS_FLIGHT_FINISHED;
                 $_tour->tourUser->legs_finished = $_tour->tourUser->legs_finished + 1;
 
-                if($_tour->tourUser->legs_finished == $_tour->tour->getToursLegs()->count())
-                {
+                if ($_tour->tourUser->legs_finished == $_tour->tour->getToursLegs()->count()) {
                     $_tour->tourUser->status = ToursUsers::STATUS_COMPLETED;
                     self::notification($flight, $_tour, self::TEMPLATE_TOUR);
                     Levels::addExp($_tour->tour->exp, $flight->user_id);
                     BillingUserBalance::addMoney($flight->user_id, $flight->id, $_tour->tour->vucs, 57);
-                }else{
+                } else {
                     self::notification($flight, $_tour, self::TEMPLATE_LEG);
                     Levels::addExp(200, $flight->user_id);
                 }
-            }else{
+            } else {
                 $_tour->status = ToursUsersLegs::STATUS_FLIGHT_FAILED;
             }
 
             $_tour->save();
             $_tour->tourUser->save();
         }
-    }
-
-    private static function notification($flight, $_tour, $TEMPLATE)
-    {
-        $array = [
-            '[tour_id]' => $_tour->tour->id,
-            '[tour_ru]' => $_tour->tour->content->name_ru,
-            '[tour_en]' => $_tour->tour->content->name_en,
-            '[leg_total]' => $_tour->tour->getToursLegs()->count()
-        ];
-
-        if(isset($_tour->tourUser)){
-            $array['[leg]'] = $_tour->tourUser->legs_finished;
-        }
-
-        Notification::add($flight->user_id, 0, Content::template($TEMPLATE, $array));
     }
 } 

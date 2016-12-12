@@ -22,17 +22,20 @@ class Menu extends Widget
                 $newitems = [];
                 $active = false;
                 foreach ($item['items'] as $subitem) {
-                    $linkOptions = isset($suitem['linkOptions']) ? $suitem['linkOptions'] : [];
-                    $subactive = stripos(\Yii::$app->request->url, $subitem['url']) === 0 ? 'active' : '';
+                    $linkOptions = isset($subitem['linkOptions']) ? $subitem['linkOptions'] : [];
+
+                    $subactive = (!isset($subitem['active']) || $subitem['active'] == true) ? stripos(\Yii::$app->request->url,
+                        $subitem['url']) === 0 ? 'active' : '' : '';
+
                     if (!$active && strlen($subactive) > 0) {
                         $active = true;
                     }
                     $newitems[] = [
                         'item' => Html::a(
-                                "<span>" . $subitem['name'] . "</span>",
-                                $subitem['url'],
-                                $linkOptions
-                            ),
+                            "<span>" . $subitem['name'] . "</span>",
+                            $subitem['url'],
+                            $linkOptions
+                        ),
                         'class' => $subactive
                     ];
                 }
@@ -53,34 +56,35 @@ class Menu extends Widget
                             [
                                 'class' => 'sub-menu',
                                 'item' => function ($sitem, $index) {
-                                        return "<li class='" . $sitem['class'] . "'>" . $sitem['item'] . "</li>";
-                                    }
+                                    return "<li class='" . $sitem['class'] . "'>" . $sitem['item'] . "</li>";
+                                }
                             ]
                         ),
                     'class' => 'has-sub' . (($active) ? ' active' : '')
                 ];
             } else {
                 $itemclass = ($item['icon']) ? 'fa ' . $item['icon'] : '';
-                $active = stripos(\Yii::$app->request->url, $item['url']) === 0 ? 'active' : '';
+                $active = (!isset($item['active']) || $item['active'] == true) ? stripos(\Yii::$app->request->url,
+                    $item['url']) === 0 ? 'active' : '' : '';
                 $linkOptions = isset($item['linkOptions']) ? $item['linkOptions'] : [];
 
                 $menuitems[] = [
                     'items' => Html::a(
-                            (isset($item['badge']) ? '<span class="badge pull-right">' . $item['badge'] . '</span>' : '').
-                                Html::tag('i', '', ['class' => $itemclass]) . "<span>" . $item['name'] . "</span>",
-                            $item['url'],
-                            $linkOptions
-                        ),
+                        (isset($item['badge']) ? '<span class="badge pull-right">' . $item['badge'] . '</span>' : '') .
+                        Html::tag('i', '', ['class' => $itemclass]) . "<span>" . $item['name'] . "</span>",
+                        $item['url'],
+                        $linkOptions
+                    ),
                     'class' => $active
                 ];
             }
         }
         $menuitems[] = [
             'items' => Html::a(
-                    Html::tag('i', '', ['class' => 'fa fa-angle-double-left']),
-                    'javasrcipt:;',
-                    ['class' => 'sidebar-minify-btn', 'data-click' => 'sidebar-minify']
-                ),
+                Html::tag('i', '', ['class' => 'fa fa-angle-double-left']),
+                'javasrcipt:;',
+                ['class' => 'sidebar-minify-btn', 'data-click' => 'sidebar-minify']
+            ),
             'class' => ''
         ];
         echo Html::ul(
@@ -88,8 +92,8 @@ class Menu extends Widget
             [
                 'class' => 'nav',
                 'item' => function ($item, $index) {
-                        return "<li class='" . $item['class'] . "'>" . $item['items'] . "</li>";
-                    }
+                    return "<li class='" . $item['class'] . "'>" . $item['items'] . "</li>";
+                }
             ]
         );
     }

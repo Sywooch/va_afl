@@ -51,17 +51,18 @@ class Schedule extends \yii\db\ActiveRecord
 
     /**
      * Возможжно не генерит паксов из-за gmdate('H:i:s', strtotime('+1 hour')) с 00:00 до 01:00 (25 часов?)
-     * @return array|\yii\db\ActiveRecord[]
      */
-    public static function inHour()
+    public static function inHour($withoutAll = false)
     {
-        return self::find()
+       $data = self::find()
             ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
             ->andWhere('dep_utc_time < "' . gmdate('H:i:s', strtotime('+1 hour')) . '"')
             ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
             ->andWhere('start <="' . gmdate('Y-m-d') . '"')
             ->andWhere('stop >= "' . gmdate('Y-m-d') . '"')
-            ->orderBy('dep_utc_time')->all();
+            ->orderBy('dep_utc_time');
+
+        return $withoutAll ? $data : $data->all();
     }
 
     /**

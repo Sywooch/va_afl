@@ -63,7 +63,7 @@ class ContentCategories extends \yii\db\ActiveRecord
         return [
             [['link', 'name_ru', 'name_en'], 'required'],
             [['link'], 'string', 'max' => 20],
-            [['news', 'notifications', 'documents'], 'integer'],
+            [['news', 'notifications', 'feed', 'documents'], 'integer'],
             [['name_ru', 'name_en', 'access_read', 'access_edit', 'access_feed'], 'string', 'max' => 50],
             [['link_to'], 'string', 'max' => 100]
         ];

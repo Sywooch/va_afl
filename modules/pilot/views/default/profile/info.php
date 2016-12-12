@@ -187,7 +187,7 @@ use yii\widgets\DetailView;
                     'attribute' => 'center_comments',
                     'label' => Yii::t('user', 'Center Comments'),
                     'value' => $user->pilot->center_comments,
-                    'visible' => Yii::$app->user->can('supervisor')
+                    'visible' => Yii::$app->user->can('user_pilot/profileview/status/centercomments')
                 ],
             ]
         ]

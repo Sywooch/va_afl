@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
+use app\models\Users;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -28,10 +29,16 @@ AppAsset::register($this);
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
     <link href="/css/theme/default.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet"/>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script><script type="text/javascript" src="/newyear/swfobject.min.js"></script>
-    <script type="text/javascript" src="/newyear/newyear.js"></script>
-    <link rel="stylesheet" href="/newyear/style.css">
-    <script src="/newyear/ok4.js" type="text/javascript"></script>
+    <?php if (!Yii::$app->user->isGuest): ?>
+        <?php
+        $user = Users::getAuthUser();
+        if ($user->pilot->interface_newyear): ?>
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+            <script type="text/javascript" src="/newyear/newyear.js"></script>
+            <link rel="stylesheet" href="/newyear/style.css">
+            <script src="/newyear/ok4.js" type="text/javascript"></script>
+        <?php endif; ?>
+    <?php endif; ?>
     <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->
 
@@ -68,8 +75,22 @@ AppAsset::register($this);
     <div class="modal-dialog" style="width: 90%;">
         <div class="modal-content">
             <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <img src="" class="imagepreview" style="width: 100%;" >
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <img src="" class="imagepreview" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="modal_title"></h4>
+            </div>
+            <div class="modal-body" id="modal_body">
+
             </div>
         </div>
     </div>
@@ -86,6 +107,7 @@ AppAsset::register($this);
 <script src="/plugins/jquery-hashchange/jquery.hashchange.min.js"></script>
 <script src="/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/plugins/jquery-cookie/jquery.cookie.js"></script>
+<script src="/plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
 <!-- ================== END BASE JS ================== -->
 
 <!-- ================== BEGIN PAGE LEVEL JS ================== -->
@@ -99,8 +121,8 @@ AppAsset::register($this);
     $('body').tooltip({
         selector: '[data-toggle="tooltip"]'
     });
-    $(function() {
-        $('.imgmodel').on('click', function() {
+    $(function () {
+        $('.imgmodel').on('click', function () {
             $('.imagepreview').attr('src', $(this).find('img').attr('src'));
             $('#imagemodal').modal('show');
         });
@@ -109,32 +131,39 @@ AppAsset::register($this);
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
+        (w[c] = w[c] || []).push(function () {
             try {
                 w.yaCounter28677336 = new Ya.Metrika({
-                    id:28677336,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,
-                    webvisor:true,
-                    trackHash:true
+                    id: 28677336,
+                    clickmap: true,
+                    trackLinks: true,
+                    accurateTrackBounce: true,
+                    webvisor: true,
+                    trackHash: true
                 });
-            } catch(e) { }
+            } catch (e) {
+            }
         });
 
         var n = d.getElementsByTagName("script")[0],
             s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
+            f = function () {
+                n.parentNode.insertBefore(s, n);
+            };
         s.type = "text/javascript";
         s.async = true;
         s.src = "https://mc.yandex.ru/metrika/watch.js";
 
         if (w.opera == "[object Opera]") {
             d.addEventListener("DOMContentLoaded", f, false);
-        } else { f(); }
+        } else {
+            f();
+        }
     })(document, window, "yandex_metrika_callbacks");
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/28677336" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/28677336" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
 <!-- /Yandex.Metrika counter -->
 </body>
 </html>

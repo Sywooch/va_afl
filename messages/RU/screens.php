@@ -5,5 +5,7 @@ return [
     'Upload' => 'Загрузить',
     'Personal Feed' => 'Личная лента',
     'Upload Screen' => 'Загрузить скриншот',
-    'Top' => 'Лидеры'
+    'Top' => 'Лидеры',
+    'Screenshots top' => 'Топ скриншотов',
+    'Upload screenshot' => 'Загрузить скриншот',
 ];

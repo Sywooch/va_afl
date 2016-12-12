@@ -19,9 +19,9 @@ use dosamigos\ckeditor\CKEditor;
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
-                'label' => 'col-sm-2',
+                'label' => 'col-sm-3',
                 'offset' => 'col-sm-offset-4',
-                'wrapper' => 'col-sm-10',
+                'wrapper' => 'col-sm-9',
                 'error' => '',
                 'hint' => '',
             ],
@@ -35,7 +35,7 @@ use dosamigos\ckeditor\CKEditor;
     <div class="form-group">
         <?=
         Html::submitButton(
-            $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'),
+            $model->isNewRecord ? Yii::t('app', 'Upload') : Yii::t('app', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']
         ) ?>
     </div>

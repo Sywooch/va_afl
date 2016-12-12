@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Events'), 'url' => [
 $this->params['breadcrumbs'][] = $model->contentInfo->name;
 ?>
 
-<div class="col-md-12" style="padding-bottom: 10px;">
-    <div class="well row" style="min-height: 50px;">
-        <div class="col-md-12">
+<div class="col-md-12" style="padding-bottom: 10px">
+    <div class="well row" style="min-height: 50px">
+        <div class="col-md-12" style="z-index: 1200">
             <?php if (Yii::$app->user->can('events/edit')): ?>
                 <?=
                 Html::a(
