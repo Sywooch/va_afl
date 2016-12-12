@@ -3,9 +3,7 @@
 namespace app\models;
 
 use Yii;
-use yii\data\Pagination;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 use app\components\Levels;
 
@@ -328,9 +326,10 @@ class Content extends \yii\db\ActiveRecord
         Levels::addExp(2, $user);
         foreach (ContentComments::find()->where(['content_id' => $this->id])->groupBy('user_id')->all() as $record) {
             if ($user != $record->user_id) {
-                \app\models\Services\notifications\Content::comment($user, Content::findOne($this->id), $text,
+                \app\models\Services\notifications\Content::comment($user, $this, $text,
                     $record->user_id);
             }
         }
+        \app\models\Services\notifications\Content::commentPublic($user, $this, $text);
     }
 }

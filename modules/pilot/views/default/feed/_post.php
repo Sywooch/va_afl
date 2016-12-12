@@ -26,7 +26,7 @@
             <a target="_blank" href="<?= $model->contentLink ?>"><?= $model->name ?></a>
         </h4>
 
-        <p><?= $model->description ?></p>
+        <p><?= $model->text ?></p>
         <?php if ($model->img): ?>
             <p class="m-t-20">
                 <?php if ($model->category == 16): ?>

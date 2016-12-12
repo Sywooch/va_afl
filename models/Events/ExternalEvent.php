@@ -26,7 +26,7 @@ class ExternalEvent
     private $name;
     /**
      * Эвент
-     * @var app\models\Events
+     * @var app\models\Events\Events
      */
     private $event;
 
@@ -49,6 +49,7 @@ class ExternalEvent
             $event = $this->saveEvent($evt, $content);
 
             $this->event = $event;
+            $this->linkContent(Content::find($content), $event);
             //сохраняем условия эвента
             //$eventConditions =  $this->saveEventConditions($evt, $event);
             return true;
@@ -136,5 +137,14 @@ class ExternalEvent
         $this->name = $content->name_en;
 
         return $content->id;
+    }
+
+    /**
+     * @param $content \app\models\Content
+     * @param $event \app\models\Events\Events
+     */
+    private function linkContent($content, $event){
+        $content->site = '/events/'.$event->id;
+        $content->save();
     }
 } 
