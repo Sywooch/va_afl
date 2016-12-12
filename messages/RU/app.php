@@ -117,6 +117,6 @@ return [
     'Users on site in 24 hours' => 'Пользователей на сайте за 24 часа',
     'Users flew for 24 hours' => 'Пользователей было в воздухе за 24 часа',
     'Site' => 'Сайт',
-    'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих рейсов',
+    'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих свой рейс',
     'Registered users' => 'Зарегистрировано пользователей',
 ];
