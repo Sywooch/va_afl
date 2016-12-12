@@ -33,8 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="col-lg-3 panel">
     <div class="panel-body">
-        <?= Html::a('<i class="fa fa-picture-o"></i> ' . Yii::t('app', 'Upload screenshot'), '#',
+        <?= Html::a('<i class="fa fa-picture-o"></i> ' . Yii::t('screens', 'Upload screenshot'), '#',
             ['class' => 'btn btn-primary', 'onclick' => 'modalOpen();']) ?>
+
+        <?= Html::a('<i class="fa fa-picture-o"></i> ' . Yii::t('screens', 'Screenshots top'), '/screens/top',
+            ['class' => 'btn btn-default', 'target' => '_blank']) ?>
         <hr>
         <h4><?= Yii::t('app', 'Last news') ?></h4>
         <div class="hline"></div>
