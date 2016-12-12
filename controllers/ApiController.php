@@ -10,6 +10,7 @@ use app\models\Billing;
 use app\models\BillingPayments;
 use app\models\BillingUserBalance;
 use app\models\Fleet;
+use app\models\Schedule;
 use app\models\UserPilot;
 use app\models\Users;
 use Yii;
@@ -73,44 +74,87 @@ class ApiController extends Controller
         );
     }
 
-    public function actionBriefing($id){
+    public function actionBriefing($id)
+    {
         $fleet = \app\models\Fleet::find()->where(['regnum' => $id])->one();
-        if($fleet){
+        if ($fleet) {
             $id = $fleet->id;
             $brif = new \app\components\Briefing($id);
             echo json_encode($brif->getRemarks());
-        }else{
+        } else {
             echo json_encode("REG/{$id} OPR/AFLGROUP");
         }
     }
 
-    public function actionSlack($channel, $text, $link = ''){
-        $slack = new Slack('#'.$channel, $text);
+    public function actionSlack($channel, $text, $link = '')
+    {
+        $slack = new Slack('#' . $channel, $text);
 
-            if($link != ''){
+        if ($link != '') {
             $slack->addLink($link);
         }
 
         $slack->sent();
     }
 
-    public function actionId($id){
+    public function actionId($id)
+    {
         return (($fleet = Fleet::findOne(['regnum' => $id])) ? $fleet->id : '0');
     }
 
-    public function actionDomestic($from, $to){
-        if(($dep = Airports::findOne(['icao' => $from])) && ($arr = Airports::findOne(['icao' => $to]))){
-            if($dep->iso == 'RU' && $arr->iso == 'RU'){
+    public function actionDomestic($from, $to)
+    {
+        if (($dep = Airports::findOne(['icao' => $from])) && ($arr = Airports::findOne(['icao' => $to]))) {
+            if ($dep->iso == 'RU' && $arr->iso == 'RU') {
                 return 1;
-            }else{
+            } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function actionWhazzup(){
+    public function actionWhazzup()
+    {
         return Helper::getWhazzup();
+    }
+
+    public function actionFleet($icao)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Fleet::find()->with('airportInfo')->with('homeAirportInfo')->with('profileInfo')
+            ->with('actypes')->where([
+                'location' => $icao
+            ])->asArray()->all();
+
+    }
+
+    public function actionSchedulenext($dep, $arr)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Schedule::next($dep, $arr, 9999)->asArray()->all();
+    }
+
+    public function actionScheduleactive()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Schedule::find()->andFilterWhere([
+            'and',
+            'start <= \'' . gmdate('Y-m-d') . '\'',
+            'stop >= \'' . gmdate('Y-m-d') . '\''
+        ])->asArray()->all();
+    }
+
+    public function actionSchedulefuture()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Schedule::find()->where('start > \'' . gmdate('Y-m-d') . '\'')->asArray()->all();
+    }
+
+    public function actionScheduleinhour()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Schedule::inHour(true)->asArray()->all();
     }
 }

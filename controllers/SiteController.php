@@ -221,8 +221,4 @@ class SiteController extends Controller
             Log::action($_GET['user'], 'add', 'levels', 'achievement', Levels::exp($_GET['user']), $exp);
         }
     }
-
-    public function actionTest(){
-        Flights\CheckTour::notification(Flights::findOne(1002359), ToursUsers::findOne(1), 808);
-    }
 }
