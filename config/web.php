@@ -255,7 +255,7 @@ $config = [
             if (!Yii::$app->user->isGuest && !in_array($event->action->id, ['confirmtoken', 'confirmemail', 'toolbar', 'getservertime'])) {
                 \app\models\User::checkStatus();
                 $user = \app\models\Users::getAuthUser();
-                $user->last_visited = date('Y-m-d H:i:s');
+                $user->last_visited = gmdate('Y-m-d H:i:s');
                 $user->save();
             }
 
