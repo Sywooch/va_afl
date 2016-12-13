@@ -37,6 +37,11 @@ AppAsset::register($this);
             <script type="text/javascript" src="/newyear/newyear.js"></script>
             <link rel="stylesheet" href="/newyear/style.css">
             <script src="/newyear/ok4.js" type="text/javascript"></script>
+            <style>
+                .nav-tabs.nav-justified>li, .nav-tabs>li{
+                    z-index: 1200;
+                }
+            </style>
         <?php endif; ?>
     <?php endif; ?>
     <link id="theme">

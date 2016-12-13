@@ -71,12 +71,12 @@ class Users extends \yii\db\ActiveRecord
 
     public static function countOnline()
     {
-        return self::find()->where('last_visited > \''. gmdate('Y-d-m H:i:s', strtotime('-10 minute')).'\'')->count();
+        return self::find()->where('`last_visited` > \''. gmdate('Y-m-d H:i:s', strtotime('-10 minute')).'\'')->count();
     }
 
     public static function countDay()
     {
-        return self::find()->where('last_visited > \''. gmdate('Y-d-m H:i:s', strtotime('-1 day')).'\'')->count();
+        return self::find()->where('last_visited > \''. gmdate('Y-m-d H:i:s', strtotime('-1 day')).'\'')->count();
     }
 
 
