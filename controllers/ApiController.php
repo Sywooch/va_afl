@@ -157,4 +157,9 @@ class ApiController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return Schedule::inHour(true)->asArray()->all();
     }
+
+    public function actionAirport($icao){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Airports::icao($icao);
+    }
 }

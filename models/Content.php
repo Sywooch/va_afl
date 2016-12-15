@@ -177,7 +177,7 @@ class Content extends \yii\db\ActiveRecord
             'name_en' => Yii::t('app', 'Name') . ' ' . Yii::t('app', '(En.)'),
             'text_ru' => Yii::t('app', 'Text') . ' ' . Yii::t('app', '(Ru.)'),
             'text_en' => Yii::t('app', 'Text') . ' ' . Yii::t('app', '(En.)'),
-            'description_ru' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
+            'description_ru' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(Ru.)'),
             'description_en' => Yii::t('app', 'Description') . ' ' . Yii::t('app', '(En.)'),
             'img_file' => Yii::t('app', 'Image'),
             'icon' => Yii::t('app', 'Icon'),
