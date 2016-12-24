@@ -22,6 +22,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'alt')->textInput() ?>
 
+    <?= $form->field($model, 'content_news_id')->textInput() ?>
+
+    <?= $form->field($model, 'content_id')->textInput() ?>
+
+    <?= $form->field($model, 'focus')->dropDownList(['1' => 'On', '0' => 'Off']) ?>
+
     <?= $form->field($model, 'iata')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>

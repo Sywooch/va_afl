@@ -140,8 +140,14 @@ class AirportsController extends Controller
                 'icao' => $model->icao,
                 'name' => $model->name,
                 'latitude' => $model->lat,
-                'longitude' => $model->lon
+                'longitude' => $model->lon,
+                'content_news_id' => $model->content_news_id
             ]);
+    }
+
+    public function actionNews($id){
+        $model = $this->findModel($id);
+        return $this->renderAjax('news', ['model' => $model]);
     }
 
     /**

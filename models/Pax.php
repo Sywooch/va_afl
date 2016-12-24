@@ -147,7 +147,8 @@ class Pax extends \yii\db\ActiveRecord
                 'properties' => [
                     'name'=>$adata['name'],
                     'paxlist'=>$paxlist,
-                    'feeling'=>self::getFeeling($paxlist),
+                    'feeling' => (Airports::findOne(['icao' => $adata['name']])->focus == 1 ? 'white' : self::getFeeling($paxlist)),
+                    'focus' => Airports::findOne(['icao' => $adata['name']])->focus,
                     'bookthis'=>$adata['name']==$user->pilot->location?
                         '<em>'.Yii::t('booking','You are here').'</em>':
                         '<button onclick=\'smartbooking("'.$adata['name'].'");\'>'.Yii::t('booking','Book this').'</button>',

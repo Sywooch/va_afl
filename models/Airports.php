@@ -44,7 +44,7 @@ class Airports extends \yii\db\ActiveRecord
         return [
             [['lat', 'lon', 'icao', 'name'], 'required'],
             [['lat', 'lon'], 'number'],
-            [['alt'], 'integer'],
+            [['alt', 'content_news_id', 'content_id', 'focus'], 'integer'],
             [['icao'], 'string', 'max' => 4],
             [['name'], 'string', 'max' => 255],
             [['iata', 'FIR'], 'string', 'max' => 4],
@@ -123,6 +123,11 @@ class Airports extends \yii\db\ActiveRecord
     public function getCountry()
     {
         return $this->hasOne(Isocodes::className(), ['code' => 'iso']);
+    }
+
+    public function getContentNews()
+    {
+        return $this->hasOne(Content::className(), ['id' => 'content_news_id']);
     }
 
     public function getFlaglink()

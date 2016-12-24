@@ -9,23 +9,21 @@ var to_select = '';
 var to_airport = '';
 var infowindow;
 
-function closedrilldown()
-{
-    $('#drilldownwindow').css('display','none');
+function closedrilldown() {
+    $('#drilldownwindow').css('display', 'none');
 }
-function showDrillDownContent(to, from)
-{
-    var url='/pilot/schedule';
+function showDrillDownContent(to, from) {
+    var url = '/pilot/schedule';
     $.get(url, {to: to, from: from}, function (response) {
         $('#drilldownwindow').html(response).toggle();
     });
 }
 
-function showhidebookingform(){
+function showhidebookingform() {
     $('#booking-details').toggle();
 }
 
-function scheduleBook(callsign, aircraft, time, id){
+function scheduleBook(callsign, aircraft, time, id) {
     $('#booking-callsign').val(callsign);
     $('#booking-to_icao').append('<option value="' + to_airport.icao + '">' + to_airport.icao + ' - ' + to_airport.icao.name + '</option>').val(to_airport.icao).trigger('change');
     $('#booking-etd').val(time);
@@ -33,11 +31,10 @@ function scheduleBook(callsign, aircraft, time, id){
     infowindow.close();
 }
 
-function smartbooking(icao)
-{
-    $.get('/site/smartbooking',{icao:icao},function(response){
-        var obj=JSON.parse(response);
-        $('#booking-to_icao').append('<option value="'+icao+'">'+icao+' - '+obj.aname+'</option>').val(icao).trigger('change');
+function smartbooking(icao) {
+    $.get('/site/smartbooking', {icao: icao}, function (response) {
+        var obj = JSON.parse(response);
+        $('#booking-to_icao').append('<option value="' + icao + '">' + icao + ' - ' + obj.aname + '</option>').val(icao).trigger('change');
         $('#booking-callsign').val(obj.callsign);
         $('#booking-details').show();
     });
@@ -46,14 +43,17 @@ function smartbooking(icao)
 setTimeout(function () {
     initialize();
     map.data.loadGeoJson('/site/paxdata');
-    map.data.setStyle(function(feature) {
+    map.data.setStyle(function (feature) {
         var color = feature.getProperty('feeling');
-        var ftype={'red':2,'orange':1,'green':0};
+        var ftype = {'red': 2, 'orange': 1, 'green': 0};
         var scale = 0.3;
-        if(feature.getProperty('paxlist')[ftype[color]]>1000)
+        if (feature.getProperty('paxlist')[ftype[color]] > 1000)
             scale = 0.5;
-        if(feature.getProperty('paxlist')[ftype[color]]>10000)
+        if (feature.getProperty('paxlist')[ftype[color]] > 10000)
             scale = 0.7;
+        if (feature.getProperty('focus') == 1)
+            scale = 0.95;
+
         return {
             clickable: true,
             icon: {
@@ -64,7 +64,7 @@ setTimeout(function () {
                 strokeOpacity: 1,
                 fillColor: color,
                 fillOpacity: 0.6,
-                anchor: new google.maps.Point(30,-30)
+                anchor: new google.maps.Point(30, -30)
             }
         };
     });
@@ -85,15 +85,15 @@ setTimeout(function () {
     var to_line;
     var to_marker;
 
-    map.data.addListener('click', function(event) {
-        var paxlist=event.feature.getProperty('paxlist');
-        var aptname=event.feature.getProperty('name');
+    map.data.addListener('click', function (event) {
+        var paxlist = event.feature.getProperty('paxlist');
+        var aptname = event.feature.getProperty('name');
 
-        function content(){
-            return '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<h3 id="firstHeading" class="text-center firstHeading">'+to_airport.icao+'</h3>'+
+        function content() {
+            return '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h3 id="firstHeading" class="text-center firstHeading">' + to_airport.icao + '</h3>' +
                 '<h4 id="firstHeading" class="text-center firstHeading">' + to_airport.name + '</h4>' +
                 '<hr>' +
                 '<div id="bodyContent">' +
@@ -155,6 +155,11 @@ setTimeout(function () {
                 to_marker.setPosition(new google.maps.LatLng(res.latitude, res.longitude));
                 to_marker.setMap(map);
                 infowindow.setContent(content());
+                if (res.content_news_id > 0) {
+                    $("#siteNotice").load('/airline/airports/news/' + aptname);
+                }else{
+                    $("#siteNotice").empty();
+                }
             });
         }
 
@@ -216,22 +221,21 @@ setTimeout(function () {
     });
 
 
-
     $('.sidebar-minify-btn').remove();
-    $('#taxibtn').bind('click',function(){
+    $('#taxibtn').bind('click', function () {
         $('#taxiModal').modal('show');
-        $('#taxi_to').bind('change',function(e){
-            var reqTo=e.target.value;
-            $.post('/site/calctaxiprice',{to:reqTo},function(response){
+        $('#taxi_to').bind('change', function (e) {
+            var reqTo = e.target.value;
+            $.post('/site/calctaxiprice', {to: reqTo}, function (response) {
                 var res = JSON.parse(response);
                 var message = res.msg;
-                if(!res.valid){
-                    $('#letsfly').prop('disabled',true);
-                    message+=" <b>You don't have enough VUC's</b>";
+                if (!res.valid) {
+                    $('#letsfly').prop('disabled', true);
+                    message += " <b>You don't have enough VUC's</b>";
                 }
-                else{
-                    $('#letsfly').prop('disabled',false).bind('click',function(){
-                        $.post('/site/dotaxi',{to:reqTo},function(){
+                else {
+                    $('#letsfly').prop('disabled', false).bind('click', function () {
+                        $.post('/site/dotaxi', {to: reqTo}, function () {
                             location.reload();
                         });
                     });
@@ -241,7 +245,7 @@ setTimeout(function () {
         });
     });
 
-    $(document.body).on("change","#booking-to_icao",function(){
+    $(document.body).on("change", "#booking-to_icao", function () {
         $('#booking-schedule_id').val('');
     });
 }, 1000);
