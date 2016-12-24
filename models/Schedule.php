@@ -50,11 +50,25 @@ class Schedule extends \yii\db\ActiveRecord
     }
 
     /**
+     * Следующие рейсы до конца текущих суток и на следующие сутки
+     * @return $this
+     */
+    public static function nextAll()
+    {
+        return self::find()
+            ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
+            ->andFilterWhere(['or', 'dep_utc_time >= \'' . gmdate('H') . ':00:00\'', 'dep_utc_time >= \'00:00:00\''])
+            ->andFilterWhere(['and', 'start <= \'' . gmdate('Y-m-d') . '\'', 'stop >= \'' . gmdate('Y-m-d') . '\''])
+            ->orderBy('dep_utc_time asc')->all();
+    }
+
+
+    /**
      * Возможжно не генерит паксов из-за gmdate('H:i:s', strtotime('+1 hour')) с 00:00 до 01:00 (25 часов?)
      */
     public static function inHour($withoutAll = false)
     {
-       $data = self::find()
+        $data = self::find()
             ->andWhere('dep_utc_time > "' . gmdate('H:i:s') . '"')
             ->andWhere('dep_utc_time < "' . gmdate('H:i:s', strtotime('+1 hour')) . '"')
             ->andWhere('SUBSTRING(day_of_weeks,' . gmdate('N') . ',1) = 1')
@@ -71,7 +85,23 @@ class Schedule extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['flight', 'dep', 'arr', 'aircraft', 'dep_utc_time', 'arr_utc_time', 'dep_lmt_time', 'arr_lmt_time', 'eet', 'day_of_weeks', 'start', 'stop'], 'required'],
+            [
+                [
+                    'flight',
+                    'dep',
+                    'arr',
+                    'aircraft',
+                    'dep_utc_time',
+                    'arr_utc_time',
+                    'dep_lmt_time',
+                    'arr_lmt_time',
+                    'eet',
+                    'day_of_weeks',
+                    'start',
+                    'stop'
+                ],
+                'required'
+            ],
             [['dep_utc_time', 'arr_utc_time', 'dep_lmt_time', 'arr_lmt_time', 'eet', 'start', 'stop', 'added'], 'safe'],
             [['flight'], 'string', 'max' => 10],
             [['dep', 'arr', 'aircraft'], 'string', 'max' => 4],

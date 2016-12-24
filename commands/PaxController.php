@@ -22,7 +22,11 @@ class PaxController extends Controller
     public function actionIndex()
     {
         $this->hoursUp();
-        $this->generatePaxes();
+        //$this->generatePaxes();
+    }
+
+    public function actionByDay(){
+        $this->generatePaxes(Schedule::nextAll());
     }
 
     private function hoursUp()
@@ -45,9 +49,13 @@ class PaxController extends Controller
         }
     }
 
-    private function generatePaxes()
+    private function generatePaxes($schedule = false)
     {
-        foreach(Schedule::inHour() as $paxdata)
+        if($schedule == false){
+            $schedule = Schedule::inHour();
+        }
+
+        foreach($schedule as $paxdata)
         {
             if(Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('waiting_hours>=24')->one())
                 continue;
