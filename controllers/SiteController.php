@@ -94,7 +94,7 @@ class SiteController extends Controller
             ]);
             return $this->render('index', ['onlineProvider' => $onlineProvider]);
         } else {
-            $this->redirect('pilot/center');
+            $this->redirect('pilot/feed');
         }
     }
 

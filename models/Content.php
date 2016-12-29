@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\Events\Events;
 use Yii;
 use yii\web\NotFoundHttpException;
 
@@ -270,8 +271,14 @@ class Content extends \yii\db\ActiveRecord
 
     public function getContentLink()
     {
-        if ($this->site) {
+        if (!empty($this->site)) {
             return $this->site;
+        }
+
+        if($this->category == 7) {
+            if($event = Events::find()->where(['content_id' => $this->id])->orderBy('created desc')){
+                return '/events/'.$event->id;
+            }
         }
 
         if ($this->categoryInfo->news == 1) {

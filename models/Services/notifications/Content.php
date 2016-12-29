@@ -17,7 +17,7 @@ class Content
 {
     const TEMPLATE_LIKE = 601;
     const TEMPLATE_COMMENT = 668;
-    const COMMENTS_FEED = [Events::CONTENT_CATEGORY, 16];
+    const COMMENTS_FEED = [1, 2, 4, 5, 6, Events::CONTENT_CATEGORY, 16, 17];
     const FEED_CATEGORY = 51;
 
     /**

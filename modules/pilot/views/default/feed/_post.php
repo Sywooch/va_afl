@@ -1,12 +1,5 @@
 <?php $model->viewsPlus() ?>
-<div class="timeline-time">
-    <span class="date"><?= $model->createdDT->format('d F Y') ?></span>
-    <span class="time"><?= $model->createdDT->format('H:i') ?></span>
-</div>
-<div class="timeline-icon">
-    <a href="javascript:;"><i class="fa <?= $model->categoryInfo->icon ?>"></i></a>
-</div>
-<div class="timeline-body" style="margin-right: 0;">
+<div class="timeline-body" style="margin-right: 0;margin-left: 0;">
     <div class="timeline-header">
         <span class="userimage"><img src="<?= $model->authorUser->avatarLink ?>" alt=""/></span>
         <img title="<?= $model->authorUser->country ?>" style="display: inline;"
@@ -18,11 +11,11 @@
                 <i class="fa fa-star"
                    aria-hidden="true"></i> <?= $model->authorUser->pilot->level ?></span>
         </h3>
-        <span class="pull-right text-muted"><?= $model->views ?></span>
+        <span class="pull-right text-muted"><?= $model->createdDT->format('d F Y H:i') ?> </span>
     </div>
     <div class="timeline-content">
         <h4 class="template-title">
-            <i class="<?= $model->icon ? $model->icon : 'fa fa-map-marker text-danger fa-fw' ?>"></i>
+            <i class="<?= ($model->icon ? $model->icon : ($model->categoryInfo->icon ? 'fa ' . $model->categoryInfo->icon : 'fa fa-map-marker text-danger fa-fw')) ?>"></i>
             <a target="_blank" href="<?= $model->contentLink ?>"><?= $model->name ?></a>
         </h4>
 

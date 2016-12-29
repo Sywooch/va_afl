@@ -132,6 +132,11 @@ AppAsset::register($this);
             $('#imagemodal').modal('show');
         });
     });
+    function screenModal() {
+        $("#modal_body").load("/screens/create");
+        $('#modal').modal('show');
+        $('$model_title').text('<?= Yii::t('app', 'Upload screenshot') ?>');
+    };
 </script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

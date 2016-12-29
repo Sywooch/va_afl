@@ -32,14 +32,14 @@ use app\models\Users;
             [
                 'items' => [
                     [
-                        'name' => Yii::t('app', 'Pilot Center'),
-                        'url' => \yii\helpers\Url::to('/pilot/center'),
-                        'icon' => 'fa-globe'
-                    ],
-                    [
                         'name' => Yii::t('app', 'Feed'),
                         'url' => \yii\helpers\Url::to('/pilot/feed'),
                         'icon' => 'fa-rss'
+                    ],
+                    [
+                        'name' => Yii::t('app', 'Pilot Center'). ' <span class="label label-success m-l-5">Old</span>',
+                        'url' => \yii\helpers\Url::to('/pilot/center'),
+                        'icon' => 'fa-globe'
                     ],
                     [
                         'name' => Yii::t('app', 'Booking'),
@@ -119,6 +119,12 @@ use app\models\Users;
                         'name' => Yii::t('app', 'Events'),
                         'url' => \yii\helpers\Url::to('/events'),
                         'icon' => 'fa-calendar'
+                    ],
+                    [
+                        'name' => Yii::t('screens', 'Upload screenshot'). ' <span class="label label-warning m-l-5">UpСкриншоты: вернуть кнопку в меню.</span>',
+                        'url' => '#',
+                        'icon' => 'fa-picture-o',
+                        'linkOptions' => ['onclick' => 'screenModal();']
                     ],
                     [
                         'name' => 'WebEye',
