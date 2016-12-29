@@ -17,7 +17,7 @@ use yii\helpers\Url;
 use app\models\Content;
 use app\models\ContentCategories;
 
-$this->title = $model->name.' ('.$model->createdDT->format('d.m.Y').' )';
+$this->title = $model->name . ' (' . $model->createdDT->format('d.m.Y') . ' )';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'News'), 'url' => ['/news']];
 $this->params['breadcrumbs'][] = [
     'label' => $model->categoryInfo->name,
@@ -64,6 +64,33 @@ $this->params['breadcrumbs'][] = $this->title;
                         disabled><?= $model->likesCount ?></button>
                 <hr>
                 <legend>
+                    <h3><?= Yii::t('app', 'Likes') ?> </h3>
+                </legend>
+                <div class="panel-body" data-scrollbar="true" data-height="350px">
+                    <div>
+                        <ul class="chats">
+                            <?php foreach ($model->likes as $like): ?>
+                                <li class="left"><span class="userimage"><img
+                                            src="<?= $like->user->avatarLink ?>" alt=""/></span>
+                                    <img title="<?= $like->user->country ?>" style="display: inline;"
+                                         src="<?= $like->user->flaglink ?>">
+                                    <span class="username"><a target="_blank"
+                                                              href="/pilot/profile/<?= $like->user->vid ?>">
+                                <?= $like->user->full_name ?>
+                                </a></span>
+                                    <h4 style="padding-left: 7px; display: inline"><span
+                                            class="label label-warning">
+                <i class="fa fa-star"
+                   aria-hidden="true"></i> <?= $like->user->pilot->level ?></span>
+                                    </h4>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr>
+                <legend>
                     <h3><?= Yii::t('app', 'Comments') ?></h3>
                 </legend>
                 <?php if (empty($model->forum)) : ?>
@@ -74,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="input-group">
                             <input type="text" class="form-control input-sm" name="message" id="message"
                                    placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
-                    <span class="input-group-btn">
+                            <span class="input-group-btn">
                         <button onclick="content_comment(<?= $model->id ?>)" class="btn btn-primary btn-sm"
                                 type="button"><?= Yii::t('app', 'Send') ?></button>
                     </span>
@@ -85,8 +112,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             $("#comments").load("/content/comments/<?= $model->id ?>");
                         }, 400);
                     </script>
-                    <hr>
-                    <?php else: ?>
+                <hr>
+                <?php else: ?>
                     <div class="note note-info">
                         <h4><a target="_blank" href="<?= $model->forum ?>"><i class="fa fa-comments"></i> <?=
                                 Yii::t(

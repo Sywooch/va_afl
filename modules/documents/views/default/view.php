@@ -64,6 +64,32 @@ $this->params['breadcrumbs'][] = $this->title;
                         disabled><?= $model->likesCount ?></button>
                 <hr>
                 <legend>
+                    <h3><?= Yii::t('app', 'Likes') ?> </h3>
+                </legend>
+                <div class="panel-body" data-scrollbar="true" data-height="350px">
+                    <div>
+                        <ul class="chats">
+                            <?php foreach ($model->contentInfo->likes as $like): ?>
+                                <li class="left"><span class="userimage"><img
+                                            src="<?= $like->user->avatarLink ?>" alt=""/></span>
+                                    <img title="<?= $like->user->country ?>" style="display: inline;"
+                                         src="<?= $like->user->flaglink ?>">
+                                    <span class="username"><a target="_blank"
+                                                              href="/pilot/profile/<?= $like->user->vid ?>">
+                                <?= $like->user->full_name ?>
+                                </a></span>
+                                    <h4 style="padding-left: 7px; display: inline"><span
+                                            class="label label-warning">
+                <i class="fa fa-star"
+                   aria-hidden="true"></i> <?= $like->user->pilot->level ?></span>
+                                    </h4>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <legend>
                     <h3><?= Yii::t('app', 'Comments') ?></h3>
                 </legend>
                 <?php if (empty($model->forum)) : ?>

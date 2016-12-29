@@ -38,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="stats-number">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a href="/pilot/booking" style="color: white;"><?= Yii::t('app', 'Go to booking') ?></a>
+                                        <a href="/pilot/booking" style="color: white;"><?= Yii::t('app',
+                                                'Go to booking') ?></a>
                                     </div>
                                     <div class="col-md-8">
                                         <?=
@@ -50,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $tour->tourUser->nextLeg->depAirport->icao,
                                             [
                                                 'title' => Html::encode(
-                                                        "{$tour->tourUser->nextLeg->depAirport->name} ({$tour->tourUser->nextLeg->depAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
-                                                    ),
+                                                    "{$tour->tourUser->nextLeg->depAirport->name} ({$tour->tourUser->nextLeg->depAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
+                                                ),
                                                 'data-toggle' => 'tooltip1',
                                                 'style' => 'cursor:pointer;'
                                             ]
@@ -65,12 +66,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                             $tour->tourUser->nextLeg->arrAirport->icao,
                                             [
                                                 'title' => Html::encode(
-                                                        "{$tour->tourUser->nextLeg->arrAirport->name} ({$tour->tourUser->nextLeg->arrAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
-                                                    ),
+                                                    "{$tour->tourUser->nextLeg->arrAirport->name} ({$tour->tourUser->nextLeg->arrAirport->city}, {$tour->tourUser->nextLeg->arrAirport->iso})"
+                                                ),
                                                 'data-toggle' => 'tooltip1',
                                                 'style' => 'cursor:pointer;'
                                             ]
-                                        );?>
+                                        ); ?>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 ]
                                             ]
                                         ]
-                                    )->count()  ?></span>
+                                    )->count() ?></span>
                             <?= Yii::t('app', 'In progress') ?>
                         </li>
                         <li class="list-group-item">
@@ -152,84 +153,84 @@ $this->params['breadcrumbs'][] = $this->title;
         GridView::widget(
             [
                 'dataProvider' => new \yii\data\ActiveDataProvider([
-                        'query' => $tour->getToursLegs()->orderBy(
-                                'leg_id asc'
-                            ),
-                        'pagination' => [
-                            'pageSize' => 100,
-                        ],
-                    ]),
+                    'query' => $tour->getToursLegs()->orderBy(
+                        'leg_id asc'
+                    ),
+                    'pagination' => [
+                        'pageSize' => 100,
+                    ],
+                ]),
                 'layout' => '{items}',
                 'tableOptions' => ['class' => 'table table-bordered table-condensed'],
                 'rowOptions' => function ($model) {
-                        if (\app\modules\tours\controllers\DefaultController::$tour->tourUser) {
-                            if ($model->leg_id <= \app\modules\tours\controllers\DefaultController::$tour->tourUser->legs_finished) {
-                                return ['class' => 'success'];
-                            } elseif ($model->leg_id - 1 == \app\modules\tours\controllers\DefaultController::$tour->tourUser->legs_finished) {
-                                return ['class' => 'warning'];
-                            }
+                    if (\app\modules\tours\controllers\DefaultController::$tour->tourUser) {
+                        if ($model->leg_id <= \app\modules\tours\controllers\DefaultController::$tour->tourUser->legs_finished) {
+                            return ['class' => 'success'];
+                        } elseif ($model->leg_id - 1 == \app\modules\tours\controllers\DefaultController::$tour->tourUser->legs_finished) {
+                            return ['class' => 'warning'];
                         }
+                    }
 
-                        return ['class' => ''];
+                    return ['class' => ''];
 
-                    },
+                },
                 'columns' => [
                     [
                         'attribute' => 'from_to',
                         'label' => '#',
                         'format' => 'raw',
                         'value' => function ($data) {
-                                return $data->leg_id;
-                            }
+                            return $data->leg_id;
+                        }
                     ],
                     [
                         'attribute' => 'Departure',
                         'label' => Yii::t('flights', 'Departure'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                                return Html::a(
-                                    Html::img(Helper::getFlagLink($data->depAirport->iso)) . ' ' .
-                                    Html::encode($data->depAirport->fullname),
-                                    Url::to(
-                                        [
-                                            '/airline/airports/view/',
-                                            'id' => $data->from
-                                        ]
-                                    )
-                                );
-                            }
+                            return Html::a(
+                                Html::img(Helper::getFlagLink($data->depAirport->iso)) . ' ' .
+                                Html::encode($data->depAirport->fullname),
+                                Url::to(
+                                    [
+                                        '/airline/airports/view/',
+                                        'id' => $data->from
+                                    ]
+                                )
+                            );
+                        }
                     ],
                     [
                         'attribute' => 'Arrival',
                         'label' => Yii::t('flights', 'Arrival'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                                return Html::a(
-                                    Html::img(Helper::getFlagLink($data->arrAirport->iso)) . ' ' .
-                                    Html::encode($data->arrAirport->fullname),
-                                    Url::to(
-                                        [
-                                            '/airline/airports/view/',
-                                            'id' => $data->to
-                                        ]
-                                    )
-                                );
-                            }
+                            return Html::a(
+                                Html::img(Helper::getFlagLink($data->arrAirport->iso)) . ' ' .
+                                Html::encode($data->arrAirport->fullname),
+                                Url::to(
+                                    [
+                                        '/airline/airports/view/',
+                                        'id' => $data->to
+                                    ]
+                                )
+                            );
+                        }
                     ],
                     [
                         'attribute' => 'Distance',
                         'label' => Yii::t('flights', 'Distance'),
                         'format' => 'raw',
                         'value' => function ($data) {
-                                return round(
-                                    Helper::calculateDistanceLatLng(
-                                        $data->depAirport->lat,
-                                        $data->arrAirport->lat,
-                                        $data->depAirport->lon,
-                                        $data->arrAirport->lon
-                                    )
-                                ) . ' nM.';
-                            }
+                            return round(
+                                Helper::calculateDistanceLatLng(
+                                    $data->depAirport->lat,
+                                    $data->arrAirport->lat,
+                                    $data->depAirport->lon,
+                                    $data->arrAirport->lon
+                                )
+                            ) . ' nM.';
+                        }
                     ],
                 ],
             ]
@@ -247,52 +248,52 @@ $this->params['breadcrumbs'][] = $this->title;
             GridView::widget(
                 [
                     'dataProvider' => new \yii\data\ActiveDataProvider([
-                            'query' => $tour->getToursUsers()->where(
-                                    'status > ' . \app\models\Tours\ToursUsers::STATUS_UNASSIGNED
-                                )->orderBy(
-                                        'id asc'
-                                    ),
-                            'pagination' => [
-                                'pageSize' => 20,
-                            ],
-                        ]),
+                        'query' => $tour->getToursUsers()->where(
+                            'status > ' . \app\models\Tours\ToursUsers::STATUS_UNASSIGNED
+                        )->orderBy(
+                            'id asc'
+                        ),
+                        'pagination' => [
+                            'pageSize' => 20,
+                        ],
+                    ]),
                     'columns' => [
                         [
                             'attribute' => 'Name',
                             'format' => 'raw',
                             'value' => function ($data) {
-                                    return "<img src='" . \app\components\Helper::getFlagLink(
-                                        $data->user->country
-                                    ) . "'> " . Html::a(
-                                        Html::encode($data->user->full_name),
-                                        Url::to(
-                                            [
-                                                '/pilot/profile/',
-                                                'id' => $data->user->vid
-                                            ]
-                                        )
-                                    );
-                                }
+                                return "<img src='" . \app\components\Helper::getFlagLink(
+                                    $data->user->country
+                                ) . "'> " . Html::a(
+                                    Html::encode($data->user->full_name),
+                                    Url::to(
+                                        [
+                                            '/pilot/profile/',
+                                            'id' => $data->user->vid
+                                        ]
+                                    )
+                                );
+                            }
                         ],
                         [
                             'attribute' => 'status',
                             'label' => Yii::t('app', 'Status'),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                    switch ($data->status) {
-                                        case 0:
-                                            return '<i class="fa fa-eye"></i> ' . Yii::t('app', 'Assigned');
-                                            break;
-                                        case 1:
-                                            return '<i class="fa fa-paper-plane"></i> ' . Yii::t('app', 'Active');
-                                            break;
-                                        case 2:
-                                            return '<i class="fa fa-thumbs-up"></i> ' . Yii::t('app', 'Completed');
-                                            break;
-                                        default:
-                                            return '<i class="fa fa-lock"></i> ' . Yii::t('app', 'No info');
-                                    }
-                                },
+                                switch ($data->status) {
+                                    case 0:
+                                        return '<i class="fa fa-eye"></i> ' . Yii::t('app', 'Assigned');
+                                        break;
+                                    case 1:
+                                        return '<i class="fa fa-paper-plane"></i> ' . Yii::t('app', 'Active');
+                                        break;
+                                    case 2:
+                                        return '<i class="fa fa-thumbs-up"></i> ' . Yii::t('app', 'Completed');
+                                        break;
+                                    default:
+                                        return '<i class="fa fa-lock"></i> ' . Yii::t('app', 'No info');
+                                }
+                            },
                         ],
                         'legs_finished',
                     ],
@@ -301,17 +302,56 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::end() ?>
         </div>
     </div>
-    <script>
-        function assign(act) {
-            $.post('/tours/assign', {act: act, tour_id:<?=$tour->id ?>}, function (response) {
-                location.reload();
-            });
-        }
-        setTimeout(function () {
-            $('span[data-toggle="tooltip1"]').tooltip({
-                animated: 'fade',
-                placement: 'top',
-                container: 'body'
-            });
-        }, 400);
-    </script>
+</div>
+<div class="panel panel-inverse">
+    <div class="panel-heading">
+        <h4 class="panel-title"><?= Yii::t('app', 'Comments') ?></h4>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-12">
+            <?php if (empty($tour->content->forum)) : ?>
+                <div id="comments" style="min-height: 100px">
+
+                </div>
+                <div style="padding-top: 10px">
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" name="message" id="message"
+                               placeholder="<?= Yii::t('app', 'Enter your message here') ?>.">
+                        <span class="input-group-btn">
+                        <button onclick="content_comment(<?= $tour->content->id ?>)" class="btn btn-primary btn-sm"
+                                type="button"><?= Yii::t('app', 'Send') ?></button>
+                    </span>
+                    </div>
+                </div>
+                <script>
+                    setTimeout(function () {
+                        $("#comments").load("/content/comments/<?= $tour->content->id ?>");
+                    }, 400);
+                </script>
+            <hr>
+            <?php else: ?>
+                <div class="note note-info">
+                    <h4><a target="_blank" href="<?= $tour->content->forum ?>"><i class="fa fa-comments"></i> <?=
+                            Yii::t(
+                                'app',
+                                'Discuss in forum'
+                            ) ?></a></h4>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<script>
+    function assign(act) {
+        $.post('/tours/assign', {act: act, tour_id:<?=$tour->id ?>}, function (response) {
+            location.reload();
+        });
+    }
+    setTimeout(function () {
+        $('span[data-toggle="tooltip1"]').tooltip({
+            animated: 'fade',
+            placement: 'top',
+            container: 'body'
+        });
+    }, 400);
+</script>
