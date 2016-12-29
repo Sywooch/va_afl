@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-body" data-scrollbar="true" data-height="350px">
                     <div>
                         <ul class="chats">
-                            <?php foreach ($model->contentInfo->likes as $like): ?>
+                            <?php foreach ($model->likes as $like): ?>
                                 <li class="left"><span class="userimage"><img
                                             src="<?= $like->user->avatarLink ?>" alt=""/></span>
                                     <img title="<?= $like->user->country ?>" style="display: inline;"

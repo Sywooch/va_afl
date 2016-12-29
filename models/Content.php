@@ -276,7 +276,7 @@ class Content extends \yii\db\ActiveRecord
         }
 
         if($this->category == 7) {
-            if($event = Events::find()->where(['content_id' => $this->id])->orderBy('created desc')){
+            if($event = Events::find()->where(['id' => $this->id])->orderBy('created desc')->one()){
                 return '/events/'.$event->id;
             }
         }

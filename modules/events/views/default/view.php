@@ -102,6 +102,12 @@ $this->params['breadcrumbs'][] = $model->contentInfo->name;
                 <?= Yii::t('app', 'Created') ?>: <?= (new \DateTime($model->contentInfo->created))->format('d.m.Y') ?>
             </p>
             <hr>
+            <a href="javascript:content_like(<?= $model->contentInfo->id ?>);" id="btn_like_<?= $model->contentInfo->id ?>"
+               class="m-r-15 btn btn-default<?= $model->contentInfo->like ? ' disabled btn-success' : '' ?>"><i
+                    class="fa fa-thumbs-up fa-fw"></i> Like</a>
+            <button class="btn btn-default" id="btn_like_<?= $model->contentInfo->id ?>_num"
+                    disabled><?= $model->contentInfo->likesCount ?></button>
+            <hr>
             <legend>
                 <h3><?= Yii::t('app', 'Likes') ?> </h3>
             </legend>
