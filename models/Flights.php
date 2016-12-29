@@ -58,7 +58,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public static function countDay()
     {
-        return self::find()->where('first_seen > \'' . gmdate('Y-d-m H:i:s',
+        return self::find()->where('first_seen > \'' . gmdate('Y-m-d H:i:s',
                 strtotime('-1 day')) . '\'')->groupBy('user_id')->count();
     }
 
