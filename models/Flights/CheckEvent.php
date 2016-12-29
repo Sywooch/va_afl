@@ -9,6 +9,7 @@
 namespace app\models\Flights;
 
 use app\components\Levels;
+use app\models\BillingUserBalance;
 use Yii;
 
 use app\components\Slack;
@@ -33,9 +34,18 @@ class CheckEvent
             foreach ($member as $_flight) {
                 if ($_flight->status == EventsMembers::STATUS_ACTIVE_FLIGHT) {
                     $_flight->status = EventsMembers::STATUS_FINISHED_FLIGHT;
-                }
+                    try {
+                        Levels::addExp($_flight->exp, $flight->user_id);
+                        BillingUserBalance::addMoney($flight->user_id, $flight->id, $_flight->vucs, 58);
+                    } catch (\Exception $ex) {
+                        $slack = new Slack('#dev_reports', "{$flight->callsign};" . var_export(
+                                $ex,
+                                true
+                            ) . " http://va-afl.su/airline/flights/view/{$flight->id}");
+                        $slack->sent();
+                    }
 
-                Levels::addExp(1000, $flight->user_id);
+                }
 
                 $_flight->save();
             }

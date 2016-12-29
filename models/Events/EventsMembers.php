@@ -88,6 +88,14 @@ class EventsMembers extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getExp(){
+        return $this->event->type * ($this->event->center ? 5 : 1) * 29;
+    }
+
+    public function getVucs(){
+        return $this->event->type * ($this->event->center ? 5 : 1) * 22;
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
