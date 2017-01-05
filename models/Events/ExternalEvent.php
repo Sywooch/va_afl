@@ -49,7 +49,7 @@ class ExternalEvent
             $event = $this->saveEvent($evt, $content);
 
             $this->event = $event;
-            $this->linkContent(Content::find($content), $event);
+            $this->linkContent(Content::findOne(['id' => $content]), $event);
             //сохраняем условия эвента
             //$eventConditions =  $this->saveEventConditions($evt, $event);
             return true;
