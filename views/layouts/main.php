@@ -3,10 +3,12 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 use app\models\Users;
+use app\models\Flights;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -29,20 +31,18 @@ AppAsset::register($this);
     <link href="/css/style-responsive.min.css" rel="stylesheet"/>
     <link href="/css/theme/default.css" rel="stylesheet"/>
     <link href="/css/custom.css" rel="stylesheet"/>
-    <?php if (!Yii::$app->user->isGuest): ?>
-        <?php
-        $user = Users::getAuthUser();
-        if ($user->pilot->interface_newyear): ?>
-            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-            <script type="text/javascript" src="/newyear/newyear.js"></script>
-            <link rel="stylesheet" href="/newyear/style.css">
-            <script src="/newyear/ok4.js" type="text/javascript"></script>
-            <style>
-                .nav-tabs.nav-justified>li, .nav-tabs>li{
-                    z-index: 1200;
-                }
-            </style>
-        <?php endif; ?>
+    <?php
+    $user = Users::getAuthUser();
+    if ($user->pilot->interface_newyear): ?>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/newyear/newyear.js"></script>
+        <link rel="stylesheet" href="/newyear/style.css">
+        <script src="/newyear/ok4.js" type="text/javascript"></script>
+        <style>
+            .nav-tabs.nav-justified>li, .nav-tabs>li{
+                z-index: 1200;
+            }
+        </style>
     <?php endif; ?>
     <link id="theme">
     <!-- ================== END BASE CSS STYLE ================== -->
@@ -91,6 +91,7 @@ AppAsset::register($this);
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h3 id="model_title"></h3>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" id="modal_title"></h4>
             </div>
@@ -135,8 +136,13 @@ AppAsset::register($this);
     function screenModal() {
         $("#modal_body").load("/screens/create");
         $('#modal').modal('show');
-        $('$model_title').text('<?= Yii::t('app', 'Upload screenshot') ?>');
+        $('#model_title').text('<?= Yii::t('app', 'Upload screenshot') ?>');
     };
+    <?php if($id = Flights::checkNeedToEnd($user->vid)): ?>
+    $("#modal_body").load("/airline/flights/end/<?= $id ?>");
+    $('#modal').modal('show');
+    $('#model_title').text('<?= Yii::t('app', 'Finish your flight!') ?>');
+    <?php endif ?>
 </script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">

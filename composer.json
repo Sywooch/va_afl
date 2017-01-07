@@ -29,7 +29,8 @@
         "lajax/yii2-translate-manager": "1.*",
         "nfedoseev/yii2-external-target" : "*",
         "yiisoft/yii2-httpclient" : "^2.0",
-        "kartik-v/yii2-widget-timepicker": "*"
+        "kartik-v/yii2-widget-timepicker": "*",
+        "kartik-v/yii2-widget-rating": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

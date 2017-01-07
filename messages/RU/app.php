@@ -119,4 +119,9 @@ return [
     'Site' => 'Сайт',
     'Number of passengers waiting for flights' => 'Количество пассажиров ожидающих свой рейс',
     'Registered users' => 'Зарегистрировано пользователей',
+    'Thanks for feedback. Have a good day.' => 'Спасибо за отзыв. Хорошего дня',
+    'Finish your flight!' => 'Заверши свой полёт!',
+    'Quality of ATC service in flight (mark "Not rated", if there were no)' =>
+        'Качество диспетчерского обслуживания в полёте (отметьте Кирпич, если диспетчеров не было)',
+    'Comments of ATC service (optional)' => 'Комментарии по диспетчерскому обслуживанию (не обязательно)',
 ];

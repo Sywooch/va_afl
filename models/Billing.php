@@ -86,17 +86,8 @@ class Billing extends \yii\db\ActiveRecord
         $results = 0;
         foreach(self::find()->andWhere('id > 25')->all() as $bi)
         {
-            /*
-             * Я не знаю что это и как это работает, а главное зачем.
-             * Но эти вещи позволяют получить стоимость полёта
-             * Вроде, это всё должно записываться,
-             * но из-за `$bc->direction='outbound'` оно не запишется(правила валидации).
-             *
-             * Пока пусть работает.
-             * N.
-             */
             $bc = new BillingPayments();
-            $bc->direction='outbound';
+            $bc->direction = 2;
             $bc->user_id=$flight->user_id;
             $bc->flight_id=$flight->user_id;
             $bc->bill_cost_id = $bi->id;

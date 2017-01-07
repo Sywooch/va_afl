@@ -3,18 +3,16 @@ namespace app\commands;
 
 use app\components\Helper;
 use app\components\IvaoWx;
-use app\components\Levels;
 use app\components\Slack;
 use app\models\Airports;
-use app\models\Billing;
 use app\models\Booking;
 use app\models\Fleet;
 use app\models\Flights;
+use app\models\Flights\actions\End;
 use app\models\Flights\Status;
 use app\models\Pax;
 use app\models\Tracker;
 use app\models\Users;
-use yii\base\Exception;
 use yii\console\Controller;
 
 /**
@@ -81,7 +79,7 @@ class ParseController extends Controller
      * Отправлять или не отправлять, вот в чём вопрос.
      * @var bool
      */
-    private $slackFeed = false;
+    public static $slackFeed = false;
 
     /**
      * Главная функция, запускает остальные функции
@@ -205,7 +203,7 @@ class ParseController extends Controller
         foreach (Flights::find()->andWhere(['status' => Flights::FLIGHT_STATUS_STARTED])->all() as $flight) {
             try {
                 if (empty($this->onlinepilotslist) || !in_array($flight->user_id, $this->onlinepilotslist)) {
-                    $this->endFlight($flight);
+                    End::make($flight);
                 } else {
                     $this->updateFlightInformation($flight);
                 }
@@ -217,77 +215,6 @@ class ParseController extends Controller
                 $slack->sent();
             }
         }
-    }
-
-    /**
-     * Завершает полет, удаляет букинг. Если полет невалидирован и прошло больше положенного времени- удаляет полет.
-     * @param $flight
-     */
-    private function endFlight($flight)
-    {
-        $booking = Booking::find()->andWhere(['id' => $flight->id])->one();
-
-        if ($flight->landing) {
-            $flight->finished = gmdate('Y-m-d H:i:s');
-            $flight->status = Flights::FLIGHT_STATUS_OK;
-            $booking->status = Booking::BOOKING_FLIGHT_END;
-            $flight->flight_time = intval((strtotime($flight->landing_time) - strtotime($flight->dep_time)) / 60);
-            if($flight->flight_time < 0){
-                $flight->flight_time = intval((strtotime($flight->last_seen) - strtotime($flight->dep_time)) / 60);
-            }
-
-            $this->transferPilot($flight, $flight->landing);
-
-            if ($booking->fleet_regnum) {
-                $this->transferCraft($flight, $flight->landing);
-                Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
-                Fleet::checkSrv($booking->fleet_regnum, $flight->landing);
-            }
-
-            //Биллинг
-            $flight->vucs = Billing::calculatePriceForFlight(
-                $flight->from_icao,
-                $flight->landing,
-                unserialize($flight->paxtypes)
-            );
-            Billing::doFlightCosts($flight);
-
-            //Уровни
-            Levels::flight($flight->user_id, $flight->nm);
-        } else {
-            if ((gmmktime() - strtotime($flight->last_seen)) > self::HOLD_TIME) {
-                if (empty($flight->landing_time)) {
-                    $flight->landing_time = $flight->last_seen;
-                }
-                $flight->status = Flights::FLIGHT_STATUS_BREAK;
-                $booking->status = Booking::BOOKING_FLIGHT_END;
-
-                //Разблокировка борта
-                if ($booking->fleet_regnum) {
-                    Fleet::changeStatus($booking->fleet_regnum, Fleet::STATUS_AVAIL);
-                }
-
-                if ($this->slackFeed) {
-                    $slack = new Slack('#dev_reports', "http://va-afl.su/airline/flights/view/{$flight->id} failed.");
-                    $slack->sent();
-                }
-            }
-        }
-
-        $booking->save();
-        $flight->save();
-
-        Status::get($booking, $flight->landing);
-    }
-
-    private function transferPilot($flight, $landing)
-    {
-        Users::transfer($flight->user_id, $landing);
-    }
-
-    private function transferCraft($flight, $landing)
-    {
-        Fleet::transfer($flight->fleet_regnum, $landing);
     }
 
     /**
