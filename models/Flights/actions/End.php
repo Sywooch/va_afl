@@ -36,7 +36,7 @@ class End
                 Transfer::transferPilot($flight->user_id, $flight->landing);
 
                 if ($flight->booking->fleet_regnum) {
-                    Transfer::transferCraft($flight->fleet_regnum, $flight->landing);
+                    Transfer::transferCraft($flight->fleet_regnum, $flight->landing, $flight->user_id);
                     Fleet::changeStatus($flight->booking->fleet_regnum, Fleet::STATUS_AVAIL);
                     Fleet::checkSrv($flight->booking->fleet_regnum, $flight->landing);
                 }

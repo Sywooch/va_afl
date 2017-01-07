@@ -19,8 +19,8 @@ class Transfer
         Users::transfer($user_id, $landing);
     }
 
-    public static function transferCraft($fleet_regnum, $landing)
+    public static function transferCraft($fleet_regnum, $landing, $user_id = 0)
     {
-        Fleet::transfer($fleet_regnum, $landing);
+        Fleet::transfer($fleet_regnum, $landing, $user_id);
     }
 }

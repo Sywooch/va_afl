@@ -132,20 +132,21 @@ class Fleet extends \yii\db\ActiveRecord
         }
     }
 
-    public static function transfer($regnum, $location)
+    public static function transfer($regnum, $location, $user_id = 0)
     {
         if (!$regnum) {
             return;
         }
         $fleet = self::find()->andWhere(['id' => $regnum])->one();
         $fleet->location = $location;
+        $fleet->user_id = ($fleet->location == $fleet->home_airport ? 0 : $user_id);
         $fleet->save();
     }
 
     public static function getForBooking($q)
     {
         $out = [];
-        $d = Fleet::find()->where(['status' => 0])->andWhere(['location' => Users::getAuthUser()->pilot->location]);
+        $d = Fleet::find()->where(['status' => 0])->andFilterWhere(['or', ['user_id' => 0], ['user_id' => Yii::$app->user->identity->vid]])->andWhere(['location' => Users::getAuthUser()->pilot->location]);
         if ($q) {
             $d->andFilterWhere(
                 [
@@ -229,6 +230,10 @@ class Fleet extends \yii\db\ActiveRecord
 
     public function getName(){
         return $this->regnum.' ('.$this->type_code.')';
+    }
+
+    public function getUser(){
+        return $this->hasOne('app\models\Users', ['vid' => 'user_id']);
     }
 
     /**
