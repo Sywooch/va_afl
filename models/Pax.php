@@ -12,6 +12,8 @@ use Yii;
  * @property string $to_icao
  * @property integer $waiting_hours
  * @property integer $num_pax
+ * @property string $created
+ * @property string $updated
  */
 class Pax extends \yii\db\ActiveRecord
 {
@@ -30,7 +32,8 @@ class Pax extends \yii\db\ActiveRecord
     {
         return [
             [['waiting_hours', 'num_pax'], 'integer'],
-            [['from_icao', 'to_icao'], 'string', 'max' => 4]
+            [['from_icao', 'to_icao'], 'string', 'max' => 4],
+            [['created', 'updated'], 'safe'],
         ];
     }
 

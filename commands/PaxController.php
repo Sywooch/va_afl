@@ -34,6 +34,7 @@ class PaxController extends Controller
         foreach (Pax::find()->all() as $pax)
         {
             $pax->waiting_hours+=1;
+            $pax->updated = gmdate('Y-m-d H:i:s');
             $pax->save();
             if($pax->waiting_hours>72) {
                 //Списать вуки со счета компании
@@ -57,18 +58,15 @@ class PaxController extends Controller
 
         foreach($schedule as $paxdata)
         {
-            if(Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('waiting_hours>=24')->one())
-                continue;
-            if(!$pax=Pax::find()->andWhere('from_icao="'.$paxdata->dep.'"')->andWhere('to_icao="'.$paxdata->arr.'"')->andWhere('waiting_hours=0')->one())
+            if (!$pax = Pax::find()->andWhere('from_icao="' . $paxdata->dep . '"')->andWhere('to_icao="' . $paxdata->arr . '"')->andWhere('waiting_hours=0')->one()) {
                 $pax = new Pax();
+                $pax->created = gmdate('Y-m-d H:i:s');
+            }
+
             $pax->from_icao = $paxdata->dep;
             $pax->to_icao = $paxdata->arr;
             $pax->waiting_hours = 0;
             $pax->num_pax += (int)$this->generateRandomPaxes($paxdata->aircraft);
-
-            if ($pax->num_pax == 0) {
-                var_dump($pax);
-            }
 
             $pax->save();
         }
