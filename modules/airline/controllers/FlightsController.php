@@ -43,7 +43,7 @@ class FlightsController extends Controller
                     'ATC Comment by ' . $model->user->full_name . '(' . $model->user_id . ')' .
                     '. Mark: ' . $model->atc_rating . "\n\n" .
                     $model->atc_comments);
-                //$slack->sent();
+                $slack->sent();
             }
 
             return $this->redirect([
