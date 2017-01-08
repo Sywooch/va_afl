@@ -37,7 +37,7 @@ use app\models\Users;
                         'icon' => 'fa-rss'
                     ],
                     [
-                        'name' => Yii::t('app', 'Pilot Center'). ' <span class="label label-success m-l-5">Old</span>',
+                        'name' => Yii::t('app', 'Pilot Center'),
                         'url' => \yii\helpers\Url::to('/pilot/center'),
                         'icon' => 'fa-globe'
                     ],
@@ -61,9 +61,15 @@ use app\models\Users;
                                 'url' => \yii\helpers\Url::to('/pilot/balance/' . Yii::$app->user->identity->vid)
                             ],
                             [
-                                'name' => Yii::t('app', 'Flights'),
+                                'name' => Yii::t('app', 'Last Flights'),
                                 'url' => \yii\helpers\Url::to(
                                         '/airline/flights/index/' . Yii::$app->user->identity->vid
+                                    )
+                            ],
+                            [
+                                'name' => Yii::t('app', 'Logbook'),
+                                'url' => \yii\helpers\Url::to(
+                                        '/airline/flights/logbook/' . Yii::$app->user->identity->vid
                                     )
                             ],
                             [

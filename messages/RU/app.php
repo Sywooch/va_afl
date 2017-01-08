@@ -124,4 +124,6 @@ return [
     'Quality of ATC service in flight (mark "Not rated", if there were no)' =>
         'Качество диспетчерского обслуживания в полёте (отметьте Кирпич, если диспетчеров не было)',
     'Comments of ATC service (optional)' => 'Комментарии по диспетчерскому обслуживанию (не обязательно)',
+    'Last Flights' => 'Крайние полёты',
+    'Logbook' => 'Лётная книжка',
 ];

@@ -5,6 +5,7 @@ namespace app\modules\airline\controllers;
 use app\commands\ParseController;
 use app\components\Slack;
 use app\models\Flights\actions\End;
+use app\models\Users;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -58,6 +59,22 @@ class FlightsController extends Controller
                 ]
             );
         }
+    }
+
+    public function actionLogbook($id){
+        $flightsProvider = new ActiveDataProvider([
+            'query' => Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]),
+            'sort' => false,
+            'pagination' => [
+                'pageSize' => 50,
+            ]
+        ]);
+
+        return $this->render('logbook', [
+                'flightsProvider' => $flightsProvider,
+                'user' => Users::findOne($id)
+            ]
+        );
     }
 
     public function actionSquadron($id)
