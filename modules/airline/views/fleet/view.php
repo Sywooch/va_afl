@@ -111,6 +111,18 @@ $this->params['breadcrumbs'][] = $this->title;
                             )
                         ],
                         [
+                            'attribute' => 'users',
+                            'label' => Yii::t('flights', 'Pilot'),
+                            'format' => 'raw',
+                            'value' => Html::img(Helper::getFlagLink($model->user->country)) . ' ' . Html::a(
+                                    Html::encode($model->user->full_name),
+                                    Url::to(
+                                        [
+                                            '/pilot/profile/',
+                                            'id' => $model->user_id
+                                        ]), ['target' => '_blank'])
+                        ],
+                        [
                             'attribute' => 'squadron_id',
                             'label' => Yii::t('app', 'Flight Squadron'),
                             'format' => 'raw',

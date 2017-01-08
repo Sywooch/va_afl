@@ -31,6 +31,9 @@ use yii\i18n\Formatter;
  * @property string $fleet_regnum
  * @property integer $status
  * @property string $alternate1
+ * @property string $atc_comments
+ * @property integer $atc_rating
+ * @property string $atc_submit
  */
 class Flights extends \yii\db\ActiveRecord
 {
@@ -246,15 +249,41 @@ class Flights extends \yii\db\ActiveRecord
         return json_encode($data);
     }
 
+    public static function checkNeedToEnd($user_id)
+    {
+        if($flight = self::find()->joinWith('booking')->where('atc_submit is null')->andWhere(['flights.user_id' => $user_id])->andWhere('booking.g_status >= 25')->andWhere('finished > DATE_SUB(NOW(), INTERVAL 6 HOUR)')->one()){
+            return $flight->id;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum'], 'integer'],
-            [['first_seen', 'last_seen', 'dep_time', 'eet', 'landing_time', 'fob', 'vucs', 'finished'], 'safe'],
-            [['flightplan', 'remarks', 'fpl', 'metar_dep', 'metar_landing'], 'string'],
+            [
+                ['user_id', 'sim', 'pob', 'status', 'nm', 'domestic', 'flight_time', 'fleet_regnum',],
+                'integer'
+            ],
+            [
+                [
+                    'first_seen',
+                    'last_seen',
+                    'dep_time',
+                    'eet',
+                    'landing_time',
+                    'fob',
+                    'vucs',
+                    'finished',
+                    'atc_submit',
+                    'atc_rating'
+                ],
+                'safe'
+            ],
+            [['flightplan', 'remarks', 'fpl', 'metar_dep', 'metar_landing', 'atc_comments'], 'string'],
             [['from_icao', 'to_icao', 'alternate1', 'alternate2', 'landing'], 'string', 'max' => 4],
             [['acf_type', 'callsign'], 'string', 'max' => 10]
         ];
@@ -285,6 +314,8 @@ class Flights extends \yii\db\ActiveRecord
             'fleet_regnum' => 'Fleet Regnum',
             'status' => 'Status',
             'alternate1' => 'Alternate1',
+            'atc_rating' => Yii::t('app', 'Quality of ATC service in flight (mark "Not rated", if there were no)'),
+            'atc_comments' => Yii::t('app', 'Comments of ATC service (optional)')
         ];
     }
 
