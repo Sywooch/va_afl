@@ -16,7 +16,7 @@ use yii\widgets\Pjax;
 <!-- begin panel -->
 <div class="panel panel-inverse">
     <div class="panel-heading">
-        <h4 class="panel-title"><?= Yii::t('app', 'Top') . ' ' . Yii::t('top', 'by mouth') ?></h4>
+        <h4 class="panel-title"><?= Yii::t('app', 'Top') . ' ' . Yii::t('top', 'by month') ?></h4>
     </div>
     <div class="panel-body">
         <?php Pjax::begin(); ?>
