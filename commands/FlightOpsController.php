@@ -30,6 +30,21 @@ class FlightOpsController extends Controller
         new ScheduleUpdate();
     }
 
+    public function actionSetUserOnFleet(){
+        $counter = 0;
+        foreach(Fleet::notInBase() as $aircraft){
+            if($aircraft->lastFlight && $aircraft->status == Fleet::STATUS_AVAIL){
+                if($aircraft->user_id != $aircraft->lastFlight->user_id){
+                    $aircraft->user_id = $aircraft->lastFlight->user_id;
+                    $aircraft->save();
+                    $counter++;
+                }
+            }
+        }
+
+        echo "Fixed aicrafts count: $counter\n";
+    }
+
     private function deleteBooking()
     {
         foreach(Booking::toDelete() as $book){
