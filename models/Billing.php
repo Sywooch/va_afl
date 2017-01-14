@@ -82,22 +82,20 @@ class Billing extends \yii\db\ActiveRecord
 
     public static function doFlightCosts($flight)
     {
-        $cost=$flight->vucs;
+        $cost = $flight->vucs;
         $results = 0;
-        foreach(self::find()->andWhere('id > 25')->all() as $bi)
-        {
+        foreach (self::find()->where('id > 25')->andWhere('id < 56')->all() as $bi) {
             $bc = new BillingPayments();
             $bc->direction = 2;
-            $bc->user_id=$flight->user_id;
-            $bc->flight_id=$flight->user_id;
+            $bc->user_id = 0;
+            $bc->flight_id = $flight->flight_id;
             $bc->bill_cost_id = $bi->id;
-            $bc->payment=$bi->base_cost*$cost;
+            $bc->payment = $bi->base_cost * $cost;
             $bc->dtime = gmdate('Y-m-d H:i:s');
             $bc->save();
-            $results+=$bc->payment;
+            $results += $bc->payment;
 
-            if(in_array($bi->id,[38,40]))
-            {
+            if (in_array($bi->id, [38, 40])) {
                 BillingUserBalance::addMoney($bc->user_id, $flight->id, $bc->payment, $bi->id);
             }
         }
