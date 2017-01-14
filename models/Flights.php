@@ -251,7 +251,7 @@ class Flights extends \yii\db\ActiveRecord
 
     public static function checkNeedToEnd($user_id)
     {
-        if($flight = self::find()->joinWith('booking')->where('atc_submit is null')->andWhere(['flights.user_id' => $user_id])->andWhere('booking.g_status >= 25')->andWhere('finished > DATE_SUB(NOW(), INTERVAL 6 HOUR)')->one()){
+        if($flight = self::find()->joinWith('booking')->where('atc_submit is null')->andWhere(['flights.user_id' => $user_id])->andWhere('booking.g_status >= 20')->andWhere('finished > DATE_SUB(NOW(), INTERVAL 6 HOUR)')->one()){
             return $flight->id;
         }else{
             return false;
