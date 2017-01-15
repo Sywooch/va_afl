@@ -57,6 +57,7 @@ class ParseController extends Controller
     const WZ_DEPTIME = 22;
 
     const MAX_DISTANCE_TO_SAVE_FLIGHT = 10;
+    const MAX_TIME_ON_BLOCKS = 5;
     const HOLD_TIME = 1800;
 
     /**
@@ -206,6 +207,9 @@ class ParseController extends Controller
                     End::make($flight);
                 } else {
                     $this->updateFlightInformation($flight);
+                    if(in_array($flight->user_id, [473695, 493122, 455639])){
+                        $this->checkOnBlocksTime($flight);
+                    }
                 }
             } catch (\Exception $ex) {
                 $slack = new Slack('#dev_reports', "{$flight->callsign};" . json_encode($ex) . " http://va-afl.su/airline/flights/view/{$flight->id}");
@@ -321,6 +325,17 @@ class ParseController extends Controller
         Status::get($booking, isset($landing) ? $landing : false);
 
         return $flight;
+    }
+
+    private function checkOnBlocksTime($flight){
+        $landing_time = new \DateTime($flight->landong_time);
+        $last_seen = new \DateTime($flight->last_seen);
+        $interval = $landing_time->diff($last_seen);
+
+        if($flight->booking->g_status == Booking::STATUS_ON_BLOCKS && $interval->format('%i') >= self::MAX_TIME_ON_BLOCKS)
+        {
+            End::make($flight);
+        }
     }
 
     /**
