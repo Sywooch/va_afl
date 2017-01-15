@@ -212,7 +212,7 @@ class ParseController extends Controller
                     }
                 }
             } catch (\Exception $ex) {
-                $slack = new Slack('#dev_reports', "{$flight->callsign};" . json_encode($ex) . " http://va-afl.su/airline/flights/view/{$flight->id}");
+                $slack = new Slack('#dev_reports', "{$flight->callsign};" . print_r($ex, true) . "\n\nhttp://va-afl.su/airline/flights/view/{$flight->id}");
                 $slack->sent();
             }
         }
