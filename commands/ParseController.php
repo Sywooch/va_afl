@@ -328,13 +328,14 @@ class ParseController extends Controller
     }
 
     private function checkOnBlocksTime($flight){
-        $landing_time = new \DateTime($flight->landong_time);
-        $last_seen = new \DateTime($flight->last_seen);
-        $interval = $landing_time->diff($last_seen);
-
-        if($flight->booking->g_status == Booking::STATUS_ON_BLOCKS && $interval->format('%i') >= self::MAX_TIME_ON_BLOCKS)
+        if ($flight->booking->g_status == Booking::STATUS_ON_BLOCKS)
         {
-            End::make($flight);
+            $landing_time = new \DateTime($flight->landong_time);
+            $last_seen = new \DateTime($flight->last_seen);
+            $interval = $landing_time->diff($last_seen);
+            if ($interval->format('%i') >= self::MAX_TIME_ON_BLOCKS) {
+                End::make($flight);
+            }
         }
     }
 
