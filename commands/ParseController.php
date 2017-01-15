@@ -208,10 +208,7 @@ class ParseController extends Controller
                     $this->updateFlightInformation($flight);
                 }
             } catch (\Exception $ex) {
-                $slack = new Slack('#dev_reports', "{$flight->callsign};" . var_export(
-                        $ex,
-                        true
-                    ) . " http://va-afl.su/airline/flights/view/{$flight->id}");
+                $slack = new Slack('#dev_reports', "{$flight->callsign};" . json_encode($ex) . " http://va-afl.su/airline/flights/view/{$flight->id}");
                 $slack->sent();
             }
         }
