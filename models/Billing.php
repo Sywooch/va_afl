@@ -88,7 +88,7 @@ class Billing extends \yii\db\ActiveRecord
             $bc = new BillingPayments();
             $bc->direction = 2;
             $bc->user_id = 0;
-            $bc->flight_id = $flight->flight_id;
+            $bc->flight_id = $flight->id;
             $bc->bill_cost_id = $bi->id;
             $bc->payment = $bi->base_cost * $cost;
             $bc->dtime = gmdate('Y-m-d H:i:s');
