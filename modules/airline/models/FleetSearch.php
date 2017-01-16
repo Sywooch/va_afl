@@ -37,11 +37,14 @@ class FleetSearch extends Fleet
      *
      * @param array $params
      *
+     * @param null $query
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $query = null)
     {
-        $query = Fleet::find();
+        if($query == null){
+            $query = Fleet::find();
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

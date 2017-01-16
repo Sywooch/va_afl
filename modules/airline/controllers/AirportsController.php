@@ -3,6 +3,10 @@
 namespace app\modules\airline\controllers;
 
 use app\components\Levels;
+use app\models\Fleet;
+use app\models\UserPilot;
+use app\models\Users;
+use app\modules\airline\models\FleetSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -67,12 +71,43 @@ class AirportsController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $searchModel = new FleetSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,
+            Fleet::find()->where(['location' => $model->icao]));
+
         return $this->render(
             'view',
             [
-                'model' => $this->findModel($id),
+                'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'pilotsProvider' => new ActiveDataProvider([
+                    'query' => Users::find()->joinWith('pilot')->where(
+                        ['status' => UserPilot::STATUS_ACTIVE, 'location' => $model->icao]
+                    ),
+                    'pagination' => array('pageSize' => 25),
+                    'sort' => ['defaultOrder' => ['vid' => SORT_ASC]]
+                ])
             ]
         );
+    }
+
+    /**
+     * Finds the Airports model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Airports the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
+        if (($model = Airports::findOne([$key => $id])) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -133,7 +168,8 @@ class AirportsController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionInfo($id){
+    public function actionInfo($id)
+    {
         $model = $this->findModel($id);
         return json_encode(
             [
@@ -145,25 +181,9 @@ class AirportsController extends Controller
             ]);
     }
 
-    public function actionNews($id){
+    public function actionNews($id)
+    {
         $model = $this->findModel($id);
         return $this->renderAjax('news', ['model' => $model]);
-    }
-
-    /**
-     * Finds the Airports model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Airports the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        $key = preg_match('/^\d+$/', $id) ? 'id' : 'icao';
-        if (($model = Airports::findOne([$key => $id])) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

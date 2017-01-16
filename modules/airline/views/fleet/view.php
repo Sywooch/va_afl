@@ -160,7 +160,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'dataProvider' => $flightsProvider,
                             'layout' => '{items}{pager}',
-                            'tableOptions' => ['class' => 'table table-bordered table-striped table-condensed'],
+                            'tableOptions' => [
+                                'class' => 'table table-bordered table-striped table-hover'
+                            ],
                             'columns' => [
                                 [
                                     'attribute' => 'internal_id',
@@ -179,7 +181,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             return Html::a(
                                                 Html::encode($data->callsign),
                                                 Url::to(['/airline/flights/view/' . $data->id]),
-                                                ['target' => '_blank']
+                                                [
+                                                    'target' => '_blank',
+                                                    'data-pjax' => '0'
+                                                ]
                                             );
                                         }
                                         return Html::encode($data->callsign);
@@ -199,6 +204,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ),
                                             [
                                                 'target' => '_blank',
+                                                'data-pjax' => '0',
                                                 'data-toggle' => "tooltip",
                                                 'data-placement' => "top",
                                                 'title' => Html::encode("{$data->fleet->full_type}")
@@ -218,7 +224,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'id' => $data->user_id
                                                 ]
                                             ),
-                                            ['target' => '_blank']);
+                                            [
+                                                'target' => '_blank',
+                                                'data-pjax' => '0'
+                                            ]);
                                     }
                                 ],
                                 [
@@ -237,6 +246,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ),
                                             [
                                                 'target' => '_blank',
+                                                'data-pjax' => '0',
                                                 'data-toggle' => "tooltip",
                                                 'data-placement' => "top",
                                                 'title' => Html::encode("{$data->depAirport->name} ({$data->depAirport->city}, {$data->depAirport->iso})")
@@ -247,6 +257,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             Url::to(['/airline/airports/view/', 'id' => $data->to_icao]),
                                             [
                                                 'target' => '_blank',
+                                                'data-pjax' => '0',
                                                 'data-toggle' => "tooltip",
                                                 'data-placement' => "top",
                                                 'title' => Html::encode("{$data->arrAirport->name} ({$data->arrAirport->city}, {$data->arrAirport->iso})")

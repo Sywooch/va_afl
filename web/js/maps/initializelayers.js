@@ -11,11 +11,14 @@ function getShapeHeading(hdg) {
     return new google.maps.Point(0, pt);
 }
 
-function initialize() {
+function initialize(zoom, lat, lon) {
+    zoom = typeof zoom !== 'undefined' ? zoom : 4;
+    lat = typeof lat !== 'undefined' ? lat : 55;
+    lon = typeof lon !== 'undefined' ? lon : 35;
     var mapOptions = {
-        zoom: 4,
+        zoom: zoom,
         disableDefaultUI: true,
-        center: new google.maps.LatLng(55, 35),
+        center: new google.maps.LatLng(lat, lon),
         styles: [
             {
                 "featureType": "water", "elementType": "geometry", "stylers": [
