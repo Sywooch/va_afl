@@ -207,9 +207,7 @@ class ParseController extends Controller
                     End::make($flight);
                 } else {
                     $this->updateFlightInformation($flight);
-                    if(in_array($flight->user_id, [473695, 493122, 455639])){
-                        $this->checkOnBlocksTime($flight);
-                    }
+                    $this->checkOnBlocksTime($flight);
                 }
             } catch (\Exception $ex) {
                 $slack = new Slack('#dev_reports', "{$flight->callsign};" . print_r($ex, true) . "\n\nhttp://va-afl.su/airline/flights/view/{$flight->id}");
