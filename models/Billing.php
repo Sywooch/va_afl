@@ -92,11 +92,13 @@ class Billing extends \yii\db\ActiveRecord
             $bc->bill_cost_id = $bi->id;
             $bc->payment = $bi->base_cost * $cost;
             $bc->dtime = gmdate('Y-m-d H:i:s');
-            $bc->save();
             $results += $bc->payment;
 
             if (in_array($bi->id, [38, 40])) {
+                $bc->user_id = $flight->user_id;
                 BillingUserBalance::addMoney($bc->user_id, $flight->id, $bc->payment, $bi->id);
+            }else{
+                $bc->save();
             }
         }
 
