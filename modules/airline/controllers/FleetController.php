@@ -3,9 +3,11 @@
 namespace app\modules\airline\controllers;
 
 use app\components\Levels;
+use app\models\Flights;
 use Yii;
 use app\models\Fleet;
 use app\modules\airline\models\FleetSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -61,6 +63,13 @@ class FleetController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'flightsProvider' => new ActiveDataProvider([
+                'query' => Flights::find()->where(['fleet_regnum' => $id])->orderBy(['id' => SORT_DESC]),
+                'sort' => false,
+                'pagination' => [
+                    'pageSize' => 50,
+                ]
+            ])
         ]);
     }
 

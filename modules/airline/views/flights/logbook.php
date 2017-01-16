@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-md-12">
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <h4 class="panel-title"><?= Yii::t('app', 'News') ?></h4>
+            <h4 class="panel-title"><?= Yii::t('app', 'Logbook') ?></h4>
         </div>
         <div class="panel-body">
             <?php Pjax::begin(); ?>
@@ -145,5 +145,4 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Pjax::end() ?>
         </div>
     </div>
-</div>
 </div>
