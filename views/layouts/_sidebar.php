@@ -127,7 +127,7 @@ use app\models\Users;
                         'icon' => 'fa-calendar'
                     ],
                     [
-                        'name' => Yii::t('screens', 'Upload screenshot'). ' <span class="label label-warning m-l-5">Up</span>',
+                        'name' => Yii::t('screens', 'Upload screenshot'),//. ' <span class="label label-warning m-l-5">Up</span>'
                         'url' => '#',
                         'icon' => 'fa-picture-o',
                         'linkOptions' => ['onclick' => 'screenModal();']
