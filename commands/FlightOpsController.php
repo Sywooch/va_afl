@@ -11,6 +11,7 @@
 namespace app\commands;
 
 use app\models\Fleet;
+use app\models\Flights;
 use app\models\Flights\ops\AircraftReturn;
 use app\models\Flights\ops\BookingDelete;
 use app\models\Flights\ops\ScheduleUpdate;
@@ -43,6 +44,17 @@ class FlightOpsController extends Controller
         }
 
         echo "Fixed aicrafts count: $counter\n";
+    }
+
+    public function actionCloseFixRequest(){
+        $counter = 0;
+        
+        foreach(Flights::openRequests() as $flight){
+            Flights\Fix::request($flight->id);
+            $counter++;
+        }
+
+        echo "Closed $counter flight fix requests";
     }
 
     private function deleteBooking()

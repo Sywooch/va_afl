@@ -263,6 +263,11 @@ class Flights extends \yii\db\ActiveRecord
         }
     }
 
+    public static function openRequests()
+    {
+        return self::find()->where(['request_fix' => 1])->all();
+    }
+
     /**
      * @inheritdoc
      */
