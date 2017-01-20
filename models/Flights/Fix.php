@@ -75,12 +75,16 @@ class Fix
 
     }
 
-    public static function reject($id)
+    public static function reject($id, $user_id)
     {
+        if($user_id == -1){
+            $user_id = Yii::$app->user->id;
+        }
+
         $flight = self::findModel($id);
         $flight->request_fix = 0;
         $flight->save();
-        Notifications::reject(self::findModel($id));
+        Notifications::reject(self::findModel($id), $user_id);
     }
 
     protected static function findModel($id)

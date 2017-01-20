@@ -56,9 +56,9 @@ class Fix
             \app\models\Content::template(self::CONTENT_ACCEPT, $array), 'fa-thumbs-up', 'green');
     }
 
-    public static function reject($flight)
+    public static function reject($flight, $user_id = -1)
     {
-        $user = Users::findOne(Yii::$app->user->id);
+        $user = Users::findOne($user_id);
         $slack = new Slack(self::SLACK_CHANNEL,
             "({$flight->id}) Flight fix request by {$flight->user->full_name} ({$flight->user->vid}) rejected by {$user->full_name} ({$user->vid})\n" .
             "Flight Link: http://va-afl.su/airline/flights/view/{$flight->id}\n");
@@ -68,7 +68,7 @@ class Fix
             '[flight_id]' => $flight->id,
             '[full_name]' => "{$flight->callsign} {$flight->from_icao}-{$flight->to_icao} " . (new \DateTime($flight->first_seen))->format('d.m.Y')
         ];
-        Notification::add($flight->user_id, Yii::$app->user->id,
+        Notification::add($flight->user_id, $user_id,
             \app\models\Content::template(self::CONTENT_REJECT, $array), 'fa-ban', 'red');
     }
 } 

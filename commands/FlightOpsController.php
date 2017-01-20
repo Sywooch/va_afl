@@ -12,6 +12,7 @@ namespace app\commands;
 
 use app\models\Fleet;
 use app\models\Flights;
+use app\models\Flights\Fix;
 use app\models\Flights\ops\AircraftReturn;
 use app\models\Flights\ops\BookingDelete;
 use app\models\Flights\ops\ScheduleUpdate;
@@ -48,9 +49,9 @@ class FlightOpsController extends Controller
 
     public function actionCloseFixRequest(){
         $counter = 0;
-        
+
         foreach(Flights::openRequests() as $flight){
-            Flights\Fix::request($flight->id);
+            Fix::reject($flight->id, 0);
             $counter++;
         }
 
