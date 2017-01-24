@@ -139,7 +139,7 @@ class Fleet extends \yii\db\ActiveRecord
         }
         $fleet = self::find()->andWhere(['id' => $regnum])->one();
         $fleet->location = $location;
-        $fleet->user_id = ($fleet->location == $fleet->home_airport ? 0 : $user_id);
+        $fleet->user_id = ($location == $fleet->home_airport) ? 0 : $user_id;
         $fleet->save();
     }
 

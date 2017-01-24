@@ -14,9 +14,9 @@ use app\models\Users;
 
 class Transfer
 {
-    public static function transferPilot($user_id, $landing)
+    public static function transferPilot($user_id, $to)
     {
-        Users::transfer($user_id, $landing);
+        Users::transfer($user_id, $to);
     }
 
     public static function transferCraft($fleet_regnum, $landing, $user_id = 0)
