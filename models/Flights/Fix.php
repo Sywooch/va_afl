@@ -75,7 +75,7 @@ class Fix
 
     }
 
-    public static function reject($id, $user_id)
+    public static function reject($id, $user_id = -1)
     {
         if($user_id == -1){
             $user_id = Yii::$app->user->id;
