@@ -61,9 +61,23 @@ class FlightsController extends Controller
         }
     }
 
-    public function actionLogbook($id){
+    public function actionLogbook($id = null, $type = null){
+        $query = Flights::find();
+
+        if($id){
+            $query = $query->where(['user_id' => $id]);
+        }
+
+        switch($type){
+            case 'fix':
+                $query = $query->where(['request_fix' => 1]);
+                break;
+        }
+
+        $query = $query->orderBy(['id' => SORT_DESC]);
+
         $flightsProvider = new ActiveDataProvider([
-            'query' => Flights::find()->where(['user_id' => $id])->orderBy(['id' => SORT_DESC]),
+            'query' => $query,
             'sort' => false,
             'pagination' => [
                 'pageSize' => 50,
@@ -72,7 +86,7 @@ class FlightsController extends Controller
 
         return $this->render('logbook', [
                 'flightsProvider' => $flightsProvider,
-                'user' => Users::findOne($id)
+                'user' => $id ? Users::findOne($id) : null
             ]
         );
     }

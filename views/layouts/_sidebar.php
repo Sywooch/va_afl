@@ -42,6 +42,13 @@ use app\models\Users;
                         'icon' => 'fa-globe'
                     ],
                     [
+                        'name' => Yii::t('app', 'Request flights fix'),
+                        'url' => \yii\helpers\Url::to('/airline/flights/logbook?type=fix'),
+                        'icon' => 'fa-cog',
+                        'visible' => Yii::$app->user->can('supervisor'),
+                        'badge' => \app\models\Flights::countRequest()
+                    ],
+                    [
                         'name' => Yii::t('app', 'Booking'),
                         'url' => \yii\helpers\Url::to('/pilot/booking'),
                         'icon' => 'fa-random'

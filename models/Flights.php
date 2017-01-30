@@ -268,6 +268,11 @@ class Flights extends \yii\db\ActiveRecord
         return self::find()->where(['request_fix' => 1])->all();
     }
 
+    public static function countRequest()
+    {
+        return self::find()->where(['request_fix' => 1])->count();
+    }
+
     /**
      * @inheritdoc
      */
