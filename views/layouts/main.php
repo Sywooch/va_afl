@@ -25,6 +25,7 @@ AppAsset::register($this);
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
     <link href="/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet"/>
     <link href="/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     <link href="/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="/css/animate.min.css" rel="stylesheet"/>
     <link href="/css/style.min.css" rel="stylesheet"/>
@@ -71,7 +72,20 @@ AppAsset::register($this);
             );
             ?>
         </div>
-        <?= $content ?></div>
+        <?php if (Yii::$app->controller->module->id == 'qa'): ?>
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <h4 class="panel-title"> </h4>
+            </div>
+            <div class="panel-body bg-silver">
+                <?php endif; ?>
+
+                <?= $content ?>
+                <?php if (Yii::$app->controller->module->id == 'qa'): ?>
+            </div>
+        </div>
+    <?php endif; ?>
+    </div>
 
     <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i
             class="fa fa-angle-up"></i></a>

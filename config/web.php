@@ -230,6 +230,7 @@ $config = [
         ],
         'qa' => [
             'class' => 'artkost\qa\Module',
+            'userNameFormatter' => 'getName'
         ],
     ],
     'params' => $params,

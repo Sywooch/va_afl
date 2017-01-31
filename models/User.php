@@ -172,6 +172,9 @@ class User extends Users implements \yii\web\IdentityInterface
         return UserPilot::find()->where(['user_id' => $this->vid])->one()->status;
     }
 
+    public function getName(){
+        return $this->getOldAttribute('full_name');
+    }
 
     /**
      * @inheritdoc
