@@ -8,8 +8,9 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+class User extends Users implements \yii\web\IdentityInterface
 {
+    public $id;
     public $vid;
     public $firstname;
     public $lastname;
@@ -20,7 +21,6 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $division;
     public $username;
     public $result;
-    public $id;
     public $email;
     public $last_visited;
     public $authKey;
@@ -60,6 +60,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         $sec = new Security();
         $user->full_name = $data->username;
+        $user->id = $data->vid;
         $user->skype = $data->skype;
         $user->ratingatc = $data->ratingatc;
         $user->ratingpilot = $data->ratingpilot;
@@ -73,6 +74,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     {
         $user = new Users();
         $user->vid = $data->vid;
+        $user->id = $user->vid;
         $user->created_date = date('Y-m-d H:i:s');
         $user->country = $data->country;
         $user->email = $post['email'];

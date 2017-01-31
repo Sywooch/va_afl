@@ -95,9 +95,9 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vid'], 'required'],
+            [['vid', 'id'], 'required'],
             [['email', 'language'], 'required', 'on' => self::SCENARIO_EDIT],
-            [['vid'], 'integer'],
+            [['vid', 'id'], 'integer'],
             [['authKey'], 'string'],
             [['created_date', 'last_visited', 'language'], 'safe'],
             [['full_name', 'email'], 'string', 'max' => 200],
