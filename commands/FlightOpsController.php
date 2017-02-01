@@ -26,6 +26,7 @@ class FlightOpsController extends Controller
     {
         $this->deleteBooking();
         $this->aircraftReturn();
+        $this->aircraftUnlock();
     }
 
     public function actionSchedule(){
@@ -70,6 +71,14 @@ class FlightOpsController extends Controller
             if($aircraft->lastFlight && $aircraft->status == Fleet::STATUS_AVAIL){
                 new AircraftReturn($aircraft->lastSuccessFlight);
             }
+        }
+    }
+
+    private function aircraftUnlock()
+    {
+        foreach (Fleet::onBase() as $aircraft) {
+            $aircraft->location = $aircraft->home_airport;
+            $aircraft->save();
         }
     }
 }

@@ -51,6 +51,11 @@ class Fleet extends \yii\db\ActiveRecord
         return self::find()->where('location != home_airport')->all();
     }
 
+    public static function onBase()
+    {
+        return self::find()->where('location = home_airport')->all();
+    }
+
     /**
      * @inheritdoc
      */
