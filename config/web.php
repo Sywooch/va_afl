@@ -239,8 +239,8 @@ $config = [
             $domain = strtolower($_SERVER['SERVER_NAME']);
             $position = strrpos($domain, '.va-afl.su');
             $subdomain = substr($domain, 0, $position);
-
-            if ($subdomain === false && !(in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) && Yii::$app->controller->id != 'auth') {
+            die($subdomain);
+            if ($subdomain !== false && !(in_array(Yii::$app->user->id, Yii::$app->params['whitelist'])) && Yii::$app->controller->id != 'auth') {
                die('Not allowed');
             }
             //access to dev host========
