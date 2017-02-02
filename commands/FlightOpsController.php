@@ -77,7 +77,7 @@ class FlightOpsController extends Controller
     private function aircraftUnlock()
     {
         foreach (Fleet::onBase() as $aircraft) {
-            $aircraft->location = $aircraft->home_airport;
+            $aircraft->user_id = 0;
             $aircraft->save();
         }
     }
